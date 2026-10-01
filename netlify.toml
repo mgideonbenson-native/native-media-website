@@ -39,3 +39,17 @@
   for = "/brand/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# --- Redirects from addresses on the current website, so existing links keep working ---
+# Add more here if you give us a list of other old addresses.
+[[redirects]]
+  from = "/academy"
+  to = "/training-and-mentorship"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/academy/*"
+  to = "/training-and-mentorship"
+  status = 301
+  force = true
