@@ -239,12 +239,12 @@ export const builtPaths = new Set<string>([
 
 /**
  * African Intelligence listening channels. `href` is set only for links the owner has supplied.
- * Spotify, Apple Podcasts and Amazon Music stay empty until their links are provided.
+ * An empty href shows as "link pending".
  */
 export const aiPlatforms: { label: string; href: string }[] = [
   { label: 'YouTube', href: 'https://www.youtube.com/@nativemedia_africa/podcasts' },
   { label: 'RSS.com', href: 'https://rss.com/podcasts/african-intelligence/' },
-  { label: 'Spotify', href: '' },
-  { label: 'Apple Podcasts', href: '' },
-  { label: 'Amazon Music', href: '' },
+  { label: 'Spotify', href: 'https://open.spotify.com/show/0340VtdzI9HM64rUbGh9rX' },
+  { label: 'Apple Podcasts', href: 'https://podcasts.apple.com/us/podcast/african-intelligence/id6797628858' },
+  { label: 'Amazon Music', href: 'https://music.amazon.com/podcasts/f4d8f82c-8079-4e07-8665-341a55489281' },
 ];
