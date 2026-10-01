@@ -1,28 +1,27 @@
 ---
-import Visual from '../Visual.astro';
-const slots = [1, 2, 3];
+import { Image } from 'astro:assets';
+import photo from '../../assets/benson-mambosho.png';
 ---
-<section class="section theme-dark">
+<section class="section theme-light">
   <div class="wrap">
-    <div class="section-head"><p class="eyebrow">Leadership &amp; team</p><h2>The people behind Native Media.</h2>
-      <p class="lede">Profiles will show each person’s name, official title, approved biography, photograph, expertise and public professional links. Nothing is published until it is supplied and approved.</p></div>
-    <ul class="team">
-      {slots.map(() => (
-        <li>
-          <Visual art="lens" label="Photo placeholder" ratio="4 / 5" />
-          <h3>Name to be confirmed</h3>
-          <p class="muted">Official title</p>
-          <p class="muted small">Approved biography and areas of expertise will appear here.</p>
-          <span class="tag">Placeholder profile</span>
-        </li>
-      ))}
-    </ul>
+    <div class="section-head"><p class="eyebrow">Leadership &amp; team</p><h2>The people behind Native Media.</h2></div>
+    <article class="founder">
+      <Image src={photo} alt="Benson Gideon Mambosho, founder and head of strategy at Native Media" widths={[360, 600]} sizes="(min-width: 800px) 22rem, 90vw" class="founder__img" />
+      <div class="founder__text">
+        <p class="eyebrow">Founder and head of strategy</p>
+        <h3>Benson Gideon Mambosho</h3>
+        <p>Benson Mambosho is a recognized and award-winning Tanzanian PR and communications strategist whose work bridges brand positioning, media relations, and stakeholder engagement. Based in Dar es Salaam and founder of Native Media, he advises brands and institutions on earned-media strategy, reputation, and the evolving role of communications in advancing development – a perspective sharpened by both agency leadership and earlier in-house experience in traditional and digital marketing.</p>
+        <p>Benson is a recognised voice on the structural shifts reshaping the Tanzanian and broader East African PR industry. He argues for bold, original platforms capable of moving the industry forward; for adaptive leadership in fast-moving communications environments; and, most recently, for a hard reset of the country’s PR playbook, a deliberate move away from intuition-led campaigns and vanity metric reporting toward evidence-based PR that ties communications work directly to Africa’s development agenda.</p>
+        <p>Beyond his client work, Benson is committed to building the next generation of Tanzanian communications professionals. He leads training and mentorship for emerging practitioners, including a multi-week PR masterclass delivered in partnership with the University of Dar es Salaam School of PR &amp; Advertising, bringing senior industry practice directly to students entering the market. He also serves as chapter lead for Tanzania at The Comms Avenue, the pan-African capacity-building network for communications professionals.</p>
+      </div>
+    </article>
+    <p class="muted more">More team profiles will be added here once names, titles and approved biographies are supplied.</p>
   </div>
 </section>
 <style>
-  .team { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
-  .team li { display: grid; gap: 0.4rem; align-content: start; justify-items: start; }
-  .team :global(.visual) { width: 100%; margin-bottom: 0.7rem; }
-  .team h3 { font-size: var(--step-1); font-weight: 800; }
-  .small { font-size: 0.88rem; }
+  .founder { display: grid; gap: 2rem; align-items: start; }
+  .founder__img { width: 100%; height: auto; max-width: 22rem; background: var(--paper); }
+  .founder__text { display: grid; gap: 1rem; max-width: 46rem; } .founder h3 { font-size: var(--step-3); font-weight: 800; line-height: 1.1; }
+  .more { margin-top: 2.5rem; border-top: 1px solid var(--line-light); padding-top: 1rem; }
+  @media (min-width: 800px) { .founder { grid-template-columns: 22rem 1fr; gap: 3.5rem; } }
 </style>

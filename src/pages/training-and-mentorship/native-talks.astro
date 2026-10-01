@@ -9,7 +9,7 @@ const tracks = [
   { kicker: 'Mid-senior career', title: 'Narrative Leadership Mentorship', text: '1:1 mentorship for junior to senior communicators moving into strategic roles in PR & communication.',
     points: ['Thought leadership positioning', 'Developing a strategy'] },
 ];
-const open = ['Programme dates', 'Cost and any scholarships', 'Selection process and how applicants are told', 'Mentors and facilitators'];
+
 ---
 <BaseLayout title="Native Talks | Native Media" description="Native Talks is Native Media’s four-week programme for communicators, with a Foundations Bootcamp for early career and Narrative Leadership Mentorship for mid-senior career.">
   <PageHero eyebrow="Training & Mentorship" title="Cultivating Africa’s next thought leaders." lede="Native Talks is a four-week programme that bridges academic theory and field-level tactics. Choose the track built for where your career stands today."
@@ -22,8 +22,12 @@ const open = ['Programme dates', 'Cost and any scholarships', 'Selection process
         <p>The modern African communications landscape demands more than traditional PR formulas. It requires highly strategic, data-literate and agile professionals capable of navigating complex regulatory environments, multi-market landscapes and rapid technological shifts.</p>
         <p>Native Talks is our dedicated talent and capability-building engine. We design and deliver training and mentorship programmes that equip next-generation thought leaders with the practical skills required to architect corporate reputation and manage continental narratives.</p>
       </div>
-      <div class="notice-box"><span class="tag tag--brand">To be confirmed</span><p>Still to be added by Native Media:</p>
-        <ul class="plain">{open.map((o) => <li>{o}</li>)}</ul></div>
+      <dl class="facts">
+        <div><dt>Dates</dt><dd>To be confirmed.</dd></div>
+        <div><dt>Cost</dt><dd>Please <a href="/contact/training-and-mentorship">reach out to us first</a> to ask about costs.</dd></div>
+        <div><dt>Selection</dt><dd>Open. Tell us about yourself in the form below.</dd></div>
+        <div><dt>Mentors</dt><dd>To be confirmed.</dd></div>
+      </dl>
     </div>
   </section>
   <section class="section theme-charcoal" aria-labelledby="tracks-h">
@@ -48,6 +52,7 @@ const open = ['Programme dates', 'Cost and any scholarships', 'Selection process
   <CtaBand title="Questions about Native Talks?" text="Ask us about dates, cost or which track suits you." href="/contact/training-and-mentorship" label="Make an inquiry" />
 </BaseLayout>
 <style>
+  .facts { display: grid; gap: 0; align-content: start; margin: 0; } .facts div { padding: 0.9rem 0; border-top: 1px solid var(--line-light); } .facts dt { font-family: var(--font-display); font-weight: 800; } .facts dd { margin: 0.2rem 0 0; color: var(--gray-ink); } .facts a { color: var(--brand-ink); }
   .tracks { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
   .tracks .card { padding: 2rem; display: grid; gap: 0.7rem; align-content: start; } .tracks h3 { font-size: var(--step-2); font-weight: 800; }
   .plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; } .plain li { padding-top: 0.5rem; border-top: 1px solid var(--line-light); }

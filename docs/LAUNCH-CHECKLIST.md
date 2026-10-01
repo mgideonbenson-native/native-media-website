@@ -18,11 +18,11 @@
 
 ## B. Items only you can supply or decide (the site is not ready to go public until these are done)
 
-- [ ] **Contact details**: verified email, phone, address, and social links (only YouTube is listed now). Add them in `src/data/site.ts`.
+- [ ] **Contact details**: email (benson@nativemedia.co.tz) and five social links are in. Still needed: phone, office address, and a company-wide email if you prefer one over a personal address. Add them in `src/data/site.ts`.
 - [ ] **Legal details and review**: fill every **[to confirm]** in the Privacy Policy and Terms (legal name, address, contact, hosts, retention, governing law) and have a lawyer review all policies.
 - [ ] **Form and email services**: choose them, connect them (see `DEPLOYMENT.md`), and update the Privacy Policy. Until then the forms honestly say nothing was sent.
 - [ ] **Real photographs and video** to replace the placeholder artwork (hero, capability cards, story slots, team photos).
-- [ ] **Team profiles**: names, titles, approved biographies and photos (About → Leadership & Team).
+- [ ] **Team profiles**: the founder profile is in. Add other team members (names, titles, approved biographies, photos) on About → Leadership & Team, and a personal LinkedIn link for Benson if wanted.
 - [ ] **Partners, sponsors and clients**: only confirmed ones with written permission.
 - [ ] **Company history and milestones** (About → Our Story) if you want them shown.
 - [ ] **Stories**: the demonstration stories are hidden from search engines; replace them with real, approved work.

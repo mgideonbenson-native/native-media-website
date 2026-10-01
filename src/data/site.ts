@@ -16,12 +16,18 @@ export const company = {
     'To become a respected African media, strategic communications and intelligence company, recognized for its ability to generate insight, shape narratives and produce high-quality creative and institutional content.',
   mission:
     'To transform African knowledge, research, intelligence and creativity into strategic communication, compelling stories and valuable information products that connect people, institutions, businesses and opportunities.',
-  // Contact details and social links are NOT supplied yet. Leave empty until verified.
-  email: '',
+  // Contact details supplied by the owner. Phone and street address are not supplied yet; leave empty until verified.
+  email: 'benson@nativemedia.co.tz',
   phone: '',
   address: '',
   // Only verified, owner-supplied channels belong here.
-  social: [{ label: 'YouTube', href: 'https://www.youtube.com/@nativemedia_africa' }] as { label: string; href: string }[],
+  social: [
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/nativemedia-africa/' },
+    { label: 'Instagram', href: 'https://www.instagram.com/nativemedia_' },
+    { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61576974312862' },
+    { label: 'TikTok', href: 'https://www.tiktok.com/@nativemedia_africa' },
+    { label: 'YouTube', href: 'https://www.youtube.com/@nativemedia_africa' },
+  ] as { label: string; href: string }[],
 };
 
 import { allStoryListPaths } from './categories';
