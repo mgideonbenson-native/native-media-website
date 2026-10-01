@@ -29,4 +29,6 @@ const { ep, guest, compact = false } = Astro.props;
   .ecard__guest { font-weight: 600; }
   .ecard__sum { font-size: 0.93rem; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
   .ecard[hidden] { display: none; }
+  :global(.theme-light) .ecard__meta { color: var(--brand-ink); } :global(.theme-light) .ecard__meta time { color: var(--gray-ink); }
+  :global(.theme-light) .ecard h3 a:hover { color: var(--brand-ink); } :global(.theme-light) .ecard__guest .muted, :global(.theme-light) .ecard__sum { color: var(--gray-ink); }
 </style>

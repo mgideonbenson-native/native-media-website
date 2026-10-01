@@ -17,7 +17,9 @@ const allDemo = stories.length === 0 || stories.every((s) => s.data.demo);
   {stories.length > 0 && allDemo && <DemoBanner text="The stories below are layout demonstrations. Real stories will replace them, and none of this content is real." />}
   <section class="section theme-charcoal">
     <div class="wrap">
+      <h2 class="sr-only">Featured story</h2>
       {featured ? <div class="feat"><StoryCard story={featured} big /></div> : <p class="lede">No stories have been published yet.</p>}
+      <h2 class="sr-only">All stories</h2>
       <div class="filters">
         <label for="q" class="sr-only">Search stories</label>
         <input id="q" type="search" placeholder="Search stories" autocomplete="off" />

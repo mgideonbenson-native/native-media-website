@@ -2,7 +2,7 @@
 import PolicyPage from '../components/PolicyPage.astro';
 const sections = [['now', 'Cookies today'], ['storage', 'Other browser storage'], ['third', 'Other websites'], ['future', 'If this changes']].map(([id, title]) => ({ id, title }));
 ---
-<PolicyPage title="Cookie Policy" lede="This website does not set cookies." sections={sections}>
+<PolicyPage title="Cookie Policy" lede="This website does not set cookies and does not use analytics or advertising trackers." sections={sections}>
   <h2 id="now">Cookies today</h2>
   <p>This website does not set any cookies, and it does not use analytics or advertising trackers. For that reason it does not show a cookie banner.</p>
   <h2 id="storage">Other browser storage</h2>

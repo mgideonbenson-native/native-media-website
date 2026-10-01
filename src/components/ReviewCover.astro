@@ -3,11 +3,11 @@ import { Image } from 'astro:assets';
 import cover from '../assets/review/edition-01-draft-cover.webp';
 import { reviewMeta } from '../data/review';
 /** Draft cover of Edition 01, supplied by the owner. The artwork is an AI-generated illustration (as noted in the draft). */
-interface Props { class?: string; caption?: boolean }
-const { class: className = '', caption = true } = Astro.props;
+interface Props { class?: string; caption?: boolean; loading?: 'eager' | 'lazy' }
+const { class: className = '', caption = true, loading = 'lazy' } = Astro.props;
 ---
 <figure class:list={['cover', className]}>
-  <Image src={cover} alt="Draft cover of the Tanzania Economic Diplomacy Review, Edition 01, 2026/27: a port at sunset with the Native Media logo and the four parts of the book" widths={[360, 540, 720]} sizes="(min-width: 900px) 24rem, 80vw" loading="eager" />
+  <Image src={cover} alt="Draft cover of the Tanzania Economic Diplomacy Review, Edition 01, 2026/27: a port at sunset with the Native Media logo and the four parts of the book" widths={[360, 540, 720]} sizes="(min-width: 900px) 24rem, 80vw" loading={loading} />
   {caption && <figcaption><span class="tag">Draft cover · {reviewMeta.edition.coverNote.replace('Draft cover: ', '')}</span></figcaption>}
 </figure>
 <style>

@@ -12,11 +12,12 @@ const items = cat.slug === 'production-portfolio' ? all : all.filter((p) => p.da
 const allDemo = items.every((p) => p.data.demo);
 const isPortfolio = cat.slug === 'production-portfolio';
 ---
-<BaseLayout title={`${cat.label} | Productions | Native Media`} description={cat.blurb} noindex={allDemo}>
+<BaseLayout title={`${cat.label} | Productions | Native Media`} description={`${cat.blurb} Productions from Native Media.`} noindex={allDemo}>
   <PageHero eyebrow="Productions" title={cat.label} lede={cat.blurb} crumbs={[{ label: 'Home', href: '/' }, { label: 'Productions', href: '/productions' }, { label: cat.label }]} />
   {allDemo && items.length > 0 && <DemoBanner text="Demonstration content. Real productions are added only with confirmed projects, clients and credits." />}
   <section class="section theme-charcoal">
     <div class="wrap">
+      <h2 class="sr-only">{cat.label}</h2>
       {isPortfolio && (
         <div class="chips" role="group" aria-label="Filter by type">
           <button type="button" class="chip" aria-pressed="true" data-cat="">All</button>

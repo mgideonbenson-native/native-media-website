@@ -163,7 +163,7 @@ export const editions: { title: string; period: string; status: string; href: st
 
 /** Sub-pages of the Review (used for routing, titles and descriptions). */
 export const reviewSections = {
-  chapters: { title: 'Part One: Tanzania’s Trajectory to Dira 2050', lede: 'Seven thematic chapters follow Tanzania’s own trajectory, from the Dira 2050 vision to the latest trade and investment evidence.' },
+  chapters: { title: 'Part One: Trajectory to Dira 2050', lede: 'Seven thematic chapters follow Tanzania’s own trajectory, from the Dira 2050 vision to the latest trade and investment evidence.' },
   'opportunity-atlas': { title: 'Part Two: Opportunity Atlas', lede: 'The atlas turns the numbers of Part One into seven sectors an investor can act on.' },
   'embassy-profiles': { title: 'Part Three: Partner Profiles', lede: 'Every partner receives the same format, so any two relationships can be compared on the same spread.' },
   'directory-and-data': { title: 'Part Four: Directory, Data and Agreements', lede: 'The reference section: who is where, what was signed, and the data behind it all.' },

@@ -20,7 +20,7 @@ const related = (await getCollection('stories')).filter((r) => r.id !== s.id && 
 const more = (await getCollection('stories')).filter((r) => r.id !== s.id).slice(0, 3);
 const path = `/stories/${d.category}/${s.id}`;
 ---
-<BaseLayout title={`${d.title} | Native Media`} description={d.subtitle} noindex={d.demo}>
+<BaseLayout title={`${d.title.length > 52 ? d.title.slice(0, 50).trimEnd() + '…' : d.title} | Native Media`} description={d.subtitle} noindex={d.demo}>
   <article class="story theme-light">
     <header class="story__head theme-dark">
       <div class="wrap">

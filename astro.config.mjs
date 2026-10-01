@@ -15,7 +15,9 @@ export default defineConfig({
       },
     }),
   ],
+  // Scripts stay as separate files (never inlined), so a strict Content-Security-Policy can be used.
   build: { inlineStylesheets: 'auto' },
+  vite: { build: { assetsInlineLimit: 0 } },
   // Images uploaded in the CMS are served from Sanity's image network.
   image: {
     domains: ['cdn.sanity.io'],

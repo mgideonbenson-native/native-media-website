@@ -9,7 +9,7 @@ import { getEditions } from '../../../lib/review-cms';
 const editions = await getEditions();
 const ld = { '@context': 'https://schema.org', '@type': 'Periodical', name: R.reviewMeta.title, publisher: { '@type': 'Organization', name: 'Native Media' }, description: R.reviewMeta.description };
 ---
-<BaseLayout title="Tanzania Economic Diplomacy Review | Native Media" description={`${R.reviewMeta.oneLiner} ${R.reviewMeta.description}`} jsonLd={ld}>
+<BaseLayout title="Tanzania Economic Diplomacy Review | Native Media" description={`${R.reviewMeta.oneLiner} It organizes information on Tanzania’s economic diplomacy, trade and investment into a structured professional reference.`} jsonLd={ld}>
   <PageHero eyebrow="Flagship intelligence product" title={R.reviewMeta.title} lede={R.reviewMeta.oneLiner}
     crumbs={[{ label: 'Home', href: '/' }, { label: 'Publications', href: '/publications' }, { label: R.reviewMeta.title }]}>
     <p class="status"><span class="tag tag--brand">{R.reviewMeta.status}</span><span class="muted">{R.reviewMeta.statusNote}</span></p>

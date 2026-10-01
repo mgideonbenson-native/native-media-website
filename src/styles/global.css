@@ -338,3 +338,11 @@ a:hover > .arrow-link span[aria-hidden] {
 .theme-dark .notice-box, .theme-charcoal .notice-box { border-color: var(--line-dark); }
 .h2 { font-weight: 800; font-size: var(--step-3); }
 .related { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; }
+
+/* Dark or charcoal blocks nested inside a light section keep their dark-surface colours (contrast fix). */
+.theme-light .theme-dark .eyebrow, .theme-light .theme-charcoal .eyebrow { color: var(--brand); }
+.theme-light .theme-dark .lede, .theme-light .theme-charcoal .lede { color: var(--gray); }
+.theme-light .theme-dark .muted, .theme-light .theme-charcoal .muted { color: var(--gray); }
+.theme-light .theme-dark .tag, .theme-light .theme-charcoal .tag { color: var(--gray); }
+.theme-light .theme-dark .tag--brand, .theme-light .theme-charcoal .tag--brand { color: var(--brand); }
+.theme-light .theme-dark .arrow-link, .theme-light .theme-charcoal .arrow-link { color: var(--brand); }

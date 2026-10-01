@@ -14,7 +14,7 @@ const groups = [['p', 'Trading partner'], ['r', 'Region'], ['s', 'Sector'], ['c'
   {isSample && <div class="exhibit__banner" role="note"><span class="tag">Illustrative sample data</span><span>Not real figures. Partners are generic placeholders. Replace with verified, sourced data before publication.</span></div>}
   <h2 class="exhibit__title" id={`${id}-title`} data-title>Explorer</h2>
 
-  <form class="filters" aria-label="Chart filters" onsubmit="return false">
+  <form class="filters" aria-label="Chart filters">
     <label>Indicator<select name="indicator" disabled={lockIndicator}>{indicators.map((i) => <option selected={i === indicator}>{i}</option>)}</select></label>
     <label>Show by<select name="group">{groups.map(([k, l]) => <option value={k} selected={k === groupBy}>{l}</option>)}</select></label>
     <label>Region<select name="region"><option value="">All regions</option>{regions.map((r) => <option>{r}</option>)}</select></label>
@@ -94,6 +94,7 @@ const groups = [['p', 'Trading partner'], ['r', 'Region'], ['s', 'Sector'], ['c'
       });
       requestAnimationFrame(() => stage.classList.remove('is-loading'));
     };
+    form.addEventListener('submit', (e) => e.preventDefault());
     form.addEventListener('change', () => { // keep from <= to
       if (+get('from').value > +get('to').value) get('to').value = get('from').value; render();
     });

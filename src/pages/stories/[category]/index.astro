@@ -10,11 +10,12 @@ const { cat } = Astro.props;
 const stories = (await getCollection('stories')).filter((s) => s.data.category === cat.slug);
 const allDemo = stories.every((s) => s.data.demo);
 ---
-<BaseLayout title={`${cat.label} | Stories | Native Media`} description={cat.blurb} noindex={allDemo}>
+<BaseLayout title={`${cat.label} | Stories | Native Media`} description={`${cat.blurb} Stories from Native Media.`} noindex={allDemo}>
   <PageHero eyebrow="Stories" title={cat.label} lede={cat.blurb} crumbs={[{ label: 'Home', href: '/' }, { label: 'Stories', href: '/stories' }, { label: cat.label }]} />
   {allDemo && stories.length > 0 && <DemoBanner />}
   <section class="section theme-charcoal">
     <div class="wrap">
+      <h2 class="sr-only">Stories in {cat.label}</h2>
       {stories.length > 0
         ? <div class="grid">{stories.map((s) => <StoryCard story={s} />)}</div>
         : <p class="muted">No stories have been published in this category yet.</p>}

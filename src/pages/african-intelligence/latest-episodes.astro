@@ -12,6 +12,7 @@ const topics = [...new Set(episodes.flatMap((e) => e.data.topics))].sort();
     crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Episodes' }]} />
   <section class="section theme-charcoal">
     <div class="wrap">
+      <h2 class="sr-only">Episodes</h2>
       <div class="filters">
         <label for="q" class="sr-only">Search episodes</label>
         <input id="q" type="search" placeholder="Search episodes, guests or themes" autocomplete="off" />

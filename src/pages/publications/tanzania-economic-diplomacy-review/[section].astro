@@ -13,7 +13,7 @@ const meta = sections[section];
 const [corrections, sponsors, profiles] = await Promise.all([getCorrections(), getSponsors(), getProfiles()]);
 const pending = (what: string) => `${what} will appear here once Edition 01 is published.`;
 ---
-<BaseLayout title={`${meta.title} | Tanzania Economic Diplomacy Review`} description={meta.lede}>
+<BaseLayout title={`${meta.title} | Economic Diplomacy Review`} description={meta.lede}>
   <PageHero eyebrow="Tanzania Economic Diplomacy Review" title={meta.title} lede={meta.lede}
     crumbs={[{ label: 'Home', href: '/' }, { label: 'Publications', href: '/publications' }, { label: 'Tanzania Economic Diplomacy Review', href: R.REVIEW_BASE }, { label: meta.title }]}>
     <p><span class="tag tag--brand">{R.reviewMeta.status}</span></p>

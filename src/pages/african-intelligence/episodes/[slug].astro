@@ -32,7 +32,7 @@ const ld = {
   publisher: { '@type': 'Organization', name: 'Native Media' },
 };
 ---
-<BaseLayout title={`${ep.data.title} | African Intelligence`} description={ep.data.summary.slice(0, 280)} jsonLd={ld} image={ep.data.cover.src}>
+<BaseLayout title={`${ep.data.title.length > 46 ? ep.data.title.slice(0, 44).trimEnd() + '…' : ep.data.title} | African Intelligence`} description={ep.data.summary.slice(0, 280)} jsonLd={ld} image={ep.data.cover.src}>
   <section class="ehero theme-dark">
     <div class="wrap ehero__grid">
       <div class="stack">
