@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import EpisodeCard from '../../components/EpisodeCard.astro';
+import { getEpisodes, getGuest } from '../../lib/episodes';
+const episodes = await getEpisodes();
+const rows = await Promise.all(episodes.map(async (ep) => ({ ep, guest: await getGuest(ep) })));
+const topics = [...new Set(episodes.flatMap((e) => e.data.topics))].sort();
+---
+<BaseLayout title="Episodes | African Intelligence" description="Browse and search every episode of African Intelligence by title, guest or theme.">
+  <PageHero eyebrow="African Intelligence" title="All episodes" lede="Search by title, guest or theme."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Episodes' }]} />
+  <section class="section theme-charcoal">
+    <div class="wrap">
+      <div class="filters">
+        <label for="q" class="sr-only">Search episodes</label>
+        <input id="q" type="search" placeholder="Search episodes, guests or themes" autocomplete="off" />
+        <div class="chips" role="group" aria-label="Filter by theme">
+          <button type="button" class="chip" aria-pressed="true" data-topic="">All</button>
+          {topics.map((t) => <button type="button" class="chip" aria-pressed="false" data-topic={t}>{t}</button>)}
+        </div>
+        <p class="count" role="status" aria-live="polite" data-count></p>
+      </div>
+      <div class="grid" data-list>{rows.map(({ ep, guest }) => <EpisodeCard ep={ep} guest={guest} />)}</div>
+      <p class="muted none" data-none hidden>No episodes match your search.</p>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .filters { display: grid; gap: 1rem; margin-bottom: 2.5rem; }
+  input[type='search'] { width: 100%; max-width: 34rem; padding: 0.9rem 1rem; border: 1.5px solid var(--line-dark); background: var(--black); color: var(--paper); border-radius: var(--radius); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip { cursor: pointer; background: none; border: 1px solid var(--line-dark); color: var(--paper); padding: 0.45rem 0.9rem; border-radius: 999px; font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; }
+  .chip[aria-pressed='true'] { background: var(--brand); border-color: var(--brand); color: var(--black); }
+  .count { font-size: 0.88rem; color: var(--gray); }
+  .grid { display: grid; gap: 2.2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+</style>
+<script>
+  const q = document.querySelector<HTMLInputElement>('#q')!;
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-list] > article')];
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
+  const count = document.querySelector<HTMLElement>('[data-count]')!;
+  const none = document.querySelector<HTMLElement>('[data-none]')!;
+  let topic = new URLSearchParams(location.search).get('topic') ?? '';
+  const apply = () => {
+    const term = q.value.trim().toLowerCase();
+    let n = 0;
+    cards.forEach((c) => {
+      const okTopic = !topic || (c.dataset.topics ?? '').split('|').includes(topic);
+      const okText = !term || (c.dataset.search ?? '').includes(term);
+      c.hidden = !(okTopic && okText); if (!c.hidden) n++;
+    });
+    chips.forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.topic ?? '') === topic)));
+    count.textContent = `${n} episode${n === 1 ? '' : 's'}`;
+    none.hidden = n > 0;
+  };
+  q.addEventListener('input', apply);
+  chips.forEach((b) => b.addEventListener('click', () => { topic = b.dataset.topic ?? ''; apply(); }));
+  apply();
+</script>

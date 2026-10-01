@@ -1,0 +1,25 @@
+---
+import { listenLinks, type Episode } from '../lib/episodes';
+interface Props { ep?: Episode; label?: string }
+const { ep, label = 'Where to listen' } = Astro.props;
+const links = listenLinks(ep);
+---
+<div class="listen">
+  <p class="listen__label">{label}</p>
+  <ul>
+    {links.map((l) => (
+      <li>
+        {l.href
+          ? <a class="tag tag--brand tag--link" href={l.href} rel="noopener noreferrer" target="_blank">{l.label}{!l.exact && ep ? ' · show' : ''} <span class="sr-only">(opens in a new tab)</span></a>
+          : <span class="tag">{l.label} · link pending</span>}
+      </li>
+    ))}
+  </ul>
+</div>
+<style>
+  .listen { display: grid; gap: 0.7rem; }
+  .listen__label { font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); }
+  .listen ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag--link { text-decoration: none; padding: 0.5rem 0.8rem; }
+  .tag--link:hover { background: var(--brand); color: var(--black); }
+</style>

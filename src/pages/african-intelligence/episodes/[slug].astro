@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import EpisodeCard from '../../../components/EpisodeCard.astro';
+import ListenLinks from '../../../components/ListenLinks.astro';
+import { episodeUrl, formatDate, getEpisodes, getGuest, guestUrl } from '../../../lib/episodes';
+
+export async function getStaticPaths() {
+  const eps = await getEpisodes();
+  return eps.map((ep) => ({ params: { slug: ep.id }, props: { ep } }));
+}
+const { ep } = Astro.props;
+const guest = await getGuest(ep);
+const { Content } = await render(ep);
+const others = await Promise.all((await getEpisodes()).filter((e) => e.id !== ep.id).map(async (e) => ({ ep: e, guest: await getGuest(e) })));
+const pageUrl = new URL(episodeUrl(ep), Astro.site).toString();
+const enc = encodeURIComponent;
+const shareText = `${ep.data.title}, African Intelligence by Native Media`;
+const shares = [
+  ['LinkedIn', `https://www.linkedin.com/sharing/share-offsite/?url=${enc(pageUrl)}`],
+  ['X', `https://twitter.com/intent/tweet?text=${enc(shareText)}&url=${enc(pageUrl)}`],
+  ['WhatsApp', `https://wa.me/?text=${enc(shareText + ' ' + pageUrl)}`],
+  ['Email', `mailto:?subject=${enc(shareText)}&body=${enc(pageUrl)}`],
+];
+const ld = {
+  '@context': 'https://schema.org', '@type': 'PodcastEpisode', name: ep.data.title, url: pageUrl,
+  episodeNumber: ep.data.number, datePublished: ep.data.publishDate.toISOString().slice(0, 10),
+  description: ep.data.summary,
+  partOfSeries: { '@type': 'PodcastSeries', name: 'African Intelligence', url: new URL('/african-intelligence', Astro.site).toString() },
+  publisher: { '@type': 'Organization', name: 'Native Media' },
+};
+---
+<BaseLayout title={`${ep.data.title} | African Intelligence`} description={ep.data.summary.slice(0, 280)} jsonLd={ld} image={ep.data.cover.src}>
+  <section class="ehero theme-dark">
+    <div class="wrap ehero__grid">
+      <div class="stack">
+        <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/african-intelligence">African Intelligence</a></li><li><span aria-current="page">Episode {ep.data.number}</span></li></ol></nav>
+        <p class="eyebrow">Episode {ep.data.number} · <time datetime={ep.data.publishDate.toISOString().slice(0, 10)}>{formatDate(ep.data.publishDate)}</time>{ep.data.duration && ` · ${ep.data.duration}`}</p>
+        <h1>{ep.data.title}</h1>
+        <p class="guestline">With <a href={guestUrl(guest)}>{guest.data.name}</a><span class="muted">, {guest.data.role}</span></p>
+        <p class="lede">{ep.data.summary}</p>
+        <ListenLinks ep={ep} label="Watch or listen" />
+      </div>
+      <figure class="ehero__art">
+        <Image src={ep.data.cover} alt={ep.data.coverAlt} widths={[480, 720, 960]} sizes="(min-width: 900px) 34rem, 92vw" loading="eager" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section theme-light">
+    <div class="wrap split">
+      <aside class="stack side" aria-label="Episode information">
+        <h2 class="h3">About the guest</h2>
+        <p><strong>{guest.data.name}</strong><br /><span class="muted">{guest.data.role}</span></p>
+        <div class="prose-sm"><p>{guest.body}</p></div>
+        {guest.data.links.length > 0 && <ul class="links">{guest.data.links.map((l) => <li><a class="arrow-link" href={l.href} rel="noopener noreferrer" target="_blank">{l.label} <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></li>)}</ul>}
+        <h2 class="h3">Transcript</h2>
+        <p class="muted small">{ep.data.transcript ? 'A transcript is available.' : 'No transcript has been published for this episode yet.'}</p>
+        <h2 class="h3">Share this episode</h2>
+        <ul class="share">
+          {shares.map(([l, h]) => <li><a class="tag" href={h} rel="noopener noreferrer" target={l === 'Email' ? undefined : '_blank'}>{l}</a></li>)}
+          <li><button type="button" class="tag copy" data-copy={pageUrl}>Copy link</button></li>
+        </ul>
+        <p class="small muted" role="status" aria-live="polite" data-copied></p>
+      </aside>
+      <div class="stack prose">
+        <h2 class="h2">About this episode</h2>
+        <Content />
+        {ep.data.themes.length > 0 && (<>
+          <h2 class="h3">In this episode, we explore</h2>
+          <ul class="checklist" style="grid-template-columns:1fr">{ep.data.themes.map((t) => <li>{t}</li>)}</ul>
+        </>)}
+        <div class="notice-box"><p class="small">Watch. Listen. Engage. African Intelligence explores the ideas, people and forces shaping Africa’s future. If you believe independent African storytelling, research and thought leadership matter, share this episode and help us build a stronger platform for African ideas and perspectives.</p></div>
+      </div>
+    </div>
+  </section>
+
+  {others.length > 0 && (
+    <section class="section theme-charcoal" aria-labelledby="rel-t">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Related episodes</p><h2 id="rel-t">Keep listening.</h2></div>
+        <div class="grid">{others.map(({ ep: e, guest: g }) => <EpisodeCard ep={e} guest={g} compact />)}</div>
+      </div>
+    </section>
+  )}
+  <CtaBand title="Work with Native Media." text="From strategic communications and intelligence to storytelling and creative production, Native Media works with organizations seeking to communicate with clarity, insight and impact." />
+</BaseLayout>
+<style>
+  .ehero { padding: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem)) 0 clamp(3rem, 6vw, 5rem); background: radial-gradient(48rem 24rem at 100% 0%, rgba(237, 125, 62, 0.16), transparent 60%), var(--black); }
+  .ehero__grid { display: grid; gap: 3rem; align-items: center; }
+  h1 { font-weight: 800; font-size: var(--step-4); letter-spacing: -0.03em; overflow-wrap: break-word; }
+  .guestline { font-size: var(--step-1); font-weight: 600; } .guestline a { color: var(--brand); text-decoration: none; } .guestline a:hover { text-decoration: underline; }
+  .ehero__art { margin: 0; border: 1px solid var(--line-dark); box-shadow: 14px 14px 0 var(--brand); max-width: 34rem; width: 100%; }
+  .ehero__art :global(img) { width: 100%; height: auto; display: block; }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.85rem; color: var(--gray); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.4rem; opacity: 0.6; } .crumbs a { text-decoration: none; } .crumbs [aria-current] { color: var(--paper); }
+  .h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); margin-top: 0.8rem; }
+  .side { position: static; }
+  .prose :global(p) { max-width: 44rem; font-size: var(--step-0); }
+  .prose :global(h2) { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); margin-top: 1rem; }
+  .small { font-size: 0.88rem; }
+  .links, .share { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+  .share .tag { text-decoration: none; cursor: pointer; background: none; } .share .tag:hover { background: var(--black); color: var(--paper); }
+  .grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  @media (min-width: 900px) { .ehero__grid { grid-template-columns: 1.1fr 0.9fr; gap: 5rem; } .split { grid-template-columns: 0.7fr 1.3fr; } .side { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; } }
+</style>
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-copy]');
+  const msg = document.querySelector<HTMLElement>('[data-copied]');
+  btn?.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(btn.dataset.copy ?? location.href); if (msg) msg.textContent = 'Link copied.'; }
+    catch { if (msg) msg.textContent = 'Could not copy automatically. Please copy the address from your browser.'; }
+  });
+</script>

@@ -233,6 +233,8 @@ export const builtPaths = new Set<string>([
   ].map((s) => `/what-we-do/${s}`),
   '/contact', '/contact/general-inquiries', '/contact/strategic-communications',
   '/contact/research-collaboration', '/contact/institutional-partnerships', '/contact/production-inquiries',
+  '/african-intelligence', '/african-intelligence/latest-episodes', '/african-intelligence/guests',
+  '/african-intelligence/interviews', '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',
 ]);
 
 /**

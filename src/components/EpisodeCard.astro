@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import { episodeUrl, formatDate, type Episode, type Guest } from '../lib/episodes';
+interface Props { ep: Episode; guest: Guest; compact?: boolean }
+const { ep, guest, compact = false } = Astro.props;
+---
+<article class:list={['ecard', { 'ecard--compact': compact }]} data-search={`${ep.data.title} ${guest.data.name} ${guest.data.organization ?? ''} ${ep.data.topics.join(' ')} ${ep.data.summary}`.toLowerCase()} data-topics={ep.data.topics.join('|')}>
+  <a class="ecard__img" href={episodeUrl(ep)} tabindex="-1" aria-hidden="true">
+    <Image src={ep.data.cover} alt="" widths={[320, 480, 640]} sizes="(min-width: 900px) 22rem, 90vw" loading="lazy" />
+  </a>
+  <div class="ecard__body">
+    <p class="ecard__meta"><span>Episode {ep.data.number}</span><time datetime={ep.data.publishDate.toISOString().slice(0, 10)}>{formatDate(ep.data.publishDate)}</time></p>
+    <h3><a href={episodeUrl(ep)}>{ep.data.title}</a></h3>
+    <p class="ecard__guest">With {guest.data.name}{guest.data.organization && <span class="muted">, {guest.data.organization}</span>}</p>
+    {!compact && <p class="muted ecard__sum">{ep.data.summary}</p>}
+    <a class="arrow-link" href={episodeUrl(ep)}>Episode details <span aria-hidden="true">→</span></a>
+  </div>
+</article>
+<style>
+  .ecard { display: grid; gap: 1.1rem; align-content: start; }
+  .ecard__img { display: block; overflow: hidden; border: 1px solid var(--line-dark); }
+  .ecard__img :global(img) { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; transition: transform 0.6s var(--ease); }
+  .ecard:hover .ecard__img :global(img) { transform: scale(1.03); }
+  .ecard__body { display: grid; gap: 0.55rem; align-content: start; }
+  .ecard__meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-family: var(--font-display); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .ecard__meta time { color: var(--gray); }
+  .ecard h3 { font-size: var(--step-1); font-weight: 800; line-height: 1.15; }
+  .ecard h3 a { text-decoration: none; } .ecard h3 a:hover { color: var(--brand); }
+  .ecard__guest { font-weight: 600; }
+  .ecard__sum { font-size: 0.93rem; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .ecard[hidden] { display: none; }
+</style>

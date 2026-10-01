@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import EpisodeCard from '../../components/EpisodeCard.astro';
+import ListenLinks from '../../components/ListenLinks.astro';
+import { episodeUrl, formatDate, getEpisodes, getGuest, guestUrl } from '../../lib/episodes';
+
+const episodes = await getEpisodes();
+const rows = await Promise.all(episodes.map(async (ep) => ({ ep, guest: await getGuest(ep) })));
+const [featured, ...rest] = rows;
+const topics = [...new Set(episodes.flatMap((e) => e.data.topics))].sort();
+const guests = [...new Map(rows.map((r) => [r.guest.id, r.guest])).values()];
+
+const ld = {
+  '@context': 'https://schema.org', '@type': 'PodcastSeries', name: 'African Intelligence',
+  description: 'Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development.',
+  url: new URL('/african-intelligence', Astro.site).toString(),
+  publisher: { '@type': 'Organization', name: 'Native Media' },
+};
+---
+<BaseLayout title="African Intelligence | Native Media" description="African Intelligence explores African business, economics, leadership, strategy, diplomacy, innovation and development, and the ideas shaping the continent." jsonLd={ld}
+  image={featured.ep.data.cover.src}>
+  <PageHero eyebrow="A Native Media production" title="African Intelligence" lede="Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas, people and forces shaping Africa’s future, and how Africans can play a greater role in shaping the narratives around it."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence' }]}>
+    <ListenLinks />
+  </PageHero>
+
+  <section class="section theme-dark feat" aria-labelledby="feat-t">
+    <div class="wrap feat__grid">
+      <a class="feat__img" href={episodeUrl(featured.ep)}>
+        <Image src={featured.ep.data.cover} alt={featured.ep.data.coverAlt} widths={[480, 720, 960]} sizes="(min-width: 900px) 36rem, 92vw" loading="eager" />
+      </a>
+      <div class="stack">
+        <p class="eyebrow">Latest episode · Episode {featured.ep.data.number}</p>
+        <h2 id="feat-t" class="h2"><a href={episodeUrl(featured.ep)}>{featured.ep.data.title}</a></h2>
+        <p class="muted">{formatDate(featured.ep.data.publishDate)} · With {featured.guest.data.name}{featured.guest.data.organization && `, ${featured.guest.data.organization}`}</p>
+        <p class="lede">{featured.ep.data.summary}</p>
+        <ul class="topics">{featured.ep.data.topics.map((t) => <li class="tag">{t}</li>)}</ul>
+        <p><a class="btn" href={episodeUrl(featured.ep)}>Episode details <span aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  {rest.length > 0 && (
+    <section class="section theme-charcoal" aria-labelledby="latest-t">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Previous episodes</p><h2 id="latest-t">More conversations.</h2></div>
+        <div class="grid">{rest.map(({ ep, guest }) => <EpisodeCard ep={ep} guest={guest} />)}</div>
+        <p class="more"><a class="arrow-link" href="/african-intelligence/latest-episodes">Browse and search all episodes <span aria-hidden="true">→</span></a></p>
+      </div>
+    </section>
+  )}
+
+  <section class="section theme-dark" aria-labelledby="g-t">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Guests</p><h2 id="g-t" class="h2">The people in the conversation.</h2>
+        <a class="arrow-link" href="/african-intelligence/guests">All guests <span aria-hidden="true">→</span></a></div>
+      <ul class="guests">{guests.map((g) => <li><a href={guestUrl(g)}><strong>{g.data.name}</strong><span class="muted">{g.data.role}{g.data.organization && ` · ${g.data.organization}`}</span></a></li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section theme-light" aria-labelledby="c-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Collections</p><h2 id="c-t">Browse by theme.</h2></div>
+      <ul class="cards">
+        {topics.map((t) => {
+          const n = episodes.filter((e) => e.data.topics.includes(t)).length;
+          return <li class="card"><h3><a href={`/african-intelligence/latest-episodes?topic=${encodeURIComponent(t)}`}>{t}</a></h3><p>{n} episode{n === 1 ? '' : 's'}</p></li>;
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Be a guest, or support the show." text="If you believe independent African storytelling, research and thought leadership matter, share an episode and help us build a stronger platform for African ideas and perspectives." href="/contact/general-inquiries" label="Get in touch" />
+</BaseLayout>
+<style>
+  .feat__grid { display: grid; gap: 2.5rem; align-items: center; }
+  .feat__img { display: block; border: 1px solid var(--line-dark); box-shadow: 14px 14px 0 var(--brand); max-width: 36rem; width: 100%; }
+  .feat__img :global(img) { width: 100%; height: auto; display: block; }
+  .feat h2 a { text-decoration: none; } .feat h2 a:hover { color: var(--brand); }
+  .topics { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  .more { margin-top: 2.5rem; }
+  .guests { display: grid; gap: 0; }
+  .guests a { display: grid; gap: 0.2rem; padding: 1.1rem 0; border-bottom: 1px solid var(--line-dark); text-decoration: none; }
+  .guests a:hover strong { color: var(--brand); }
+  .guests strong { font-family: var(--font-display); font-size: var(--step-1); }
+  .card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand-ink); }
+  @media (min-width: 900px) { .feat__grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+</style>

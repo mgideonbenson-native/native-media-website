@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nativemedia.example/sitemap-index.xml
+Sitemap: https://nativemedia.co.tz/sitemap-index.xml

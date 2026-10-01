@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import EpisodeCard from '../../components/EpisodeCard.astro';
+import { getEpisodes, getGuest } from '../../lib/episodes';
+const rows = await Promise.all((await getEpisodes()).filter((e) => e.data.format === 'interview').map(async (ep) => ({ ep, guest: await getGuest(ep) })));
+---
+<BaseLayout title="Interviews | African Intelligence" description="In-depth interviews with African founders, practitioners and thinkers.">
+  <PageHero eyebrow="African Intelligence" title="Interviews" lede="Long-form conversations with the people building, leading and explaining Africa’s economies and institutions."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Interviews' }]} />
+  <section class="section theme-charcoal"><div class="wrap grid">{rows.map(({ ep, guest }) => <EpisodeCard ep={ep} guest={guest} />)}</div></section>
+</BaseLayout>
+<style>.grid { display: grid; gap: 2.2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }</style>

@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import EpisodeCard from '../../../components/EpisodeCard.astro';
+import { getEpisodes } from '../../../lib/episodes';
+export async function getStaticPaths() {
+  return (await getCollection('guests')).map((g) => ({ params: { slug: g.id }, props: { g } }));
+}
+const { g } = Astro.props;
+const eps = (await getEpisodes()).filter((e) => e.data.guest.id === g.id);
+---
+<BaseLayout title={`${g.data.name} | African Intelligence guest`} description={`${g.data.name}, ${g.data.role}. Guest on African Intelligence by Native Media.`}>
+  <PageHero eyebrow="African Intelligence guest" title={g.data.name} lede={`${g.data.role}${g.data.organization ? ` · ${g.data.organization}` : ''}`}
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Guests', href: '/african-intelligence/guests' }, { label: g.data.name }]} />
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack">
+        <h2 class="h2">Biography</h2>
+        <p class="lede">{g.body}</p>
+        {g.data.links.length > 0 && <ul class="links">{g.data.links.map((l) => <li><a class="arrow-link" href={l.href} rel="noopener noreferrer" target="_blank">{l.label} <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></li>)}</ul>}
+        <p class="muted small">Biography sourced from the episode notes. Guest photographs are not shown until supplied.</p>
+      </div>
+      <div class="stack"><h2 class="h2">Appearances</h2>
+        <div class="grid">{eps.map((e) => <EpisodeCard ep={e} guest={g} />)}</div></div>
+    </div>
+  </section>
+</BaseLayout>
+<style>.links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; } .small { font-size: 0.88rem; } .grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
+  .grid :global(.ecard__meta time), .grid :global(.ecard__guest .muted) { color: var(--gray-ink); } .grid :global(.ecard h3 a) { color: var(--black); }</style>

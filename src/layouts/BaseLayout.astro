@@ -2,13 +2,13 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-interface Props { title: string; description: string; overHero?: boolean; noindex?: boolean }
-const { title, description, overHero = false, noindex = false } = Astro.props;
+interface Props { title: string; description: string; overHero?: boolean; noindex?: boolean; image?: string; jsonLd?: object }
+const { title, description, overHero = false, noindex = false, image, jsonLd } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} noindex={noindex} />
+    <BaseHead title={title} description={description} noindex={noindex} image={image} jsonLd={jsonLd} />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>

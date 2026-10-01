@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import { episodeUrl, getEpisodes, guestUrl } from '../../../lib/episodes';
+const guests = (await getCollection('guests')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+const eps = await getEpisodes();
+---
+<BaseLayout title="Guests | African Intelligence" description="The guests who have appeared on African Intelligence.">
+  <PageHero eyebrow="African Intelligence" title="Guests" lede="Founders, practitioners and thinkers in conversation. Guest details are published with their approval."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Guests' }]} />
+  <section class="section theme-light">
+    <div class="wrap cards">
+      {guests.map((g) => {
+        const gEps = eps.filter((e) => e.data.guest.id === g.id);
+        return (
+          <article class="card">
+            <h2 class="h3"><a href={guestUrl(g)}>{g.data.name}</a></h2>
+            <p>{g.data.role}{g.data.organization && ` · ${g.data.organization}`}</p>
+            {gEps.map((e) => <a class="arrow-link" href={episodeUrl(e)}>Episode {e.data.number} <span aria-hidden="true">→</span></a>)}
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+<style>.h3 { font-size: var(--step-2); font-weight: 800; } .h3 a { text-decoration: none; } .h3 a:hover { color: var(--brand-ink); }</style>

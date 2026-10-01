@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ListenLinks from '../../components/ListenLinks.astro';
+import { episodeUrl, formatDate, getEpisodes } from '../../lib/episodes';
+const eps = await getEpisodes();
+---
+<BaseLayout title="Video & Audio | African Intelligence" description="Watch African Intelligence on YouTube or listen through RSS.com and podcast platforms.">
+  <PageHero eyebrow="African Intelligence" title="Video & audio" lede="Watch on YouTube or listen on your preferred podcast platform."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Video & Audio' }]}>
+    <ListenLinks />
+  </PageHero>
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><h2 class="h2">Episodes</h2>
+        <p class="muted">Embedded players for each episode will be added once the exact YouTube and audio links for every episode are supplied. Until then, use the platform links above.</p></div>
+      <ul class="list">{eps.map((e) => <li><a href={episodeUrl(e)}><strong>Episode {e.data.number}: {e.data.title}</strong><span class="muted">{formatDate(e.data.publishDate)}</span></a></li>)}</ul>
+    </div>
+  </section>
+</BaseLayout>
+<style>.list a { display: grid; gap: 0.2rem; padding: 1.1rem 0; border-bottom: 1px solid var(--line-light); text-decoration: none; } .list a:hover strong { color: var(--brand-ink); }</style>

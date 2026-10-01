@@ -27,3 +27,10 @@ Nothing is published to the internet by these commands.
 
 ## Placeholders (nothing here is invented fact)
 No photographs, contact details, social links, team, partners or published content were supplied, so those areas are clearly labelled **Placeholder**. Search for "placeholder" to find them.
+
+## Adding a new African Intelligence episode
+1. Copy any file in `src/content/episodes/`, rename it (e.g. `ep-4-short-title.md`) and edit the details at the top (title, number, date, summary, themes, topics). Write the full description below the second `---` line.
+2. Put the episode cover image in `src/assets/episodes/` and point `cover:` at it.
+3. If the guest is new, copy a file in `src/content/guests/` and edit it.
+4. Optional: add the exact `youtubeUrl`, `rssUrl`, `spotifyUrl`, `appleUrl` or `amazonUrl` for the episode, and set `duration` and `transcript`.
+5. Run `npm run build` (or `npm run dev` to preview). The episode, guest page, archive, search and sitemap update automatically.

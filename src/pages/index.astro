@@ -1,8 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Visual from '../components/Visual.astro';
+import { Image } from 'astro:assets';
 import { aiPlatforms, company, pillars } from '../data/site';
+import { episodeUrl, formatDate, getEpisodes, getGuest } from '../lib/episodes';
 
+const latestEp = (await getEpisodes())[0];
+const latestGuest = await getGuest(latestEp);
 const disciplines = ['Media', 'Strategic communications', 'Intelligence', 'Research', 'Creative production'];
 
 const labels = [
@@ -186,19 +190,23 @@ const interests = [
         <h2 id="ai-title" class="display">African Intelligence</h2>
         <p class="lede">Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas shaping the continent.</p>
         <ul class="platforms" aria-label="Where to listen">
-          {aiPlatforms.map((p) => <li>{p.href ? <a class="tag tag--brand tag--link" href={p.href} rel="noopener" target="_blank">{p.label} <span class="sr-only">(opens in a new tab)</span></a> : <span class="tag">{p.label} · soon</span>}</li>)}
+          {aiPlatforms.map((p) => <li>{p.href ? <a class="tag tag--brand tag--link" href={p.href} rel="noopener" target="_blank">{p.label} <span class="sr-only">(opens in a new tab)</span></a> : <span class="tag">{p.label} · link pending</span>}</li>)}
         </ul>
-        <p class="muted small">YouTube and RSS.com are live. Other platforms will be added once their links are confirmed.</p>
+        <p class="muted small">YouTube and RSS.com links are live. Other platforms will be added once their links are confirmed.</p>
         <div class="ai__cta">
           <a class="btn" href="/african-intelligence/latest-episodes">Browse episodes <span aria-hidden="true">→</span></a>
           <a class="btn btn--ghost" href="/african-intelligence/guests">Guests</a>
         </div>
       </div>
       <div class="ai__player reveal">
-        <Visual art="lens" label="Featured episode placeholder" ratio="16 / 9" class="ai__video" />
+        <a class="ai__cover" href={episodeUrl(latestEp)}>
+          <Image src={latestEp.data.cover} alt={latestEp.data.coverAlt} widths={[400, 640, 800]} sizes="(min-width: 900px) 34rem, 92vw" loading="lazy" />
+        </a>
         <div class="ai__meta">
-          <span class="tag tag--brand">Featured episode slot</span>
-          <p class="muted">Embedded video or audio player, guest name, summary and discussion themes will appear here.</p>
+          <span class="tag tag--brand">Latest episode · Episode {latestEp.data.number}</span>
+          <h3 class="ai__title"><a href={episodeUrl(latestEp)}>{latestEp.data.title}</a></h3>
+          <p class="muted">{formatDate(latestEp.data.publishDate)} · With {latestGuest.data.name}, {latestGuest.data.organization}</p>
+          <a class="arrow-link" href={episodeUrl(latestEp)}>Episode details <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
@@ -443,7 +451,9 @@ const interests = [
   .tag--link { text-decoration: none; padding: 0.5rem 0.8rem; } .tag--link:hover { background: var(--brand); color: var(--black); }
   .ai__cta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.4rem; }
   .ai__player { display: grid; gap: 1rem; }
-  .ai__video { outline: 1px solid var(--brand); outline-offset: 8px; }
+  .ai__cover { display: block; border: 1px solid var(--line-dark); box-shadow: 12px 12px 0 var(--brand); max-width: 32rem; width: 100%; justify-self: start; margin-bottom: 0.8rem; }
+  .ai__cover :global(img) { width: 100%; height: auto; display: block; }
+  .ai__title { font-size: var(--step-2); font-weight: 800; } .ai__title a { text-decoration: none; } .ai__title a:hover { color: var(--brand); }
   .ai__meta { display: grid; gap: 0.5rem; justify-items: start; }
 
   /* PRODUCTIONS */
