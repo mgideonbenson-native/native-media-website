@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+---
+<BaseLayout title="Newsletter | Native Media" description="Subscribe to Native Media newsletters: insights, intelligence and research, African Intelligence, stories, productions and publications.">
+  <PageHero eyebrow="Newsletter" title="Follow what Native Media publishes." lede="Choose the streams you want. We ask only for your email address." crumbs={[{ label: 'Home', href: '/' }, { label: 'Newsletter' }]} />
+  <section class="section theme-light"><div class="wrap split">
+    <div class="stack"><h2 class="h2">How it works</h2>
+      <ul class="checklist" style="grid-template-columns:1fr"><li>Pick the topics you care about.</li><li>Confirm your subscription from the email we send you.</li><li>Unsubscribe any time from the link in every email, or on the <a href="/unsubscribe">unsubscribe page</a>.</li><li>We collect only your email and your choices. See the <a href="/privacy">privacy policy</a>.</li></ul></div>
+    <NewsletterForm id="nlpage" />
+  </div></section>
+</BaseLayout>

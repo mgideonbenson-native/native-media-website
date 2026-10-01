@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Visual from '../components/Visual.astro';
 import ReviewCover from '../components/ReviewCover.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
 import { REVIEW_BASE, reviewMeta, chapters as reviewChapters, parts as reviewParts } from '../data/review';
 import { Image } from 'astro:assets';
 import { aiPlatforms, company, pillars } from '../data/site';
@@ -42,14 +43,6 @@ const dims = ['Country', 'Region', 'Sector', 'Year', 'Indicator', 'Trading partn
 
 const relationships = ['Institutional partners', 'Research collaborators', 'Production collaborators', 'Edition sponsors', 'Clients'];
 
-const interests = [
-  'Intelligence & Research',
-  'African Intelligence',
-  'Stories',
-  'Productions',
-  'Institutional Publications',
-  'Tanzania Economic Diplomacy Review',
-];
 ---
 
 <BaseLayout
@@ -331,44 +324,11 @@ const interests = [
         <h2 id="news-title" class="display">Follow what Native Media publishes.</h2>
         <p class="lede">Choose the streams you want to hear about. We ask only for your email address.</p>
       </div>
-      <form class="form reveal" data-newsletter novalidate>
-        <p class="tag tag--brand preview-note">Preview · signup is not connected yet</p>
-        <label class="field">
-          <span>Email address</span>
-          <input type="email" name="email" autocomplete="email" required />
-        </label>
-        <fieldset>
-          <legend>Your interests</legend>
-          <div class="checks">
-            {interests.map((i) => (<label class="check"><input type="checkbox" name="interests" value={i} /><span>{i}</span></label>))}
-          </div>
-        </fieldset>
-        <label class="check consent">
-          <input type="checkbox" name="consent" required />
-          <span>I agree to receive Native Media emails on the topics selected, and understand I can unsubscribe at any time. See the <a href="/privacy">privacy policy</a>.</span>
-        </label>
-        <button class="btn" type="submit">Subscribe</button>
-        <p class="form__msg" role="status" aria-live="polite" data-msg></p>
-      </form>
+      <div class="reveal"><NewsletterForm id="nlhome" /></div>
     </div>
   </section>
 </BaseLayout>
 
-<script>
-  // The newsletter form is a visual preview in Phase 1; it does not send data anywhere.
-  const form = document.querySelector<HTMLFormElement>('[data-newsletter]');
-  const msg = document.querySelector<HTMLElement>('[data-msg]');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!msg) return;
-    if (!form.checkValidity()) {
-      msg.textContent = 'Please enter a valid email address and confirm your consent.';
-      form.reportValidity();
-      return;
-    }
-    msg.textContent = 'Thank you. Signup is not connected yet, so nothing has been sent or stored.';
-  });
-</script>
 
 <style>
   /* HERO */

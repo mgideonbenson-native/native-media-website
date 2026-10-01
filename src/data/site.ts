@@ -129,6 +129,7 @@ export const nav: NavItem[] = [
 export const policyLinks: NavChild[] = [
   { label: 'Privacy Policy', href: '/privacy' },
   { label: 'Terms of Use', href: '/terms' },
+  { label: 'Cookie Policy', href: '/cookies' },
   { label: 'Editorial Policy', href: '/editorial-policy' },
   { label: 'Research Policy', href: '/research-policy' },
 ];
@@ -238,6 +239,7 @@ export const builtPaths = new Set<string>([
   '/publications', '/publications/research-papers', '/publications/institutional-reports', '/publications/digital-editions', '/publications/archives',
   '/publications/tanzania-economic-diplomacy-review',
   '/intelligence/data-and-visuals', '/intelligence/data-and-visuals/data-hub', '/intelligence/data-and-visuals/bilateral-trade', '/intelligence/data-and-visuals/investment', '/intelligence/data-and-visuals/africa-map', '/intelligence/data-and-visuals/diplomacy-timeline',
+  '/privacy', '/terms', '/cookies', '/editorial-policy', '/research-policy', '/newsletter', '/unsubscribe',
   '/search', '/stories', ...['business-and-economics','african-affairs','history','geopolitics','technology','infrastructure','society-and-culture'].map((c) => `/stories/${c}`),
   '/productions', ...['documentaries','corporate-films','motion-graphics','visual-explainers','production-portfolio'].map((c) => `/productions/${c}`),
   '/african-intelligence', '/african-intelligence/latest-episodes', '/african-intelligence/guests',

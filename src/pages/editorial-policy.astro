@@ -1,0 +1,31 @@
+---
+import PolicyPage from '../components/PolicyPage.astro';
+import { storyKinds } from '../data/categories';
+const sections = [['principles', 'Our principles'], ['labels', 'How we label content'], ['independence', 'Independence and sponsorship'], ['guests', 'Guests and interviews'], ['images', 'Images and artwork'], ['corrections', 'Corrections'], ['conflicts', 'Conflicts of interest'], ['contact', 'Feedback']].map(([id, title]) => ({ id, title }));
+---
+<PolicyPage title="Editorial Policy" lede="How Native Media decides what to publish, how it labels it, and how it corrects mistakes." sections={sections}>
+  <h2 id="principles">Our principles</h2>
+  <ul>
+    <li><strong>Accuracy.</strong> We use verifiable sources and document the basis of what we publish.</li>
+    <li><strong>Context.</strong> We tell African stories with the history and background that give them meaning.</li>
+    <li><strong>Independence.</strong> Native Media keeps editorial responsibility for its own work.</li>
+    <li><strong>Transparency.</strong> We disclose sponsorship, methods and corrections.</li>
+    <li><strong>Accountability.</strong> We keep a visible corrections process and preserve the record.</li>
+  </ul>
+  <h2 id="labels">How we label content</h2>
+  <p>Every story is labelled so that readers always know what they are reading:</p>
+  <ul>{Object.values(storyKinds).map((k) => <li><strong>{k.label}.</strong> {k.text}</li>)}</ul>
+  <p>We do not use a breaking-news format, and we do not publish unverified claims as fact.</p>
+  <h2 id="independence">Independence and sponsorship</h2>
+  <p>Paid or sponsored content is always clearly labelled. Sponsors, advisers and partners do not direct editorial content, choose sources, or decide conclusions. We describe an organization as a partner, sponsor or endorser only when the relationship is confirmed and we have permission to say so. We never imply government affiliation or institutional approval that does not exist. Our institutional publications follow additional rules, set out in each publication’s methodology and sponsorship pages.</p>
+  <h2 id="guests">Guests and interviews</h2>
+  <p>For African Intelligence, we publish guest biographies and details that the guest has provided or approved. Episode descriptions summarize the conversation and are not endorsements of a guest’s views by Native Media.</p>
+  <h2 id="images">Images and artwork</h2>
+  <p>We use documentary photography where possible. Artwork created with AI is labelled as AI-generated. Placeholder images are marked as placeholders.</p>
+  <h2 id="corrections">Corrections</h2>
+  <p>If we get something wrong, we correct it openly and say what changed. Publications keep a public corrections log (see, for example, the <a href="/publications/tanzania-economic-diplomacy-review/corrections">Review’s corrections page</a>). To report an error, <a href="/contact/general-inquiries">contact us</a> with the page, what you believe is wrong, and a source.</p>
+  <h2 id="conflicts">Conflicts of interest</h2>
+  <p>Where a story or publication involves an organization that is a client, sponsor or partner of Native Media, we say so.</p>
+  <h2 id="contact">Feedback</h2>
+  <p>Questions about our editorial standards are welcome through the <a href="/contact/general-inquiries">contact form</a>.</p>
+</PolicyPage>

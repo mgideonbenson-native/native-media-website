@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+interface Props { title: string; lede: string; sections: { id: string; title: string }[]; review?: boolean }
+const { title, lede, sections, review = true } = Astro.props;
+---
+<BaseLayout title={`${title} | Native Media`} description={lede}>
+  <PageHero eyebrow="Policies" {title} {lede} crumbs={[{ label: 'Home', href: '/' }, { label: title }]} />
+  <section class="section theme-light">
+    <div class="wrap policy">
+      <aside class="toc" aria-label="On this page"><p class="eyebrow">On this page</p>
+        <ol>{sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}</ol></aside>
+      <div class="body prose">
+        {review && <div class="notice-box"><span class="tag tag--brand">Draft for legal review</span><p>This policy describes how the website works today. Items marked <strong>[to confirm]</strong> need Native Media’s details or legal advice before the site goes live.</p></div>}
+        <p class="muted small">Last updated: 1 October 2026</p>
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .policy { display: grid; gap: 2.5rem; } .toc ol { display: grid; gap: 0.5rem; margin-top: 0.8rem; font-size: 0.92rem; } .toc a { text-decoration: none; } .toc a:hover { color: var(--brand-ink); text-decoration: underline; }
+  .prose { max-width: 46rem; display: grid; gap: 1.1rem; }
+  .prose :global(h2) { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); margin-top: 1.6rem; scroll-margin-top: calc(var(--header-h) + 1rem); }
+  .prose :global(h3) { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); margin-top: 0.8rem; }
+  .prose :global(ul) { list-style: disc; padding-left: 1.3rem; display: grid; gap: 0.4rem; }
+  .prose :global(a) { color: var(--brand-ink); }
+  .prose :global(table) { border-collapse: collapse; width: 100%; font-size: 0.92rem; } .prose :global(th), .prose :global(td) { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line-light); vertical-align: top; }
+  .small { font-size: 0.88rem; }
+  @media (min-width: 900px) { .policy { grid-template-columns: 15rem 1fr; gap: 4rem; } .toc { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; } }
+</style>

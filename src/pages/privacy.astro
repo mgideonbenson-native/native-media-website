@@ -1,0 +1,65 @@
+---
+import PolicyPage from '../components/PolicyPage.astro';
+const sections = [['who', 'Who we are'], ['collect', 'What we collect'], ['use', 'How we use it'], ['share', 'Who we share it with'], ['keep', 'How long we keep it'], ['rights', 'Your rights'], ['security', 'Security'], ['children', 'Children'], ['changes', 'Changes'], ['contact', 'Contact']].map(([id, title]) => ({ id, title }));
+---
+<PolicyPage title="Privacy Policy" lede="We collect as little personal information as we can, and we tell you what we do with it." sections={sections}>
+  <h2 id="who">Who we are</h2>
+  <p>This website is run by Native Media, a Tanzanian media, strategic communications and intelligence company. Legal name and registered address: <strong>[to confirm]</strong>. Privacy contact: <strong>[to confirm]</strong>.</p>
+
+  <h2 id="collect">What we collect</h2>
+  <p>We collect personal information only when you give it to us through a form.</p>
+  <table>
+    <thead><tr><th>Where</th><th>What you give us</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Contact and inquiry forms</td><td>Name, organization (optional), email address, inquiry type, your message</td><td>To read and reply to your inquiry</td></tr>
+      <tr><td>Newsletter sign-up</td><td>Email address, the topics you choose, your consent</td><td>To send the newsletters you asked for</td></tr>
+    </tbody>
+  </table>
+  <p>Our spam protection uses a hidden form field. It does not track you and collects no extra personal data.</p>
+  <h3>What we do not do</h3>
+  <ul>
+    <li>We do not use analytics or advertising trackers on this website.</li>
+    <li>We do not set cookies (see the <a href="/cookies">Cookie Policy</a>).</li>
+    <li>We do not ask for information we do not need, such as phone numbers or dates of birth.</li>
+    <li>We do not sell personal information.</li>
+  </ul>
+  <p>If this changes, for example if we add analytics, we will update this policy first and ask for consent where the law requires it.</p>
+
+  <h2 id="use">How we use it</h2>
+  <ul>
+    <li>To reply to inquiries and, where relevant, to start or continue a working relationship.</li>
+    <li>To send the newsletter streams you chose. Every email will include an unsubscribe link, and you can also use the <a href="/unsubscribe">unsubscribe page</a>.</li>
+    <li>To keep the website secure and to stop spam.</li>
+  </ul>
+  <p>Our legal basis is your consent (newsletter) and our legitimate interest in answering the inquiry you sent us (contact forms). <strong>[to confirm with legal advice under the applicable data-protection law, including Tanzania’s Personal Data Protection Act]</strong></p>
+
+  <h2 id="share">Who we share it with</h2>
+  <p>We use service providers to run the forms and the newsletter. They act on our instructions and may process data outside Tanzania.</p>
+  <table>
+    <thead><tr><th>Service</th><th>Provider</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Form handling and inbox</td><td><strong>[to confirm]</strong></td><td>Not connected yet. Forms currently send nothing.</td></tr>
+      <tr><td>Newsletter email</td><td><strong>[to confirm]</strong></td><td>Not connected yet. Sign-up currently sends nothing.</td></tr>
+      <tr><td>Website hosting</td><td><strong>[to confirm]</strong></td><td>Hosting providers see technical data such as IP addresses in server logs.</td></tr>
+    </tbody>
+  </table>
+  <p>This site links to other services (for example YouTube, Spotify, Apple Podcasts, Amazon Music, RSS.com and LinkedIn). Those services have their own privacy policies, and we are not responsible for them. Share buttons are plain links. They do not load third-party code on our pages.</p>
+
+  <h2 id="keep">How long we keep it</h2>
+  <p>Inquiries: <strong>[to confirm, for example 24 months after the last contact]</strong>. Newsletter details: until you unsubscribe. We delete or anonymize information we no longer need.</p>
+
+  <h2 id="rights">Your rights</h2>
+  <p>You can ask us to tell you what we hold about you, correct it, delete it, or stop using it, and you can withdraw consent at any time. To do this, contact us using the details below. You may also have the right to complain to the data-protection authority in Tanzania.</p>
+
+  <h2 id="security">Security</h2>
+  <p>The site is served over HTTPS. Secret keys for form and email services are kept out of the website’s public code. No method of transmission is perfectly secure, so please do not send sensitive information through the forms.</p>
+
+  <h2 id="children">Children</h2>
+  <p>This website is not directed at children, and we do not knowingly collect their personal information.</p>
+
+  <h2 id="changes">Changes</h2>
+  <p>We will post any changes here and update the date at the top.</p>
+
+  <h2 id="contact">Contact</h2>
+  <p>Please use our <a href="/contact/general-inquiries">contact form</a> and choose “General inquiry”. Direct email: <strong>[to confirm]</strong>.</p>
+</PolicyPage>

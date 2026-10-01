@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+<BaseLayout title="Unsubscribe | Native Media" description="Stop receiving Native Media newsletters." noindex>
+  <PageHero eyebrow="Newsletter" title="Unsubscribe." lede="You can leave at any time." crumbs={[{ label: 'Home', href: '/' }, { label: 'Newsletter', href: '/newsletter' }, { label: 'Unsubscribe' }]} />
+  <section class="section theme-light"><div class="wrap split">
+    <div class="stack"><h2 class="h2">The quickest way</h2><p>Every newsletter email includes an unsubscribe link at the bottom. One click is enough.</p>
+      <p class="muted">Cannot find an email? Enter your address and we will remove you.</p></div>
+    <form class="uform" data-unsub novalidate>
+      <div class="field"><label for="u-email">Email address</label><input id="u-email" name="email" type="email" autocomplete="email" required /></div>
+      <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+      <button class="btn" type="submit">Unsubscribe me</button>
+      <p class="status" role="status" aria-live="polite" data-status></p>
+    </form>
+  </div></section>
+</BaseLayout>
+<style>
+  .uform { display: grid; gap: 1.2rem; background: var(--white); border: 1px solid var(--line-light); padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .field { display: grid; gap: 0.4rem; } .field label { font-weight: 600; } .field input { padding: 0.85rem 1rem; border: 1.5px solid var(--black); border-radius: var(--radius); background: var(--paper); }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; } .uform .btn { justify-self: start; }
+  .status { font-weight: 600; min-height: 1.4em; } .status.ok { color: #1d6b3a; } .status.bad { color: #a4262c; }
+</style>
+<script>
+  const endpoint = import.meta.env.PUBLIC_UNSUBSCRIBE_ENDPOINT as string | undefined;
+  const form = document.querySelector<HTMLFormElement>('[data-unsub]')!; const status = form.querySelector<HTMLElement>('[data-status]')!;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); const email = form.elements.namedItem('email') as HTMLInputElement;
+    if (!email.checkValidity() || !email.value.trim()) { status.className = 'status bad'; status.textContent = 'Please enter a valid email address.'; email.focus(); return; }
+    if ((form.elements.namedItem('website') as HTMLInputElement).value) { status.className = 'status ok'; status.textContent = 'Done. You will no longer receive our emails.'; return; }
+    if (!endpoint) { status.className = 'status bad'; status.textContent = 'Unsubscribe is not connected to an email service yet, so nothing was sent. No one is subscribed yet.'; return; }
+    try { const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email.value.trim() }) }); if (!r.ok) throw new Error(); status.className = 'status ok'; status.textContent = 'Done. You will no longer receive our emails.'; form.reset(); }
+    catch { status.className = 'status bad'; status.textContent = 'Sorry, something went wrong. Please try again shortly.'; }
+  });
+</script>

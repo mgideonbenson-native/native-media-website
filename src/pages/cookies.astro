@@ -1,0 +1,14 @@
+---
+import PolicyPage from '../components/PolicyPage.astro';
+const sections = [['now', 'Cookies today'], ['storage', 'Other browser storage'], ['third', 'Other websites'], ['future', 'If this changes']].map(([id, title]) => ({ id, title }));
+---
+<PolicyPage title="Cookie Policy" lede="This website does not set cookies." sections={sections}>
+  <h2 id="now">Cookies today</h2>
+  <p>This website does not set any cookies, and it does not use analytics or advertising trackers. For that reason it does not show a cookie banner.</p>
+  <h2 id="storage">Other browser storage</h2>
+  <p>The site does not store information about you in your browser. The menu, search, filters and charts work on the page you are viewing and keep nothing afterwards.</p>
+  <h2 id="third">Other websites</h2>
+  <p>Links to YouTube, Spotify, Apple Podcasts, Amazon Music, RSS.com, LinkedIn and other sites open those services, which may use their own cookies under their own policies. We do not embed their players or share buttons on our pages at present.</p>
+  <h2 id="future">If this changes</h2>
+  <p>If we add embedded players, analytics or anything else that uses cookies or similar technologies, we will update this policy first, list each one here, and ask for your consent before it is used where the law requires it.</p>
+</PolicyPage>

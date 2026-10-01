@@ -1,0 +1,57 @@
+---
+interface Props { id?: string }
+const { id = 'nl' } = Astro.props;
+const interests = ['Native Media Insights', 'Intelligence & Research', 'African Intelligence', 'Stories', 'Productions', 'Institutional Publications', 'Tanzania Economic Diplomacy Review'];
+---
+<form class="nl" data-newsletter novalidate aria-labelledby={`${id}-t`}>
+  <h3 id={`${id}-t`} class="sr-only">Newsletter sign-up</h3>
+  <div class="field"><label for={`${id}-email`}>Email address <span aria-hidden="true">*</span></label>
+    <input id={`${id}-email`} name="email" type="email" autocomplete="email" required aria-describedby={`${id}-err`} /><p class="err" id={`${id}-err`} data-err="email"></p></div>
+  <fieldset><legend>Your interests (choose any)</legend>
+    <div class="checks">{interests.map((i) => <label class="check"><input type="checkbox" name="interests" value={i} /><span>{i}</span></label>)}</div></fieldset>
+  <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+  <div class="field"><label class="check consent"><input type="checkbox" name="consent" required aria-describedby={`${id}-cerr`} />
+    <span>I agree to receive Native Media emails on the topics I selected. I can unsubscribe at any time. See the <a href="/privacy">privacy policy</a>. <span aria-hidden="true">*</span></span></label>
+    <p class="err" id={`${id}-cerr`} data-err="consent"></p></div>
+  <button class="btn" type="submit">Subscribe</button>
+  <p class="status" role="status" aria-live="polite" tabindex="-1" data-status></p>
+</form>
+<style>
+  .nl { display: grid; gap: 1.4rem; background: var(--white); color: var(--black); border: 1px solid var(--line-light); padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .field { display: grid; gap: 0.4rem; } .field > label:not(.check) { font-weight: 600; }
+  .field input[type='email'] { padding: 0.85rem 1rem; border: 1.5px solid var(--black); border-radius: var(--radius); background: var(--paper); color: var(--black); }
+  .field [aria-invalid='true'] { border-color: #a4262c; background: #fdf3f3; } .err { color: #a4262c; font-size: 0.88rem; font-weight: 600; }
+  fieldset { border: 0; padding: 0; margin: 0; } legend { font-weight: 600; margin-bottom: 0.7rem; padding: 0; }
+  .checks { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.95rem; cursor: pointer; }
+  .check input { width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; accent-color: var(--brand); flex: none; }
+  .consent { font-size: 0.85rem; color: var(--gray-ink); } .consent a { color: var(--brand-ink); }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .nl .btn { justify-self: start; } .status { font-weight: 600; min-height: 1.4em; } .status.ok { color: #1d6b3a; } .status.bad { color: #a4262c; }
+</style>
+<script>
+  // Sends to PUBLIC_NEWSLETTER_ENDPOINT when configured (see .env.example). Until then nothing is sent or stored.
+  // Turn on "double opt-in" (confirmation email) in the email service before setting the endpoint.
+  const endpoint = import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT as string | undefined;
+  document.querySelectorAll<HTMLFormElement>('[data-newsletter]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const el = (n: string) => form.elements.namedItem(n) as HTMLInputElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); status.className = 'status'; status.textContent = '';
+      const email = el('email'), consent = el('consent');
+      const emailBad = !email.checkValidity() || !email.value.trim(); const consentBad = !consent.checked;
+      form.querySelector<HTMLElement>('[data-err="email"]')!.textContent = emailBad ? 'Please enter a valid email address.' : '';
+      form.querySelector<HTMLElement>('[data-err="consent"]')!.textContent = consentBad ? 'Please confirm your consent to subscribe.' : '';
+      email.setAttribute('aria-invalid', String(emailBad)); consent.setAttribute('aria-invalid', String(consentBad));
+      if (emailBad || consentBad) { (emailBad ? email : consent).focus(); status.className = 'status bad'; status.textContent = 'Please correct the highlighted fields.'; return; }
+      if (el('website').value) { status.className = 'status ok'; status.textContent = 'Thank you. Please check your email to confirm your subscription.'; form.reset(); return; }
+      if (!endpoint) { status.className = 'status bad'; status.textContent = 'Sign-up is not connected to an email service yet, so nothing was sent or stored. Please try again soon.'; return; }
+      const interests = [...form.querySelectorAll<HTMLInputElement>('input[name="interests"]:checked')].map((i) => i.value);
+      try {
+        const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ email: email.value.trim(), interests, consent: true, source: 'website' }) });
+        if (!res.ok) throw new Error(String(res.status));
+        status.className = 'status ok'; status.textContent = 'Thank you. Please check your email to confirm your subscription.'; form.reset();
+      } catch { status.className = 'status bad'; status.textContent = 'Sorry, something went wrong and you were not subscribed. Please try again shortly.'; }
+    });
+  });
+</script>
