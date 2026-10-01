@@ -32,6 +32,8 @@ const interests = ['Native Media Insights', 'Research & Publications', 'African 
 <script>
   // Sends to PUBLIC_NEWSLETTER_ENDPOINT when configured (see .env.example). Until then nothing is sent or stored.
   // Turn on "double opt-in" (confirmation email) in the email service before setting the endpoint.
+  // Buttondown (PUBLIC_BUTTONDOWN_USERNAME) is the default. A generic JSON endpoint is still supported as a fallback.
+  const bd = import.meta.env.PUBLIC_BUTTONDOWN_USERNAME as string | undefined;
   const endpoint = import.meta.env.PUBLIC_NEWSLETTER_ENDPOINT as string | undefined;
   document.querySelectorAll<HTMLFormElement>('[data-newsletter]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-status]')!;
@@ -45,6 +47,17 @@ const interests = ['Native Media Insights', 'Research & Publications', 'African 
       email.setAttribute('aria-invalid', String(emailBad)); consent.setAttribute('aria-invalid', String(consentBad));
       if (emailBad || consentBad) { (emailBad ? email : consent).focus(); status.className = 'status bad'; status.textContent = 'Please correct the highlighted fields.'; return; }
       if (el('website').value) { status.className = 'status ok'; status.textContent = 'Thank you. Please check your email to confirm your subscription.'; form.reset(); return; }
+      if (bd) {
+        const body = new URLSearchParams({ email: email.value.trim(), embed: '1' });
+        form.querySelectorAll<HTMLInputElement>('input[name="interests"]:checked').forEach((i) => body.append('tag', i.value));
+        try {
+          // Buttondown's sign-up address does not reply in a way a web page can read, so a finished request counts as sent.
+          // They email the person a confirmation link (turn on double opt-in in Buttondown settings).
+          await fetch(`https://buttondown.com/api/emails/embed-subscribe/${encodeURIComponent(bd)}`, { method: 'POST', mode: 'no-cors', body });
+          status.className = 'status ok'; status.textContent = 'Thank you. Please check your email to confirm your subscription.'; form.reset();
+        } catch { status.className = 'status bad'; status.textContent = 'Sorry, something went wrong and you were not subscribed. Please try again shortly.'; }
+        return;
+      }
       if (!endpoint) { status.className = 'status bad'; status.textContent = 'Sign-up is not connected to an email service yet, so nothing was sent or stored. Please try again soon.'; return; }
       const interests = [...form.querySelectorAll<HTMLInputElement>('input[name="interests"]:checked')].map((i) => i.value);
       try {

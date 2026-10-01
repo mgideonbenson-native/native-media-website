@@ -31,7 +31,8 @@ Add these in **Netlify → Site configuration → Environment variables** (never
 | Name | When |
 |---|---|
 | `PUBLIC_FORM_ENDPOINT` | when you choose a form service for the contact forms |
-| `PUBLIC_NEWSLETTER_ENDPOINT`, `PUBLIC_UNSUBSCRIBE_ENDPOINT` | when you choose an email service |
+| `PUBLIC_BUTTONDOWN_USERNAME` | your Buttondown username, to turn on the newsletter sign-up |
+| `PUBLIC_NEWSLETTER_ENDPOINT`, `PUBLIC_UNSUBSCRIBE_ENDPOINT` | only if you use a different email service instead of Buttondown |
 | `SANITY_PROJECT_ID` (and others in `.env.example`) | only if you later switch the CMS on |
 
 **Important:** when you connect a form or email service, also add its web address to `connect-src` in the `Content-Security-Policy` line of `netlify.toml`. Otherwise browsers will block the form from sending. Update the Privacy Policy at the same time.
@@ -51,3 +52,15 @@ Both the inquiry forms and the Native Talks application send to one inbox throug
 5. Test: send an inquiry and a Native Talks application from the live site and check both arrive. The email subject says which form it was.
 
 The security rules in `netlify.toml` already allow `formspree.io`. The free plan limits how many messages you get each month; check their current limits. Spam is filtered by a hidden trap field plus Formspree's own checks.
+
+
+## Connecting the newsletter (Buttondown)
+
+1. Create an account at buttondown.com and pick your username (it becomes `buttondown.com/yourname`).
+2. In Buttondown **Settings**, turn on **double opt-in** so every new subscriber gets a confirmation email. Add your sender name and the address you send from (for example benson@nativemedia.co.tz) and follow their steps to verify it.
+3. In Netlify **Environment variables**, add `PUBLIC_BUTTONDOWN_USERNAME` with your username, then **Trigger deploy**.
+4. Subscribe with a test address on the live site, click the confirmation email, and check the person appears under **Subscribers** in Buttondown.
+
+The interests people tick on the sign-up form arrive in Buttondown as tags, so you can email only the readers interested in a topic. Every email Buttondown sends includes an unsubscribe link. Visitors who use the site's Unsubscribe page are told to use that link.
+
+Note: the website cannot read Buttondown's reply, so the page shows "check your email" whenever the request went through. The test in step 4 is how you confirm it really works.
