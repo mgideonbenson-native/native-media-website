@@ -31,6 +31,16 @@ http.createServer((req, res) => {
   const u = new URL(req.url, HOST);
   if (u.pathname === '/img.webp') { res.writeHead(200, { 'Content-Type': 'image/webp' }); return res.end(fs.readFileSync('src/assets/episodes/ep3-taha-jiwaji.webp')); }
   if (u.pathname === '/__problems') { res.writeHead(200); return res.end(JSON.stringify(problems)); }
+  // Writes (used to test scripts/import-to-sanity.mjs): image uploads and mutations. Mutations are saved to /tmp/mock-mutations.json.
+  if (req.method === 'POST' && u.pathname.includes('/assets/images/')) {
+    req.resume(); req.on('end', () => { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ document: { _id: `image-${Math.random().toString(36).slice(2, 10)}-1254x1254-webp`, _type: 'sanity.imageAsset', url: `${HOST}/img.webp` } })); }); return;
+  }
+  if (req.method === 'POST' && u.pathname.includes('/data/mutate/')) {
+    let body = ''; req.on('data', (c) => (body += c)); req.on('end', () => {
+      const m = JSON.parse(body); fs.writeFileSync('/tmp/mock-mutations.json', JSON.stringify(m, null, 2));
+      res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ transactionId: 'tx1', results: m.mutations.map((x) => ({ id: Object.values(x)[0]._id, operation: 'create' })) }));
+    }); return;
+  }
   const q = u.searchParams.get('query') ?? '';
   const type = /^\s*\*\[_type == "(\w+)"/.exec(q)?.[1];
   if (!type || !data[type]) { problems.push(`unknown query: ${q.slice(0, 60)}`); res.writeHead(200, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify({ result: [] })); }

@@ -6,7 +6,7 @@ A **CMS** (content management system) is a web page where your team writes and a
 
 **Important:** today the website reads its content from files in the project (`src/content`). It switches to the CMS **only when you set `SANITY_PROJECT_ID`** (step 2). Until then nothing changes, and nothing breaks.
 
-> Switching the CMS on replaces the local files. Your three real episodes and guests are in those files, so **enter them in the Studio first** (or ask Claude to write an import script) before you turn the CMS on.
+> Switching the CMS on replaces the local files. Your three real episodes and guests are in those files, so **copy them into the CMS first** with the import script (section 2b) before you turn the CMS on.
 
 ## 2. One-time setup (about 30 minutes)
 
@@ -22,6 +22,18 @@ You do these steps. They need your own accounts, so Claude cannot do them for yo
 5. Make publishing automatic: in your Sanity project settings, add a **webhook** that calls your hosting service's **Build Hook** address whenever content is published. The site then rebuilds itself.
 6. For scheduled content (section 4), add the same Build Hook address as a GitHub repository secret named `BUILD_HOOK_URL`. A daily rebuild is already set up in `.github/workflows/scheduled-rebuild.yml`.
 7. Invite your team from the Sanity project settings (section 5).
+
+### 2b. Copy the existing episodes and guests into the CMS
+1. In sanity.io/manage, open your project, go to **API → Tokens**, and create a token with **Editor** access. Keep it private (never save it in a file that goes to GitHub).
+2. **Preview** (changes nothing): `node scripts/import-to-sanity.mjs`
+3. **Import as drafts** (recommended). In the terminal, set the two values for this one command, for example:
+   `SANITY_PROJECT_ID=abc123 SANITY_WRITE_TOKEN=your-token node scripts/import-to-sanity.mjs --write`
+   This uploads the cover images and creates 3 guests and 3 episodes as **drafts**. Open the Studio, check each one, tick "Guest has approved this biography", set Editorial workflow to **Approved** (with your name and date), and **publish the guests first, then the episodes**.
+4. **Or import as already published** (only once you have checked everything and each guest has approved their biography):
+   `... node scripts/import-to-sanity.mjs --write --publish --approved-by "Your Name"`
+5. Only after the episodes show as published in the Studio, set `SANITY_PROJECT_ID` on the website.
+
+The script can be run again safely: it replaces the same documents instead of duplicating them. Tested against the mock only (see section 10): please check the drafts appear in the Studio as expected.
 
 ## 3. The editorial workflow
 
@@ -87,4 +99,5 @@ Create a **Correction** document: what was corrected, the date, the **original w
 
 ## 10. What has and has not been tested
 - **Tested:** the content model validates; the Studio builds; the website builds against the mock API with sample content (episodes, guests, stories, productions, corrections, sponsors, editions, verified profiles) and with an empty CMS; every query contains the approval and scheduling rules; rich text is converted safely.
-- **Not tested (needs your Sanity account):** the real Sanity connection, the Studio screens in a browser, the publish gate behaving in the Studio, the webhook and scheduled rebuild. Please test these once with a dummy story before launch.
+- **Import script:** tested in preview, draft and published modes against the mock (documents, cover upload, order and approval fields are correct).
+- **Not tested (needs your Sanity account):** the import against real Sanity (for example, that Sanity accepts draft episodes pointing at guests that are not yet published), the real Sanity connection, the Studio screens in a browser, the publish gate behaving in the Studio, the webhook and scheduled rebuild. Please test these once with a dummy story before launch.
