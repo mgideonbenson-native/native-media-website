@@ -7,7 +7,7 @@
 | Build | 93 pages build with no errors; type check clean |
 | Links | Every internal link on every page works; no placeholder ("coming soon") pages remain |
 | Accessibility | Automated scan (axe, WCAG 2.2 AA + best practices) of all 92 pages at desktop **and** phone width: **0 violations**. Keyboard use checked on menus, forms, charts and the map |
-| Performance | Lighthouse (mobile, throttled): Performance **96–100**, Accessibility **100**, Best Practices **100**, SEO **100** on live pages. Largest content shown in about 2 seconds. Home page is 161 KB |
+| Performance | Lighthouse (mobile, throttled): Performance **96–100**, Accessibility **100**, Best Practices **100**, SEO **100** on live pages. Largest content appears in 1.7 to 2.6 seconds on a throttled mobile connection. Home page is 161 KB |
 | SEO | All 58 indexable pages: unique titles (≤70 chars), descriptions (50–300), canonical links, social-sharing tags, one H1, language set. Sitemap lists exactly the indexable pages. `robots.txt` present |
 | Security | 0 known vulnerabilities in the website's dependencies. No secrets or private files in the repository. Strict Content-Security-Policy plus 6 other security headers tested in a browser: every feature works and nothing is blocked |
 | Privacy | The site sets **no cookies** and stores nothing in the browser; it loads nothing from other websites (verified) |
