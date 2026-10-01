@@ -7,7 +7,7 @@
 export const company = {
   name: 'Native Media',
   tagline: 'Stories. Strategy. Impact.',
-  descriptor: 'A Tanzanian media, strategic communications and intelligence company.',
+  descriptor: 'A Pan-African media-tech and strategic communication agency based in Dar es Salaam.',
   positioning:
     'Native Media leverages storytelling, research, data and creative production to shape narratives, build reputations, generate insight and strengthen Africa’s presence in global conversations.',
   why: 'Africa has been explained by others for long enough.',

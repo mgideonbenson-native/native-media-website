@@ -41,6 +41,30 @@ const tracks = [
         </div>
         <p class="err" id={`${id}-track-err`} data-err="track"></p>
       </fieldset>
+      <fieldset class="field field--wide qs" data-track-fields="Foundations Bootcamp" hidden disabled>
+        <legend>About you: Foundations Bootcamp <span class="tag">Proposed questions</span></legend>
+        <div class="field"><label for={`${id}-f-role`}>Current role</label><input id={`${id}-f-role`} name="current_role" type="text" /></div>
+        <div class="field"><label for={`${id}-f-yrs`}>Years in communication</label>
+          <select id={`${id}-f-yrs`} name="years"><option value="">Choose</option><option>Less than 1 year</option><option>1–3 years</option><option>More than 3 years</option></select></div>
+        <div class="field field--wide"><label for={`${id}-f-learn`}>What do you most want to learn?</label><textarea id={`${id}-f-learn`} name="learn" rows="3"></textarea></div>
+      </fieldset>
+      <fieldset class="field field--wide qs" data-track-fields="Narrative Leadership Mentorship" hidden disabled>
+        <legend>About you: Narrative Leadership Mentorship <span class="tag">Proposed questions</span></legend>
+        <div class="field"><label for={`${id}-n-role`}>Current role and title</label><input id={`${id}-n-role`} name="current_role" type="text" /></div>
+        <div class="field"><label for={`${id}-n-yrs`}>Years in communication</label>
+          <select id={`${id}-n-yrs`} name="years"><option value="">Choose</option><option>3–5 years</option><option>6–10 years</option><option>More than 10 years</option></select></div>
+        <div class="field field--wide"><label for={`${id}-n-topic`}>The topic or area you want to be known for</label><textarea id={`${id}-n-topic`} name="topic_area" rows="3"></textarea></div>
+        <div class="field field--wide"><label for={`${id}-n-link`}>Link to your work (optional)</label><input id={`${id}-n-link`} name="work_link" type="url" placeholder="https://" /></div>
+      </fieldset>
+      <div class="field field--wide">
+        <label for={`${id}-why`}>Why do you want to join Native Talks? <span aria-hidden="true">*</span></label>
+        <textarea id={`${id}-why`} name="motivation" rows="4" required minlength="20" aria-describedby={`${id}-why-err`}></textarea>
+        <p class="err" id={`${id}-why-err`} data-err="motivation"></p>
+      </div>
+      <div class="field">
+        <label for={`${id}-commit`}>Can you commit to the four-week programme?</label>
+        <select id={`${id}-commit`} name="commitment"><option value="">Choose</option><option>Yes</option><option>Not sure yet</option></select>
+      </div>
     </>) : (<>
     <div class="field">
       <label for={`${id}-topic`}>Inquiry type <span aria-hidden="true">*</span></label>
@@ -80,6 +104,7 @@ const tracks = [
   .check a { color: var(--brand-ink); }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .cform .btn { justify-self: start; }
+  .qs { border: 1px solid var(--line-light); padding: 1rem; margin: 0; min-width: 0; display: grid; gap: 1rem; } .qs legend { font-weight: 700; padding: 0 0.4rem; } .qs[hidden] { display: none; }
   .tracks { border: 0; padding: 0; margin: 0; min-width: 0; } .tracks legend { font-weight: 600; font-size: 0.95rem; padding: 0; margin-bottom: 0.4rem; }
   .tracks__grid { display: grid; gap: 1rem; } .track { display: grid; gap: 0.3rem; padding: 1rem 1.1rem 1rem 2.6rem; border: 1.5px solid var(--black); position: relative; cursor: pointer; font-weight: 400 !important; }
   .track input { position: absolute; left: 1rem; top: 1.15rem; accent-color: var(--brand); width: 1.1rem; height: 1.1rem; }
@@ -87,7 +112,7 @@ const tracks = [
   .track__k { font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand-ink); } .track strong { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
   .status { font-weight: 600; min-height: 1.4em; }
   .status.ok { color: #1d6b3a; } .status.bad { color: #a4262c; }
-  @media (min-width: 700px) { .tracks__grid { grid-template-columns: 1fr 1fr; } .cform__grid { grid-template-columns: 1fr 1fr; } .field--wide { grid-column: 1 / -1; } }
+  @media (min-width: 700px) { .qs { grid-template-columns: 1fr 1fr; } .qs .field--wide { grid-column: 1 / -1; } .tracks__grid { grid-template-columns: 1fr 1fr; } .cform__grid { grid-template-columns: 1fr 1fr; } .field--wide { grid-column: 1 / -1; } }
 </style>
 
 <script>
@@ -95,12 +120,16 @@ const tracks = [
   // and the visitor is told so. Set the endpoint in .env (see .env.example).
   const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
   document.querySelectorAll<HTMLFormElement>('[data-cform]').forEach((form) => {
+    form.querySelectorAll<HTMLInputElement>('input[name=track]').forEach((r) => r.addEventListener('change', () => {
+      form.querySelectorAll<HTMLFieldSetElement>('[data-track-fields]').forEach((f) => { const on = f.dataset.trackFields === r.value; f.hidden = !on; f.disabled = !on; });
+    }));
     const status = form.querySelector<HTMLElement>('[data-status]')!;
     const msgs: Record<string, string> = {
       name: 'Please enter your name.',
       email: 'Please enter a valid email address.',
       message: 'Please write at least 20 characters so we can understand your inquiry.',
       track: 'Please choose a track.',
+      motivation: 'Please write at least 20 characters about why you want to join.',
       consent: 'Please confirm you agree so we can reply to you.',
     };
     form.addEventListener('submit', async (e) => {
