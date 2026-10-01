@@ -21,6 +21,8 @@ const related = (await getCollection('stories')).filter((r) => r.id !== s.id && 
 const more = (await getCollection('stories')).filter((r) => r.id !== s.id).slice(0, 3);
 const path = storyPath(s);
 const op = d.opportunity;
+const isOpEd = d.section === 'thought-leadership';
+const ap = d.authorProfile;
 ---
 <BaseLayout title={`${d.title.length > 52 ? d.title.slice(0, 50).trimEnd() + '…' : d.title} | Native Media`} description={d.subtitle} noindex={d.demo}>
   <article class="story theme-light">
@@ -64,6 +66,25 @@ const op = d.opportunity;
         {d.sources.length > 0
           ? <ul class="src">{d.sources.map((x) => <li>{x}</li>)}</ul>
           : <p class="muted small">A numbered list of sources will appear here for each real story.</p>}
+        {isOpEd && (
+          <aside class="author" aria-labelledby="author-h">
+            <h2 id="author-h" class="sr-only">About the author</h2>
+            {ap?.image
+              ? <Cover cover={ap.image} alt={ap.imageAlt ?? d.author} widths={[160, 320]} sizes="10rem" class="author__img" />
+              : <div class="author__img author__img--ph"><Visual art="lens" label={d.demo ? 'Author photo placeholder' : 'Author photo'} ratio="4 / 5" /></div>}
+            <div class="author__text">
+              <p class="eyebrow">About the author</p>
+              <p class="author__name">{d.author}</p>
+              {ap?.role && <p class="muted small">{ap.role}</p>}
+              {ap
+                ? <p>{ap.bio}</p>
+                : <p class="muted">The writer’s full biography will appear here for each published article.</p>}
+              {ap && ap.links.length > 0
+                ? <ul class="author__links">{ap.links.map((l) => <li><a href={l.href} rel="noopener noreferrer" target="_blank">{l.label}<span class="sr-only"> (opens in a new tab)</span></a></li>)}</ul>
+                : !ap && <p class="muted small">Links to the writer’s social channels will appear here.</p>}
+            </div>
+          </aside>
+        )}
         <h2>Related</h2>
         <p class="muted small">Related research, podcast episodes will be linked here. See <a href="/african-intelligence">African Intelligence</a> and <a href="/research-and-publications/intelligence">Intelligence</a>.</p>
       </div>
@@ -73,7 +94,7 @@ const op = d.opportunity;
     <div class="wrap"><div class="section-head"><p class="eyebrow">Keep reading</p><h2>More stories.</h2></div>
       <div class="grid">{(related.length ? related : more).map((r) => <StoryCard story={r} />)}</div></div>
   </section>
-  <CtaBand />
+  {isOpEd ? <CtaBand title="Let us work together." /> : <CtaBand />}
 </BaseLayout>
 <style>
   .oppo dl { display: grid; gap: 0.2rem; margin: 0.5rem 0; } .oppo dt { font-weight: 700; font-size: 0.85rem; margin-top: 0.5rem; } .oppo dd { margin: 0; color: var(--gray-ink); }
@@ -88,6 +109,10 @@ const op = d.opportunity;
   .prose :global(blockquote) { border-left: 4px solid var(--brand); padding-left: 1.2rem; color: var(--gray-ink); font-style: normal; margin: 0; }
   .pull { border-left: 4px solid var(--brand); padding-left: 1.2rem; font-family: var(--font-display); font-weight: 800; font-size: var(--step-3); line-height: 1.1; margin: 1.5rem 0; }
   .slot { margin: 1rem 0; display: grid; gap: 0.6rem; } .slot figcaption { font-size: 0.85rem; color: var(--gray-ink); }
+  .author { display: grid; gap: 1.2rem; grid-template-columns: 7rem 1fr; align-items: start; margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--line-light); background: var(--white); }
+  .author :global(.author__img) { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; } .author__text { display: grid; gap: 0.5rem; } .author__name { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.1; }
+  .author__links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; list-style: none; padding: 0; margin: 0.3rem 0 0; } .author__links a { color: var(--brand-ink); font-weight: 600; }
+  @media (max-width: 520px) { .author { grid-template-columns: 1fr; } .author :global(.author__img) { max-width: 9rem; } }
   .small { font-size: 0.88rem; } .src { padding-left: 1.2rem; list-style: decimal; }
   .grid { display: grid; gap: 2.2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
   @media (min-width: 900px) { .story__grid { grid-template-columns: 0.4fr 1fr; gap: 5rem; } .side { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; } }

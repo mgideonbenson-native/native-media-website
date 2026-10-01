@@ -84,12 +84,13 @@ const episodes = defineCollection({
 const stories = defineCollection({
   loader: cmsEnabled
     ? sanityLoader('sanity-stories', `*[_type == "story" && ${LIVE} && defined(author->name)]{
-        "id": slug.current, title, subtitle, section, sub, opportunity, kind, "author": author->name, date, featured, heroImage ${IMG}, sources, "sponsor": sponsor->name, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
+        "id": slug.current, title, subtitle, section, sub, opportunity, kind, "author": author->name, "authorProfile": author->{ role, bio, "photo": photo ${IMG}, links }, date, featured, heroImage ${IMG}, sources, "sponsor": sponsor->name, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
         (d) => ({ id: d.id, html: ptToHtml(d.body), body: ptToText(d.body), data: {
           title: d.title, subtitle: d.subtitle, section: d.section, sub: d.sub ?? undefined, opportunity: d.opportunity ?? undefined, kind: d.kind, author: d.author, date: d.date ?? undefined, featured: Boolean(d.featured),
+          authorProfile: d.authorProfile?.bio ? { role: d.authorProfile.role ?? undefined, bio: d.authorProfile.bio, image: toImage(d.authorProfile.photo) ?? undefined, imageAlt: d.authorProfile.photo?.alt ?? undefined, links: links(d.authorProfile.links) } : undefined,
           image: toImage(d.heroImage), sources: (d.sources ?? []).map(sourceLine), sponsor: d.sponsor ?? undefined, demo: false } }))
     : glob({ pattern: '**/*.md', base: './src/content/stories' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     subtitle: z.string(),
     section: z.enum(['african-stories', 'thought-leadership', 'opportunities']),
@@ -98,6 +99,8 @@ const stories = defineCollection({
     opportunity: z.object({ organization: z.string().optional(), deadline: z.string().optional(), eligibility: z.string().optional(), location: z.string().optional(), applyUrl: z.url().optional() }).optional(),
     kind: z.enum(['reporting', 'research-analysis', 'opinion', 'institutional-statement', 'sponsored']),
     author: z.string(),
+    // Shown under thought leadership articles: the writer's biography, photograph and public links.
+    authorProfile: z.object({ role: z.string().optional(), bio: z.string(), image: z.union([image(), remoteImage]).optional(), imageAlt: z.string().optional(), links: z.array(z.object({ label: z.string(), href: z.url() })).default([]) }).optional(),
     date: z.coerce.date().optional(),
     featured: z.boolean().default(false),
     art: z.enum(['signal', 'contour', 'frames', 'lens', 'pages', 'grid']).default('frames'),

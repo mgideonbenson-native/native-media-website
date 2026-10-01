@@ -36,7 +36,7 @@ No photographs, contact details, social links, team, partners or published conte
 5. Run `npm run build` (or `npm run dev` to preview). The episode, guest page, archive, search and sitemap update automatically.
 
 ## Stories (demonstration content)
-The files in `src/content/stories/` are **demonstrations** (`demo: true`). They are labelled on the page, kept out of the sitemap and search results, and hidden from search engines. To publish real content: add a new file (copy a demo one), set `demo: false`, and delete the demo files. When real stories exist, remove the `/african-intelligence/stories` exclusion in `astro.config.mjs` so they are listed in the sitemap.
+The files in `src/content/stories/` are **demonstrations** (`demo: true`). They are labelled on the page, kept out of the sitemap and search results, and hidden from search engines. To publish real content: add a new file (copy a demo one), set `demo: false`, and delete the demo files. Thought leadership articles also show the writer’s biography, photo and social links. Add them in the article’s header (`authorProfile:` with `role`, `bio`, `image` (a file in `src/assets`), `imageAlt` and `links`); in the CMS they come from the Author record. When real stories exist, remove the `/african-intelligence/stories` exclusion in `astro.config.mjs` so they are listed in the sitemap.
 
 ## The Tanzania Economic Diplomacy Review
 Its structure, policies and sourcing rules live in `src/data/review.ts` (edit text there). The supplied draft PDF is **not** stored in this repository, and the draft's statistics, partner-country names and ministerial details are deliberately not published on the site until they are verified and approved.
