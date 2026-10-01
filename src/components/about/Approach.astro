@@ -1,0 +1,18 @@
+---
+const steps = [
+  ['Understand the context', 'Learn the organization, subject, audience and setting.'],
+  ['Gather credible information', 'Collect and record sources, data and testimony.'],
+  ['Develop insight', 'Analyze the evidence and draw out what matters.'],
+  ['Define the narrative or objective', 'Decide what needs to be said, to whom and why.'],
+  ['Create the product', 'Produce the communication, publication or intelligence product.'],
+  ['Distribute', 'Share it through channels suited to the audience.'],
+  ['Evaluate and improve', 'Review the work where measurable outcomes are available.'],
+];
+---
+<section class="section theme-light">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Our approach</p><h2>One working method across every pillar.</h2>
+      <p class="lede">This is how Native Media works. It describes our process and is not a claim of proven results.</p></div>
+    <ol class="steps">{steps.map(([t, d]) => <li><h3>{t}</h3><p>{d}</p></li>)}</ol>
+  </div>
+</section>

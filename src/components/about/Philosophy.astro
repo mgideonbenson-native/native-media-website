@@ -1,0 +1,18 @@
+---
+const values = [
+  ['African perspectives', 'Africa’s people, institutions and ideas should be central to how the continent is explained.'],
+  ['Credible research', 'Claims rest on sources that can be named, checked and revisited.'],
+  ['Strategic thinking', 'Information matters most when it is connected to an objective and a decision.'],
+  ['Creative excellence', 'Ideas are strengthened by craft in writing, image, sound and design.'],
+  ['Contextual storytelling', 'People and events are shown with the history and context that give them meaning.'],
+  ['Intellectual independence', 'Native Media keeps editorial responsibility for its own work.'],
+  ['Institutional credibility', 'Professional standards, clear labelling and transparent methods.'],
+  ['Global standards', 'African work held to the highest international benchmarks of quality.'],
+];
+---
+<section class="section theme-dark">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Our philosophy</p><h2>What we believe good work requires.</h2></div>
+    <div class="cards">{values.map(([t, d]) => <div class="card"><h3>{t}</h3><p>{d}</p></div>)}</div>
+  </div>
+</section>

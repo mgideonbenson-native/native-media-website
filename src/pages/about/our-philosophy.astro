@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Philosophy from '../../components/about/Philosophy.astro';
+---
+<BaseLayout title="Our Philosophy | Native Media" description="Eight principles that shape how Native Media researches, tells and communicates.">
+  <PageHero eyebrow="About" title="Our Philosophy" lede="Eight principles that shape how Native Media researches, tells and communicates."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Our Philosophy' }]} />
+  <Philosophy />
+  <CtaBand />
+</BaseLayout>

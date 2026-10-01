@@ -206,3 +206,30 @@ export const allPaths: { href: string; label: string }[] = [
   ...policyLinks,
   { label: 'Search', href: '/search' },
 ].filter((p, i, a) => p.href !== '/' && a.findIndex((q) => q.href === p.href) === i);
+
+/** Inquiry categories used by the contact forms. */
+export const contactTopics = [
+  'General inquiry',
+  'Strategic communications',
+  'Intelligence and research',
+  'Research collaboration',
+  'Publications',
+  'Production services',
+  'Podcast production',
+  'African Intelligence guest proposal',
+  'Institutional partnership',
+  'Sponsorship',
+  'Media inquiry',
+] as const;
+
+/** Pages that exist for real. The placeholder route skips these. */
+export const builtPaths = new Set<string>([
+  '/about', '/about/our-story', '/about/our-philosophy', '/about/our-approach',
+  '/about/leadership-and-team', '/about/partnerships',
+  '/what-we-do', ...[
+    'strategic-communications', 'intelligence-and-research', 'media-and-storytelling',
+    'creative-and-audiovisual-production', 'institutional-publications', 'digital-intelligence-and-data',
+  ].map((s) => `/what-we-do/${s}`),
+  '/contact', '/contact/general-inquiries', '/contact/strategic-communications',
+  '/contact/research-collaboration', '/contact/institutional-partnerships', '/contact/production-inquiries',
+]);

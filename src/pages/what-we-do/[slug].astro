@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Visual from '../../components/Visual.astro';
+import { capabilities } from '../../data/capabilities';
+
+export function getStaticPaths() {
+  return capabilities.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+const idx = capabilities.findIndex((x) => x.slug === c.slug);
+const contactHref = ({ 'strategic-communications': '/contact/strategic-communications', 'intelligence-and-research': '/contact/research-collaboration', 'institutional-publications': '/contact/research-collaboration', 'digital-intelligence-and-data': '/contact/research-collaboration', 'creative-and-audiovisual-production': '/contact/production-inquiries' } as Record<string, string>)[c.slug] ?? '/contact/general-inquiries';
+const pillarNo = String(idx + 1).padStart(2, '0');
+---
+<BaseLayout title={`${c.title} | Native Media`} description={`${c.tagline} ${c.intro[0]}`.slice(0, 300)}>
+  <PageHero eyebrow={`Capability ${pillarNo}`} title={c.title} lede={c.tagline}
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: c.title }]}>
+    <a class="btn" href={contactHref}>Start an inquiry <span aria-hidden="true">→</span></a>
+  </PageHero>
+
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow">Our approach</p>
+        <Visual art={c.art} label="Visual placeholder" ratio="4 / 3" />
+      </div>
+      <div class="stack">
+        {c.intro.map((p, i) => <p class:list={{ lede: i === 0 }}>{p}</p>)}
+        <h2 class="h2" style="margin-top:1rem">{c.includesTitle}</h2>
+        <ul class="checklist">{c.includes.map((i) => <li>{i}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-dark">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">How we work</p><h2>A clear process, from context to delivery.</h2></div>
+      <ol class="steps">{c.process.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}</ol>
+    </div>
+  </section>
+
+  {c.principles && (
+    <section class="section theme-light">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Standards</p><h2>{c.principlesTitle}</h2></div>
+        <div class="cards">{c.principles.map((p) => <div class="card"><h3>{p.title}</h3><p>{p.text}</p></div>)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class={`section ${c.principles ? 'theme-charcoal' : 'theme-light'}`}>
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow">Working with us</p>
+        <h2 class="h2">{c.engagementTitle}</h2>
+        <p class="muted">Indicative models. Scope, timing and terms are agreed with each client.</p>
+        <p class="muted small">Best suited to: {c.audiences.join(' · ')}</p>
+      </div>
+      <div class="cards">{c.engagement.map((e) => <div class="card"><h3>{e.title}</h3><p>{e.text}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Proof of work</p><h2 class="h2">{c.workTitle}</h2></div>
+      <div class="stack">
+        <div class="notice-box"><span class="tag">Placeholder</span><p>{c.workNote}</p></div>
+        <p class="muted small" style="margin-top:.5rem">Related</p>
+        <div class="related">{c.related.map((r) => <a class="arrow-link" href={r.href}>{r.label} <span aria-hidden="true">→</span></a>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title={`Discuss ${c.title.toLowerCase()} with Native Media.`} href="/contact" label="Make an inquiry" />
+</BaseLayout>
+<style>
+  .small { font-size: 0.88rem; }
+</style>

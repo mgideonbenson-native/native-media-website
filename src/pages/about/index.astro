@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Story from '../../components/about/Story.astro';
+import Philosophy from '../../components/about/Philosophy.astro';
+import Approach from '../../components/about/Approach.astro';
+import Team from '../../components/about/Team.astro';
+import Partnerships from '../../components/about/Partnerships.astro';
+---
+<BaseLayout title="About Native Media" description="Native Media is a Tanzanian media, strategic communications and intelligence company. Our WHY: Africa has been explained by others for long enough.">
+  <PageHero eyebrow="About" title="Africa has been explained by others for long enough." lede="Native Media is a Tanzanian media, strategic communications and intelligence company turning African perspectives into stories, strategy and intelligence."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+  <Story /><Philosophy /><Approach /><Team /><Partnerships />
+  <CtaBand />
+</BaseLayout>

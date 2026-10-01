@@ -1,0 +1,27 @@
+---
+interface Props { eyebrow?: string; title: string; lede?: string; crumbs?: { label: string; href?: string }[] }
+const { eyebrow, title, lede, crumbs = [] } = Astro.props;
+---
+<section class="page-hero theme-dark">
+  <div class="wrap">
+    {crumbs.length > 0 && (
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol>{crumbs.map((c) => <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}</ol>
+      </nav>
+    )}
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+</section>
+<style>
+  .page-hero { padding: calc(var(--header-h) + clamp(3rem, 7vw, 6rem)) 0 clamp(3rem, 6vw, 5.5rem); background: radial-gradient(48rem 24rem at 100% 0%, rgba(237, 125, 62, 0.14), transparent 60%), var(--black); border-bottom: 1px solid var(--line-dark); }
+  .page-hero .wrap { display: grid; gap: 1.4rem; justify-items: start; }
+  h1 { font-weight: 800; font-size: var(--step-4); letter-spacing: -0.03em; max-width: 20ch; overflow-wrap: break-word; }
+  .lede { color: var(--paper); opacity: 0.8; }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.85rem; color: var(--gray); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.4rem; opacity: 0.6; }
+  .crumbs a { text-decoration: none; } .crumbs a:hover { color: var(--brand); }
+  .crumbs [aria-current] { color: var(--paper); }
+</style>

@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Approach from '../../components/about/Approach.astro';
+---
+<BaseLayout title="Our Approach | Native Media" description="A single working method that connects research, narrative and production.">
+  <PageHero eyebrow="About" title="Our Approach" lede="A single working method that connects research, narrative and production."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Our Approach' }]} />
+  <Approach />
+  <CtaBand />
+</BaseLayout>

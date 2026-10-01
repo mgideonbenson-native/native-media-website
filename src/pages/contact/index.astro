@@ -1,0 +1,24 @@
+---
+import ContactPage from '../../components/ContactPage.astro';
+import { contactTopics } from '../../data/site';
+const routes = [
+  ['General inquiries', '/contact/general-inquiries', 'Questions about Native Media.'],
+  ['Strategic communications', '/contact/strategic-communications', 'Narrative, positioning and communication strategy.'],
+  ['Research collaboration', '/contact/research-collaboration', 'Research, intelligence products and publications.'],
+  ['Institutional partnerships', '/contact/institutional-partnerships', 'Partnerships, sponsorship and institutional work.'],
+  ['Production inquiries', '/contact/production-inquiries', 'Documentary, corporate film, podcast and motion graphics.'],
+];
+---
+<ContactPage title="Contact Native Media" topic="General inquiry" crumb={false}
+  lede="Tell us what you are working on. Choose the inquiry type that fits best, or use the general form and we will direct it to the right person."
+  points={['Your name, organization and role', 'What you would like to achieve', 'Any timeline or format you have in mind', `Inquiry types: ${contactTopics.join(', ')}`]}>
+  <p class="muted" style="margin-top:.5rem">Or go straight to a specific form:</p>
+  <ul class="routes">{routes.map(([t, h, d]) => <li><a href={h}><strong>{t}</strong><span>{d}</span></a></li>)}</ul>
+</ContactPage>
+<style>
+  .routes { display: grid; gap: 0.6rem; }
+  .routes a { display: grid; gap: 0.15rem; padding: 0.9rem 1.1rem; border: 1px solid var(--line-light); text-decoration: none; background: var(--white); border-left: 4px solid var(--brand); }
+  .routes a:hover { border-color: var(--brand); }
+  .routes strong { font-family: var(--font-display); }
+  .routes span { font-size: 0.9rem; color: var(--gray-ink); }
+</style>

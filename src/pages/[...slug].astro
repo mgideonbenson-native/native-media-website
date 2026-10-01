@@ -5,10 +5,10 @@
  * takes priority over this one, so nothing needs to be deleted.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { allPaths, phaseFor } from '../data/site';
+import { allPaths, builtPaths, phaseFor } from '../data/site';
 
 export function getStaticPaths() {
-  return allPaths.map((p) => ({ params: { slug: p.href.slice(1) }, props: p }));
+  return allPaths.filter((p) => !builtPaths.has(p.href)).map((p) => ({ params: { slug: p.href.slice(1) }, props: p }));
 }
 const { label, href } = Astro.props;
 const { phase, note } = phaseFor(href);
@@ -27,6 +27,6 @@ const { phase, note } = phaseFor(href);
 <style>
   .hold { min-height: 80svh; display: flex; align-items: center; padding-top: calc(var(--header-h) + 3rem); }
   .hold .wrap { display: grid; gap: 1.4rem; justify-items: start; }
-  h1 { font-size: var(--step-5); font-weight: 800; }
+  h1 { font-size: var(--step-4); font-weight: 800; overflow-wrap: break-word; }
   .hold__links { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; }
 </style>

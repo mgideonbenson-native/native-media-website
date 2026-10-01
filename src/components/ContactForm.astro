@@ -1,0 +1,107 @@
+---
+import { contactTopics } from '../data/site';
+interface Props { topic?: string; id?: string }
+const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
+---
+<form class="cform" data-cform novalidate id={id} aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`} class="cform__title">Send an inquiry</h2>
+  <div class="cform__grid">
+    <div class="field">
+      <label for={`${id}-name`}>Full name <span aria-hidden="true">*</span></label>
+      <input id={`${id}-name`} name="name" type="text" autocomplete="name" required aria-describedby={`${id}-name-err`} />
+      <p class="err" id={`${id}-name-err`} data-err="name"></p>
+    </div>
+    <div class="field">
+      <label for={`${id}-org`}>Organization</label>
+      <input id={`${id}-org`} name="organization" type="text" autocomplete="organization" />
+    </div>
+    <div class="field">
+      <label for={`${id}-email`}>Email address <span aria-hidden="true">*</span></label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" required aria-describedby={`${id}-email-err`} />
+      <p class="err" id={`${id}-email-err`} data-err="email"></p>
+    </div>
+    <div class="field">
+      <label for={`${id}-topic`}>Inquiry type <span aria-hidden="true">*</span></label>
+      <select id={`${id}-topic`} name="topic" required>
+        {contactTopics.map((t) => <option value={t} selected={t === topic}>{t}</option>)}
+      </select>
+    </div>
+    <div class="field field--wide">
+      <label for={`${id}-msg`}>How can we help? <span aria-hidden="true">*</span></label>
+      <textarea id={`${id}-msg`} name="message" rows="6" required minlength="20" aria-describedby={`${id}-msg-err`}></textarea>
+      <p class="err" id={`${id}-msg-err`} data-err="message"></p>
+    </div>
+  </div>
+  <!-- Spam trap: hidden from people, tempting to bots. -->
+  <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+  <div class="field field--check">
+    <label class="check"><input type="checkbox" name="consent" required aria-describedby={`${id}-consent-err`} />
+      <span>I agree that Native Media may use these details to reply to my inquiry. See the <a href="/privacy">privacy policy</a>. <span aria-hidden="true">*</span></span></label>
+    <p class="err" id={`${id}-consent-err`} data-err="consent"></p>
+  </div>
+  <button class="btn" type="submit">Send inquiry <span aria-hidden="true">→</span></button>
+  <p class="status" role="status" aria-live="polite" tabindex="-1" data-status></p>
+</form>
+
+<style>
+  .cform { display: grid; gap: 1.4rem; background: var(--white); color: var(--black); border: 1px solid var(--line-light); padding: clamp(1.4rem, 3vw, 2.4rem); }
+  .cform__title { font-size: var(--step-2); font-weight: 800; }
+  .cform__grid { display: grid; gap: 1.2rem; }
+  .field { display: grid; gap: 0.4rem; align-content: start; }
+  .field label { font-weight: 600; font-size: 0.95rem; }
+  .field input:not([type='checkbox']), .field select, .field textarea { width: 100%; padding: 0.85rem 1rem; border: 1.5px solid var(--black); border-radius: var(--radius); background: var(--paper); color: var(--black); }
+  .field [aria-invalid='true'] { border-color: #a4262c; background: #fdf3f3; }
+  .err { color: #a4262c; font-size: 0.88rem; font-weight: 600; min-height: 0; }
+  .check { display: flex; gap: 0.7rem; align-items: flex-start; font-weight: 400 !important; font-size: 0.9rem !important; cursor: pointer; }
+  .check input { width: 1.15rem; height: 1.15rem; margin-top: 0.15rem; accent-color: var(--brand); flex: none; }
+  .check a { color: var(--brand-ink); }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .cform .btn { justify-self: start; }
+  .status { font-weight: 600; min-height: 1.4em; }
+  .status.ok { color: #1d6b3a; } .status.bad { color: #a4262c; }
+  @media (min-width: 700px) { .cform__grid { grid-template-columns: 1fr 1fr; } .field--wide { grid-column: 1 / -1; } }
+</style>
+
+<script>
+  // Sends to PUBLIC_FORM_ENDPOINT when configured. Until then nothing is sent or stored,
+  // and the visitor is told so. Set the endpoint in .env (see .env.example).
+  const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
+  document.querySelectorAll<HTMLFormElement>('[data-cform]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const msgs: Record<string, string> = {
+      name: 'Please enter your name.',
+      email: 'Please enter a valid email address.',
+      message: 'Please write at least 20 characters so we can understand your inquiry.',
+      consent: 'Please confirm you agree so we can reply to you.',
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.className = 'status'; status.textContent = '';
+      let first: HTMLElement | null = null;
+      for (const key of Object.keys(msgs)) {
+        const el = form.elements.namedItem(key) as HTMLInputElement | HTMLTextAreaElement | null;
+        const err = form.querySelector<HTMLElement>(`[data-err="${key}"]`);
+        if (!el || !err) continue;
+        const bad = !el.checkValidity() || (el.type !== 'checkbox' && !el.value.trim());
+        err.textContent = bad ? msgs[key] : '';
+        el.setAttribute('aria-invalid', String(bad));
+        if (bad && !first) first = el;
+      }
+      if (first) { first.focus(); status.className = 'status bad'; status.textContent = 'Please correct the highlighted fields.'; return; }
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (data.website) { status.className = 'status ok'; status.textContent = 'Thank you. Your inquiry has been received.'; form.reset(); return; }
+      if (!endpoint) {
+        status.className = 'status bad';
+        status.textContent = 'This form is not connected to an inbox yet, so nothing was sent. Please try again once contact details are published.';
+        return;
+      }
+      try {
+        const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
+        if (!res.ok) throw new Error(String(res.status));
+        status.className = 'status ok'; status.textContent = 'Thank you. Your inquiry has been sent and we will reply by email.'; form.reset();
+      } catch {
+        status.className = 'status bad'; status.textContent = 'Sorry, something went wrong and your inquiry was not sent. Please try again shortly.';
+      }
+    });
+  });
+</script>

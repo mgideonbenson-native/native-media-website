@@ -8,8 +8,8 @@
    ========================================================================== */
 :root {
   /* Brand palette */
-  --brand: #e8752a; /* burnt orange: the house accent */
-  --brand-deep: #c85f1a; /* hover / pressed */
+  --brand: #ed7d3e; /* burnt orange: the house accent */
+  --brand-deep: #d16e37; /* hover / pressed */
   --brand-ink: #b04f12; /* orange text on light backgrounds (passes contrast) */
   --black: #0a0a0a;
   --charcoal: #1a1a1a;
@@ -39,7 +39,7 @@
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --max: 78rem;
   --section: clamp(4.5rem, 9vw, 8.5rem);
-  --header-h: 4.5rem;
+  --header-h: 5rem;
   --radius: 2px; /* deliberately near-square: editorial, not "app-like" */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -311,3 +311,30 @@ a:hover > .arrow-link span[aria-hidden] {
   opacity: 1;
   transform: none;
 }
+
+/* Shared page patterns (Phase 2) */
+.split { display: grid; gap: 2.5rem; }
+.split > * { min-width: 0; }
+@media (min-width: 900px) { .split { grid-template-columns: 0.85fr 1.15fr; gap: 5rem; } .split--even { grid-template-columns: 1fr 1fr; } }
+.stack { display: grid; gap: 1.2rem; align-content: start; }
+.checklist { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); column-gap: 2rem; }
+.checklist li { padding: 0.8rem 0 0.8rem 1.7rem; border-bottom: 1px solid var(--line-light); position: relative; font-weight: 500; }
+.theme-dark .checklist li, .theme-charcoal .checklist li { border-color: var(--line-dark); }
+.checklist li::before { content: ''; position: absolute; left: 0; top: 1.3rem; width: 0.75rem; height: 2px; background: var(--brand); }
+.steps { counter-reset: step; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.steps li { counter-increment: step; padding: 1.4rem; border: 1px solid var(--line-dark); background: var(--charcoal); display: grid; gap: 0.5rem; align-content: start; }
+.theme-light .steps li { background: var(--white); border-color: var(--line-light); }
+.steps li::before { content: counter(step, decimal-leading-zero); font-family: var(--font-display); font-weight: 800; color: var(--brand); font-size: 0.85rem; letter-spacing: 0.14em; }
+.steps h3 { font-size: var(--step-1); font-weight: 800; }
+.steps p { color: var(--gray); font-size: 0.95rem; }
+.theme-light .steps p { color: var(--gray-ink); }
+.cards { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.card { padding: 1.6rem; border: 1px solid var(--line-light); background: var(--white); border-left: 4px solid var(--brand); display: grid; gap: 0.6rem; align-content: start; }
+.theme-dark .card, .theme-charcoal .card { background: var(--charcoal-2); border-color: var(--line-dark); border-left-color: var(--brand); }
+.card h3 { font-size: var(--step-1); font-weight: 800; }
+.card p { color: var(--gray-ink); font-size: 0.95rem; }
+.theme-dark .card p, .theme-charcoal .card p { color: var(--gray); }
+.notice-box { border: 1px dashed var(--line-light); padding: 1.4rem 1.6rem; display: grid; gap: 0.6rem; justify-items: start; }
+.theme-dark .notice-box, .theme-charcoal .notice-box { border-color: var(--line-dark); }
+.h2 { font-weight: 800; font-size: var(--step-3); }
+.related { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; }

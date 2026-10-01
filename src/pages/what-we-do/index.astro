@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Visual from '../../components/Visual.astro';
+import { pillars } from '../../data/site';
+---
+<BaseLayout title="What We Do | Native Media" description="Six interconnected capabilities: strategic communications, intelligence and research, media and storytelling, creative production, institutional publications and digital intelligence.">
+  <PageHero eyebrow="What we do" title="Six capabilities, one integrated approach." lede="Native Media combines strategic communications, intelligence, storytelling, production, publishing and data. Each can stand alone, and each is stronger alongside the others."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do' }]} />
+  <section class="section theme-light">
+    <div class="wrap">
+      <ul class="list">
+        {pillars.map((p) => (
+          <li class="row">
+            <Visual art={p.art} label="Visual placeholder" ratio="4 / 3" />
+            <div class="stack">
+              <span class="eyebrow">{p.n}</span>
+              <h2 class="h2">{p.title}</h2>
+              <p class="lede">{p.summary}</p>
+              <ul class="chips">{p.tags.map((t) => <li>{t}</li>)}</ul>
+              <a class="arrow-link" href={`/what-we-do/${p.slug}`}>Explore {p.title} <span aria-hidden="true">→</span></a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+<style>
+  .list { display: grid; gap: clamp(3rem, 6vw, 5rem); }
+  .row { display: grid; gap: 1.5rem 4rem; align-items: center; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chips li { font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; padding: 0.45rem 0.9rem; border: 1px solid var(--line-light); border-radius: 999px; }
+  @media (min-width: 900px) { .row { grid-template-columns: 0.9fr 1.1fr; } .row:nth-child(even) > :first-child { order: 2; } }
+</style>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import ContactForm from './ContactForm.astro';
+import { company } from '../data/site';
+interface Props { title: string; lede: string; topic: string; points?: string[]; crumb?: boolean }
+const { title, lede, topic, points = [], crumb = true } = Astro.props;
+---
+<BaseLayout title={`${title} | Native Media`} description={lede}>
+  <PageHero eyebrow="Contact" {title} {lede}
+    crumbs={crumb ? [{ label: 'Home', href: '/' }, { label: 'Contact', href: '/contact' }, { label: title }] : [{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack">
+        <h2 class="h2">What to include</h2>
+        {points.length > 0 && <ul class="checklist" style="grid-template-columns:1fr">{points.map((p) => <li>{p}</li>)}</ul>}
+        <div class="notice-box">
+          <h3>Direct contact</h3>
+          {company.email || company.phone || company.address
+            ? <p>{company.email}{company.phone && ` · ${company.phone}`}{company.address && ` · ${company.address}`}</p>
+            : <><span class="tag">Placeholder</span><p>Verified email, phone and office details will be published here once confirmed. Please use the form for now.</p></>}
+        </div>
+        <slot />
+      </div>
+      <ContactForm topic={topic} />
+    </div>
+  </section>
+</BaseLayout>

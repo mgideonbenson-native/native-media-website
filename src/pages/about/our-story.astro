@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Story from '../../components/about/Story.astro';
+---
+<BaseLayout title="Our Story | Native Media" description="A Tanzanian media, strategic communications and intelligence company with an African outlook.">
+  <PageHero eyebrow="About" title="Our Story" lede="A Tanzanian media, strategic communications and intelligence company with an African outlook."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Our Story' }]} />
+  <Story />
+  <CtaBand />
+</BaseLayout>

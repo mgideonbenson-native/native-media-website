@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Partnerships from '../../components/about/Partnerships.astro';
+---
+<BaseLayout title="Partnerships | Native Media" description="How Native Media describes its relationships with institutions, sponsors and collaborators.">
+  <PageHero eyebrow="About" title="Partnerships" lede="How Native Media describes its relationships with institutions, sponsors and collaborators."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Partnerships' }]} />
+  <Partnerships />
+  <section class="section theme-charcoal"><div class="wrap split"><div class="stack"><p class="eyebrow">Propose a partnership</p><h2 class="h2">Interested in working with us?</h2><p class="muted">Tell us about your organization and what you have in mind. A proposed relationship is not a partnership until it has been confirmed in writing by both sides.</p></div><ContactForm topic="Institutional partnership" id="partner" /></div></section>
+  <CtaBand />
+</BaseLayout>

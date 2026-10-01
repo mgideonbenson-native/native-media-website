@@ -1,0 +1,17 @@
+---
+interface Props { title?: string; text?: string; href?: string; label?: string }
+const { title = 'Let’s shape the next African narrative.', text = 'From strategic communications and intelligence to storytelling and creative production, Native Media works with organizations seeking to communicate with clarity, insight and impact.', href = '/contact', label = 'Make an inquiry' } = Astro.props;
+---
+<section class="section theme-charcoal cta">
+  <div class="wrap cta__inner">
+    <h2 class="display">{title}</h2>
+    <div><p class="lede">{text}</p><a class="btn" href={href}>{label} <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+<style>
+  .cta { background: radial-gradient(50rem 24rem at 10% 100%, rgba(237, 125, 62, 0.18), transparent 60%), var(--charcoal); }
+  .cta__inner { display: grid; gap: 2rem; align-items: center; }
+  .cta h2 { font-size: var(--step-4); }
+  .cta .lede { color: var(--paper); opacity: 0.8; margin-bottom: 1.6rem; }
+  @media (min-width: 900px) { .cta__inner { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
+</style>

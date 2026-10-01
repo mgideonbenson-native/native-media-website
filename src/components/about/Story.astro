@@ -1,0 +1,34 @@
+---
+import { company } from '../../data/site';
+---
+<section class="section theme-light">
+  <div class="wrap split">
+    <div class="stack"><p class="eyebrow">Our story</p><h2 class="h2">A Tanzanian company with an African outlook.</h2></div>
+    <div class="stack">
+      <p class="lede">Native Media is a Tanzanian media, strategic communications and intelligence company. {company.positioning}</p>
+      <p>The company operates at the intersection of media, strategic communications, intelligence, research, storytelling, data, creative production and institutional engagement. It serves businesses, institutions, investors, policymakers, diplomatic missions and wider audiences.</p>
+      <p>Intelligence is part of the company’s overall identity, not only a publication or a service. Native Media transforms information, research and African perspectives into strategic insight, compelling narratives and professional communication products.</p>
+      <div class="notice-box"><span class="tag">Placeholder</span><p>The company’s founding history, milestones and leadership will be added here once they are supplied and approved.</p></div>
+    </div>
+  </div>
+</section>
+<section class="section theme-dark why">
+  <div class="wrap">
+    <p class="eyebrow">Our WHY</p>
+    <blockquote><p>“{company.why}”</p></blockquote>
+    <p class="lede">Native Media exists to contribute African perspectives, research, intelligence and storytelling to the way the continent is understood, represented and engaged with internationally.</p>
+  </div>
+</section>
+<section class="section theme-light">
+  <div class="wrap cards">
+    <div class="card"><h3>Our vision</h3><p>{company.vision}</p></div>
+    <div class="card"><h3>Our mission</h3><p>{company.mission}</p></div>
+    <div class="card"><h3>Our brand promise</h3><p>{company.promise}</p></div>
+  </div>
+</section>
+<style>
+  .why .wrap { display: grid; gap: 1.6rem; }
+  blockquote { margin: 0; }
+  blockquote p { font-family: var(--font-display); font-weight: 800; font-size: var(--step-5); line-height: 1; letter-spacing: -0.035em; max-width: 16ch; }
+  .why .lede { color: var(--paper); opacity: 0.8; }
+</style>

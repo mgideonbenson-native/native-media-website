@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Team from '../../components/about/Team.astro';
+---
+<BaseLayout title="Leadership & Team | Native Media" description="The people who lead and shape Native Media. Profiles are added once verified.">
+  <PageHero eyebrow="About" title="Leadership & Team" lede="The people who lead and shape Native Media. Profiles are added once verified."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Leadership & Team' }]} />
+  <Team />
+  <CtaBand />
+</BaseLayout>
