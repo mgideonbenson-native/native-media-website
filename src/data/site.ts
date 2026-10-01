@@ -18,7 +18,7 @@ export const company = {
     'To transform African knowledge, research, intelligence and creativity into strategic communication, compelling stories and valuable information products that connect people, institutions, businesses and opportunities.',
   // Contact details supplied by the owner. Phone and street address are not supplied yet; leave empty until verified.
   email: 'benson@nativemedia.co.tz',
-  phone: '',
+  phone: '+255 746 444 380',
   address: '',
   // Only verified, owner-supplied channels belong here.
   social: [

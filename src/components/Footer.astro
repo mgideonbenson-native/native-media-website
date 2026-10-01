@@ -24,6 +24,7 @@ const year = new Date().getFullYear();
         <p class="site-footer__tag">{company.tagline}</p>
         <p class="muted">{company.descriptor} {company.promise}</p>
         {company.email && <p><a href={`mailto:${company.email}`}>{company.email}</a></p>}
+        {company.phone && <p><a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a></p>}
         {company.social.length > 0 && (
           <ul class="site-footer__social">{company.social.map((s) => <li><a href={s.href} rel="noopener">{s.label}</a></li>)}</ul>
         )}

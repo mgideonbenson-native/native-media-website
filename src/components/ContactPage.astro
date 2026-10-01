@@ -17,8 +17,8 @@ const { title, lede, topic, points = [], crumb = true } = Astro.props;
         <div class="notice-box">
           <h3>Direct contact</h3>
           {company.email || company.phone || company.address
-            ? <p>{company.email && <a href={`mailto:${company.email}`}>{company.email}</a>}{company.phone && ` · ${company.phone}`}{company.address && ` · ${company.address}`}</p>
-            : <><span class="tag">Placeholder</span><p>Phone and office details will be published here once confirmed. Please use the form for now.</p></>}
+            ? <p>{company.email && <a href={`mailto:${company.email}`}>{company.email}</a>}{company.phone && <> · <a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a></>}{company.address && ` · ${company.address}`}</p>
+            : <><span class="tag">Placeholder</span><p>Office details will be published here once confirmed. Please use the form for now.</p></>}
         </div>
         <slot />
       </div>
