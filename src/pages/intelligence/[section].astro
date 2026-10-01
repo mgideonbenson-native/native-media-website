@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { areas, briefingParts, labels } from '../../data/intelligence';
+import { REVIEW_BASE, reviewMeta } from '../../data/review';
+export function getStaticPaths() { return areas.map((a) => ({ params: { section: a.slug }, props: { a } })); }
+const { a } = Astro.props;
+---
+<BaseLayout title={`${a.title} | Intelligence | Native Media`} description={a.lede}>
+  <PageHero eyebrow="Intelligence" title={a.title} lede={a.lede} crumbs={[{ label: 'Home', href: '/' }, { label: 'Intelligence', href: '/intelligence' }, { label: a.title }]} />
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><h2 class="h2">What it covers</h2><ul class="checklist" style="grid-template-columns:1fr">{a.covers.map((c) => <li>{c}</li>)}</ul></div>
+      <div class="stack"><h2 class="h2">Who it is for</h2><ul class="chips">{a.audience.map((c) => <li>{c}</li>)}</ul>
+        <h2 class="h2" style="margin-top:1.5rem">Our approach</h2>
+        <p>Credible sources, rigorous research, contextual analysis and accessible communication. Every product states its sources, reporting period and limitations, and separates verified information, analysis, external projections and opinion.</p></div>
+    </div>
+  </section>
+  {a.slug === 'economic-diplomacy' && (
+    <section class="section theme-dark"><div class="wrap split">
+      <div class="stack"><p class="eyebrow">Flagship product</p><h2 class="h2">{reviewMeta.title}</h2><p class="status"><span class="tag tag--brand">{reviewMeta.status}</span></p></div>
+      <div class="stack"><p class="lede">{reviewMeta.oneLiner} {reviewMeta.description}</p><p><a class="btn" href={REVIEW_BASE}>Explore the Review <span aria-hidden="true">→</span></a></p></div>
+    </div></section>
+  )}
+  <section class="section theme-charcoal">
+    <div class="wrap split">
+      <div class="stack"><h2 class="h2">Published work</h2></div>
+      <div class="stack"><div class="notice-box"><span class="tag tag--brand">None published yet</span><p>Briefings, papers and reports in this area will be listed here as they are published. Each will show: {briefingParts.slice(0, 6).join(', ').toLowerCase()}, and more.</p></div></div>
+    </div>
+  </section>
+  <section class="section theme-light"><div class="wrap split">
+    <div class="stack"><h2 class="h2">How we label our work</h2></div>
+    <dl class="labels">{labels.map(([t, d]) => <><dt>{t}</dt><dd>{d}</dd></>)}</dl></div></section>
+  <CtaBand title={`Discuss ${a.title.toLowerCase()}.`} href="/contact/research-collaboration" label="Research inquiry" text="Tell us what you need to understand and who it is for." />
+</BaseLayout>
+<style>
+  .status { display: flex; gap: 0.8rem; } .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; } .chips li { font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; padding: 0.45rem 0.9rem; border: 1px solid var(--line-light); border-radius: 999px; }
+  .labels dt { font-family: var(--font-display); font-weight: 800; margin-top: 1rem; color: var(--brand-ink); } .labels dd { margin: 0.2rem 0 0; padding-bottom: 1rem; border-bottom: 1px solid var(--line-light); color: var(--gray-ink); }
+</style>

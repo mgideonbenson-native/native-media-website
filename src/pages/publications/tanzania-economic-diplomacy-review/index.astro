@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import ReviewCover from '../../../components/ReviewCover.astro';
+import ReviewTabs from '../../../components/ReviewTabs.astro';
+import * as R from '../../../data/review';
+const ld = { '@context': 'https://schema.org', '@type': 'Periodical', name: R.reviewMeta.title, publisher: { '@type': 'Organization', name: 'Native Media' }, description: R.reviewMeta.description };
+---
+<BaseLayout title="Tanzania Economic Diplomacy Review | Native Media" description={`${R.reviewMeta.oneLiner} ${R.reviewMeta.description}`} jsonLd={ld}>
+  <PageHero eyebrow="Flagship intelligence product" title={R.reviewMeta.title} lede={R.reviewMeta.oneLiner}
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Publications', href: '/publications' }, { label: R.reviewMeta.title }]}>
+    <p class="status"><span class="tag tag--brand">{R.reviewMeta.status}</span><span class="muted">{R.reviewMeta.statusNote}</span></p>
+    <p class="cta"><a class="btn" href={`${R.REVIEW_BASE}/methodology`}>Read the methodology <span aria-hidden="true">→</span></a>
+      <a class="btn btn--ghost" href="/contact/institutional-partnerships">Express interest</a></p>
+  </PageHero>
+  <ReviewTabs />
+
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div><ReviewCover /></div>
+      <div class="stack">
+        <p class="eyebrow">About the Review</p>
+        <h2 class="h2">A structured, sourced reference on Tanzania’s economic diplomacy.</h2>
+        <p class="lede">{R.reviewMeta.description}</p>
+        <dl class="ed"><div><dt>Edition</dt><dd>{R.reviewMeta.edition.label}</dd></div><div><dt>Status</dt><dd>{R.reviewMeta.edition.status}</dd></div><div><dt>Data cut-off</dt><dd>{R.reviewMeta.edition.cutoff}</dd></div><div><dt>Publisher</dt><dd>{R.reviewMeta.edition.publisher}</dd></div></dl>
+        <div class="notice-box"><span class="tag">Please note</span><p>{R.reviewMeta.disclaimer}</p></div>
+        <div class="notice-box"><span class="tag tag--brand">About this draft</span><p>Every figure in the edition comes from a named official or institutional source and is cited by number. Partner profiles are compiled from public statements and statistics, and have not yet been reviewed by the embassies concerned. No profile will be published as final until the mission has checked it and signed it off.</p></div>
+        <h3 class="h3">Intended readers</h3>
+        <ul class="chips">{R.reviewMeta.audiences.map((a) => <li>{a}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-dark">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">The proposed product ecosystem</p><h2>More than a single book.</h2><p class="lede">Each element below is planned. None has been published yet.</p></div>
+      <ul class="cards">{R.ecosystem.map((e) => <li class="card"><h3>{e.title}</h3><p>{e.text}</p><span class="tag">Planned</span></li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section theme-light">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">How it is organized</p><h2>Four parts.</h2></div>
+      <ol class="parts">{R.parts.map((p) => <li><span class="eyebrow">Part {p.n}</span><h3>{p.title}</h3><p>{p.text}</p><a class="arrow-link" href={p.href}>Explore Part {p.n} <span aria-hidden="true">→</span></a></li>)}</ol>
+      <p class="muted small" style="margin-top:1.5rem">Opening pages: {R.contentsOpening.join(' · ')}.</p>
+      <h3 class="h3" style="margin-top:3rem">Part One chapters</h3>
+      <ol class="chap">{R.chapters.map((c) => <li><a href={`${R.REVIEW_BASE}/chapters#chapter-${c.n}`}><span>{String(c.n).padStart(2, '0')}</span>{c.title}</a></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section theme-charcoal">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Sources</p><h2 class="h2">A stated source hierarchy.</h2>
+        <p class="muted">Official Tanzanian sources come first, then diplomatic sources, then multilateral data. Every data point is sourced and dated.</p>
+        <a class="arrow-link" href={`${R.REVIEW_BASE}/methodology`}>Full methodology <span aria-hidden="true">→</span></a></div>
+      <ol class="tiers">{R.sourceTiers.map((t) => <li><span class="eyebrow">{t.tier}</span><h3>{t.title}</h3><p class="muted">{t.items.join(' · ')}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section theme-light">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Editorial governance</p><h2>Six principles.</h2>
+        <p class="lede">Embassies may be invited to verify their own profiles for factual accuracy and tone, but they do not control the Review’s editorial direction.</p></div>
+      <ul class="cards">{R.principles.map((p) => <li class="card"><h3>{p.title}</h3><p>{p.text}</p></li>)}</ul>
+      <p class="more"><a class="arrow-link" href={`${R.REVIEW_BASE}/sponsorship`}>Sponsorship policy <span aria-hidden="true">→</span></a> &nbsp; <a class="arrow-link" href={`${R.REVIEW_BASE}/corrections`}>Corrections <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <section class="section theme-dark">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Editions</p><h2 class="h2">Edition archive.</h2></div>
+      <div class="stack">
+        {R.editions.length > 0
+          ? <ul>{R.editions.map((e) => <li><a href={e.href}>{e.title} · {e.period} · {e.status}</a></li>)}</ul>
+          : <div class="notice-box"><span class="tag tag--brand">Edition 01 · Draft</span><p>Edition 01 (2026/27) has not been published. It is being verified with the relevant institutions. Every edition, update and correction will be archived here, and each will show whether it is proposed, forthcoming or published.</p></div>}
+        <p class="muted small">Want to follow the Review? Subscribe to the <a href="/#newsletter">Tanzania Economic Diplomacy Review newsletter stream</a> (sign-up is a preview until the email service is connected).</p>
+      </div>
+    </div>
+  </section>
+  <CtaBand title="Take part in the Review." text="Missions and institutions can ask how profiles are verified, and organizations can ask about edition partnerships and sponsorship. Sponsorship never shapes editorial content." href="/contact/institutional-partnerships" label="Partnership inquiry" />
+</BaseLayout>
+<style>
+  .status { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; } .cta { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; } .chips li { font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; padding: 0.45rem 0.9rem; border: 1px solid var(--line-light); border-radius: 999px; }
+  .card .tag { justify-self: start; }
+  .parts { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); counter-reset: none; }
+  .parts li { padding: 1.6rem; background: var(--white); border: 1px solid var(--line-light); display: grid; gap: 0.7rem; align-content: start; } .parts h3 { font-size: var(--step-2); font-weight: 800; } .parts p { color: var(--gray-ink); }
+  .chap { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); column-gap: 2rem; margin-top: 1rem; }
+  .chap a { display: flex; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line-light); text-decoration: none; font-weight: 600; } .chap a:hover { color: var(--brand-ink); } .chap span { font-family: var(--font-display); font-weight: 800; color: var(--brand-ink); }
+  .tiers { display: grid; gap: 1.5rem; } .tiers li { padding-bottom: 1.2rem; border-bottom: 1px solid var(--line-dark); display: grid; gap: 0.4rem; } .tiers h3 { font-size: var(--step-1); font-weight: 800; }
+  .more { margin-top: 2rem; }
+  .ed { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.9rem 1.5rem; margin: 0; } .ed dt { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-ink); font-weight: 700; } .ed dd { margin: 0.1rem 0 0; font-weight: 600; } .small { font-size: 0.88rem; } .small a { color: var(--brand); }
+</style>

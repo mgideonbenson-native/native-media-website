@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import ReviewCover from '../../components/ReviewCover.astro';
+import { REVIEW_BASE, reviewMeta, ecosystem } from '../../data/review';
+const types = ['Annual institutional reviews', 'Economic diplomacy publications', 'Trade and investment reports', 'Research papers', 'Institutional directories', 'Industry reports', 'Thematic studies', 'Digital reference publications', 'Data annexes', 'Periodic research updates'];
+const links = [['Research Papers', '/publications/research-papers'], ['Institutional Reports', '/publications/institutional-reports'], ['Digital Editions', '/publications/digital-editions'], ['Archives', '/publications/archives']];
+---
+<BaseLayout title="Publications | Native Media" description="Native Media's institutional publications, led by the Tanzania Economic Diplomacy Review: research papers, reports, digital editions and reference publications.">
+  <PageHero eyebrow="Publications" title="Professional reference publications." lede="Native Media organizes information, research, institutional knowledge and data into accessible reference products. They are Native Media publications, distinct from government or institutional publications."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Publications' }]} />
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div><ReviewCover /></div>
+      <div class="stack">
+        <p class="eyebrow">Flagship publication</p>
+        <h2 class="h2">{reviewMeta.title}</h2>
+        <p><span class="tag tag--brand">{reviewMeta.status}</span></p>
+        <p class="lede">{reviewMeta.oneLiner} {reviewMeta.description}</p>
+        <p><a class="btn" href={REVIEW_BASE}>Explore the Review <span aria-hidden="true">→</span></a></p>
+        <p class="muted small">Planned products: {ecosystem.map((e) => e.title.toLowerCase()).join('; ')}.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section theme-dark">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Browse</p><h2>Publication collections.</h2></div>
+      <ul class="cards">{links.map(([t, h]) => <li class="card"><h3><a href={h}>{t}</a></h3><a class="arrow-link" href={h}>Open <span aria-hidden="true">→</span></a></li>)}</ul>
+    </div>
+  </section>
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">What we publish</p><h2 class="h2">Types of publication.</h2></div>
+      <ul class="checklist">{types.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </section>
+  <CtaBand title="Commission a publication." text="Annual reviews, research papers, directories and reference publications, built on documented sources." href="/contact/institutional-partnerships" label="Publication inquiry" />
+</BaseLayout>
+<style>.card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand); } .small { font-size: 0.88rem; }</style>

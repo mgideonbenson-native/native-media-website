@@ -37,3 +37,6 @@ No photographs, contact details, social links, team, partners or published conte
 
 ## Stories and productions (demonstration content)
 The files in `src/content/stories/` and `src/content/productions/` are **demonstrations** (`demo: true`). They are labelled on the page, kept out of the sitemap and search results, and hidden from search engines. To publish real content: add a new file (copy a demo one), set `demo: false`, and delete the demo files. When real stories exist, remove the `/stories` and `/productions` exclusions in `astro.config.mjs` so they are listed in the sitemap.
+
+## The Tanzania Economic Diplomacy Review
+Its structure, policies and sourcing rules live in `src/data/review.ts` (edit text there). The supplied draft PDF is **not** stored in this repository, and the draft's statistics, partner-country names and ministerial details are deliberately not published on the site until they are verified and approved.

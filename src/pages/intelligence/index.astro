@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import ReviewCover from '../../components/ReviewCover.astro';
+import { areas, briefingParts, labels, productFields } from '../../data/intelligence';
+import { REVIEW_BASE, reviewMeta } from '../../data/review';
+---
+<BaseLayout title="Intelligence | Native Media" description="Native Media's intelligence platform: economic intelligence, business and market insights, economic diplomacy and research, built on credible sources and transparent methods.">
+  <PageHero eyebrow="Intelligence" title="Information organized into insight." lede="At Native Media, intelligence is the process of collecting, organizing, analyzing and presenting relevant information to support understanding, informed decisions, institutional engagement and strategic communication."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Intelligence' }]} />
+
+  <section class="section theme-light" aria-labelledby="flag-t">
+    <div class="wrap split">
+      <div><ReviewCover /></div>
+      <div class="stack">
+        <p class="eyebrow">Flagship intelligence product</p>
+        <h2 id="flag-t" class="h2">{reviewMeta.title}</h2>
+        <p class="status"><span class="tag tag--brand">{reviewMeta.status}</span></p>
+        <p class="lede">{reviewMeta.oneLiner} {reviewMeta.description}</p>
+        <dl class="pf">
+          <div><dt>Scope</dt><dd>Tanzania’s economic diplomacy, bilateral relations, trade, investment and international partnerships.</dd></div>
+          <div><dt>Intended audience</dt><dd>Diplomatic missions, government institutions, investors, business leaders, researchers and media.</dd></div>
+          <div><dt>Research approach</dt><dd>Official sources first, then diplomatic sources, then multilateral data. Every figure dated and referenced.</dd></div>
+          <div><dt>Coverage</dt><dd>Four parts: Tanzania’s trajectory, an opportunity atlas, partner profiles, and a directory with data and agreements.</dd></div>
+          <div><dt>Editions</dt><dd>{reviewMeta.edition.label}: {reviewMeta.edition.status.toLowerCase()}. Not yet published.</dd></div>
+        </dl>
+        <p class="actions"><a class="btn" href={REVIEW_BASE}>Explore the Review <span aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href={`${REVIEW_BASE}/methodology`}>Methodology</a></p>
+        <p class="muted small">A Native Media institutional publication. It is not an official government publication.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-dark" aria-labelledby="areas-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Areas of work</p><h2 id="areas-t">What our intelligence covers.</h2></div>
+      <ul class="cards">{areas.map((a) => <li class="card"><h3><a href={`/intelligence/${a.slug}`}>{a.title}</a></h3><p>{a.lede}</p><a class="arrow-link" href={`/intelligence/${a.slug}`}>Explore <span aria-hidden="true">→</span></a></li>)}
+        <li class="card"><h3><a href="/intelligence/data-and-visuals">Data &amp; Visuals</a></h3><p>Interactive charts, maps and dashboards built on verified data.</p><a class="arrow-link" href="/intelligence/data-and-visuals">Explore <span aria-hidden="true">→</span></a></li></ul>
+    </div>
+  </section>
+
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">How we label what we publish</p><h2 class="h2">Fact, analysis, projection and opinion are kept apart.</h2>
+        <p class="muted">Native Media does not claim confidential intelligence capabilities, government intelligence affiliations or privileged access, and does not promise predictive accuracy or guaranteed decision outcomes.</p></div>
+      <dl class="labels">{labels.map(([t, d]) => <><dt>{t}</dt><dd>{d}</dd></>)}</dl>
+    </div>
+  </section>
+
+  <section class="section theme-charcoal">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Briefings and papers</p><h2 class="h2">Every briefing shows its working.</h2></div>
+      <ul class="checklist">{briefingParts.map((b) => <li>{b}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Product pages</p><h2 class="h2">Each intelligence product has a clear page.</h2></div>
+      <ul class="checklist">{productFields.map((b) => <li>{b}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section theme-dark">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Related</p><h2 class="h2">Intelligence connects across Native Media.</h2></div>
+      <ul class="related">
+        <li><a class="arrow-link" href="/publications">Publications <span aria-hidden="true">→</span></a></li>
+        <li><a class="arrow-link" href="/african-intelligence">African Intelligence podcast <span aria-hidden="true">→</span></a></li>
+        <li><a class="arrow-link" href="/stories">Stories <span aria-hidden="true">→</span></a></li>
+        <li><a class="arrow-link" href="/what-we-do/intelligence-and-research">Intelligence &amp; Research capability <span aria-hidden="true">→</span></a></li>
+      </ul>
+    </div>
+  </section>
+  <CtaBand title="Commission intelligence from Native Media." text="Research, briefings and information products built on credible sources, with methods and limitations stated." href="/contact/research-collaboration" label="Research inquiry" />
+</BaseLayout>
+<style>
+  .status, .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+  .pf { display: grid; gap: 0.9rem; margin: 0.5rem 0; } .pf dt { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-ink); font-weight: 700; } .pf dd { margin: 0.1rem 0 0; }
+  .card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand); }
+  .labels dt { font-family: var(--font-display); font-weight: 800; margin-top: 1rem; color: var(--brand-ink); } .labels dd { margin: 0.2rem 0 0; padding-bottom: 1rem; border-bottom: 1px solid var(--line-light); color: var(--gray-ink); }
+  .related { display: grid; gap: 0.8rem; } .small { font-size: 0.88rem; }
+</style>
