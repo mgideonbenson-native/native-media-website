@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import DemoBanner from '../../../components/DemoBanner.astro';
 import Visual from '../../../components/Visual.astro';
+import Cover from '../../../components/Cover.astro';
 import StoryCard from '../../../components/StoryCard.astro';
 import ShareBar from '../../../components/ShareBar.astro';
 import CtaBand from '../../../components/CtaBand.astro';
@@ -31,10 +32,12 @@ const path = `/stories/${d.category}/${s.id}`;
       </div>
     </header>
     {d.demo && <DemoBanner text="Demonstration story. A layout preview with no real reporting, facts or figures." />}
-    <div class="wrap hero-img"><Visual art={d.art} label={d.demo ? 'Featured image placeholder' : 'Image'} ratio="16 / 8" /></div>
+    <div class="wrap hero-img">{d.image
+      ? <Visual ratio="16 / 8"><Cover cover={d.image} widths={[720, 1080, 1440]} sizes="(min-width: 1300px) 78rem, 92vw" loading="eager" /></Visual>
+      : <Visual art={d.art} label={d.demo ? 'Featured image placeholder' : 'Image placeholder'} ratio="16 / 8" />}</div>
     <div class="wrap story__grid">
       <aside class="stack side">
-        <div class="notice-box"><span class="tag">{storyKinds[d.kind].label}</span><p class="small">{storyKinds[d.kind].text}</p></div>
+        <div class="notice-box"><span class="tag">{storyKinds[d.kind].label}</span><p class="small">{storyKinds[d.kind].text}</p>{d.sponsor && <p class="small"><strong>Sponsor:</strong> {d.sponsor}</p>}</div>
         <ShareBar title={d.title} path={path} />
       </aside>
       <div class="prose">

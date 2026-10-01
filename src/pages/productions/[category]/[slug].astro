@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import DemoBanner from '../../../components/DemoBanner.astro';
 import Visual from '../../../components/Visual.astro';
+import Cover from '../../../components/Cover.astro';
 import ProductionCard from '../../../components/ProductionCard.astro';
 import ShareBar from '../../../components/ShareBar.astro';
 import CtaBand from '../../../components/CtaBand.astro';
@@ -42,7 +43,9 @@ const fmt = (x?: Date) => x ? x.toLocaleDateString('en-GB', { day: 'numeric', mo
       </div>
       <div class="stack">
         <div class="two">
-          <div><h3 class="h3">Poster</h3><Visual art={d.art} label="Poster placeholder" ratio="2 / 3" /></div>
+          <div><h3 class="h3">Poster</h3>{d.image
+              ? <Visual ratio="2 / 3"><Cover cover={d.image} widths={[360, 540]} sizes="18rem" /></Visual>
+              : <Visual art={d.art} label="Poster placeholder" ratio="2 / 3" />}</div>
           <div>
             <h3 class="h3">Details</h3>
             <dl class="dl"><dt>Duration</dt><dd>{d.duration ?? 'To be confirmed'}</dd><dt>Release date</dt><dd>{fmt(d.releaseDate)}</dd><dt>Category</dt><dd>{cat.label}</dd></dl>

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Cover from '../../../components/Cover.astro';
 import { render } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import CtaBand from '../../../components/CtaBand.astro';
@@ -44,7 +44,7 @@ const ld = {
         <ListenLinks ep={ep} label="Watch or listen" />
       </div>
       <figure class="ehero__art">
-        <Image src={ep.data.cover} alt={ep.data.coverAlt} widths={[480, 720, 960]} sizes="(min-width: 900px) 34rem, 92vw" loading="eager" />
+        <Cover cover={ep.data.cover} alt={ep.data.coverAlt} widths={[480, 720, 960]} sizes="(min-width: 900px) 34rem, 92vw" loading="eager" />
       </figure>
     </div>
   </section>

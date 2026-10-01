@@ -7,17 +7,17 @@ import StoryCard from '../../components/StoryCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { storyCategories, storyKinds } from '../../data/categories';
 const stories = await getCollection('stories');
-const featured = stories.find((s) => s.data.featured) ?? stories[0];
-const rest = stories.filter((s) => s.id !== featured.id);
-const allDemo = stories.every((s) => s.data.demo);
+const featured = stories.find((s) => s.data.featured) ?? stories[0]; // undefined when nothing is published yet
+const rest = stories.filter((s) => s.id !== featured?.id);
+const allDemo = stories.length === 0 || stories.every((s) => s.data.demo);
 ---
 <BaseLayout title="Stories | Native Media" description="African stories, told with context: business, economics, history, geopolitics, technology, infrastructure and society." noindex={allDemo}>
   <PageHero eyebrow="Stories" title="African stories, told with context." lede="Original reporting, research-based analysis, interviews and multimedia, curated for depth rather than speed."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'Stories' }]} />
-  {allDemo && <DemoBanner text="The stories below are layout demonstrations. Real stories will replace them, and none of this content is real." />}
+  {stories.length > 0 && allDemo && <DemoBanner text="The stories below are layout demonstrations. Real stories will replace them, and none of this content is real." />}
   <section class="section theme-charcoal">
     <div class="wrap">
-      <div class="feat"><StoryCard story={featured} big /></div>
+      {featured ? <div class="feat"><StoryCard story={featured} big /></div> : <p class="lede">No stories have been published yet.</p>}
       <div class="filters">
         <label for="q" class="sr-only">Search stories</label>
         <input id="q" type="search" placeholder="Search stories" autocomplete="off" />

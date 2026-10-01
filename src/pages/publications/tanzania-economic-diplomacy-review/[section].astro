@@ -4,11 +4,13 @@ import PageHero from '../../../components/PageHero.astro';
 import CtaBand from '../../../components/CtaBand.astro';
 import ReviewTabs from '../../../components/ReviewTabs.astro';
 import * as R from '../../../data/review';
+import { getCorrections, getProfiles, getSponsors } from '../../../lib/review-cms';
 import { reviewSections as sections } from '../../../data/review';
 
 export function getStaticPaths() { return Object.keys(sections).map((section) => ({ params: { section } })); }
 const { section } = Astro.params as { section: keyof typeof sections };
 const meta = sections[section];
+const [corrections, sponsors, profiles] = await Promise.all([getCorrections(), getSponsors(), getProfiles()]);
 const pending = (what: string) => `${what} will appear here once Edition 01 is published.`;
 ---
 <BaseLayout title={`${meta.title} | Tanzania Economic Diplomacy Review`} description={meta.lede}>
@@ -52,7 +54,12 @@ const pending = (what: string) => `${what} will appear here once Edition 01 is p
     </div></section>
     <section class="section theme-light"><div class="wrap">
       <div class="section-head"><p class="eyebrow">Directory by region</p><h2>Participating missions.</h2><p class="lede">Ten partner profiles are planned for Edition 01. Missions are named here only once their participation is confirmed and permission to publish has been given.</p></div>
-      <ul class="cards">{R.regions.map((r) => <li class="card"><h3>{r}</h3><p>No missions confirmed yet.</p><span class="tag">Awaiting confirmation</span></li>)}</ul>
+      <ul class="cards">{R.regions.map((r) => {
+        const list = profiles.filter((p) => p.region === r);
+        return <li class="card"><h3>{r}</h3>{list.length > 0
+          ? <ul>{list.map((p) => <li><a class="arrow-link" href={`${R.REVIEW_BASE}/embassy-profiles/${p.slug}`}>{p.country} <span aria-hidden="true">→</span></a></li>)}</ul>
+          : <><p>No missions confirmed yet.</p><span class="tag">Awaiting confirmation</span></>}</li>;
+      })}</ul>
     </div></section>
   </>)}
 
@@ -114,8 +121,8 @@ const pending = (what: string) => `${what} will appear here once Edition 01 is p
       <div class="stack"><h2 class="h2">Our rules</h2>
         <ul class="checklist" style="grid-template-columns:1fr">{R.sponsorshipRules.map((c) => <li>{c}</li>)}</ul></div>
       <div class="stack"><h2 class="h2">Confirmed sponsors</h2>
-        {R.sponsors.length > 0
-          ? <ul>{R.sponsors.map((s) => <li><strong>{s.name}</strong>: {s.role}</li>)}</ul>
+        {sponsors.length > 0
+          ? <ul class="sp">{sponsors.map((s) => <li><strong>{s.name}</strong>: {s.role}{s.scope ? `, ${s.scope}` : ''}{s.confirmedOn ? ` (confirmed ${s.confirmedOn})` : ''}</li>)}</ul>
           : <div class="notice-box"><span class="tag">None confirmed</span><p>No sponsor has been confirmed. When one is, its name and agreed role will be listed here.</p></div>}
         <h3 class="h3">Ways to support</h3>
         <ul class="chips"><li>Institutional advertising</li><li>Edition partnerships</li><li>Thematic sponsorships</li><li>Sponsored features</li></ul>
@@ -130,8 +137,8 @@ const pending = (what: string) => `${what} will appear here once Edition 01 is p
         <p class="muted">To report a possible error, include the page or figure, what you believe is wrong, and a source.</p>
         <a class="btn" href="/contact/general-inquiries">Report an error <span aria-hidden="true">→</span></a></div>
       <div class="stack"><h2 class="h2">Corrections log</h2>
-        {R.corrections.length > 0
-          ? <ul>{R.corrections.map((c) => <li><strong>{c.date}</strong>: {c.item}. {c.change}</li>)}</ul>
+        {corrections.length > 0
+          ? <ul class="corr">{corrections.map((c) => <li><strong>{c.date}: {c.item}</strong>{c.original && <p><span class="muted">Originally:</span> {c.original}</p>}<p><span class="muted">Corrected to:</span> {c.corrected}</p>{c.reason && <p class="muted small">{c.reason}</p>}</li>)}</ul>
           : <div class="notice-box"><span class="tag">No corrections</span><p>No edition has been published, so there are no corrections to report.</p></div>}</div>
     </div></section>
   )}
@@ -145,5 +152,5 @@ const pending = (what: string) => `${what} will appear here once Edition 01 is p
   .small { font-size: 0.88rem; margin-top: 0.7rem; } .h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
   .steps li { padding: 1rem 1.2rem; } .steps h3 { font-size: 1rem; }
   dt { font-family: var(--font-display); font-weight: 800; margin-top: 0.8rem; } dd { margin: 0.1rem 0 0; font-size: 0.9rem; color: var(--gray); }
-  .card .tag { justify-self: start; }
+  .card .tag { justify-self: start; } .corr, .sp { display: grid; gap: 1.2rem; } .corr li { border-bottom: 1px solid var(--line-light); padding-bottom: 1rem; display: grid; gap: 0.3rem; }
 </style>

@@ -5,6 +5,8 @@ import CtaBand from '../../../components/CtaBand.astro';
 import ReviewCover from '../../../components/ReviewCover.astro';
 import ReviewTabs from '../../../components/ReviewTabs.astro';
 import * as R from '../../../data/review';
+import { getEditions } from '../../../lib/review-cms';
+const editions = await getEditions();
 const ld = { '@context': 'https://schema.org', '@type': 'Periodical', name: R.reviewMeta.title, publisher: { '@type': 'Organization', name: 'Native Media' }, description: R.reviewMeta.description };
 ---
 <BaseLayout title="Tanzania Economic Diplomacy Review | Native Media" description={`${R.reviewMeta.oneLiner} ${R.reviewMeta.description}`} jsonLd={ld}>
@@ -71,8 +73,8 @@ const ld = { '@context': 'https://schema.org', '@type': 'Periodical', name: R.re
     <div class="wrap split">
       <div class="stack"><p class="eyebrow">Editions</p><h2 class="h2">Edition archive.</h2></div>
       <div class="stack">
-        {R.editions.length > 0
-          ? <ul>{R.editions.map((e) => <li><a href={e.href}>{e.title} · {e.period} · {e.status}</a></li>)}</ul>
+        {editions.length > 0
+          ? <ul>{editions.map((e) => <li><a href={e.href}>{e.title}{e.period ? ` · ${e.period}` : ''} · {e.status}</a>{e.pdf && <> · <a href={e.pdf}>PDF</a></>}</li>)}</ul>
           : <div class="notice-box"><span class="tag tag--brand">Edition 01 · Draft</span><p>Edition 01 (2026/27) has not been published. It is being verified with the relevant institutions. Every edition, update and correction will be archived here, and each will show whether it is proposed, forthcoming or published.</p></div>}
         <p class="muted small">Want to follow the Review? Subscribe to the <a href="/#newsletter">Tanzania Economic Diplomacy Review newsletter stream</a> (sign-up is a preview until the email service is connected).</p>
       </div>

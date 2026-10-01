@@ -4,12 +4,12 @@ import Visual from '../components/Visual.astro';
 import ReviewCover from '../components/ReviewCover.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
 import { REVIEW_BASE, reviewMeta, chapters as reviewChapters, parts as reviewParts } from '../data/review';
-import { Image } from 'astro:assets';
+import Cover from '../components/Cover.astro';
 import { aiPlatforms, company, pillars } from '../data/site';
 import { episodeUrl, formatDate, getEpisodes, getGuest } from '../lib/episodes';
 
-const latestEp = (await getEpisodes())[0];
-const latestGuest = await getGuest(latestEp);
+const latestEp = (await getEpisodes())[0]; // undefined until the first episode exists
+const latestGuest = latestEp ? await getGuest(latestEp) : undefined;
 const disciplines = ['Media', 'Strategic communications', 'Intelligence', 'Research', 'Creative production'];
 
 const labels = [
@@ -190,9 +190,9 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
           <a class="btn btn--ghost" href="/african-intelligence/guests">Guests</a>
         </div>
       </div>
-      <div class="ai__player reveal">
+      {latestEp && latestGuest && <div class="ai__player reveal">
         <a class="ai__cover" href={episodeUrl(latestEp)}>
-          <Image src={latestEp.data.cover} alt={latestEp.data.coverAlt} widths={[400, 640, 800]} sizes="(min-width: 900px) 34rem, 92vw" loading="lazy" />
+          <Cover cover={latestEp.data.cover} alt={latestEp.data.coverAlt} widths={[400, 640, 800]} sizes="(min-width: 900px) 34rem, 92vw" loading="lazy" />
         </a>
         <div class="ai__meta">
           <span class="tag tag--brand">Latest episode · Episode {latestEp.data.number}</span>
@@ -200,7 +200,7 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
           <p class="muted">{formatDate(latestEp.data.publishDate)} · With {latestGuest.data.name}, {latestGuest.data.organization}</p>
           <a class="arrow-link" href={episodeUrl(latestEp)}>Episode details <span aria-hidden="true">→</span></a>
         </div>
-      </div>
+      </div>}
     </div>
   </section>
 

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import Cover from '../../components/Cover.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
@@ -9,7 +9,7 @@ import { episodeUrl, formatDate, getEpisodes, getGuest, guestUrl } from '../../l
 
 const episodes = await getEpisodes();
 const rows = await Promise.all(episodes.map(async (ep) => ({ ep, guest: await getGuest(ep) })));
-const [featured, ...rest] = rows;
+const [featured, ...rest] = rows; // `featured` is undefined until the first episode exists
 const topics = [...new Set(episodes.flatMap((e) => e.data.topics))].sort();
 const guests = [...new Map(rows.map((r) => [r.guest.id, r.guest])).values()];
 
@@ -21,16 +21,17 @@ const ld = {
 };
 ---
 <BaseLayout title="African Intelligence | Native Media" description="African Intelligence explores African business, economics, leadership, strategy, diplomacy, innovation and development, and the ideas shaping the continent." jsonLd={ld}
-  image={featured.ep.data.cover.src}>
+  image={featured?.ep.data.cover.src}>
   <PageHero eyebrow="A Native Media production" title="African Intelligence" lede="Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas, people and forces shaping Africa’s future, and how Africans can play a greater role in shaping the narratives around it."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence' }]}>
     <ListenLinks />
   </PageHero>
 
+  {featured ? (
   <section class="section theme-dark feat" aria-labelledby="feat-t">
     <div class="wrap feat__grid">
       <a class="feat__img" href={episodeUrl(featured.ep)}>
-        <Image src={featured.ep.data.cover} alt={featured.ep.data.coverAlt} widths={[480, 720, 960]} sizes="(min-width: 900px) 36rem, 92vw" loading="eager" />
+        <Cover cover={featured.ep.data.cover} alt={featured.ep.data.coverAlt} widths={[480, 720, 960]} sizes="(min-width: 900px) 36rem, 92vw" loading="eager" />
       </a>
       <div class="stack">
         <p class="eyebrow">Latest episode · Episode {featured.ep.data.number}</p>
@@ -42,6 +43,9 @@ const ld = {
       </div>
     </div>
   </section>
+  ) : (
+    <section class="section theme-dark"><div class="wrap"><p class="lede">No episodes have been published yet.</p></div></section>
+  )}
 
   {rest.length > 0 && (
     <section class="section theme-charcoal" aria-labelledby="latest-t">

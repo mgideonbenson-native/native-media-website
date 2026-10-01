@@ -1,0 +1,10 @@
+---
+import { Image } from 'astro:assets';
+/** Shows an image that is either a local asset (src/assets) or a remote CMS image. */
+interface Props { cover: any; alt?: string; widths?: number[]; sizes?: string; loading?: 'eager' | 'lazy'; class?: string }
+const { cover, alt, widths = [480, 720, 960], sizes, loading = 'lazy', class: className } = Astro.props;
+const text = alt ?? cover?.alt ?? '';
+---
+{cover?.remote
+  ? <Image src={cover.src} width={cover.width} height={cover.height} widths={widths} sizes={sizes} alt={text} loading={loading} class={className} />
+  : <Image src={cover} widths={widths} sizes={sizes} alt={text} loading={loading} class={className} />}

@@ -1,0 +1,18 @@
+# Rebuilds the live website once a day so content scheduled with "Publish on or after" appears on time.
+# Setup: in Netlify (or Vercel) create a Build Hook, then add its address as a repository secret named BUILD_HOOK_URL.
+# Until that secret exists this job does nothing.
+name: Scheduled rebuild
+on:
+  schedule:
+    - cron: '0 5 * * *' # every day at 05:00 UTC (08:00 in Tanzania)
+  workflow_dispatch: {}
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger site rebuild
+        env:
+          HOOK: ${{ secrets.BUILD_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "BUILD_HOOK_URL is not set; skipping."; exit 0; fi
+          curl -fsS -X POST "$HOOK"

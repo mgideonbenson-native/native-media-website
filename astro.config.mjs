@@ -16,4 +16,10 @@ export default defineConfig({
     }),
   ],
   build: { inlineStylesheets: 'auto' },
+  // Images uploaded in the CMS are served from Sanity's image network.
+  image: {
+    domains: ['cdn.sanity.io'],
+    // Only used when testing against the local mock (scripts/mock-sanity.mjs).
+    ...(process.env.SANITY_API_HOST ? { remotePatterns: [{ protocol: 'http', hostname: '127.0.0.1' }] } : {}),
+  },
 });

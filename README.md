@@ -47,3 +47,6 @@ The charts, map and explorer under `/intelligence/data-and-visuals` use **illust
 ## Policies, newsletter and forms
 - Policies live in `src/pages/` (`privacy`, `terms`, `cookies`, `editorial-policy`, `research-policy`). They describe the site as it works today (no cookies, no analytics, fonts served from the site itself). Items marked **[to confirm]** need Native Media's details and a lawyer's review before launch. If you add analytics, embedded players or another service, update the Privacy and Cookie policies first.
 - Forms send nothing until you set the web addresses in `.env` (copy `.env.example`): `PUBLIC_FORM_ENDPOINT` (contact forms), `PUBLIC_NEWSLETTER_ENDPOINT` and `PUBLIC_UNSUBSCRIBE_ENDPOINT`. Turn on confirmation emails (double opt-in) in your email service **before** setting the newsletter address. Until then each form tells the visitor honestly that nothing was sent.
+
+## Content management (CMS)
+The `studio/` folder is a Sanity Studio with a content model for everything in the brief, an approval workflow (Draft → In review → Approved), verification and sign-off fields, scheduling and corrections. The website reads from it only when `SANITY_PROJECT_ID` is set; otherwise it uses the local files. **Read `docs/CMS-GUIDE.md`** for setup, roles, the publishing workflow and what has (and has not) been tested.

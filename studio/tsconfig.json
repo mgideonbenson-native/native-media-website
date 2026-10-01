@@ -1,0 +1,1 @@
+{ "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "bundler", "jsx": "preserve", "strict": true, "skipLibCheck": true, "esModuleInterop": true, "noEmit": true }, "include": ["**/*.ts", "**/*.tsx", "sanity.config.ts"], "exclude": ["node_modules", "dist"] }

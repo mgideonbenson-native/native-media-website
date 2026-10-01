@@ -1,14 +1,40 @@
 import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { IMG, LIVE, cms, cmsEnabled, ptToHtml, ptToText, sourceLine, toImage } from './lib/cms';
 
 /**
- * African Intelligence content. To add an episode: copy a file in src/content/episodes,
- * change the details, add its cover image to src/assets/episodes, and add the guest
- * in src/content/guests if new. The site rebuilds the pages automatically.
+ * Content comes from ONE of two places:
+ *  - the Sanity CMS, when SANITY_PROJECT_ID is set (see docs/CMS-GUIDE.md), or
+ *  - local files in src/content (the default, and what you see today).
+ * Pages and components do not care which; both produce the same data shape.
+ *
+ * Local mode: to add an episode, copy a file in src/content/episodes, change the details,
+ * add its cover image to src/assets/episodes, and add the guest in src/content/guests if new.
  */
+
+/** Loader that reads documents from Sanity, maps them to the collection's shape, and stores them. */
+const sanityLoader = (name: string, query: string, map: (d: any) => { id: string; data: any; body?: string; html?: string }) => ({
+  name,
+  load: async ({ store, parseData, generateDigest, logger }: any) => {
+    const docs = await cms<any[]>(query);
+    store.clear();
+    for (const d of docs) {
+      const m = map(d);
+      const data = await parseData({ id: m.id, data: m.data });
+      store.set({ id: m.id, data, body: m.body ?? '', rendered: { html: m.html ?? '' }, digest: generateDigest(JSON.stringify(d)) });
+    }
+    logger.info(`${name}: loaded ${docs.length} document(s) from Sanity`);
+  },
+});
+const remoteImage = z.object({ remote: z.literal(true), src: z.string(), width: z.number(), height: z.number(), alt: z.string() });
+const links = (l: any[] | undefined) => (l ?? []).map((x) => ({ label: x.label, href: x.href }));
+
 const guests = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/guests' }),
+  loader: cmsEnabled
+    ? sanityLoader('sanity-guests', `*[_type == "guest" && ${LIVE} && bioApproved == true]{ "id": slug.current, name, role, organization, bio, links }`,
+        (d) => ({ id: d.id, data: { name: d.name, role: d.role, organization: d.organization ?? undefined, links: links(d.links) }, body: d.bio }))
+    : glob({ pattern: '**/*.md', base: './src/content/guests' }),
   schema: z.object({
     name: z.string(),
     role: z.string(), // e.g. "Founder and CEO"
@@ -18,7 +44,15 @@ const guests = defineCollection({
 });
 
 const episodes = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/episodes' }),
+  loader: cmsEnabled
+    ? sanityLoader('sanity-episodes', `*[_type == "episode" && ${LIVE} && count(*[_type == "guest" && _id == ^.guest._ref && ${LIVE} && bioApproved == true]) > 0]{
+        "id": slug.current, title, number, "guest": guest->slug.current, publishDate, summary, cover ${IMG}, topics, themes, format, duration,
+        youtubeUrl, rssUrl, spotifyUrl, appleUrl, amazonUrl, transcript, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
+        (d) => ({ id: d.id, html: ptToHtml(d.body), body: ptToText(d.body), data: {
+          title: d.title, number: d.number, guest: d.guest, publishDate: d.publishDate, summary: d.summary, cover: toImage(d.cover), coverAlt: d.cover?.alt ?? d.title,
+          topics: d.topics ?? [], themes: d.themes ?? [], format: d.format ?? 'interview', duration: d.duration ?? undefined, youtubeUrl: d.youtubeUrl ?? undefined, rssUrl: d.rssUrl ?? undefined,
+          spotifyUrl: d.spotifyUrl ?? undefined, appleUrl: d.appleUrl ?? undefined, amazonUrl: d.amazonUrl ?? undefined, transcript: Boolean(d.transcript) } }))
+    : glob({ pattern: '**/*.md', base: './src/content/episodes' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -26,7 +60,7 @@ const episodes = defineCollection({
       guest: reference('guests'),
       publishDate: z.coerce.date(),
       summary: z.string(), // short text for cards and search results
-      cover: image(),
+      cover: z.union([image(), remoteImage]),
       coverAlt: z.string(),
       topics: z.array(z.string()).default([]),
       themes: z.array(z.string()).default([]), // "In this episode, we explore" bullets
@@ -48,7 +82,13 @@ const episodes = defineCollection({
  * Set `demo: false` (or delete the line) when real, approved content replaces them.
  */
 const stories = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/stories' }),
+  loader: cmsEnabled
+    ? sanityLoader('sanity-stories', `*[_type == "story" && ${LIVE} && defined(author->name)]{
+        "id": slug.current, title, subtitle, category, kind, "author": author->name, date, featured, heroImage ${IMG}, sources, "sponsor": sponsor->name, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
+        (d) => ({ id: d.id, html: ptToHtml(d.body), body: ptToText(d.body), data: {
+          title: d.title, subtitle: d.subtitle, category: d.category, kind: d.kind, author: d.author, date: d.date ?? undefined, featured: Boolean(d.featured),
+          image: toImage(d.heroImage), sources: (d.sources ?? []).map(sourceLine), sponsor: d.sponsor ?? undefined, demo: false } }))
+    : glob({ pattern: '**/*.md', base: './src/content/stories' }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string(),
@@ -59,12 +99,20 @@ const stories = defineCollection({
     featured: z.boolean().default(false),
     art: z.enum(['signal', 'contour', 'frames', 'lens', 'pages', 'grid']).default('frames'),
     sources: z.array(z.string()).default([]),
+    image: remoteImage.optional(),
+    sponsor: z.string().optional(),
     demo: z.boolean().default(true),
   }),
 });
 
 const productions = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/productions' }),
+  loader: cmsEnabled
+    ? sanityLoader('sanity-productions', `*[_type == "production" && ${LIVE} && clientConfirmed == true]{
+        "id": slug.current, title, category, synopsis, duration, releaseDate, credits, videoUrl, featured, poster ${IMG}, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
+        (d) => ({ id: d.id, html: ptToHtml(d.body) || `<p>${(d.synopsis ?? '').replace(/</g, '&lt;')}</p>`, body: d.synopsis, data: {
+          title: d.title, category: d.category, synopsis: d.synopsis, duration: d.duration ?? undefined, releaseDate: d.releaseDate ?? undefined,
+          credits: (d.credits ?? []).map((c: any) => ({ role: c.role, name: c.name })), videoUrl: d.videoUrl ?? undefined, featured: Boolean(d.featured), image: toImage(d.poster), demo: false } }))
+    : glob({ pattern: '**/*.md', base: './src/content/productions' }),
   schema: z.object({
     title: z.string(),
     category: z.enum(['documentaries', 'corporate-films', 'motion-graphics', 'visual-explainers']),
@@ -75,6 +123,7 @@ const productions = defineCollection({
     videoUrl: z.url().optional(), // YouTube/Vimeo link, added when the real project is published
     featured: z.boolean().default(false),
     art: z.enum(['signal', 'contour', 'frames', 'lens', 'pages', 'grid']).default('lens'),
+    image: remoteImage.optional(),
     demo: z.boolean().default(true),
   }),
 });

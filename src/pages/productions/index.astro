@@ -7,19 +7,19 @@ import Visual from '../../components/Visual.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { productionCategories } from '../../data/categories';
 const all = await getCollection('productions');
-const feat = all.find((p) => p.data.featured) ?? all[0];
-const allDemo = all.every((p) => p.data.demo);
+const feat = all.find((p) => p.data.featured) ?? all[0]; // undefined when nothing is published yet
+const allDemo = all.length === 0 || all.every((p) => p.data.demo);
 ---
 <BaseLayout title="Productions | Native Media" description="Documentaries, corporate films, motion graphics and visual explainers from Native Media." noindex={allDemo}>
   <PageHero eyebrow="Productions" title="Cinematic work, made with purpose." lede="Documentaries, corporate films, visual explainers and motion graphics. Only completed, verified projects with confirmed credits appear in the portfolio."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'Productions' }]} />
-  {allDemo && <DemoBanner text="The productions below are layout demonstrations. No real projects, clients or credits are shown." />}
+  {all.length > 0 && allDemo && <DemoBanner text="The productions below are layout demonstrations. No real projects, clients or credits are shown." />}
   <section class="section theme-charcoal">
     <div class="wrap">
-      <a class="feat" href={`/productions/${feat.data.category}/${feat.id}`}>
+      {feat ? <a class="feat" href={`/productions/${feat.data.category}/${feat.id}`}>
         <Visual art={feat.data.art} label="Featured production placeholder" ratio="21 / 9" />
         <div class="feat__text"><span class="eyebrow">Featured production</span><h2>{feat.data.title}</h2><p class="muted">{feat.data.synopsis}</p></div>
-      </a>
+      </a> : <p class="lede">No productions have been published yet.</p>}
     </div>
   </section>
   <section class="section theme-dark">
