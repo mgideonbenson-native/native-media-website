@@ -1,7 +1,8 @@
 ---
 title: "Demonstration feature: society and culture"
 subtitle: "A sample layout for a people-centred cultural story."
-category: society-and-culture
+section: african-stories
+sub: society-and-culture
 kind: reporting
 author: Author name (placeholder)
 featured: false

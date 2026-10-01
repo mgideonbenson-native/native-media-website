@@ -1,7 +1,8 @@
 ---
 title: "Demonstration feature: technology and innovation"
 subtitle: "A sample layout for a technology story with a data graphic."
-category: technology
+section: african-stories
+sub: technology
 kind: research-analysis
 author: Author name (placeholder)
 featured: false

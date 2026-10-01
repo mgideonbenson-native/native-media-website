@@ -53,6 +53,7 @@ Typical flow: write → set **In review** → reviewer reads and adds notes → 
 
 ### Extra rules the Studio enforces
 - **Stories:** reporting and research-based analysis need at least one source. **Sponsored** stories must name the sponsor. Every story has a content type shown to readers.
+- **Story sections:** every story belongs to African Stories (with a sub-category), Thought Leadership (no sub-category) or Stories of Opportunity (scholarships, fellowships, other). Opportunities also carry organization, deadline, eligibility and an official link, which readers are told to check before applying.
 - **Guests:** you must tick that the guest approved their biography.
 - **Briefings, papers, data, directories, agreements, quarterly updates:** at least one source (with publisher and reporting period). Data items also carry a **verification status** and a **data cut-off date**.
 - **Embassy / partner profiles** are shown on the site only if **all four** are true: workflow Approved, participation **Confirmed**, the mission has **signed off** (name, role, date recorded), and data **Verified**. Ambassador messages are only added if supplied and signed.

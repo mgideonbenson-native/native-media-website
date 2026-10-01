@@ -1,7 +1,8 @@
 ---
 title: "Demonstration analysis: Africa in a changing world"
 subtitle: "A sample layout for geopolitical analysis, shown with an opinion label."
-category: geopolitics
+section: african-stories
+sub: geopolitics
 kind: opinion
 author: Author name (placeholder)
 featured: false

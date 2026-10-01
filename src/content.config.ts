@@ -84,15 +84,18 @@ const episodes = defineCollection({
 const stories = defineCollection({
   loader: cmsEnabled
     ? sanityLoader('sanity-stories', `*[_type == "story" && ${LIVE} && defined(author->name)]{
-        "id": slug.current, title, subtitle, category, kind, "author": author->name, date, featured, heroImage ${IMG}, sources, "sponsor": sponsor->name, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
+        "id": slug.current, title, subtitle, section, sub, opportunity, kind, "author": author->name, date, featured, heroImage ${IMG}, sources, "sponsor": sponsor->name, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
         (d) => ({ id: d.id, html: ptToHtml(d.body), body: ptToText(d.body), data: {
-          title: d.title, subtitle: d.subtitle, category: d.category, kind: d.kind, author: d.author, date: d.date ?? undefined, featured: Boolean(d.featured),
+          title: d.title, subtitle: d.subtitle, section: d.section, sub: d.sub ?? undefined, opportunity: d.opportunity ?? undefined, kind: d.kind, author: d.author, date: d.date ?? undefined, featured: Boolean(d.featured),
           image: toImage(d.heroImage), sources: (d.sources ?? []).map(sourceLine), sponsor: d.sponsor ?? undefined, demo: false } }))
     : glob({ pattern: '**/*.md', base: './src/content/stories' }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string(),
-    category: z.enum(['business-and-economics', 'african-affairs', 'history', 'geopolitics', 'technology', 'infrastructure', 'society-and-culture']),
+    section: z.enum(['african-stories', 'thought-leadership', 'opportunities']),
+    sub: z.enum(['business-and-economics', 'african-affairs', 'history', 'geopolitics', 'technology', 'infrastructure', 'society-and-culture', 'scholarships', 'fellowships', 'other-opportunities']).optional(),
+    // Only for Stories of Opportunity: the practical details people need.
+    opportunity: z.object({ organization: z.string().optional(), deadline: z.string().optional(), eligibility: z.string().optional(), location: z.string().optional(), applyUrl: z.url().optional() }).optional(),
     kind: z.enum(['reporting', 'research-analysis', 'opinion', 'institutional-statement', 'sponsored']),
     author: z.string(),
     date: z.coerce.date().optional(),

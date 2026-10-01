@@ -1,7 +1,8 @@
 ---
 title: "Demonstration feature: a historical narrative"
 subtitle: "A sample layout for a long-form historical story."
-category: history
+section: african-stories
+sub: history
 kind: reporting
 author: Author name (placeholder)
 featured: false

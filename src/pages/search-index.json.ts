@@ -1,7 +1,7 @@
 import { getCollection } from 'astro:content';
 import { capabilities } from '../data/capabilities';
 import { allPaths, builtPaths } from '../data/site';
-import { storyCategories } from '../data/categories';
+import { storyCategoryLabel, storyPath } from '../data/categories';
 
 /**
  * Builds the site-wide search index at build time.
@@ -11,7 +11,7 @@ export async function GET() {
   const entries: { type: string; title: string; text: string; href: string }[] = [];
   const pages = allPaths.filter((p) => builtPaths.has(p.href) && !p.href.startsWith('/what-we-do/') && p.href !== '/search');
   pages.forEach((p) => entries.push({ type: 'Page', title: p.label, text: '', href: p.href }));
-  capabilities.forEach((c) => entries.push({ type: 'Capability', title: c.title, text: `${c.tagline} ${c.includes.join(' ')}`, href: `/what-we-do/${c.slug}` }));
+  capabilities.forEach((c) => entries.push({ type: 'Capability', title: c.title, text: `${c.tagline} ${c.includes.join(' ')}`, href: `/${c.slug}` }));
   for (const e of await getCollection('episodes')) {
     entries.push({ type: 'Podcast episode', title: e.data.title, text: `${e.data.summary} ${e.data.topics.join(" ")} ${e.data.themes.join(" ")} ${e.body ?? ""}`, href: `/african-intelligence/episodes/${e.id}` });
   }
@@ -20,8 +20,8 @@ export async function GET() {
   }
   for (const s of await getCollection('stories')) {
     if (s.data.demo) continue;
-    const cat = storyCategories.find((c) => c.slug === s.data.category)!.label;
-    entries.push({ type: 'Story', title: s.data.title, text: `${s.data.subtitle} ${cat}`, href: `/african-intelligence/stories/${s.data.category}/${s.id}` });
+    const cat = storyCategoryLabel(s.data);
+    entries.push({ type: 'Story', title: s.data.title, text: `${s.data.subtitle} ${cat}`, href: storyPath(s) });
   }
   return new Response(JSON.stringify(entries), { headers: { 'Content-Type': 'application/json' } });
 }

@@ -1,19 +1,55 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import ContactForm from '../../components/ContactForm.astro';
 import CtaBand from '../../components/CtaBand.astro';
-const details = ['Who it is for', 'How the programme works', 'Mentors', 'Dates and duration', 'How to apply'];
+const tracks = [
+  { kicker: 'Early career', title: 'Foundations Bootcamp', text: 'For communicators in their first 1–3 years, building core PR and media-relations fundamentals.',
+    points: ['Media landscape navigation', 'Writing for media placement', 'Stakeholder basics', 'Developing a PR & Comms strategy'] },
+  { kicker: 'Mid-senior career', title: 'Narrative Leadership Mentorship', text: '1:1 mentorship for junior to senior communicators moving into strategic roles in PR & communication.',
+    points: ['Thought leadership positioning', 'Developing a strategy'] },
+];
+const open = ['Programme dates', 'Cost and any scholarships', 'Selection process and how applicants are told', 'Mentors and facilitators'];
 ---
-<BaseLayout title="Native Talks | Native Media" description="Native Talks is Native Media's mentorship programme for young communicators.">
-  <PageHero eyebrow="Training & Mentorship" title="Native Talks" lede="A young communication mentorship programme."
+<BaseLayout title="Native Talks | Native Media" description="Native Talks is Native Media’s four-week programme for communicators, with a Foundations Bootcamp for early career and Narrative Leadership Mentorship for mid-senior career.">
+  <PageHero eyebrow="Training & Mentorship" title="Cultivating Africa’s next thought leaders." lede="Native Talks is a four-week programme that bridges academic theory and field-level tactics. Choose the track built for where your career stands today."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Training & Mentorship', href: '/training-and-mentorship' }, { label: 'Native Talks' }]} />
   <section class="section theme-light">
     <div class="wrap split">
-      <div class="stack"><p class="eyebrow">About</p><h2 class="h2">Native Talks</h2>
-        <p class="lede">A young communication mentorship programme.</p>
-        <div class="notice-box"><span class="tag tag--brand">Placeholder</span><p>Programme details will be added from Native Media’s own materials. Nothing below is confirmed.</p></div></div>
-      <ul class="cards">{details.map((d) => <li class="card"><h3>{d}</h3><p class="muted">To be added.</p></li>)}</ul>
+      <div class="stack">
+        <p class="eyebrow">The programme</p>
+        <h2 class="h2">Bridging the gap between academic theory and field-level tactics.</h2>
+        <p>The modern African communications landscape demands more than traditional PR formulas. It requires highly strategic, data-literate and agile professionals capable of navigating complex regulatory environments, multi-market landscapes and rapid technological shifts.</p>
+        <p>Native Talks is our dedicated talent and capability-building engine. We design and deliver training and mentorship programmes that equip next-generation thought leaders with the practical skills required to architect corporate reputation and manage continental narratives.</p>
+      </div>
+      <div class="notice-box"><span class="tag tag--brand">To be confirmed</span><p>Still to be added by Native Media:</p>
+        <ul class="plain">{open.map((o) => <li>{o}</li>)}</ul></div>
     </div>
   </section>
-  <CtaBand title="Interested in Native Talks?" text="Tell us what you would like to know and we will reply." href="/contact/training-and-mentorship" label="Make an inquiry" />
+  <section class="section theme-charcoal" aria-labelledby="tracks-h">
+    <div class="wrap stack">
+      <h2 class="h2" id="tracks-h">Two tracks, depending on where you’re starting from.</h2>
+      <ul class="tracks">{tracks.map((t) => (
+        <li class="card"><span class="eyebrow">{t.kicker}</span><h3>{t.title}</h3><p>{t.text}</p>
+          <ul class="plain">{t.points.map((p) => <li>{p}</li>)}</ul></li>))}</ul>
+    </div>
+  </section>
+  <section class="section theme-light" id="apply" aria-labelledby="apply-h">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow">Apply</p>
+        <h2 class="h2" id="apply-h">Apply for a four-week programme.</h2>
+        <p>Tell us who is applying and which track fits your career stage. We will tailor the next questions to it.</p>
+        <div class="notice-box"><span class="tag">Placeholder</span><p>This is step one of the application. The track-specific questions will be added once Native Media supplies them. The form does not send anything until it is connected to an inbox.</p></div>
+      </div>
+      <ContactForm variant="apply" id="apply-form" />
+    </div>
+  </section>
+  <CtaBand title="Questions about Native Talks?" text="Ask us about dates, cost or which track suits you." href="/contact/training-and-mentorship" label="Make an inquiry" />
 </BaseLayout>
+<style>
+  .tracks { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+  .tracks .card { padding: 2rem; display: grid; gap: 0.7rem; align-content: start; } .tracks h3 { font-size: var(--step-2); font-weight: 800; }
+  .plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; } .plain li { padding-top: 0.5rem; border-top: 1px solid var(--line-light); }
+  .theme-charcoal .plain li { border-color: var(--line-dark); }
+</style>

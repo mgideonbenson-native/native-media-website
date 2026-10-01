@@ -1,7 +1,8 @@
 ---
 title: "Demonstration feature: infrastructure and trade corridors"
 subtitle: "A sample layout for an infrastructure story."
-category: infrastructure
+section: african-stories
+sub: infrastructure
 kind: reporting
 author: Author name (placeholder)
 featured: false

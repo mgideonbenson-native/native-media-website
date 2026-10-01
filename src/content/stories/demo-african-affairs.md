@@ -1,7 +1,8 @@
 ---
 title: "Demonstration feature: a story on African affairs"
 subtitle: "A sample layout for reporting on institutions and developments."
-category: african-affairs
+section: african-stories
+sub: african-affairs
 kind: reporting
 author: Author name (placeholder)
 featured: false

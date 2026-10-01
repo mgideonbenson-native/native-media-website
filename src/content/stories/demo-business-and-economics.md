@@ -1,7 +1,8 @@
 ---
 title: "Demonstration feature: an economic story with data and sources"
 subtitle: "A sample layout for a research-based business and economics feature."
-category: business-and-economics
+section: african-stories
+sub: business-and-economics
 kind: research-analysis
 author: Author name (placeholder)
 featured: true

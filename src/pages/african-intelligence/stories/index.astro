@@ -5,27 +5,29 @@ import PageHero from '../../../components/PageHero.astro';
 import DemoBanner from '../../../components/DemoBanner.astro';
 import StoryCard from '../../../components/StoryCard.astro';
 import CtaBand from '../../../components/CtaBand.astro';
-import { storyCategories, storyKinds } from '../../../data/categories';
+import { storySections, storyKinds } from '../../../data/categories';
 const stories = await getCollection('stories');
 const featured = stories.find((s) => s.data.featured) ?? stories[0]; // undefined when nothing is published yet
 const rest = stories.filter((s) => s.id !== featured?.id);
 const allDemo = stories.length === 0 || stories.every((s) => s.data.demo);
 ---
-<BaseLayout title="Stories | Native Media" description="African stories, told with context: business, economics, history, geopolitics, technology, infrastructure and society." noindex={allDemo}>
-  <PageHero eyebrow="Stories" title="African stories, told with context." lede="Original reporting, research-based analysis, interviews and multimedia, curated for depth rather than speed."
+<BaseLayout title="Stories | Native Media" description="African stories, thought leadership articles and stories of opportunity such as scholarships and fellowships, from Native Media’s African Intelligence." noindex={allDemo}>
+  <PageHero eyebrow="Stories" title="Stories, ideas and opportunities." lede="African stories told with context, thought leadership articles, and stories of opportunity for African talent."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Stories' }]} />
   {stories.length > 0 && allDemo && <DemoBanner text="The stories below are layout demonstrations. Real stories will replace them, and none of this content is real." />}
   <section class="section theme-charcoal">
     <div class="wrap">
+      <h2 class="sr-only">Sections</h2>
+      <ul class="tiles">{storySections.map((c) => <li><a href={`/african-intelligence/stories/${c.slug}`}><strong>{c.label}</strong><span>{c.blurb}</span>{c.subs.length > 0 && <small>{c.subs.map((x) => x.label).join(' · ')}</small>}</a></li>)}</ul>
       <h2 class="sr-only">Featured story</h2>
       {featured ? <div class="feat"><StoryCard story={featured} big /></div> : <p class="lede">No stories have been published yet.</p>}
       <h2 class="sr-only">All stories</h2>
       <div class="filters">
         <label for="q" class="sr-only">Search stories</label>
         <input id="q" type="search" placeholder="Search stories" autocomplete="off" />
-        <div class="chips" role="group" aria-label="Filter by category">
+        <div class="chips" role="group" aria-label="Filter by section">
           <button type="button" class="chip" aria-pressed="true" data-cat="">All</button>
-          {storyCategories.map((c) => <button type="button" class="chip" aria-pressed="false" data-cat={c.slug}>{c.label}</button>)}
+          {storySections.map((c) => <button type="button" class="chip" aria-pressed="false" data-cat={c.slug}>{c.label}</button>)}
         </div>
         <p class="count" role="status" aria-live="polite" data-count></p>
       </div>
@@ -42,6 +44,10 @@ const allDemo = stories.length === 0 || stories.every((s) => s.data.demo);
   <CtaBand />
 </BaseLayout>
 <style>
+  .tiles { list-style: none; margin: 0 0 3.5rem; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .tiles a { display: grid; gap: 0.5rem; align-content: start; height: 100%; padding: 1.3rem; border: 1px solid var(--line-dark); text-decoration: none; }
+  .tiles a:hover { border-color: var(--brand); } .tiles strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
+  .tiles span { color: var(--paper); } .tiles small { color: var(--gray); }
   .feat { margin-bottom: 4rem; } .feat :global(.scard--big) { grid-template-columns: 1fr; }
   .filters { display: grid; gap: 1rem; margin-bottom: 2.5rem; }
   input[type='search'] { width: 100%; max-width: 30rem; padding: 0.9rem 1rem; border: 1.5px solid var(--line-dark); background: var(--black); color: var(--paper); border-radius: var(--radius); }
@@ -62,7 +68,7 @@ const allDemo = stories.length === 0 || stories.every((s) => s.data.demo);
   let cat = '';
   const apply = () => {
     const t = q.value.trim().toLowerCase(); let n = 0;
-    cards.forEach((c) => { c.hidden = !((!cat || c.dataset.cat === cat) && (!t || (c.dataset.search ?? '').includes(t))); if (!c.hidden) n++; });
+    cards.forEach((c) => { c.hidden = !((!cat || c.dataset.section === cat) && (!t || (c.dataset.search ?? '').includes(t))); if (!c.hidden) n++; });
     chips.forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.cat ?? '') === cat)));
     count.textContent = `${n} stor${n === 1 ? 'y' : 'ies'} shown`; none.hidden = n > 0;
   };

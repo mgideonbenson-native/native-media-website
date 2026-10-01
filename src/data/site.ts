@@ -24,6 +24,8 @@ export const company = {
   social: [{ label: 'YouTube', href: 'https://www.youtube.com/@nativemedia_africa' }] as { label: string; href: string }[],
 };
 
+import { allStoryListPaths } from './categories';
+
 export type NavChild = { label: string; href: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
 
@@ -139,7 +141,6 @@ export const contactTopics = [
   'Media inquiry',
 ] as const;
 
-const storyCats = ['business-and-economics', 'african-affairs', 'history', 'geopolitics', 'technology', 'infrastructure', 'society-and-culture'];
 /** Pages that exist for real. The placeholder route skips these. */
 export const builtPaths = new Set<string>([
   '/about', '/about/our-story', '/about/our-philosophy', '/about/our-approach', '/about/leadership-and-team', '/about/partnerships',
@@ -157,7 +158,7 @@ export const builtPaths = new Set<string>([
   // African Intelligence (podcast + stories)
   '/african-intelligence', '/african-intelligence/latest-episodes', '/african-intelligence/guests', '/african-intelligence/interviews',
   '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',
-  '/african-intelligence/stories', ...storyCats.map((c) => `/african-intelligence/stories/${c}`),
+  '/african-intelligence/stories', ...allStoryListPaths(),
   // Creative Data
   '/creative-data', '/creative-data/data-and-visuals', '/creative-data/data-and-visuals/data-hub', '/creative-data/data-and-visuals/bilateral-trade',
   '/creative-data/data-and-visuals/investment', '/creative-data/data-and-visuals/africa-map', '/creative-data/data-and-visuals/diplomacy-timeline',

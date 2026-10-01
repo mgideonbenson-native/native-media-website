@@ -1,20 +1,20 @@
 ---
 import Visual from './Visual.astro';
 import Cover from './Cover.astro';
-import { storyCategories, storyKinds } from '../data/categories';
+import { storyCategoryLabel, storyPath, storyKinds } from '../data/categories';
 import type { CollectionEntry } from 'astro:content';
 interface Props { story: CollectionEntry<'stories'>; big?: boolean }
 const { story, big = false } = Astro.props;
 const d = story.data;
-const cat = storyCategories.find((c) => c.slug === d.category)!;
-const href = `/african-intelligence/stories/${d.category}/${story.id}`;
+const catLabel = storyCategoryLabel(d);
+const href = storyPath(story);
 ---
-<article class:list={['scard', { 'scard--big': big }]} data-search={`${d.title} ${d.subtitle} ${cat.label} ${storyKinds[d.kind].label}`.toLowerCase()} data-cat={d.category}>
+<article class:list={['scard', { 'scard--big': big }]} data-search={`${d.title} ${d.subtitle} ${catLabel} ${storyKinds[d.kind].label}`.toLowerCase()} data-section={d.section}>
   <a href={href} class="scard__img" tabindex="-1" aria-hidden="true">{d.image
       ? <Visual ratio={big ? '16 / 10' : '4 / 3'}><Cover cover={d.image} alt="" widths={[480, 720, 960]} sizes="(min-width: 900px) 30rem, 92vw" /></Visual>
       : <Visual art={d.art} label={d.demo ? 'Demonstration image' : 'Image placeholder'} ratio={big ? '16 / 10' : '4 / 3'} />}</a>
   <div class="scard__body">
-    <p class="scard__meta"><span>{cat.label}</span><span class="scard__kind">{storyKinds[d.kind].label}</span>{d.demo && <span class="tag tag--brand">Demo</span>}</p>
+    <p class="scard__meta"><span>{catLabel}</span><span class="scard__kind">{storyKinds[d.kind].label}</span>{d.demo && <span class="tag tag--brand">Demo</span>}</p>
     <h3><a href={href}>{d.title}</a></h3>
     <p class="muted">{d.subtitle}</p>
   </div>

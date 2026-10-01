@@ -1,31 +1,33 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import DemoBanner from '../../../../components/DemoBanner.astro';
-import Visual from '../../../../components/Visual.astro';
-import Cover from '../../../../components/Cover.astro';
-import StoryCard from '../../../../components/StoryCard.astro';
-import ShareBar from '../../../../components/ShareBar.astro';
-import CtaBand from '../../../../components/CtaBand.astro';
-import { storyCategories, storyKinds } from '../../../../data/categories';
-export async function getStaticPaths() {
-  return (await getCollection('stories')).map((s) => ({ params: { category: s.data.category, slug: s.id }, props: { s } }));
-}
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DemoBanner from './DemoBanner.astro';
+import Visual from './Visual.astro';
+import Cover from './Cover.astro';
+import StoryCard from './StoryCard.astro';
+import ShareBar from './ShareBar.astro';
+import CtaBand from './CtaBand.astro';
+import type { CollectionEntry } from 'astro:content';
+import { findSection, findSub, storyCategoryLabel, storyKinds, storyPath } from '../data/categories';
+interface Props { s: CollectionEntry<'stories'> }
 const { s } = Astro.props;
 const d = s.data;
 const { Content } = await render(s);
-const cat = storyCategories.find((c) => c.slug === d.category)!;
+const section = findSection(d.section)!;
+const sub = findSub(d.section, d.sub);
+const catLabel = storyCategoryLabel(d);
 const minutes = Math.max(1, Math.round((s.body ?? '').split(/\s+/).length / 200));
-const related = (await getCollection('stories')).filter((r) => r.id !== s.id && r.data.category === d.category).slice(0, 3);
+const related = (await getCollection('stories')).filter((r) => r.id !== s.id && r.data.section === d.section && r.data.sub === d.sub).slice(0, 3);
 const more = (await getCollection('stories')).filter((r) => r.id !== s.id).slice(0, 3);
-const path = `/african-intelligence/stories/${d.category}/${s.id}`;
+const path = storyPath(s);
+const op = d.opportunity;
 ---
 <BaseLayout title={`${d.title.length > 52 ? d.title.slice(0, 50).trimEnd() + '…' : d.title} | Native Media`} description={d.subtitle} noindex={d.demo}>
   <article class="story theme-light">
     <header class="story__head theme-dark">
       <div class="wrap">
-        <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/african-intelligence">African Intelligence</a></li><li><a href="/african-intelligence/stories">Stories</a></li><li><a href={`/african-intelligence/stories/${d.category}`}>{cat.label}</a></li></ol></nav>
-        <p class="kindline"><span class="eyebrow">{cat.label}</span><span class="tag tag--brand" title={storyKinds[d.kind].text}>{storyKinds[d.kind].label}</span></p>
+        <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/african-intelligence">African Intelligence</a></li><li><a href="/african-intelligence/stories">Stories</a></li><li><a href={`/african-intelligence/stories/${section.slug}`}>{section.label}</a></li>{sub && <li><a href={`/african-intelligence/stories/${section.slug}/${sub.slug}`}>{sub.label}</a></li>}</ol></nav>
+        <p class="kindline"><span class="eyebrow">{catLabel}</span><span class="tag tag--brand" title={storyKinds[d.kind].text}>{storyKinds[d.kind].label}</span></p>
         <h1>{d.title}</h1>
         <p class="lede">{d.subtitle}</p>
         <p class="byline">By {d.author} · {d.date ? d.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : 'Sample date'} · {minutes} min read</p>
@@ -38,6 +40,18 @@ const path = `/african-intelligence/stories/${d.category}/${s.id}`;
     <div class="wrap story__grid">
       <aside class="stack side">
         <div class="notice-box"><span class="tag">{storyKinds[d.kind].label}</span><p class="small">{storyKinds[d.kind].text}</p>{d.sponsor && <p class="small"><strong>Sponsor:</strong> {d.sponsor}</p>}</div>
+        {op && (
+          <div class="notice-box oppo"><span class="tag tag--brand">Opportunity details</span>
+            <dl>
+              {op.organization && <><dt>Offered by</dt><dd>{op.organization}</dd></>}
+              {op.deadline && <><dt>Deadline</dt><dd>{op.deadline}</dd></>}
+              {op.eligibility && <><dt>Who can apply</dt><dd>{op.eligibility}</dd></>}
+              {op.location && <><dt>Where</dt><dd>{op.location}</dd></>}
+            </dl>
+            {op.applyUrl && <a class="btn" href={op.applyUrl} rel="noopener noreferrer" target="_blank">Official application page <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>}
+            <p class="small">Always check the official source before you apply. Native Media lists opportunities for information and does not run them unless stated.</p>
+          </div>
+        )}
         <ShareBar title={d.title} path={path} />
       </aside>
       <div class="prose">
@@ -62,6 +76,7 @@ const path = `/african-intelligence/stories/${d.category}/${s.id}`;
   <CtaBand />
 </BaseLayout>
 <style>
+  .oppo dl { display: grid; gap: 0.2rem; margin: 0.5rem 0; } .oppo dt { font-weight: 700; font-size: 0.85rem; margin-top: 0.5rem; } .oppo dd { margin: 0; color: var(--gray-ink); }
   .story__head { padding: calc(var(--header-h) + 3rem) 0 3rem; } .story__head .wrap { display: grid; gap: 1.2rem; justify-items: start; }
   h1 { font-weight: 800; font-size: var(--step-4); letter-spacing: -0.03em; max-width: 22ch; overflow-wrap: break-word; }
   .kindline { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; } .byline { color: var(--gray); font-size: 0.92rem; }

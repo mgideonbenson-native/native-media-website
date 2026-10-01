@@ -18,8 +18,7 @@ const ptSection = (t) => [{ _type: 'block', style: 'normal', markDefs: [], child
 const data = {
   guest: [{ id: 'cms-guest', name: 'CMS Guest', role: 'Founder', organization: 'Test Org', bio: 'Approved bio from the CMS.', links: [{ label: 'Site', href: 'https://example.com' }] }],
   episode: [{ id: 'cms-episode', title: 'CMS Episode Title', number: 1, guest: 'cms-guest', publishDate: '2026-10-01', summary: 'Summary from the CMS.', cover: img, topics: ['Testing'], themes: ['Theme one'], format: 'interview', body: pt }],
-  story: [{ id: 'cms-story', title: 'CMS Story Headline', subtitle: 'Subtitle from CMS', category: 'technology', kind: 'sponsored', author: 'CMS Author', date: '2026-09-30', featured: true, heroImage: img, sources: [{ title: 'Doc', publisher: 'Bank', period: '2025' }], sponsor: 'Test Sponsor Ltd', body: pt }],
-  production: [{ id: 'cms-production', title: 'CMS Production', category: 'documentaries', synopsis: 'Synopsis from CMS.', duration: '12:00', credits: [{ role: 'Director', name: 'Test Director' }], featured: true, poster: img, body: pt }],
+  story: [{ id: 'cms-story', title: 'CMS Story Headline', subtitle: 'Subtitle from CMS', section: 'african-stories', sub: 'technology', kind: 'sponsored', author: 'CMS Author', date: '2026-09-30', featured: true, heroImage: img, sources: [{ title: 'Doc', publisher: 'Bank', period: '2025' }], sponsor: 'Test Sponsor Ltd', body: pt }],
   correction: [{ item: 'Chapter 4 figure', date: '2026-10-02', originalText: 'Old wording', correctedText: 'New wording', reason: 'Source updated' }],
   sponsor: [{ name: 'Test Sponsor Ltd', agreedRole: 'Edition partner', scope: 'Edition 01', confirmedOn: '2026-09-01' }],
   edition: [{ label: 'Edition 01 · TEST', status: 'forthcoming', reportingPeriod: '2026/27' }],

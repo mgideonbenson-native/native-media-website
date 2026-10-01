@@ -34,9 +34,20 @@ export const episode = defineType({ name: 'episode', title: 'African Intelligenc
 
 export const story = defineType({ name: 'story', title: 'Story', type: 'document', fields: [
   req('title', 'Headline'), slug(), req('subtitle', 'Subtitle'),
-  defineField({ name: 'category', type: 'string', validation: (r) => r.required(), options: { list: [
-    { title: 'Business & Economics', value: 'business-and-economics' }, { title: 'African Affairs', value: 'african-affairs' }, { title: 'History', value: 'history' }, { title: 'Geopolitics', value: 'geopolitics' },
-    { title: 'Technology', value: 'technology' }, { title: 'Infrastructure', value: 'infrastructure' }, { title: 'Society & Culture', value: 'society-and-culture' }] } }),
+  defineField({ name: 'section', title: 'Section', type: 'string', validation: (r) => r.required(), options: { list: [
+    { title: 'African Stories', value: 'african-stories' }, { title: 'Thought Leadership', value: 'thought-leadership' }, { title: 'Stories of Opportunity', value: 'opportunities' }] } }),
+  defineField({ name: 'sub', title: 'Sub-category', type: 'string', description: 'African Stories and Stories of Opportunity need one. Thought Leadership has none.',
+    validation: (r) => r.custom((v: any, ctx: any) => { const sec = ctx.document?.section; const af = ['business-and-economics','african-affairs','history','geopolitics','technology','infrastructure','society-and-culture']; const op = ['scholarships','fellowships','other-opportunities'];
+      if (sec === 'african-stories') return af.includes(v) ? true : 'Choose an African Stories sub-category.';
+      if (sec === 'opportunities') return op.includes(v) ? true : 'Choose an opportunity type.';
+      return v ? 'Thought Leadership has no sub-category.' : true; }),
+    options: { list: [
+      { title: 'African Stories: Business & Economics', value: 'business-and-economics' }, { title: 'African Stories: African Affairs', value: 'african-affairs' }, { title: 'African Stories: History', value: 'history' }, { title: 'African Stories: Geopolitics', value: 'geopolitics' },
+      { title: 'African Stories: Technology', value: 'technology' }, { title: 'African Stories: Infrastructure', value: 'infrastructure' }, { title: 'African Stories: Society & Culture', value: 'society-and-culture' },
+      { title: 'Opportunity: Scholarships', value: 'scholarships' }, { title: 'Opportunity: Fellowships', value: 'fellowships' }, { title: 'Opportunity: Other', value: 'other-opportunities' }] } }),
+  defineField({ name: 'opportunity', title: 'Opportunity details (Stories of Opportunity only)', type: 'object', fields: [
+    defineField({ name: 'organization', type: 'string' }), defineField({ name: 'deadline', type: 'string', description: 'Check this against the official source.' }),
+    defineField({ name: 'eligibility', type: 'string' }), defineField({ name: 'location', type: 'string' }), defineField({ name: 'applyUrl', title: 'Official link', type: 'url' })] }),
   defineField({ name: 'kind', title: 'Content type (always shown to readers)', type: 'string', validation: (r) => r.required(), options: { list: [
     { title: 'Reporting', value: 'reporting' }, { title: 'Research-based analysis', value: 'research-analysis' }, { title: 'Opinion', value: 'opinion' },
     { title: 'Institutional statement', value: 'institutional-statement' }, { title: 'Sponsored content', value: 'sponsored' }] } }),

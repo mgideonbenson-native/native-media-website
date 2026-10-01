@@ -1,10 +1,16 @@
 ---
 import { contactTopics } from '../data/site';
-interface Props { topic?: string; id?: string }
-const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
+interface Props { topic?: string; id?: string; variant?: 'inquiry' | 'apply' }
+const { topic = 'General inquiry', id = 'inquiry', variant = 'inquiry' } = Astro.props;
+const apply = variant === 'apply';
+const tracks = [
+  { value: 'Foundations Bootcamp', kicker: 'Early career', text: 'For communicators in their first 1–3 years, building core PR and media-relations fundamentals.' },
+  { value: 'Narrative Leadership Mentorship', kicker: 'Mid-senior career', text: '1:1 mentorship for junior to senior communicators moving into strategic roles in PR & communication.' },
+];
 ---
 <form class="cform" data-cform novalidate id={id} aria-labelledby={`${id}-title`}>
-  <h2 id={`${id}-title`} class="cform__title">Send an inquiry</h2>
+  <h2 id={`${id}-title`} class="cform__title">{apply ? 'Tell us who’s applying' : 'Send an inquiry'}</h2>
+  {apply && <p class="muted">Your details, plus the track that matches your career stage.</p>}
   <div class="cform__grid">
     <div class="field">
       <label for={`${id}-name`}>Full name <span aria-hidden="true">*</span></label>
@@ -12,14 +18,30 @@ const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
       <p class="err" id={`${id}-name-err`} data-err="name"></p>
     </div>
     <div class="field">
-      <label for={`${id}-org`}>Organization</label>
-      <input id={`${id}-org`} name="organization" type="text" autocomplete="organization" />
+      <label for={`${id}-org`}>{apply ? 'Your company' : 'Organization'}</label>
+      <input id={`${id}-org`} name="organization" type="text" autocomplete="organization" placeholder={apply ? 'Organization (if any)' : undefined} />
     </div>
     <div class="field">
       <label for={`${id}-email`}>Email address <span aria-hidden="true">*</span></label>
       <input id={`${id}-email`} name="email" type="email" autocomplete="email" required aria-describedby={`${id}-email-err`} />
       <p class="err" id={`${id}-email-err`} data-err="email"></p>
     </div>
+    {apply ? (<>
+      <div class="field">
+        <label for={`${id}-phone`}>Phone number</label>
+        <input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" placeholder="+255 …" />
+      </div>
+      <fieldset class="field field--wide tracks" aria-describedby={`${id}-track-err`}>
+        <legend>Choose your track <span aria-hidden="true">*</span></legend>
+        <div class="tracks__grid">
+          {tracks.map((t, i) => (
+            <label class="track"><input type="radio" name="track" value={t.value} required />
+              <span class="track__k">{t.kicker}</span><strong>{t.value}</strong><span>{t.text}</span></label>
+          ))}
+        </div>
+        <p class="err" id={`${id}-track-err`} data-err="track"></p>
+      </fieldset>
+    </>) : (<>
     <div class="field">
       <label for={`${id}-topic`}>Inquiry type <span aria-hidden="true">*</span></label>
       <select id={`${id}-topic`} name="topic" required>
@@ -31,15 +53,16 @@ const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
       <textarea id={`${id}-msg`} name="message" rows="6" required minlength="20" aria-describedby={`${id}-msg-err`}></textarea>
       <p class="err" id={`${id}-msg-err`} data-err="message"></p>
     </div>
+    </>)}
   </div>
   <!-- Spam trap: hidden from people, tempting to bots. -->
   <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
   <div class="field field--check">
     <label class="check"><input type="checkbox" name="consent" required aria-describedby={`${id}-consent-err`} />
-      <span>I agree that Native Media may use these details to reply to my inquiry. See the <a href="/privacy">privacy policy</a>. <span aria-hidden="true">*</span></span></label>
+      <span>{apply ? 'I agree that Native Media may use these details to review my application and contact me about it.' : 'I agree that Native Media may use these details to reply to my inquiry.'} See the <a href="/privacy">privacy policy</a>. <span aria-hidden="true">*</span></span></label>
     <p class="err" id={`${id}-consent-err`} data-err="consent"></p>
   </div>
-  <button class="btn" type="submit">Send inquiry <span aria-hidden="true">→</span></button>
+  <button class="btn" type="submit">{apply ? 'Send application' : 'Send inquiry'} <span aria-hidden="true">→</span></button>
   <p class="status" role="status" aria-live="polite" tabindex="-1" data-status></p>
 </form>
 
@@ -57,9 +80,14 @@ const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
   .check a { color: var(--brand-ink); }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .cform .btn { justify-self: start; }
+  .tracks { border: 0; padding: 0; margin: 0; min-width: 0; } .tracks legend { font-weight: 600; font-size: 0.95rem; padding: 0; margin-bottom: 0.4rem; }
+  .tracks__grid { display: grid; gap: 1rem; } .track { display: grid; gap: 0.3rem; padding: 1rem 1.1rem 1rem 2.6rem; border: 1.5px solid var(--black); position: relative; cursor: pointer; font-weight: 400 !important; }
+  .track input { position: absolute; left: 1rem; top: 1.15rem; accent-color: var(--brand); width: 1.1rem; height: 1.1rem; }
+  .track:has(input:checked) { background: var(--paper); border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); } .track:has(input:focus-visible) { outline: 3px solid var(--brand); outline-offset: 2px; }
+  .track__k { font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand-ink); } .track strong { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
   .status { font-weight: 600; min-height: 1.4em; }
   .status.ok { color: #1d6b3a; } .status.bad { color: #a4262c; }
-  @media (min-width: 700px) { .cform__grid { grid-template-columns: 1fr 1fr; } .field--wide { grid-column: 1 / -1; } }
+  @media (min-width: 700px) { .tracks__grid { grid-template-columns: 1fr 1fr; } .cform__grid { grid-template-columns: 1fr 1fr; } .field--wide { grid-column: 1 / -1; } }
 </style>
 
 <script>
@@ -72,6 +100,7 @@ const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
       name: 'Please enter your name.',
       email: 'Please enter a valid email address.',
       message: 'Please write at least 20 characters so we can understand your inquiry.',
+      track: 'Please choose a track.',
       consent: 'Please confirm you agree so we can reply to you.',
     };
     form.addEventListener('submit', async (e) => {
@@ -79,17 +108,18 @@ const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
       status.className = 'status'; status.textContent = '';
       let first: HTMLElement | null = null;
       for (const key of Object.keys(msgs)) {
-        const el = form.elements.namedItem(key) as HTMLInputElement | HTMLTextAreaElement | null;
+        const el = form.elements.namedItem(key) as HTMLInputElement | HTMLTextAreaElement | RadioNodeList | null;
         const err = form.querySelector<HTMLElement>(`[data-err="${key}"]`);
         if (!el || !err) continue;
-        const bad = !el.checkValidity() || (el.type !== 'checkbox' && !el.value.trim());
+        const isRadio = el instanceof RadioNodeList;
+        const bad = isRadio ? !el.value : !el.checkValidity() || (el.type !== 'checkbox' && !el.value.trim());
         err.textContent = bad ? msgs[key] : '';
-        el.setAttribute('aria-invalid', String(bad));
-        if (bad && !first) first = el;
+        if (!isRadio) el.setAttribute('aria-invalid', String(bad));
+        if (bad && !first) first = isRadio ? form.querySelector<HTMLElement>('input[name=track]') : el as HTMLElement;
       }
       if (first) { first.focus(); status.className = 'status bad'; status.textContent = 'Please correct the highlighted fields.'; return; }
       const data = Object.fromEntries(new FormData(form).entries());
-      if (data.website) { status.className = 'status ok'; status.textContent = 'Thank you. Your inquiry has been received.'; form.reset(); return; }
+      if (data.website) { status.className = 'status ok'; status.textContent = 'Thank you. Your message has been received.'; form.reset(); return; }
       if (!endpoint) {
         status.className = 'status bad';
         status.textContent = 'This form is not connected to an inbox yet, so nothing was sent. Please try again once contact details are published.';
@@ -98,9 +128,9 @@ const { topic = 'General inquiry', id = 'inquiry' } = Astro.props;
       try {
         const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
         if (!res.ok) throw new Error(String(res.status));
-        status.className = 'status ok'; status.textContent = 'Thank you. Your inquiry has been sent and we will reply by email.'; form.reset();
+        status.className = 'status ok'; status.textContent = 'Thank you. We have received your message and will reply by email.'; form.reset();
       } catch {
-        status.className = 'status bad'; status.textContent = 'Sorry, something went wrong and your inquiry was not sent. Please try again shortly.';
+        status.className = 'status bad'; status.textContent = 'Sorry, something went wrong and your message was not sent. Please try again shortly.';
       }
     });
   });

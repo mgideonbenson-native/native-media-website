@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import DemoBanner from './DemoBanner.astro';
+import StoryCard from './StoryCard.astro';
+import { findSection, findSub, storySections } from '../data/categories';
+interface Props { sectionSlug: string; subSlug?: string }
+const { sectionSlug, subSlug } = Astro.props;
+const section = findSection(sectionSlug)!;
+const sub = findSub(sectionSlug, subSlug);
+const all = (await getCollection('stories')).filter((s) => s.data.section === sectionSlug);
+const stories = sub ? all.filter((s) => s.data.sub === sub.slug) : all;
+const title = sub ? sub.label : section.label;
+const blurb = sub ? sub.blurb : section.blurb;
+const allDemo = stories.length === 0 || stories.every((s) => s.data.demo);
+const count = (slug: string) => all.filter((s) => s.data.sub === slug).length;
+const base = '/african-intelligence/stories';
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Stories', href: base }, ...(sub ? [{ label: section.label, href: `${base}/${section.slug}` }, { label: sub.label }] : [{ label: section.label }])];
+---
+<BaseLayout title={`${title} | Stories | Native Media`} description={`${blurb} Stories from Native Media.`} noindex={allDemo}>
+  <PageHero eyebrow={sub ? `Stories · ${section.label}` : 'Stories'} title={title} lede={blurb} crumbs={crumbs} />
+  {allDemo && stories.length > 0 && <DemoBanner />}
+  <section class="section theme-charcoal">
+    <div class="wrap">
+      {section.subs.length > 0 && (
+        <nav aria-label={`${section.label} categories`} class="subnav">
+          <h2 class="sr-only">Categories in {section.label}</h2>
+          <ul>
+            {sub && <li><a href={`${base}/${section.slug}`}>All {section.label}</a></li>}
+            {section.subs.map((x) => <li><a href={`${base}/${section.slug}/${x.slug}`} aria-current={sub?.slug === x.slug ? 'page' : undefined}>{x.label} <span class="n">{count(x.slug)}</span></a></li>)}
+          </ul>
+        </nav>
+      )}
+      <h2 class="sr-only">Stories in {title}</h2>
+      {stories.length > 0
+        ? <div class="grid">{stories.map((s) => <StoryCard story={s} />)}</div>
+        : <p class="muted">No stories have been published here yet.</p>}
+      <p class="more"><a class="arrow-link" href={base}>All stories <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .subnav { margin-bottom: 2.5rem; } .subnav ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .subnav a { display: inline-flex; gap: 0.5rem; align-items: center; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--line-dark); border-radius: 999px; font-family: var(--font-display); font-weight: 600; font-size: 0.88rem; }
+  .subnav a:hover { border-color: var(--brand); color: var(--brand); } .subnav a[aria-current] { background: var(--brand); border-color: var(--brand); color: var(--black); }
+  .subnav .n { font-size: 0.75rem; opacity: 0.7; }
+  .grid { display: grid; gap: 2.2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); } .more { margin-top: 2.5rem; }
+</style>

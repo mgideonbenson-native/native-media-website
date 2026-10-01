@@ -1,0 +1,26 @@
+---
+/**
+ * One route for every Stories page below the main Stories page:
+ *   <section>                    list of a section (African Stories, Thought Leadership, Stories of Opportunity)
+ *   <section>/<sub-category>     list of a sub-category
+ *   <section>/<story>            a story in a section without sub-categories
+ *   <section>/<sub>/<story>      a story inside a sub-category
+ */
+import { getCollection } from 'astro:content';
+import StoryListPage from '../../../components/StoryListPage.astro';
+import StoryPage from '../../../components/StoryPage.astro';
+import { storySections } from '../../../data/categories';
+
+export async function getStaticPaths() {
+  const lists = storySections.flatMap((s) => [
+    { params: { path: s.slug }, props: { kind: 'list', section: s.slug } },
+    ...s.subs.map((x) => ({ params: { path: `${s.slug}/${x.slug}` }, props: { kind: 'list', section: s.slug, sub: x.slug } })),
+  ]);
+  const stories = (await getCollection('stories')).map((st) => ({
+    params: { path: `${st.data.section}${st.data.sub ? `/${st.data.sub}` : ''}/${st.id}` }, props: { kind: 'story', story: st },
+  }));
+  return [...lists, ...stories];
+}
+const { kind, section, sub, story } = Astro.props as any;
+---
+{kind === 'list' ? <StoryListPage sectionSlug={section} subSlug={sub} /> : <StoryPage s={story} />}
