@@ -147,7 +147,11 @@ const tracks = [
         if (bad && !first) first = isRadio ? form.querySelector<HTMLElement>('input[name=track]') : el as HTMLElement;
       }
       if (first) { first.focus(); status.className = 'status bad'; status.textContent = 'Please correct the highlighted fields.'; return; }
-      const data = Object.fromEntries(new FormData(form).entries());
+      const data: Record<string, FormDataEntryValue> = Object.fromEntries(new FormData(form).entries());
+      // Lets the inbox tell the two forms apart (Formspree uses _subject as the email subject).
+      const isApply = Boolean(form.querySelector('input[name=track]'));
+      data.form_type = isApply ? 'Native Talks application' : 'Website inquiry';
+      data._subject = isApply ? `Native Talks application: ${data.name} (${data.track})` : `Website inquiry: ${data.topic} from ${data.name}`;
       if (data.website) { status.className = 'status ok'; status.textContent = 'Thank you. Your message has been received.'; form.reset(); return; }
       if (!endpoint) {
         status.className = 'status bad';

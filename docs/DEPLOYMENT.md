@@ -38,3 +38,16 @@ Add these in **Netlify → Site configuration → Environment variables** (never
 
 ## Backups
 The site's code and content live in GitHub, which is your backup. Keep any exports of other data somewhere private, never in the public repository.
+
+
+## Connecting the contact and application forms (Formspree)
+
+Both the inquiry forms and the Native Talks application send to one inbox through Formspree. Nothing is sent until you do this.
+
+1. Create a free account at formspree.io and click **New form**. Name it "Native Media website".
+2. Set the form's email to the address that should receive messages (for example benson@nativemedia.co.tz) and confirm the email Formspree sends you.
+3. Copy the form's address. It looks like `https://formspree.io/f/abcdwxyz`.
+4. In Netlify: **Site configuration → Environment variables → Add a variable**. Name `PUBLIC_FORM_ENDPOINT`, value the address from step 3. Then **Deploys → Trigger deploy**.
+5. Test: send an inquiry and a Native Talks application from the live site and check both arrive. The email subject says which form it was.
+
+The security rules in `netlify.toml` already allow `formspree.io`. The free plan limits how many messages you get each month; check their current limits. Spam is filtered by a hidden trap field plus Formspree's own checks.
