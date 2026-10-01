@@ -1,6 +1,6 @@
 # Native Media website
 
-Official website for Native Media: **Stories. Strategy. Impact.**
+Official website for Native Media: **Insight. Strategy. Impact.**
 Built with [Astro](https://astro.build) and TypeScript. Currently **Phase 1** (foundation, brand and homepage).
 
 ## How to preview it on your computer
