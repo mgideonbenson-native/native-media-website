@@ -54,7 +54,6 @@ Typical flow: write → set **In review** → reviewer reads and adds notes → 
 ### Extra rules the Studio enforces
 - **Stories:** reporting and research-based analysis need at least one source. **Sponsored** stories must name the sponsor. Every story has a content type shown to readers.
 - **Guests:** you must tick that the guest approved their biography.
-- **Productions:** you must tick that the client confirmed the work can be published.
 - **Briefings, papers, data, directories, agreements, quarterly updates:** at least one source (with publisher and reporting period). Data items also carry a **verification status** and a **data cut-off date**.
 - **Embassy / partner profiles** are shown on the site only if **all four** are true: workflow Approved, participation **Confirmed**, the mission has **signed off** (name, role, date recorded), and data **Verified**. Ambassador messages are only added if supplied and signed.
 - **Sponsors and partners** need written permission to publish their name and logo. Sponsors must also confirm that sponsorship does not determine editorial content. "Prospective" relationships can never be published.
@@ -98,6 +97,6 @@ Create a **Correction** document: what was corrected, the date, the **original w
 (`MOCK_EMPTY=1` simulates a brand-new empty CMS.)
 
 ## 10. What has and has not been tested
-- **Tested:** the content model validates; the Studio builds; the website builds against the mock API with sample content (episodes, guests, stories, productions, corrections, sponsors, editions, verified profiles) and with an empty CMS; every query contains the approval and scheduling rules; rich text is converted safely.
+- **Tested:** the content model validates; the Studio builds; the website builds against the mock API with sample content (episodes, guests, stories, corrections, sponsors, editions, verified profiles) and with an empty CMS; every query contains the approval and scheduling rules; rich text is converted safely.
 - **Import script:** tested in preview, draft and published modes against the mock (documents, cover upload, order and approval fields are correct).
 - **Not tested (needs your Sanity account):** the import against real Sanity (for example, that Sanity accepts draft episodes pointing at guests that are not yet published), the real Sanity connection, the Studio screens in a browser, the publish gate behaving in the Studio, the webhook and scheduled rebuild. Please test these once with a dummy story before launch.

@@ -1,14 +1,14 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHero from '../../components/PageHero.astro';
-import CtaBand from '../../components/CtaBand.astro';
-import ReviewCover from '../../components/ReviewCover.astro';
-import { areas, briefingParts, labels, productFields } from '../../data/intelligence';
-import { REVIEW_BASE, reviewMeta } from '../../data/review';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import ReviewCover from '../../../components/ReviewCover.astro';
+import { areas, briefingParts, labels, productFields } from '../../../data/intelligence';
+import { REVIEW_BASE, reviewMeta } from '../../../data/review';
 ---
 <BaseLayout title="Intelligence | Native Media" description="Native Media's intelligence platform: economic intelligence, business and market insights, economic diplomacy and research, built on credible sources and transparent methods.">
   <PageHero eyebrow="Intelligence" title="Information organized into insight." lede="At Native Media, intelligence is the process of collecting, organizing, analyzing and presenting relevant information to support understanding, informed decisions, institutional engagement and strategic communication."
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'Intelligence' }]} />
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: 'Intelligence' }]} />
 
   <section class="section theme-light" aria-labelledby="flag-t">
     <div class="wrap split">
@@ -35,8 +35,8 @@ import { REVIEW_BASE, reviewMeta } from '../../data/review';
   <section class="section theme-dark" aria-labelledby="areas-t">
     <div class="wrap">
       <div class="section-head"><p class="eyebrow">Areas of work</p><h2 id="areas-t">What our intelligence covers.</h2></div>
-      <ul class="cards">{areas.map((a) => <li class="card"><h3><a href={`/intelligence/${a.slug}`}>{a.title}</a></h3><p>{a.lede}</p><a class="arrow-link" href={`/intelligence/${a.slug}`}>Explore <span aria-hidden="true">→</span></a></li>)}
-        <li class="card"><h3><a href="/intelligence/data-and-visuals">Data &amp; Visuals</a></h3><p>Interactive charts, maps and dashboards built on verified data.</p><a class="arrow-link" href="/intelligence/data-and-visuals">Explore <span aria-hidden="true">→</span></a></li></ul>
+      <ul class="cards">{areas.map((a) => <li class="card"><h3><a href={`/research-and-publications/intelligence/${a.slug}`}>{a.title}</a></h3><p>{a.lede}</p><a class="arrow-link" href={`/research-and-publications/intelligence/${a.slug}`}>Explore <span aria-hidden="true">→</span></a></li>)}
+        <li class="card"><h3><a href="/creative-data/data-and-visuals">Data &amp; Visuals</a></h3><p>Interactive charts, maps and dashboards built on verified data.</p><a class="arrow-link" href="/creative-data/data-and-visuals">Explore <span aria-hidden="true">→</span></a></li></ul>
     </div>
   </section>
 
@@ -66,10 +66,10 @@ import { REVIEW_BASE, reviewMeta } from '../../data/review';
     <div class="wrap split">
       <div class="stack"><p class="eyebrow">Related</p><h2 class="h2">Intelligence connects across Native Media.</h2></div>
       <ul class="related">
-        <li><a class="arrow-link" href="/publications">Publications <span aria-hidden="true">→</span></a></li>
+        <li><a class="arrow-link" href="/research-and-publications">Publications <span aria-hidden="true">→</span></a></li>
         <li><a class="arrow-link" href="/african-intelligence">African Intelligence podcast <span aria-hidden="true">→</span></a></li>
-        <li><a class="arrow-link" href="/stories">Stories <span aria-hidden="true">→</span></a></li>
-        <li><a class="arrow-link" href="/what-we-do/intelligence-and-research">Intelligence &amp; Research capability <span aria-hidden="true">→</span></a></li>
+        <li><a class="arrow-link" href="/african-intelligence/stories">Stories <span aria-hidden="true">→</span></a></li>
+        <li><a class="arrow-link" href="/research-and-publications">Intelligence &amp; Research capability <span aria-hidden="true">→</span></a></li>
       </ul>
     </div>
   </section>

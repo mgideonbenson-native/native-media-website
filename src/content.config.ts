@@ -77,7 +77,7 @@ const episodes = defineCollection({
 });
 
 /**
- * Stories and productions. Entries with `demo: true` are layout demonstrations only:
+ * Stories. Entries with `demo: true` are layout demonstrations only:
  * they are labelled on the page, kept out of search engines and the sitemap.
  * Set `demo: false` (or delete the line) when real, approved content replaces them.
  */
@@ -105,27 +105,4 @@ const stories = defineCollection({
   }),
 });
 
-const productions = defineCollection({
-  loader: cmsEnabled
-    ? sanityLoader('sanity-productions', `*[_type == "production" && ${LIVE} && clientConfirmed == true]{
-        "id": slug.current, title, category, synopsis, duration, releaseDate, credits, videoUrl, featured, poster ${IMG}, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
-        (d) => ({ id: d.id, html: ptToHtml(d.body) || `<p>${(d.synopsis ?? '').replace(/</g, '&lt;')}</p>`, body: d.synopsis, data: {
-          title: d.title, category: d.category, synopsis: d.synopsis, duration: d.duration ?? undefined, releaseDate: d.releaseDate ?? undefined,
-          credits: (d.credits ?? []).map((c: any) => ({ role: c.role, name: c.name })), videoUrl: d.videoUrl ?? undefined, featured: Boolean(d.featured), image: toImage(d.poster), demo: false } }))
-    : glob({ pattern: '**/*.md', base: './src/content/productions' }),
-  schema: z.object({
-    title: z.string(),
-    category: z.enum(['documentaries', 'corporate-films', 'motion-graphics', 'visual-explainers']),
-    synopsis: z.string(),
-    duration: z.string().optional(),
-    releaseDate: z.coerce.date().optional(),
-    credits: z.array(z.object({ role: z.string(), name: z.string() })).default([]),
-    videoUrl: z.url().optional(), // YouTube/Vimeo link, added when the real project is published
-    featured: z.boolean().default(false),
-    art: z.enum(['signal', 'contour', 'frames', 'lens', 'pages', 'grid']).default('lens'),
-    image: remoteImage.optional(),
-    demo: z.boolean().default(true),
-  }),
-});
-
-export const collections = { guests, episodes, stories, productions };
+export const collections = { guests, episodes, stories };

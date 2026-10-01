@@ -1,14 +1,14 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHero from '../../components/PageHero.astro';
-import CtaBand from '../../components/CtaBand.astro';
-import { areas, briefingParts, labels } from '../../data/intelligence';
-import { REVIEW_BASE, reviewMeta } from '../../data/review';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { areas, briefingParts, labels } from '../../../data/intelligence';
+import { REVIEW_BASE, reviewMeta } from '../../../data/review';
 export function getStaticPaths() { return areas.map((a) => ({ params: { section: a.slug }, props: { a } })); }
 const { a } = Astro.props;
 ---
 <BaseLayout title={`${a.title} | Intelligence | Native Media`} description={a.lede}>
-  <PageHero eyebrow="Intelligence" title={a.title} lede={a.lede} crumbs={[{ label: 'Home', href: '/' }, { label: 'Intelligence', href: '/intelligence' }, { label: a.title }]} />
+  <PageHero eyebrow="Intelligence" title={a.title} lede={a.lede} crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: 'Intelligence', href: '/research-and-publications/intelligence' }, { label: a.title }]} />
   <section class="section theme-light">
     <div class="wrap split">
       <div class="stack"><h2 class="h2">What it covers</h2><ul class="checklist" style="grid-template-columns:1fr">{a.covers.map((c) => <li>{c}</li>)}</ul></div>

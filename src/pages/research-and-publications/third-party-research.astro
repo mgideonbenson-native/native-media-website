@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+const standards = [
+  ['Always credited', 'Every item names its authors and the organization that produced it, with a link to the original where one exists.'],
+  ['Clearly labelled', 'Third-party research is marked as such. It is never presented as Native Media’s own finding.'],
+  ['Published with permission', 'We publish only with the owner’s permission. Nothing is republished from elsewhere without it.'],
+  ['Unaltered', 'We do not change an author’s figures or conclusions. Any summary we add is labelled as ours.'],
+  ['Not an endorsement', 'Publishing a piece does not mean Native Media endorses its conclusions, unless we say so.'],
+];
+---
+<BaseLayout title="Third-party research | Native Media" description="Native Media also publishes research by other organizations and researchers, with clear credit, permission and labelling.">
+  <PageHero eyebrow="Research & Publications" title="Third-party research" lede="Research by other institutions and researchers, published on Native Media with clear credit and clear labelling."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: 'Third-party research' }]} />
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Proposed standards</p><h2 class="h2">How we handle research we did not write.</h2>
+        <div class="notice-box"><span class="tag">Draft</span><p>These standards are a proposal for Native Media to confirm.</p></div></div>
+      <ul class="cards">{standards.map(([t, d]) => <li class="card"><h3>{t}</h3><p>{d}</p></li>)}</ul>
+    </div>
+  </section>
+  <section class="section theme-charcoal">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Published now</p><h2 class="h2">Third-party research.</h2></div>
+      <div class="stack"><div class="notice-box"><span class="tag tag--brand">None published yet</span><p>Third-party research will be listed here as it is published, each with its authors, publisher, date and a link to the original.</p></div></div>
+    </div>
+  </section>
+  <CtaBand title="Have research we should publish?" text="Tell us about your research, who it is for and where it has appeared. We will reply about fit and permissions." href="/contact/research-collaboration" label="Research inquiry" />
+</BaseLayout>

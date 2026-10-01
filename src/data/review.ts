@@ -4,7 +4,7 @@
  * Deliberately NOT included on the public site until verified and approved by the owner:
  * the draft's statistics, partner-country names, ministerial foreword details and mission content.
  */
-export const REVIEW_BASE = '/publications/tanzania-economic-diplomacy-review';
+export const REVIEW_BASE = '/research-and-publications/tanzania-economic-diplomacy-review';
 
 export const reviewMeta = {
   title: 'Tanzania Economic Diplomacy Review',

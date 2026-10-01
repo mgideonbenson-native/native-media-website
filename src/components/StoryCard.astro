@@ -7,7 +7,7 @@ interface Props { story: CollectionEntry<'stories'>; big?: boolean }
 const { story, big = false } = Astro.props;
 const d = story.data;
 const cat = storyCategories.find((c) => c.slug === d.category)!;
-const href = `/stories/${d.category}/${story.id}`;
+const href = `/african-intelligence/stories/${d.category}/${story.id}`;
 ---
 <article class:list={['scard', { 'scard--big': big }]} data-search={`${d.title} ${d.subtitle} ${cat.label} ${storyKinds[d.kind].label}`.toLowerCase()} data-cat={d.category}>
   <a href={href} class="scard__img" tabindex="-1" aria-hidden="true">{d.image

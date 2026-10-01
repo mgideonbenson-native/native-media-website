@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+const details = ['Who it is for', 'How the programme works', 'Mentors', 'Dates and duration', 'How to apply'];
+---
+<BaseLayout title="Native Talks | Native Media" description="Native Talks is Native Media's mentorship programme for young communicators.">
+  <PageHero eyebrow="Training & Mentorship" title="Native Talks" lede="A young communication mentorship programme."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Training & Mentorship', href: '/training-and-mentorship' }, { label: 'Native Talks' }]} />
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">About</p><h2 class="h2">Native Talks</h2>
+        <p class="lede">A young communication mentorship programme.</p>
+        <div class="notice-box"><span class="tag tag--brand">Placeholder</span><p>Programme details will be added from Native Media’s own materials. Nothing below is confirmed.</p></div></div>
+      <ul class="cards">{details.map((d) => <li class="card"><h3>{d}</h3><p class="muted">To be added.</p></li>)}</ul>
+    </div>
+  </section>
+  <CtaBand title="Interested in Native Talks?" text="Tell us what you would like to know and we will reply." href="/contact/training-and-mentorship" label="Make an inquiry" />
+</BaseLayout>

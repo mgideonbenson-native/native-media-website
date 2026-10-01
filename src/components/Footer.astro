@@ -1,12 +1,19 @@
 ---
-import { company, nav, pillars, policyLinks } from '../data/site';
+import { company, pillars, policyLinks } from '../data/site';
 const featured = [
-  { label: 'Tanzania Economic Diplomacy Review', href: '/publications/tanzania-economic-diplomacy-review' },
-  { label: 'African Intelligence', href: '/african-intelligence' },
-  { label: 'Data & Visuals', href: '/intelligence/data-and-visuals' },
-  { label: 'Production Portfolio', href: '/productions/production-portfolio' },
+  { label: 'Tanzania Economic Diplomacy Review', href: '/research-and-publications/tanzania-economic-diplomacy-review' },
+  { label: 'African Intelligence podcast', href: '/african-intelligence' },
+  { label: 'Stories', href: '/african-intelligence/stories' },
+  { label: 'Native Talks', href: '/training-and-mentorship/native-talks' },
 ];
-const publications = nav.find((n) => n.label === 'Publications')?.children ?? [];
+const publications = [
+  { label: 'Research & Publications', href: '/research-and-publications' },
+  { label: 'Tanzania Economic Diplomacy Review', href: '/research-and-publications/tanzania-economic-diplomacy-review' },
+  { label: 'Third-party research', href: '/research-and-publications/third-party-research' },
+  { label: 'Research papers', href: '/research-and-publications/research-papers' },
+  { label: 'Institutional reports', href: '/research-and-publications/institutional-reports' },
+  { label: 'Archives', href: '/research-and-publications/archives' },
+];
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer theme-dark">
@@ -23,15 +30,15 @@ const year = new Date().getFullYear();
       </div>
 
       <nav aria-labelledby="f-caps">
-        <h2 id="f-caps">Capabilities</h2>
-        <ul>{pillars.map((p) => <li><a href={`/what-we-do/${p.slug}`}>{p.title}</a></li>)}</ul>
+        <h2 id="f-caps">What we do</h2>
+        <ul>{pillars.map((p) => <li><a href={p.href}>{p.title}</a></li>)}</ul>
       </nav>
       <nav aria-labelledby="f-feat">
         <h2 id="f-feat">Featured</h2>
         <ul>{featured.map((f) => <li><a href={f.href}>{f.label}</a></li>)}</ul>
       </nav>
       <nav aria-labelledby="f-pub">
-        <h2 id="f-pub">Publications</h2>
+        <h2 id="f-pub">Research &amp; Publications</h2>
         <ul>{publications.map((f) => <li><a href={f.href}>{f.label}</a></li>)}</ul>
       </nav>
       <nav aria-labelledby="f-co">

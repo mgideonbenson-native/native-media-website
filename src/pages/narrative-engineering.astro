@@ -1,20 +1,16 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHero from '../../components/PageHero.astro';
-import CtaBand from '../../components/CtaBand.astro';
-import Visual from '../../components/Visual.astro';
-import { capabilities } from '../../data/capabilities';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Visual from '../components/Visual.astro';
+import { capabilities } from '../data/capabilities';
 
-export function getStaticPaths() {
-  return capabilities.map((c) => ({ params: { slug: c.slug }, props: { c } }));
-}
-const { c } = Astro.props;
-const idx = capabilities.findIndex((x) => x.slug === c.slug);
-const contactHref = ({ 'strategic-communications': '/contact/strategic-communications', 'intelligence-and-research': '/contact/research-collaboration', 'institutional-publications': '/contact/research-collaboration', 'digital-intelligence-and-data': '/contact/research-collaboration', 'creative-and-audiovisual-production': '/contact/production-inquiries' } as Record<string, string>)[c.slug] ?? '/contact/general-inquiries';
-const pillarNo = String(idx + 1).padStart(2, '0');
+const c = capabilities.find((x) => x.slug === 'narrative-engineering')!;
+const contactHref = '/contact/narrative-engineering';
+const pillarNo = '01';
 ---
 <BaseLayout title={`${c.title} | Native Media`} description={`${c.tagline} ${c.intro[0]}`.slice(0, 300)}>
-  <PageHero eyebrow={`Capability ${pillarNo}`} title={c.title} lede={c.tagline}
+  <PageHero eyebrow={`What we do · ${pillarNo}`} title={c.title} lede={c.tagline}
     crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: c.title }]}>
     <a class="btn" href={contactHref}>Start an inquiry <span aria-hidden="true">→</span></a>
   </PageHero>

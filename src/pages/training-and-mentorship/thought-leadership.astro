@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+const details = ['Who it is for', 'Format and topics', 'Facilitators', 'Dates and duration', 'How to take part'];
+---
+<BaseLayout title="Thought Leadership Development | Native Media" description="Thought leadership development from Native Media: nurturing thought leaders in the area of communication.">
+  <PageHero eyebrow="Training & Mentorship" title="Thought Leadership Development" lede="Nurturing thought leaders in the area of communication."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Training & Mentorship', href: '/training-and-mentorship' }, { label: 'Thought Leadership Development' }]} />
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">About</p><h2 class="h2">Thought Leadership Development</h2>
+        <p class="lede">Nurturing thought leaders in the area of communication.</p>
+        <div class="notice-box"><span class="tag tag--brand">Placeholder</span><p>Programme details will be added from Native Media’s own materials. Nothing below is confirmed.</p></div></div>
+      <ul class="cards">{details.map((d) => <li class="card"><h3>{d}</h3><p class="muted">To be added.</p></li>)}</ul>
+    </div>
+  </section>
+  <CtaBand title="Interested in thought leadership development?" text="Tell us what you would like to know and we will reply." href="/contact/training-and-mentorship" label="Make an inquiry" />
+</BaseLayout>

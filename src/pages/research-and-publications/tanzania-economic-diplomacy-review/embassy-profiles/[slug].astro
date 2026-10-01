@@ -13,7 +13,7 @@ const { p } = Astro.props;
 ---
 <BaseLayout title={`${p.country} | Partner profile | Tanzania Economic Diplomacy Review`} description={`${p.country}: partner profile in the Tanzania Economic Diplomacy Review. Verified and signed off by the mission.`}>
   <PageHero eyebrow={`Partner profile · ${p.region}`} title={p.country} lede="Compiled by Native Media from the sources listed below, and checked and signed off by the mission concerned."
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'Publications', href: '/publications' }, { label: 'Tanzania Economic Diplomacy Review', href: REVIEW_BASE }, { label: 'Partner profiles', href: `${REVIEW_BASE}/embassy-profiles` }, { label: p.country }]}>
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: 'Tanzania Economic Diplomacy Review', href: REVIEW_BASE }, { label: 'Partner profiles', href: `${REVIEW_BASE}/embassy-profiles` }, { label: p.country }]}>
     <p class="flags"><span class="tag tag--brand">Verified</span>{p.signoffDate && <span class="tag">Signed off by the mission {p.signoffDate}</span>}{p.sponsored && <span class="tag tag--brand">Sponsored profile</span>}{p.cutoff && <span class="tag">Data cut-off {p.cutoff}</span>}</p>
   </PageHero>
   <ReviewTabs />

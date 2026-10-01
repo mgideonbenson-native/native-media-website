@@ -25,7 +25,10 @@
 - [ ] **Team profiles**: names, titles, approved biographies and photos (About → Leadership & Team).
 - [ ] **Partners, sponsors and clients**: only confirmed ones with written permission.
 - [ ] **Company history and milestones** (About → Our Story) if you want them shown.
-- [ ] **Stories and productions**: the demonstration items are hidden from search engines; replace them with real, approved work.
+- [ ] **Stories**: the demonstration stories are hidden from search engines; replace them with real, approved work.
+- [ ] **Creative Data portfolio** (audiovisuals, motion graphics, digital videos, visual research presentations): add completed, verified projects with confirmed credits.
+- [ ] **Training & Mentorship**: details for Native Talks and thought leadership development (who it is for, format, dates, how to apply, mentors). The pages hold placeholders until you supply them.
+- [ ] **Third-party research**: confirm the proposed standards on that page, and add real items only with the owners' permission.
 - [ ] **Data & Visuals**: the charts, map and timeline use sample data. Replace with verified, sourced data or leave them unpublished.
 - [ ] **Tanzania Economic Diplomacy Review**: approve how it is shown. The draft's figures, the partner countries and the Ministerial foreword are deliberately **not** on the site. Confirm the draft cover (AI-generated, labelled) may be public.
 - [ ] **Episode links**: the exact YouTube/Spotify/Apple/Amazon link for each episode (currently show-level links).

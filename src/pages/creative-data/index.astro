@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Visual from '../../components/Visual.astro';
+const formats = [
+  { title: 'Audiovisuals', art: 'lens', text: 'Films and audio built around research, interviews and institutions.' },
+  { title: 'Motion graphics', art: 'signal', text: 'Animated graphics that make data and ideas move and become easier to follow.' },
+  { title: 'Digital videos', art: 'frames', text: 'Video made for digital platforms, from short explainers to longer features.' },
+  { title: 'Visual research presentations', art: 'grid', text: 'Research findings designed to be presented, shown and shared.' },
+] as const;
+const tools = [
+  ['Data hub', '/creative-data/data-and-visuals/data-hub', 'Filter and compare indicators by partner, region, sector and year.'],
+  ['Africa map', '/creative-data/data-and-visuals/africa-map', 'An interactive map ready for country-level indicators.'],
+  ['Bilateral trade and investment', '/creative-data/data-and-visuals/bilateral-trade', 'Charts for trade and investment relationships.'],
+  ['Timeline', '/creative-data/data-and-visuals/diplomacy-timeline', 'Events in date order, with sources.'],
+];
+---
+<BaseLayout title="Creative Data | Native Media" description="Creative Data from Native Media: audiovisuals, motion graphics, digital videos and visual research presentations that turn research and data into something people can see.">
+  <PageHero eyebrow="What we do · 04" title="Creative Data" lede="Audiovisuals, motion graphics, digital videos and visual research presentations. We turn research and data into something people can see."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Creative Data' }]}>
+    <a class="btn" href="/contact/creative-data">Start an inquiry <span aria-hidden="true">→</span></a>
+  </PageHero>
+
+  <section class="section theme-light" aria-labelledby="f-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">What we make</p><h2 id="f-t">Four formats.</h2>
+        <p class="lede">Each one starts from evidence and is designed for the people who need to understand it.</p></div>
+      <ul class="formats">
+        {formats.map((f) => (
+          <li><Visual art={f.art} label="Portfolio placeholder" ratio="16 / 9" /><h3>{f.title}</h3><p class="muted">{f.text}</p></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section theme-dark">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Portfolio</p><h2 class="h2">Selected work.</h2></div>
+      <div class="stack"><div class="notice-box"><span class="tag tag--brand">None published yet</span><p>Only completed projects with confirmed clients and credits will appear here. Any design previews will be labelled as demonstrations.</p></div></div>
+    </div>
+  </section>
+
+  <section class="section theme-light">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Data &amp; Visuals</p><h2>Explorable data, with sources shown.</h2>
+        <p class="lede">Prototypes of the interactive charts and maps we build. They currently use clearly labelled sample data. Real work shows its source, period and units on every chart.</p></div>
+      <ul class="cards">{tools.map(([t, h, d]) => <li class="card"><h3><a href={h}>{t}</a></h3><p>{d}</p><span class="tag">Sample data</span></li>)}</ul>
+      <p class="more"><a class="arrow-link" href="/creative-data/data-and-visuals">All Data &amp; Visuals <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+  <CtaBand title="Make your research visible." text="Tell us what you need to show and who needs to see it." href="/contact/creative-data" label="Creative Data inquiry" />
+</BaseLayout>
+<style>
+  .formats { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .formats li { display: grid; gap: 0.6rem; align-content: start; } .formats h3 { font-size: var(--step-1); font-weight: 800; }
+  .card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand-ink); } .card .tag { justify-self: start; } .more { margin-top: 2rem; }
+</style>

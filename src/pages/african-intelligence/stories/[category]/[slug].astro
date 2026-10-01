@@ -1,13 +1,13 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import DemoBanner from '../../../components/DemoBanner.astro';
-import Visual from '../../../components/Visual.astro';
-import Cover from '../../../components/Cover.astro';
-import StoryCard from '../../../components/StoryCard.astro';
-import ShareBar from '../../../components/ShareBar.astro';
-import CtaBand from '../../../components/CtaBand.astro';
-import { storyCategories, storyKinds } from '../../../data/categories';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import DemoBanner from '../../../../components/DemoBanner.astro';
+import Visual from '../../../../components/Visual.astro';
+import Cover from '../../../../components/Cover.astro';
+import StoryCard from '../../../../components/StoryCard.astro';
+import ShareBar from '../../../../components/ShareBar.astro';
+import CtaBand from '../../../../components/CtaBand.astro';
+import { storyCategories, storyKinds } from '../../../../data/categories';
 export async function getStaticPaths() {
   return (await getCollection('stories')).map((s) => ({ params: { category: s.data.category, slug: s.id }, props: { s } }));
 }
@@ -18,13 +18,13 @@ const cat = storyCategories.find((c) => c.slug === d.category)!;
 const minutes = Math.max(1, Math.round((s.body ?? '').split(/\s+/).length / 200));
 const related = (await getCollection('stories')).filter((r) => r.id !== s.id && r.data.category === d.category).slice(0, 3);
 const more = (await getCollection('stories')).filter((r) => r.id !== s.id).slice(0, 3);
-const path = `/stories/${d.category}/${s.id}`;
+const path = `/african-intelligence/stories/${d.category}/${s.id}`;
 ---
 <BaseLayout title={`${d.title.length > 52 ? d.title.slice(0, 50).trimEnd() + '…' : d.title} | Native Media`} description={d.subtitle} noindex={d.demo}>
   <article class="story theme-light">
     <header class="story__head theme-dark">
       <div class="wrap">
-        <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/stories">Stories</a></li><li><a href={`/stories/${d.category}`}>{cat.label}</a></li></ol></nav>
+        <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/african-intelligence">African Intelligence</a></li><li><a href="/african-intelligence/stories">Stories</a></li><li><a href={`/african-intelligence/stories/${d.category}`}>{cat.label}</a></li></ol></nav>
         <p class="kindline"><span class="eyebrow">{cat.label}</span><span class="tag tag--brand" title={storyKinds[d.kind].text}>{storyKinds[d.kind].label}</span></p>
         <h1>{d.title}</h1>
         <p class="lede">{d.subtitle}</p>
@@ -51,7 +51,7 @@ const path = `/stories/${d.category}/${s.id}`;
           ? <ul class="src">{d.sources.map((x) => <li>{x}</li>)}</ul>
           : <p class="muted small">A numbered list of sources will appear here for each real story.</p>}
         <h2>Related</h2>
-        <p class="muted small">Related research, podcast episodes and productions will be linked here. See <a href="/african-intelligence">African Intelligence</a> and <a href="/intelligence">Intelligence</a>.</p>
+        <p class="muted small">Related research, podcast episodes will be linked here. See <a href="/african-intelligence">African Intelligence</a> and <a href="/research-and-publications/intelligence">Intelligence</a>.</p>
       </div>
     </div>
   </article>

@@ -8,7 +8,7 @@ const { section } = Astro.params as { section: keyof typeof sections };
 const m = sections[section];
 ---
 <BaseLayout title={`${m.title} | Publications | Native Media`} description={m.lede}>
-  <PageHero eyebrow="Publications" title={m.title} lede={m.lede} crumbs={[{ label: 'Home', href: '/' }, { label: 'Publications', href: '/publications' }, { label: m.title }]} />
+  <PageHero eyebrow="Publications" title={m.title} lede={m.lede} crumbs={[{ label: 'Home', href: '/' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: m.title }]} />
   <section class="section theme-light"><div class="wrap split">
     <div class="stack"><h2 class="h2">Available now</h2>
       <div class="notice-box"><span class="tag tag--brand">None published</span><p>{m.empty}</p></div></div>

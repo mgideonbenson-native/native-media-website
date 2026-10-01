@@ -47,15 +47,6 @@ export const story = defineType({ name: 'story', title: 'Story', type: 'document
   defineField({ name: 'sponsor', title: 'Sponsor (required for sponsored content)', type: 'reference', to: [{ type: 'sponsor' }], validation: (r) => r.custom((v: any, ctx: any) => (ctx.document?.kind === 'sponsored' && !v ? 'Sponsored content must name its sponsor.' : true)) }),
   workflowField ], preview: wfPreview });
 
-export const production = defineType({ name: 'production', title: 'Production', type: 'document', fields: [
-  req('title', 'Title'), slug(), defineField({ name: 'category', type: 'string', validation: (r) => r.required(), options: { list: [
-    { title: 'Documentaries', value: 'documentaries' }, { title: 'Corporate Films', value: 'corporate-films' }, { title: 'Motion Graphics', value: 'motion-graphics' }, { title: 'Visual Explainers', value: 'visual-explainers' }] } }),
-  defineField({ name: 'synopsis', type: 'text', validation: (r) => r.required() }), imageWithAlt('poster', 'Poster'), defineField({ name: 'duration', type: 'string' }), defineField({ name: 'releaseDate', type: 'date' }),
-  defineField({ name: 'videoUrl', title: 'Video link (YouTube or Vimeo)', type: 'url' }),
-  defineField({ name: 'credits', title: 'Production credits (confirmed only)', type: 'array', of: [{ type: 'credit' }] }),
-  defineField({ name: 'clientConfirmed', title: 'Client has confirmed this work can be published', type: 'boolean', initialValue: false, validation: (r) => r.custom((v: any) => (v === true ? true : 'Confirm client permission before publishing.')) }),
-  defineField({ name: 'featured', type: 'boolean', initialValue: false }), defineField({ name: 'body', type: 'body' }), workflowField ], preview: wfPreview });
-
 export const researchOutput = defineType({ name: 'researchOutput', title: 'Intelligence briefing / research paper', type: 'document', fields: [
   req('title', 'Title'), slug(), defineField({ name: 'kind', type: 'string', validation: (r) => r.required(), options: { list: [{ title: 'Briefing', value: 'briefing' }, { title: 'Research paper', value: 'paper' }, { title: 'Institutional report', value: 'report' }, { title: 'Data-led feature', value: 'feature' }] } }),
   req('subject', 'Subject'), req('publishDate', 'Publication date', 'date'), req('reportingPeriod', 'Reporting period'),

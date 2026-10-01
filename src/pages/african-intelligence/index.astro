@@ -22,10 +22,15 @@ const ld = {
 ---
 <BaseLayout title="African Intelligence | Native Media" description="African Intelligence explores African business, economics, leadership, strategy, diplomacy, innovation and development, and the ideas shaping the continent." jsonLd={ld}
   image={featured?.ep.data.cover.src}>
-  <PageHero eyebrow="A Native Media production" title="African Intelligence" lede="Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas, people and forces shaping Africa’s future, and how Africans can play a greater role in shaping the narratives around it."
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence' }]}>
+  <PageHero eyebrow="What we do · 03" title="African Intelligence" lede="Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas, people and forces shaping Africa’s future, and how Africans can play a greater role in shaping the narratives around it."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'African Intelligence' }]}>
     <ListenLinks />
   </PageHero>
+  <nav class="xnav" aria-label="African Intelligence sections"><div class="wrap"><ul>
+    <li><a href="/african-intelligence/latest-episodes">Episodes</a></li><li><a href="/african-intelligence/guests">Guests</a></li>
+    <li><a href="/african-intelligence/interviews">Interviews</a></li><li><a href="/african-intelligence/video-and-audio">Video &amp; Audio</a></li>
+    <li><a href="/african-intelligence/transcripts">Transcripts</a></li><li><a href="/african-intelligence/stories">Stories</a></li>
+  </ul></div></nav>
 
   {featured ? (
   <section class="section theme-dark feat" aria-labelledby="feat-t">
@@ -77,9 +82,21 @@ const ld = {
     </div>
   </section>
 
+  <section class="section theme-charcoal" aria-labelledby="st-t">
+    <div class="wrap split">
+      <div class="stack"><p class="eyebrow">Stories</p><h2 id="st-t" class="h2">African stories, told with context.</h2>
+        <p class="muted">Original reporting, research-based analysis, interviews and multimedia, curated for depth rather than speed. Every story is labelled so you know what you are reading.</p></div>
+      <div class="stack"><p><a class="btn" href="/african-intelligence/stories">Browse stories <span aria-hidden="true">→</span></a></p>
+        <p class="muted small">Stories currently shown are layout demonstrations. Real stories will replace them.</p></div>
+    </div>
+  </section>
+
   <CtaBand title="Be a guest, or support the show." text="If you believe independent African storytelling, research and thought leadership matter, share an episode and help us build a stronger platform for African ideas and perspectives." href="/contact/general-inquiries" label="Get in touch" />
 </BaseLayout>
 <style>
+  .xnav { background: var(--charcoal); border-bottom: 1px solid var(--line-dark); position: sticky; top: var(--header-h); z-index: 50; }
+  .xnav ul { display: flex; overflow-x: auto; } .xnav a { display: block; padding: 0.95rem 0.9rem; white-space: nowrap; text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray); } .xnav a:hover { color: var(--brand); }
+  .small { font-size: 0.88rem; }
   .feat__grid { display: grid; gap: 2.5rem; align-items: center; }
   .feat__img { display: block; border: 1px solid var(--line-dark); box-shadow: 14px 14px 0 var(--brand); max-width: 36rem; width: 100%; }
   .feat__img :global(img) { width: 100%; height: auto; display: block; }

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+---
+<BaseLayout title="Training & Mentorship | Native Media" description="Training and mentorship from Native Media: thought leadership development for communication leaders, and Native Talks, a mentorship programme for young communicators.">
+  <PageHero eyebrow="What we do · 05" title="Training & Mentorship" lede="Growing the next generation of African communicators, through two focuses."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Training & Mentorship' }]} />
+  <section class="section theme-light">
+    <div class="wrap">
+      <ul class="focus">
+        <li class="card">
+          <span class="eyebrow">Focus one</span>
+          <h2 class="h2">Thought leadership development</h2>
+          <p>Nurturing thought leaders in the area of communication.</p>
+          <span class="tag">Details to be added</span>
+          <a class="arrow-link" href="/training-and-mentorship/thought-leadership">Explore <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="card">
+          <span class="eyebrow">Focus two</span>
+          <h2 class="h2">Native Talks</h2>
+          <p>A young communication mentorship programme.</p>
+          <span class="tag">Details to be added</span>
+          <a class="arrow-link" href="/training-and-mentorship/native-talks">Explore <span aria-hidden="true">→</span></a>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <CtaBand title="Ask about training and mentorship." text="Tell us whether you are interested in thought leadership development or in Native Talks, and we will reply with details." href="/contact/training-and-mentorship" label="Make an inquiry" />
+</BaseLayout>
+<style>.focus { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); } .focus .card { padding: 2rem; } .focus .tag { justify-self: start; }</style>

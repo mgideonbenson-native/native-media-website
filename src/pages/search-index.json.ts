@@ -1,11 +1,11 @@
 import { getCollection } from 'astro:content';
 import { capabilities } from '../data/capabilities';
 import { allPaths, builtPaths } from '../data/site';
-import { storyCategories, productionCategories } from '../data/categories';
+import { storyCategories } from '../data/categories';
 
 /**
  * Builds the site-wide search index at build time.
- * Demonstration stories/productions are left out so they never appear in real searches.
+ * Demonstration stories are left out so they never appear in real searches.
  */
 export async function GET() {
   const entries: { type: string; title: string; text: string; href: string }[] = [];
@@ -21,12 +21,7 @@ export async function GET() {
   for (const s of await getCollection('stories')) {
     if (s.data.demo) continue;
     const cat = storyCategories.find((c) => c.slug === s.data.category)!.label;
-    entries.push({ type: 'Story', title: s.data.title, text: `${s.data.subtitle} ${cat}`, href: `/stories/${s.data.category}/${s.id}` });
-  }
-  for (const p of await getCollection('productions')) {
-    if (p.data.demo) continue;
-    const cat = productionCategories.find((c) => c.slug === p.data.category)!.label;
-    entries.push({ type: 'Production', title: p.data.title, text: `${p.data.synopsis} ${cat}`, href: `/productions/${p.data.category}/${p.id}` });
+    entries.push({ type: 'Story', title: s.data.title, text: `${s.data.subtitle} ${cat}`, href: `/african-intelligence/stories/${s.data.category}/${s.id}` });
   }
   return new Response(JSON.stringify(entries), { headers: { 'Content-Type': 'application/json' } });
 }

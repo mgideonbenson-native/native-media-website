@@ -1,17 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import PageHero from '../../../components/PageHero.astro';
-import DemoBanner from '../../../components/DemoBanner.astro';
-import StoryCard from '../../../components/StoryCard.astro';
-import { storyCategories } from '../../../data/categories';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PageHero from '../../../../components/PageHero.astro';
+import DemoBanner from '../../../../components/DemoBanner.astro';
+import StoryCard from '../../../../components/StoryCard.astro';
+import { storyCategories } from '../../../../data/categories';
 export function getStaticPaths() { return storyCategories.map((c) => ({ params: { category: c.slug }, props: { cat: c } })); }
 const { cat } = Astro.props;
 const stories = (await getCollection('stories')).filter((s) => s.data.category === cat.slug);
 const allDemo = stories.every((s) => s.data.demo);
 ---
 <BaseLayout title={`${cat.label} | Stories | Native Media`} description={`${cat.blurb} Stories from Native Media.`} noindex={allDemo}>
-  <PageHero eyebrow="Stories" title={cat.label} lede={cat.blurb} crumbs={[{ label: 'Home', href: '/' }, { label: 'Stories', href: '/stories' }, { label: cat.label }]} />
+  <PageHero eyebrow="Stories" title={cat.label} lede={cat.blurb} crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Stories', href: '/african-intelligence/stories' }, { label: cat.label }]} />
   {allDemo && stories.length > 0 && <DemoBanner />}
   <section class="section theme-charcoal">
     <div class="wrap">
@@ -19,7 +19,7 @@ const allDemo = stories.every((s) => s.data.demo);
       {stories.length > 0
         ? <div class="grid">{stories.map((s) => <StoryCard story={s} />)}</div>
         : <p class="muted">No stories have been published in this category yet.</p>}
-      <p class="more"><a class="arrow-link" href="/stories">All stories <span aria-hidden="true">→</span></a></p>
+      <p class="more"><a class="arrow-link" href="/african-intelligence/stories">All stories <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
 </BaseLayout>

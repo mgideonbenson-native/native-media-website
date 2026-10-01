@@ -5,8 +5,8 @@ import CtaBand from '../../components/CtaBand.astro';
 import Visual from '../../components/Visual.astro';
 import { pillars } from '../../data/site';
 ---
-<BaseLayout title="What We Do | Native Media" description="Six interconnected capabilities: strategic communications, intelligence and research, media and storytelling, creative production, institutional publications and digital intelligence.">
-  <PageHero eyebrow="What we do" title="Six capabilities, one integrated approach." lede="Native Media combines strategic communications, intelligence, storytelling, production, publishing and data. Each can stand alone, and each is stronger alongside the others."
+<BaseLayout title="What We Do | Native Media" description="Five areas of work: narrative engineering, research and publications, African Intelligence, creative data, and training and mentorship.">
+  <PageHero eyebrow="What we do" title="Five areas, one integrated approach." lede="Native Media brings narrative, research, storytelling, creative data and training together. Each area stands on its own, and each is stronger alongside the others."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do' }]} />
   <section class="section theme-light">
     <div class="wrap">
@@ -19,7 +19,7 @@ import { pillars } from '../../data/site';
               <h2 class="h2">{p.title}</h2>
               <p class="lede">{p.summary}</p>
               <ul class="chips">{p.tags.map((t) => <li>{t}</li>)}</ul>
-              <a class="arrow-link" href={`/what-we-do/${p.slug}`}>Explore {p.title} <span aria-hidden="true">→</span></a>
+              <a class="arrow-link" href={p.href}>Explore {p.title} <span aria-hidden="true">→</span></a>
             </div>
           </li>
         ))}

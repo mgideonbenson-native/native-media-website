@@ -14,7 +14,6 @@ export const structure: StructureResolver = (S) =>
     S.divider(),
     group(S, 'African Intelligence', [['Episodes', 'episode'], ['Guests', 'guest']]),
     group(S, 'Stories', [['Stories', 'story'], ['Authors', 'author']]),
-    group(S, 'Productions', [['Productions', 'production']]),
     group(S, 'Intelligence & research', [['Briefings and papers', 'researchOutput']]),
     group(S, 'Publications', [['Publications', 'publication'], ['Editions', 'edition'], ['Chapters', 'chapter'], ['Embassy / partner profiles', 'embassyProfile'], ['Bilateral agreements', 'agreement'], ['Directory entries', 'directoryEntry'], ['Quarterly updates', 'quarterlyUpdate']]),
     group(S, 'Data', [['Datasets', 'dataset'], ['Data exhibits', 'exhibit']]),
