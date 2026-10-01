@@ -20,7 +20,8 @@ export const company = {
   email: '',
   phone: '',
   address: '',
-  social: [] as { label: string; href: string }[],
+  // Only verified, owner-supplied channels belong here.
+  social: [{ label: 'YouTube', href: 'https://www.youtube.com/@nativemedia_africa' }] as { label: string; href: string }[],
 };
 
 export type NavChild = { label: string; href: string };
@@ -233,3 +234,15 @@ export const builtPaths = new Set<string>([
   '/contact', '/contact/general-inquiries', '/contact/strategic-communications',
   '/contact/research-collaboration', '/contact/institutional-partnerships', '/contact/production-inquiries',
 ]);
+
+/**
+ * African Intelligence listening channels. `href` is set only for links the owner has supplied.
+ * Spotify, Apple Podcasts and Amazon Music stay empty until their links are provided.
+ */
+export const aiPlatforms: { label: string; href: string }[] = [
+  { label: 'YouTube', href: 'https://www.youtube.com/@nativemedia_africa/podcasts' },
+  { label: 'RSS.com', href: 'https://rss.com/podcasts/african-intelligence/' },
+  { label: 'Spotify', href: '' },
+  { label: 'Apple Podcasts', href: '' },
+  { label: 'Amazon Music', href: '' },
+];

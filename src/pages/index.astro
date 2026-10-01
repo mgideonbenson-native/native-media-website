@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Visual from '../components/Visual.astro';
-import { company, pillars } from '../data/site';
+import { aiPlatforms, company, pillars } from '../data/site';
 
 const disciplines = ['Media', 'Strategic communications', 'Intelligence', 'Research', 'Creative production'];
 
@@ -185,10 +185,10 @@ const interests = [
         <p class="eyebrow">Flagship content brand</p>
         <h2 id="ai-title" class="display">African Intelligence</h2>
         <p class="lede">Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas shaping the continent.</p>
-        <ul class="platforms" aria-label="Listening platforms (links will be added once verified)">
-          {['YouTube', 'Spotify', 'Apple Podcasts', 'Amazon Music', 'RSS'].map((p) => <li><span class="tag">{p}</span></li>)}
+        <ul class="platforms" aria-label="Where to listen">
+          {aiPlatforms.map((p) => <li>{p.href ? <a class="tag tag--brand tag--link" href={p.href} rel="noopener" target="_blank">{p.label} <span class="sr-only">(opens in a new tab)</span></a> : <span class="tag">{p.label} · soon</span>}</li>)}
         </ul>
-        <p class="muted small">Platform links will be added once the show’s official channels are confirmed.</p>
+        <p class="muted small">YouTube and RSS.com are live. Other platforms will be added once their links are confirmed.</p>
         <div class="ai__cta">
           <a class="btn" href="/african-intelligence/latest-episodes">Browse episodes <span aria-hidden="true">→</span></a>
           <a class="btn btn--ghost" href="/african-intelligence/guests">Guests</a>
@@ -440,6 +440,7 @@ const interests = [
   .ai__copy { display: grid; gap: 1.4rem; }
   .platforms { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .small { font-size: 0.85rem; }
+  .tag--link { text-decoration: none; padding: 0.5rem 0.8rem; } .tag--link:hover { background: var(--brand); color: var(--black); }
   .ai__cta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.4rem; }
   .ai__player { display: grid; gap: 1rem; }
   .ai__video { outline: 1px solid var(--brand); outline-offset: 8px; }
