@@ -1,0 +1,106 @@
+---
+import '../styles/viz.css';
+import { categories, datasetMeta, indicators, isSample, partners, regions, sampleRows, sectors, years } from '../data/sample';
+interface Props {
+  indicator?: (typeof indicators)[number];
+  lockIndicator?: boolean;
+  groupBy?: 'p' | 'r' | 's' | 'c' | 'y';
+  id?: string;
+}
+const { indicator = 'Trade value', lockIndicator = false, groupBy = 'p', id = 'ex' } = Astro.props;
+const groups = [['p', 'Trading partner'], ['r', 'Region'], ['s', 'Sector'], ['c', 'Investment category'], ['y', 'Year']] as const;
+---
+<section class="exhibit" data-explorer data-indicator={indicator} data-group={groupBy} aria-labelledby={`${id}-title`}>
+  {isSample && <div class="exhibit__banner" role="note"><span class="tag">Illustrative sample data</span><span>Not real figures. Partners are generic placeholders. Replace with verified, sourced data before publication.</span></div>}
+  <h2 class="exhibit__title" id={`${id}-title`} data-title>Explorer</h2>
+
+  <form class="filters" aria-label="Chart filters" onsubmit="return false">
+    <label>Indicator<select name="indicator" disabled={lockIndicator}>{indicators.map((i) => <option selected={i === indicator}>{i}</option>)}</select></label>
+    <label>Show by<select name="group">{groups.map(([k, l]) => <option value={k} selected={k === groupBy}>{l}</option>)}</select></label>
+    <label>Region<select name="region"><option value="">All regions</option>{regions.map((r) => <option>{r}</option>)}</select></label>
+    <label>Trading partner<select name="partner"><option value="">All partners</option>{partners.map((r) => <option>{r}</option>)}</select></label>
+    <label>Sector<select name="sector" data-inv><option value="">All sectors</option>{sectors.map((r) => <option>{r}</option>)}</select></label>
+    <label>Investment category<select name="category" data-inv><option value="">All categories</option>{categories.map((r) => <option>{r}</option>)}</select></label>
+    <label>From<select name="from">{years.map((y) => <option selected={y === years[0]}>{y}</option>)}</select></label>
+    <label>To<select name="to">{years.map((y) => <option selected={y === years[years.length - 1]}>{y}</option>)}</select></label>
+    <label data-splitwrap>Split lines by<select name="split"><option value="">None (total)</option><option value="r">Region</option></select></label>
+    <button class="btn btn--ghost" type="button" data-csv>Download CSV</button>
+  </form>
+  <p class="viz-note" data-inv-note hidden>Sector and investment category apply to investment value only.</p>
+
+  <div class="viz-stage" data-chart></div>
+  <p class="viz-empty" data-empty hidden>No data matches these filters.</p>
+
+  <dl class="exhibit__meta" data-meta></dl>
+  <details><summary>View the data as a table</summary><div class="viz-tablewrap" data-table></div></details>
+  <script type="application/json" data-rows set:html={JSON.stringify(sampleRows)} />
+  <script type="application/json" data-meta-json set:html={JSON.stringify(datasetMeta)} />
+</section>
+
+<script>
+  import { barChart, dataTable, downloadCsv, lineChart, type Series } from '../lib/charts';
+  type Row = { p: string; r: string; y: number; s: string; c: string; i: string; v: number };
+  const REGION_COLORS: Record<string, { color: string; dash?: string }> = {
+    Africa: { color: 'var(--viz-1)' }, 'Middle East': { color: 'var(--viz-2)' }, 'Asia-Pacific': { color: 'var(--viz-3)' }, Europe: { color: 'var(--viz-4)' }, Americas: { color: 'var(--viz-other)', dash: '5 4' },
+  };
+  document.querySelectorAll<HTMLElement>('[data-explorer]').forEach((root) => {
+    const rows: Row[] = JSON.parse(root.querySelector('[data-rows]')!.textContent!);
+    const meta = JSON.parse(root.querySelector('[data-meta-json]')!.textContent!);
+    const form = root.querySelector<HTMLFormElement>('form')!;
+    const get = (n: string) => (form.elements.namedItem(n) as HTMLSelectElement);
+    const stage = root.querySelector<HTMLElement>('[data-chart]')!;
+    const names: Record<string, string> = { p: 'trading partner', r: 'region', s: 'sector', c: 'investment category', y: 'year' };
+    let current: { head: string[]; rows: (string | number)[][] } = { head: [], rows: [] };
+
+    const render = () => {
+      const ind = get('indicator').value; const g = get('group').value as 'p' | 'r' | 's' | 'c' | 'y';
+      const from = +get('from').value, to = +get('to').value;
+      const invOnly = ind !== 'Investment value';
+      root.querySelectorAll<HTMLSelectElement>('[data-inv]').forEach((s) => { s.disabled = invOnly; if (invOnly) s.value = ''; });
+      root.querySelector<HTMLElement>('[data-inv-note]')!.hidden = !invOnly;
+      const splitWrap = root.querySelector<HTMLElement>('[data-splitwrap]')!; splitWrap.hidden = g !== 'y';
+      const f = rows.filter((r) => r.i === ind && r.y >= from && r.y <= to
+        && (!get('region').value || r.r === get('region').value) && (!get('partner').value || r.p === get('partner').value)
+        && (!get('sector').value || r.s === get('sector').value) && (!get('category').value || r.c === get('category').value));
+      stage.classList.add('is-loading');
+      const empty = root.querySelector<HTMLElement>('[data-empty]')!; empty.hidden = f.length > 0;
+      const unit = 'index pts';
+      const period = from === to ? String(from) : `${from} to ${to}`;
+      root.querySelector('[data-title]')!.textContent = `${ind} ${g === 'y' ? 'over time' : `by ${names[g]}`} (sample)`;
+      if (!f.length) { stage.replaceChildren(); root.querySelector('[data-table]')!.replaceChildren(); stage.classList.remove('is-loading'); return; }
+
+      if (g === 'y') {
+        const xs = [...new Set(f.map((r) => r.y))].sort().map(String);
+        const split = get('split').value === 'r';
+        let series: Series[];
+        if (split) {
+          const regs = Object.keys(REGION_COLORS).filter((r) => f.some((x) => x.r === r));
+          series = regs.map((rg) => ({ name: rg, ...REGION_COLORS[rg], values: xs.map((x) => { const v = f.filter((r) => r.r === rg && String(r.y) === x); return v.length ? Math.round(v.reduce((a, b) => a + b.v, 0) * 10) / 10 : null; }) }));
+        } else {
+          series = [{ name: 'Total', color: 'var(--viz-1)', values: xs.map((x) => Math.round(f.filter((r) => String(r.y) === x).reduce((a, b) => a + b.v, 0) * 10) / 10) }];
+        }
+        lineChart(stage, xs, series, { units: unit, title: `${ind} over time (sample data)` });
+        current = { head: ['Year', ...series.map((s) => s.name)], rows: xs.map((x, i) => [x, ...series.map((s) => s.values[i] ?? '')]) };
+      } else {
+        const sums = new Map<string, number>(); f.forEach((r) => sums.set(r[g] as string, (sums.get(r[g] as string) ?? 0) + r.v));
+        const items = [...sums].map(([label, value]) => ({ label, value: Math.round(value * 10) / 10 })).sort((a, b) => b.value - a.value);
+        barChart(stage, items, { units: unit });
+        current = { head: [names[g][0].toUpperCase() + names[g].slice(1), `${ind} (${unit})`], rows: items.map((i) => [i.label, i.value]) };
+      }
+      dataTable(root.querySelector<HTMLElement>('[data-table]')!, current.head, current.rows, `${ind}, ${period}. ${meta.units}.`);
+      const dl = root.querySelector('[data-meta]')!; dl.replaceChildren();
+      ([['Title', root.querySelector('[data-title]')!.textContent!], ['Indicator', `${ind} (${unit})`], ['Reporting period', `${period} (sample years)`], ['Source', meta.source], ['Units', meta.units], ['Notes', meta.notes]] as [string, string][]).forEach(([k, v]) => {
+        const d = document.createElement('div'); const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; d.append(dt, dd); dl.append(d);
+      });
+      requestAnimationFrame(() => stage.classList.remove('is-loading'));
+    };
+    form.addEventListener('change', () => { // keep from <= to
+      if (+get('from').value > +get('to').value) get('to').value = get('from').value; render();
+    });
+    root.querySelector('[data-csv]')!.addEventListener('click', () => downloadCsv('sample-data.csv', current.head, current.rows));
+    // presets
+    get('indicator').value = root.dataset.indicator!; get('group').value = root.dataset.group!;
+    render();
+  });
+</script>
+<style>.viz-note { font-size: 0.85rem; color: var(--viz-ink-2, #52514e); }</style>

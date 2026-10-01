@@ -1,0 +1,39 @@
+---
+import '../../../styles/viz.css';
+import DataPage from '../../../components/DataPage.astro';
+import { isSample, sampleTimeline, timelineTypes } from '../../../data/sample';
+---
+<DataPage title="Economic diplomacy timeline" lede="State visits, joint commissions, new missions, agreements and summits in date order. This is a layout preview.">
+  <section class="section theme-light"><div class="wrap">
+    <div class="exhibit">
+      {isSample && <div class="exhibit__banner" role="note"><span class="tag">Illustrative sample data</span><span>Placeholder entries only. A real timeline lists officially documented events with dates and sources.</span></div>}
+      <h2 class="exhibit__title">Timeline (sample)</h2>
+      <div class="chips" role="group" aria-label="Filter by event type">
+        <button type="button" class="chip" aria-pressed="true" data-type="">All</button>
+        {timelineTypes.map((t) => <button type="button" class="chip" aria-pressed="false" data-type={t}>{t}</button>)}
+      </div>
+      <ol class="tl" data-list>
+        {sampleTimeline.map((e) => (
+          <li data-type={e.type}><span class="tl__dot" aria-hidden="true"></span>
+            <p class="tl__date">{e.date}</p><h3>{e.title}</h3><p>{e.text}</p><span class="tag">Sample</span></li>
+        ))}
+      </ol>
+      <dl class="exhibit__meta"><div><dt>Title</dt><dd>Economic diplomacy timeline (sample)</dd></div><div><dt>Indicator</dt><dd>Events by type</dd></div><div><dt>Reporting period</dt><dd>Sample, none</dd></div><div><dt>Source</dt><dd>None. Illustrative sample.</dd></div><div><dt>Units</dt><dd>Events</dd></div><div><dt>Notes</dt><dd>Real entries cite an official source and date.</dd></div></dl>
+    </div>
+  </div></section>
+</DataPage>
+<style>
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip { cursor: pointer; background: #fff; border: 1px solid var(--viz-ink); color: var(--viz-ink); padding: 0.45rem 0.9rem; border-radius: 999px; font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; }
+  .chip[aria-pressed='true'] { background: var(--viz-ink); color: #fff; }
+  .tl { border-left: 2px solid var(--viz-grid); margin-left: 0.5rem; display: grid; gap: 1.2rem; }
+  .tl li { position: relative; padding-left: 1.6rem; display: grid; gap: 0.25rem; justify-items: start; } .tl li[hidden] { display: none; }
+  .tl__dot { position: absolute; left: -9px; top: 0.35rem; width: 16px; height: 16px; border-radius: 50%; background: var(--viz-1); border: 2px solid var(--viz-surface); }
+  .tl__date { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--viz-muted); }
+  .tl h3 { font-size: var(--step-1); font-weight: 800; } .tl p { color: var(--viz-ink-2); }
+  .tl .tag { color: var(--viz-muted); }
+</style>
+<script>
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')]; const items = [...document.querySelectorAll<HTMLElement>('[data-list] > li')];
+  chips.forEach((b) => b.addEventListener('click', () => { const t = b.dataset.type ?? ''; items.forEach((li) => (li.hidden = !!t && li.dataset.type !== t)); chips.forEach((c) => c.setAttribute('aria-pressed', String(c === b))); }));
+</script>

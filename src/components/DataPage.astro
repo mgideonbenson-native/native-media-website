@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import CtaBand from './CtaBand.astro';
+interface Props { title: string; lede: string; hub?: boolean }
+const { title, lede, hub = false } = Astro.props;
+const tools = [['Overview', '/intelligence/data-and-visuals'], ['Data hub', '/intelligence/data-and-visuals/data-hub'], ['Bilateral trade', '/intelligence/data-and-visuals/bilateral-trade'], ['Investment', '/intelligence/data-and-visuals/investment'], ['Africa map', '/intelligence/data-and-visuals/africa-map'], ['Timeline', '/intelligence/data-and-visuals/diplomacy-timeline']];
+const here = Astro.url.pathname.replace(/\/$/, '');
+---
+<BaseLayout title={`${title} | Data & Visuals | Native Media`} description={lede} noindex>
+  <PageHero eyebrow="Data & Visuals" {title} {lede} crumbs={hub ? [{ label: 'Home', href: '/' }, { label: 'Intelligence', href: '/intelligence' }, { label: 'Data & Visuals' }] : [{ label: 'Home', href: '/' }, { label: 'Intelligence', href: '/intelligence' }, { label: 'Data & Visuals', href: '/intelligence/data-and-visuals' }, { label: title }]} />
+  <nav class="dtabs" aria-label="Data & Visuals tools"><div class="wrap"><ul>{tools.map(([l, h]) => <li><a href={h} aria-current={here === h ? 'page' : undefined}>{l}</a></li>)}</ul></div></nav>
+  <slot />
+  <CtaBand title="Need verified data products?" text="Native Media builds dashboards, maps and data explainers on sourced datasets, with every chart showing its source, period and units." href="/contact/research-collaboration" label="Research inquiry" />
+</BaseLayout>
+<style>
+  .dtabs { background: var(--charcoal); border-bottom: 1px solid var(--line-dark); position: sticky; top: var(--header-h); z-index: 50; }
+  .dtabs ul { display: flex; overflow-x: auto; } .dtabs a { display: block; padding: 0.95rem 0.9rem; white-space: nowrap; text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 3px solid transparent; color: var(--gray); }
+  .dtabs a:hover { color: var(--paper); } .dtabs a[aria-current] { color: var(--brand); border-bottom-color: var(--brand); }
+</style>

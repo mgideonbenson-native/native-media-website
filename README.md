@@ -40,3 +40,6 @@ The files in `src/content/stories/` and `src/content/productions/` are **demonst
 
 ## The Tanzania Economic Diplomacy Review
 Its structure, policies and sourcing rules live in `src/data/review.ts` (edit text there). The supplied draft PDF is **not** stored in this repository, and the draft's statistics, partner-country names and ministerial details are deliberately not published on the site until they are verified and approved.
+
+## Data & Visuals (sample data)
+The charts, map and explorer under `/intelligence/data-and-visuals` use **illustrative sample data** from `src/data/sample.ts` (generic "Partner A" names, invented index values). Every exhibit says so, the pages are hidden from search engines and the sitemap, and nothing there is real. To publish real data: replace `sampleRows` with verified, sourced rows, update `datasetMeta` (source, units, period, notes), set `isSample = false`, and remove the `/intelligence/data-and-visuals` exclusion in `astro.config.mjs`. Chart code is in `src/lib/charts.ts`; map boundaries come from the public-domain Natural Earth data via `world-atlas`.

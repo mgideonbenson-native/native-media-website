@@ -1,0 +1,53 @@
+/* Data-visualization tokens and chart styles. Charts always sit on a light "exhibit" surface so they read well on any page section.
+   Palette validated with the dataviz validator (orange, blue, aqua, violet). Aqua is below 3:1 on the surface,
+   so every chart ships with visible labels, a legend and a data table. */
+.exhibit {
+  color-scheme: light;
+  --viz-surface: #fcfcfb; --viz-ink: #0b0b0b; --viz-ink-2: #52514e; --viz-muted: #6e6d68; --viz-grid: #e6e5e0;
+  --viz-1: #d9631f; --viz-2: #2a78d6; --viz-3: #1baf7a; --viz-4: #4a3aa7; --viz-other: #8b8b85;
+  background: var(--viz-surface); color: var(--viz-ink); border: 1px solid var(--line-light); padding: clamp(1.1rem, 3vw, 2rem); display: grid; gap: 1.3rem;
+}
+.exhibit a { color: var(--brand-ink); }
+.exhibit__banner { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; background: #fff4ec; border: 1px dashed var(--brand-ink); padding: 0.6rem 0.9rem; font-size: 0.9rem; }
+.exhibit__banner .tag { color: var(--brand-ink); }
+.exhibit h2, .exhibit h3 { color: var(--viz-ink); }
+.exhibit__title { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); }
+.exhibit__meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.7rem 1.4rem; margin: 0; padding-top: 1rem; border-top: 1px solid var(--viz-grid); }
+.exhibit__meta dt { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--viz-muted); font-weight: 700; }
+.exhibit__meta dd { margin: 0.1rem 0 0; font-size: 0.9rem; color: var(--viz-ink); }
+.filters { display: flex; flex-wrap: wrap; gap: 0.8rem 1rem; align-items: end; }
+.filters label { display: grid; gap: 0.25rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--viz-ink-2); }
+.filters select { padding: 0.55rem 0.7rem; border: 1.5px solid var(--viz-ink); border-radius: var(--radius); background: #fff; color: var(--viz-ink); font-size: 0.92rem; min-width: 9rem; }
+.filters select:disabled { opacity: 0.45; }
+.filters .btn { padding: 0.6rem 1rem; font-size: 0.82rem; }
+.viz-stage { transition: opacity 0.2s; } .viz-stage.is-loading { opacity: 0.5; }
+
+.viz-tip { position: absolute; z-index: 5; pointer-events: none; background: var(--viz-surface); border: 1px solid var(--viz-grid); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14); padding: 0.55rem 0.7rem; font-size: 0.82rem; min-width: 9rem; max-width: 16rem; }
+.viz-tip__head { font-weight: 700; color: var(--viz-ink-2); margin-bottom: 0.3rem; }
+.viz-tip__row { display: flex; align-items: center; gap: 0.5rem; } .viz-tip__row strong { color: var(--viz-ink); } .viz-tip__lab { color: var(--viz-ink-2); }
+.viz-tip__key { width: 14px; height: 3px; border-radius: 2px; display: inline-block; flex: none; }
+
+.viz-bars__list { display: grid; gap: 6px; }
+.viz-bars__row { display: grid; grid-template-columns: minmax(6.5rem, 11rem) 1fr 3.4rem; align-items: center; gap: 0.7rem; padding: 3px 4px; border-radius: 4px; }
+.viz-bars__row:hover, .viz-bars__row:focus-visible { background: #f1f0eb; }
+.viz-bars__label { font-size: 0.86rem; color: var(--viz-ink-2); line-height: 1.2; }
+.viz-bars__track { height: 20px; display: flex; align-items: center; }
+.viz-bars__bar { height: 20px; min-width: 2px; background: var(--viz-1); border-radius: 0 4px 4px 0; transition: width 0.4s var(--ease); }
+.viz-bars__value { font-size: 0.86rem; font-weight: 700; text-align: right; color: var(--viz-ink); font-variant-numeric: tabular-nums; }
+
+.viz-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin-bottom: 0.6rem; }
+.viz-legend__btn { display: inline-flex; align-items: center; gap: 0.5rem; background: none; border: 0; cursor: pointer; font-size: 0.86rem; color: var(--viz-ink-2); padding: 0.3rem 0.2rem; }
+.viz-legend__btn.is-off { opacity: 0.4; text-decoration: line-through; }
+.viz-legend__key { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+.viz-line svg { display: block; width: 100%; height: auto; overflow: visible; }
+.viz-grid { stroke: var(--viz-grid); stroke-width: 1; } .viz-cross { stroke: #9a9994; stroke-width: 1; }
+.viz-tick { fill: var(--viz-muted); font-size: 11px; } .viz-end { fill: var(--viz-ink-2); font-size: 11px; font-weight: 700; }
+.viz-line svg:focus-visible { outline: 3px solid var(--brand); outline-offset: 4px; }
+
+.viz-tablewrap { overflow-x: auto; }
+.viz-table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+.viz-table caption { text-align: left; font-weight: 700; padding-bottom: 0.5rem; color: var(--viz-ink-2); }
+.viz-table th, .viz-table td { padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--viz-grid); text-align: left; }
+.viz-table th[scope='col'] { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--viz-muted); } .viz-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.exhibit details summary { cursor: pointer; font-weight: 700; color: var(--brand-ink); }
+.viz-empty { color: var(--viz-ink-2); padding: 1.5rem 0; }

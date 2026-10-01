@@ -237,6 +237,7 @@ export const builtPaths = new Set<string>([
   '/intelligence', '/intelligence/economic-intelligence', '/intelligence/business-and-market-insights', '/intelligence/economic-diplomacy', '/intelligence/research-and-analysis',
   '/publications', '/publications/research-papers', '/publications/institutional-reports', '/publications/digital-editions', '/publications/archives',
   '/publications/tanzania-economic-diplomacy-review',
+  '/intelligence/data-and-visuals', '/intelligence/data-and-visuals/data-hub', '/intelligence/data-and-visuals/bilateral-trade', '/intelligence/data-and-visuals/investment', '/intelligence/data-and-visuals/africa-map', '/intelligence/data-and-visuals/diplomacy-timeline',
   '/search', '/stories', ...['business-and-economics','african-affairs','history','geopolitics','technology','infrastructure','society-and-culture'].map((c) => `/stories/${c}`),
   '/productions', ...['documentaries','corporate-films','motion-graphics','visual-explainers','production-portfolio'].map((c) => `/productions/${c}`),
   '/african-intelligence', '/african-intelligence/latest-episodes', '/african-intelligence/guests',

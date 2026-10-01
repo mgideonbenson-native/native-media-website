@@ -11,7 +11,7 @@ export default defineConfig({
       // Only list pages that really exist (placeholder "coming soon" pages are left out).
       filter: (page) => {
         const path = new URL(page).pathname.replace(/\/$/, '') || '/';
-        return (path === '/' || builtPaths.has(path) || path.startsWith('/african-intelligence/') || path.startsWith('/publications/tanzania-economic-diplomacy-review/')) && !path.startsWith('/stories') && !path.startsWith('/productions') && path !== '/search';
+        return (path === '/' || builtPaths.has(path) || path.startsWith('/african-intelligence/') || path.startsWith('/publications/tanzania-economic-diplomacy-review/')) && !path.startsWith('/intelligence/data-and-visuals') && !path.startsWith('/stories') && !path.startsWith('/productions') && path !== '/search';
       },
     }),
   ],
