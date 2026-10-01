@@ -1,0 +1,133 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+interface Props { overHero?: boolean }
+const { overHero = false } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+---
+<header class:list={['site-header', { 'over-hero': overHero }]} data-header>
+  <div class="site-header__bar">
+    <a class="site-header__logo" href="/" aria-label="Native Media, home"><Logo /></a>
+
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        {nav.map((item) => (
+          <li class:list={{ 'has-sub': !!item.children }}>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} class:list={{ active: isActive(item.href) }}>
+              {item.label}{item.children && <svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" /></svg>}
+            </a>
+            {item.children && (
+              <ul class="sub">
+                {item.children.map((c) => <li><a href={c.href}>{c.label}</a></li>)}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="search-link" href="/search" aria-label="Search Native Media">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2" /><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2" /></svg>
+      </a>
+      <a class="btn btn--sm" href="/contact">Inquire</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="sr-only">Menu</span>
+        <span class="bars" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile" id="mobile-menu" hidden data-mobile-menu>
+    <nav aria-label="Mobile">
+      <ul>
+        {nav.map((item) => (
+          <li>
+            {item.children ? (
+              <details>
+                <summary>{item.label}</summary>
+                <ul>
+                  {item.href !== item.children[0]?.href && <li><a href={item.href}>Overview</a></li>}
+                  {item.children.map((c) => <li><a href={c.href}>{c.label}</a></li>)}
+                </ul>
+              </details>
+            ) : (
+              <a class="mobile__top" href={item.href}>{item.label}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+      <div class="mobile__cta">
+        <a class="btn" href="/contact">Inquire</a>
+        <a class="btn btn--ghost" href="/search">Search</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; background: rgba(26, 26, 26, 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-dark); transition: background 0.35s var(--ease), border-color 0.35s var(--ease); }
+  .site-header.over-hero:not(.is-solid):not(.menu-open) { background: linear-gradient(to bottom, rgba(10, 10, 10, 0.7), transparent); backdrop-filter: none; border-color: transparent; }
+  .site-header__bar { width: min(100% - var(--gutter) * 2, 92rem); margin-inline: auto; height: var(--header-h); display: flex; align-items: center; gap: 1.5rem; justify-content: space-between; }
+  .site-header__logo { text-decoration: none; flex: none; }
+  .site-header__actions { flex: none; }
+  .primary { display: none; }
+  .primary > ul { display: flex; gap: 0.1rem; }
+  .primary a { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.55rem 0.55rem; text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: 0.76rem; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; border-bottom: 2px solid transparent; }
+  .primary a:hover { color: var(--brand); }
+  .primary a.active { color: var(--brand); border-bottom-color: var(--brand); }
+  .caret { width: 0.6rem; height: 0.4rem; opacity: 0.7; }
+  .has-sub { position: relative; }
+  .sub { position: absolute; left: 0; top: 100%; min-width: 19rem; background: var(--charcoal); border: 1px solid var(--line-dark); border-top: 2px solid var(--brand); padding: 0.5rem 0; opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s; box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45); }
+  .has-sub:last-child .sub, .has-sub:nth-last-child(2) .sub { left: auto; right: 0; }
+  .has-sub:hover > .sub, .has-sub:focus-within > .sub { opacity: 1; visibility: visible; transform: none; }
+  .sub a { display: block; padding: 0.65rem 1.25rem; font-weight: 500; font-size: 0.92rem; letter-spacing: 0; text-transform: none; border: 0; }
+  .sub a:hover { background: var(--charcoal-2); color: var(--brand); }
+  .site-header__actions { display: flex; align-items: center; gap: 0.5rem; }
+  .search-link { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%; }
+  .search-link:hover { color: var(--brand); }
+  .btn--sm { padding: 0.6rem 1.1rem; font-size: 0.8rem; }
+  .menu-toggle { width: 2.75rem; height: 2.75rem; background: none; border: 0; cursor: pointer; display: grid; place-items: center; }
+  .bars, .bars::before, .bars::after { display: block; width: 1.5rem; height: 2px; background: var(--paper); transition: transform 0.3s var(--ease), background 0.3s; content: ''; }
+  .bars { position: relative; }
+  .bars::before { position: absolute; top: -7px; }
+  .bars::after { position: absolute; top: 7px; }
+  .menu-open .bars { background: transparent; }
+  .menu-open .bars::before { transform: translateY(7px) rotate(45deg); }
+  .menu-open .bars::after { transform: translateY(-7px) rotate(-45deg); }
+  .mobile { max-height: calc(100dvh - var(--header-h)); overflow-y: auto; background: var(--charcoal); border-top: 1px solid var(--line-dark); padding: 0.5rem var(--gutter) 2rem; }
+  .mobile ul ul { padding: 0 0 0.75rem 1rem; }
+  .mobile summary, .mobile__top { display: flex; justify-content: space-between; padding: 1rem 0; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; border-bottom: 1px solid var(--line-dark); cursor: pointer; text-decoration: none; list-style: none; }
+  .mobile summary::-webkit-details-marker { display: none; }
+  .mobile summary::after { content: '+'; color: var(--brand); }
+  .mobile details[open] summary::after { content: '–'; }
+  .mobile ul ul a { display: block; padding: 0.6rem 0; text-decoration: none; color: var(--gray); }
+  .mobile ul ul a:hover { color: var(--brand); }
+  .mobile__cta { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  @media (min-width: 1300px) {
+    .primary { display: block; }
+    .menu-toggle, .mobile { display: none; }
+  }
+  @media (max-width: 420px) { .btn--sm { display: none; } }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-solid', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+  if (header && toggle && menu) {
+    const set = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      header.classList.toggle('menu-open', open);
+    };
+    toggle.addEventListener('click', () => set(!!menu.hidden));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { set(false); } });
+  }
+</script>

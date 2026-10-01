@@ -1,0 +1,525 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Visual from '../components/Visual.astro';
+import { company, pillars } from '../data/site';
+
+const disciplines = ['Media', 'Strategic communications', 'Intelligence', 'Research', 'Creative production'];
+
+const labels = [
+  ['Verified information', 'Facts traceable to a named source and reporting period.'],
+  ['Analytical interpretation', 'Native Media’s reading of the evidence, clearly marked as analysis.'],
+  ['External projection', 'Forecasts from identified third parties, attributed and never presented as our own.'],
+  ['Opinion', 'Views and commentary, always labelled as such.'],
+];
+
+const intelSlots = [
+  { kind: 'Economic intelligence', note: 'Trade, investment and macro-economic analysis.' },
+  { kind: 'Business & market insight', note: 'Sector and market research for decision-makers.' },
+  { kind: 'Economic diplomacy', note: 'Bilateral relations, agreements and engagement.' },
+];
+
+const storySlots = [
+  { kind: 'Editorial feature', note: 'A major long-form feature on African business or affairs.', art: 'frames', big: true },
+  { kind: 'African history', note: 'A historical narrative told in context.', art: 'contour' },
+  { kind: 'Business & economics', note: 'An economic story with data and sources.', art: 'grid' },
+  { kind: 'Original interview', note: 'A conversation with a leader or expert.', art: 'lens' },
+  { kind: 'Visual explainer', note: 'A short animated or illustrated explainer.', art: 'signal' },
+] as const;
+
+const productionSlots = [
+  { kind: 'Documentary', art: 'lens' },
+  { kind: 'Corporate film', art: 'frames' },
+  { kind: 'Motion graphics', art: 'signal' },
+] as const;
+
+const chapters = [
+  'The Vision',
+  'Foreign Policy in Action',
+  'Investment',
+  'Trade',
+  'The Macro Picture',
+  'Regional and Continental Role',
+  'The Year Ahead',
+];
+
+const dims = ['Country', 'Region', 'Sector', 'Year', 'Indicator', 'Trading partner', 'Investment category'];
+
+const relationships = ['Institutional partners', 'Research collaborators', 'Production collaborators', 'Edition sponsors', 'Clients'];
+
+const interests = [
+  'Intelligence & Research',
+  'African Intelligence',
+  'Stories',
+  'Productions',
+  'Institutional Publications',
+  'Tanzania Economic Diplomacy Review',
+];
+---
+
+<BaseLayout
+  overHero
+  title="Native Media | Stories. Strategy. Impact."
+  description="Native Media is a Tanzanian media, strategic communications and intelligence company turning African perspectives into stories, strategy and intelligence."
+>
+  <!-- 1. HERO -->
+  <section class="hero theme-dark" aria-labelledby="hero-title">
+    <Visual art="hero" label="Hero image or film placeholder" ratio="auto" class="hero__art" />
+    <div class="hero__shade" aria-hidden="true"></div>
+    <div class="wrap hero__inner">
+      <p class="eyebrow">Media · Strategic communications · Intelligence</p>
+      <h1 id="hero-title" class="hero__title">Turning African perspectives into <em>stories, strategy</em> and intelligence.</h1>
+      <p class="lede hero__lede">{company.descriptor} We bring research, storytelling and creative production together to help organizations and audiences understand Africa and its opportunities.</p>
+      <div class="hero__cta">
+        <a class="btn" href="/what-we-do">Explore our capabilities <span aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="/intelligence">Explore Intelligence</a>
+      </div>
+    </div>
+    <p class="wrap hero__foot"><span class="hero__slogan">Stories. Strategy. Impact.</span><span class="tag">Hero image / film slot · placeholder</span></p>
+  </section>
+
+  <!-- 2. CORPORATE INTRODUCTION -->
+  <section class="section theme-light" aria-labelledby="intro-title">
+    <div class="wrap intro">
+      <div class="reveal">
+        <p class="eyebrow">Who we are</p>
+        <h2 id="intro-title" class="display intro__title">One integrated approach to insight, narrative and communication.</h2>
+      </div>
+      <div class="intro__body reveal">
+        <p class="lede">{company.positioning}</p>
+        <p>Native Media does not treat these as separate services. Research informs the story, the story shapes the strategy, and creative production gives each of them reach. That shared approach is what makes the company distinct.</p>
+        <ul class="chips" aria-label="Disciplines we bring together">
+          {disciplines.map((d) => <li>{d}</li>)}
+        </ul>
+        <blockquote class="why">
+          <p>“{company.why}”</p>
+          <footer>Our WHY</footer>
+        </blockquote>
+        <a class="arrow-link" href="/about">About Native Media <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. CAPABILITIES -->
+  <section class="section theme-dark" id="capabilities" aria-labelledby="cap-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Our capabilities</p>
+        <h2 id="cap-title">Six interconnected pillars.</h2>
+        <p class="lede">Each pillar stands on its own and strengthens the others.</p>
+      </div>
+      <ul class="pillars">
+        {pillars.map((p) => (
+          <li class="pillar reveal">
+            <a href={`/what-we-do/${p.slug}`} class="pillar__link">
+              <Visual art={p.art} label="Visual placeholder" ratio="16 / 9" />
+              <div class="pillar__body">
+                <span class="pillar__n">{p.n}</span>
+                <h3>{p.title}</h3>
+                <p>{p.summary}</p>
+                <span class="arrow-link">Explore capability <span aria-hidden="true">→</span></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. FEATURED INTELLIGENCE -->
+  <section class="section theme-light" aria-labelledby="intel-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Featured intelligence</p>
+        <h2 id="intel-title">Information organized into insight.</h2>
+        <p class="lede">Intelligence at Native Media means collecting, organizing, analyzing and presenting credible information so that people and institutions can understand and decide better. Products will appear here as they are published.</p>
+      </div>
+      <div class="intel">
+        <ul class="intel__slots">
+          {intelSlots.map((s) => (
+            <li class="slot reveal">
+              <span class="tag">Placeholder · Product slot</span>
+              <h3>{s.kind}</h3>
+              <p class="muted">{s.note}</p>
+              <p class="slot__meta">Headline, summary, verified data point and report link will appear here.</p>
+            </li>
+          ))}
+        </ul>
+        <aside class="labels reveal" aria-labelledby="labels-title">
+          <h3 id="labels-title">How we label what we publish</h3>
+          <dl>
+            {labels.map(([t, d]) => (<><dt>{t}</dt><dd>{d}</dd></>))}
+          </dl>
+          <a class="arrow-link" href="/intelligence">Explore the Intelligence platform <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FEATURED STORIES -->
+  <section class="section theme-charcoal" aria-labelledby="stories-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Featured stories</p>
+        <h2 id="stories-title">African stories, told with context.</h2>
+        <p class="lede">A curated selection, not a news feed. Layout slots below show how stories will be presented.</p>
+      </div>
+      <ul class="stories">
+        {storySlots.map((s) => (
+          <li class:list={['story', 'reveal', { 'story--big': 'big' in s && s.big }]}>
+            <Visual art={s.art} label="Story placeholder" ratio="auto" />
+            <div class="story__text">
+              <span class="eyebrow">{s.kind}</span>
+              <p>{s.note}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="more"><a class="arrow-link" href="/stories">Browse all stories <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <!-- 6. AFRICAN INTELLIGENCE -->
+  <section class="section theme-dark ai" aria-labelledby="ai-title">
+    <div class="wrap ai__grid">
+      <div class="ai__copy reveal">
+        <p class="eyebrow">Flagship content brand</p>
+        <h2 id="ai-title" class="display">African Intelligence</h2>
+        <p class="lede">Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas shaping the continent.</p>
+        <ul class="platforms" aria-label="Listening platforms (links will be added once verified)">
+          {['YouTube', 'Spotify', 'Apple Podcasts', 'Amazon Music', 'RSS'].map((p) => <li><span class="tag">{p}</span></li>)}
+        </ul>
+        <p class="muted small">Platform links will be added once the show’s official channels are confirmed.</p>
+        <div class="ai__cta">
+          <a class="btn" href="/african-intelligence/latest-episodes">Browse episodes <span aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="/african-intelligence/guests">Guests</a>
+        </div>
+      </div>
+      <div class="ai__player reveal">
+        <Visual art="lens" label="Featured episode placeholder" ratio="16 / 9" class="ai__video" />
+        <div class="ai__meta">
+          <span class="tag tag--brand">Featured episode slot</span>
+          <p class="muted">Embedded video or audio player, guest name, summary and discussion themes will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. PRODUCTIONS -->
+  <section class="section theme-charcoal" aria-labelledby="prod-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Featured productions</p>
+        <h2 id="prod-title">Cinematic work, made with purpose.</h2>
+        <p class="lede">Documentaries, corporate films, visual explainers and motion graphics. Only completed, verified projects will be listed in the portfolio.</p>
+      </div>
+      <ul class="prods">
+        {productionSlots.map((s) => (
+          <li class="reveal">
+            <Visual art={s.art} label="Production placeholder" ratio="16 / 9" />
+            <p class="prods__kind">{s.kind}</p>
+            <p class="muted small">Title, synopsis, duration and credits will appear here.</p>
+          </li>
+        ))}
+      </ul>
+      <p class="more"><a class="arrow-link" href="/productions/production-portfolio">View production portfolio <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <!-- 8. FLAGSHIP PUBLICATION -->
+  <section class="section theme-light" aria-labelledby="pub-title">
+    <div class="wrap pub">
+      <div class="pub__cover reveal">
+        <figure class="cover" aria-label="Cover concept for the Tanzania Economic Diplomacy Review (placeholder)">
+          <svg viewBox="0 0 322 325" class="cover__n" aria-hidden="true"><polygon points="1,0 119,0 222,165 222,31 321,219 321,325 202,325 100,161 100,325 1,325" /></svg>
+          <div class="cover__text">
+            <span>Native Media</span>
+            <strong>Tanzania Economic Diplomacy Review</strong>
+          </div>
+          <figcaption class="cover__tag"><span class="tag">Cover concept · placeholder</span></figcaption>
+        </figure>
+      </div>
+      <div class="pub__copy reveal">
+        <p class="eyebrow">Flagship publication</p>
+        <h2 id="pub-title" class="display">Tanzania Economic Diplomacy Review</h2>
+        <p class="status"><span class="tag tag--brand">Proposed publication</span> <span class="muted small">No edition has been published yet.</span></p>
+        <p class="lede">A proposed annual official-source reference publication developed and owned by Native Media. It organizes information on Tanzania’s economic diplomacy, bilateral relations, trade, investment and international partnerships into a structured, accessible professional reference.</p>
+        <div class="parts">
+          <div>
+            <h3>Part One · Tanzania’s trajectory</h3>
+            <ol class="chapters">{chapters.map((c) => <li>{c}</li>)}</ol>
+          </div>
+          <div>
+            <h3>Part Two · Embassy profiles</h3>
+            <p class="muted small">A searchable directory of participating diplomatic missions, with a consistent structure for every profile.</p>
+            <h3>Part Three · Directory &amp; data</h3>
+            <p class="muted small">Structured reference pages, bilateral agreements and economic indicators.</p>
+          </div>
+        </div>
+        <p class="notice">A Native Media institutional publication. It is not an official government publication, and no organization is described as a partner or endorser unless confirmed.</p>
+        <div class="pub__cta">
+          <a class="btn" href="/publications/tanzania-economic-diplomacy-review">About the Review <span aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="/publications/archives">Publication archive</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. DATA & VISUALS -->
+  <section class="section theme-dark" aria-labelledby="data-title">
+    <div class="wrap data">
+      <div class="reveal">
+        <p class="eyebrow">Data &amp; Visuals</p>
+        <h2 id="data-title" class="display">Complex information, made explorable.</h2>
+        <p class="lede">Interactive charts, maps and data explainers built on verified datasets, always with the source, period and units shown. The example on the right is a layout preview only.</p>
+        <h3 class="small-h">Explore by</h3>
+        <ul class="chips chips--dark">{dims.map((d) => <li>{d}</li>)}</ul>
+        <a class="arrow-link" href="/intelligence/data-and-visuals">Data &amp; Visuals <span aria-hidden="true">→</span></a>
+      </div>
+      <figure class="chart reveal" aria-labelledby="chart-cap">
+        <div class="chart__head"><span class="tag tag--brand">Illustrative placeholder · not real data</span></div>
+        <svg viewBox="0 0 400 220" role="img" aria-label="Placeholder bar chart with six bars of varying height. It contains no real data.">
+          <g stroke="rgba(245,245,240,.14)"><path d="M30 20H390M30 70H390M30 120H390M30 170H390" /></g>
+          <g fill="#3a3a3a">
+            <rect x="50" y="110" width="40" height="60" /><rect x="110" y="80" width="40" height="90" /><rect x="170" y="95" width="40" height="75" />
+            <rect x="230" y="50" width="40" height="120" /><rect x="290" y="65" width="40" height="105" />
+          </g>
+          <rect x="350" y="25" width="30" height="145" fill="#e8752a" />
+          <path d="M30 170H390" stroke="rgba(245,245,240,.5)" />
+        </svg>
+        <figcaption id="chart-cap">
+          <dl class="chart__meta">
+            <div><dt>Title</dt><dd>Chart title (placeholder)</dd></div>
+            <div><dt>Indicator</dt><dd>To be defined</dd></div>
+            <div><dt>Reporting period</dt><dd>To be defined</dd></div>
+            <div><dt>Source</dt><dd>Required for every published chart</dd></div>
+            <div><dt>Units</dt><dd>To be defined</dd></div>
+            <div><dt>Notes</dt><dd>Definitions and caveats appear here</dd></div>
+          </dl>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 10. INSTITUTIONAL ENGAGEMENT -->
+  <section class="section theme-light" aria-labelledby="inst-title">
+    <div class="wrap inst">
+      <div class="reveal">
+        <p class="eyebrow">Institutional engagement</p>
+        <h2 id="inst-title" class="display">Working with institutions, businesses and professional communities.</h2>
+      </div>
+      <div class="reveal">
+        <p class="lede">Native Media collaborates on research, communications, publishing and production. Only confirmed relationships, shown with approved names and logos, will be listed.</p>
+        <ul class="rel" aria-label="Relationship categories">
+          {relationships.map((r) => (<li><span>{r}</span><span class="tag">None listed yet</span></li>))}
+        </ul>
+        <a class="btn" href="/contact/institutional-partnerships">Start a conversation <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. CORPORATE CTA -->
+  <section class="section theme-charcoal cta" aria-labelledby="cta-title">
+    <div class="wrap cta__inner reveal">
+      <h2 id="cta-title" class="display">Let’s shape the next <em>African narrative.</em></h2>
+      <div>
+        <p class="lede">From strategic communications and intelligence to storytelling and creative production, Native Media works with organizations seeking to communicate with clarity, insight and impact.</p>
+        <a class="btn" href="/contact">Make an inquiry <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. NEWSLETTER -->
+  <section class="section theme-light" id="newsletter" aria-labelledby="news-title">
+    <div class="wrap news">
+      <div class="reveal">
+        <p class="eyebrow">Newsletter</p>
+        <h2 id="news-title" class="display">Follow what Native Media publishes.</h2>
+        <p class="lede">Choose the streams you want to hear about. We ask only for your email address.</p>
+      </div>
+      <form class="form reveal" data-newsletter novalidate>
+        <p class="tag tag--brand preview-note">Preview · signup is not connected yet</p>
+        <label class="field">
+          <span>Email address</span>
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <fieldset>
+          <legend>Your interests</legend>
+          <div class="checks">
+            {interests.map((i) => (<label class="check"><input type="checkbox" name="interests" value={i} /><span>{i}</span></label>))}
+          </div>
+        </fieldset>
+        <label class="check consent">
+          <input type="checkbox" name="consent" required />
+          <span>I agree to receive Native Media emails on the topics selected, and understand I can unsubscribe at any time. See the <a href="/privacy">privacy policy</a>.</span>
+        </label>
+        <button class="btn" type="submit">Subscribe</button>
+        <p class="form__msg" role="status" aria-live="polite" data-msg></p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // The newsletter form is a visual preview in Phase 1; it does not send data anywhere.
+  const form = document.querySelector<HTMLFormElement>('[data-newsletter]');
+  const msg = document.querySelector<HTMLElement>('[data-msg]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!msg) return;
+    if (!form.checkValidity()) {
+      msg.textContent = 'Please enter a valid email address and confirm your consent.';
+      form.reportValidity();
+      return;
+    }
+    msg.textContent = 'Thank you. Signup is not connected yet, so nothing has been sent or stored.';
+  });
+</script>
+
+<style>
+  /* HERO */
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: calc(var(--header-h) + 3rem) 0 2rem; overflow: hidden; isolation: isolate; }
+  .hero :global(.hero__art) { position: absolute; inset: 0; z-index: -2; border-radius: 0; height: 100%; }
+  .hero :global(.hero__art .visual__tag) { display: none; }
+  .hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.45) 55%, rgba(10, 10, 10, 0) 100%), linear-gradient(to top, #0a0a0a 0%, transparent 35%); }
+  .hero__inner { display: grid; gap: 1.6rem; padding-bottom: 3rem; }
+  .hero__title { font-weight: 800; font-size: var(--step-5); max-width: 17ch; letter-spacing: -0.035em; }
+  .hero__title em { font-style: normal; color: var(--brand); }
+  .hero__lede { color: var(--paper); opacity: 0.82; max-width: 38rem; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 0.6rem; }
+  .hero__foot { border-top: 1px solid var(--line-dark); padding-top: 1.1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .hero__slogan { font-family: var(--font-display); font-weight: 700; font-size: var(--step--1); letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray); }
+
+  /* INTRO */
+  .intro { display: grid; gap: 3rem; }
+  .intro__title { font-size: var(--step-4); max-width: 16ch; margin-top: 1.2rem; }
+  .intro__body { display: grid; gap: 1.5rem; align-content: start; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chips li { font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; padding: 0.45rem 0.9rem; border: 1px solid var(--line-light); border-radius: 999px; }
+  .chips--dark li { border-color: var(--line-dark); }
+  .why { margin: 0.5rem 0; padding-left: 1.5rem; border-left: 4px solid var(--brand); }
+  .why p { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.15; letter-spacing: -0.02em; }
+  .why footer { margin-top: 0.7rem; font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-ink); }
+
+  /* PILLARS */
+  .pillars { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+  .pillar { background: var(--charcoal); border: 1px solid var(--line-dark); transition: border-color 0.3s var(--ease), transform 0.3s var(--ease); }
+  .pillar:hover { border-color: var(--brand); transform: translateY(-4px); }
+  .pillar__link { display: grid; height: 100%; grid-template-rows: auto 1fr; text-decoration: none; }
+  .pillar__body { padding: 1.5rem 1.5rem 1.75rem; display: grid; gap: 0.8rem; align-content: start; position: relative; }
+  .pillar__n { font-family: var(--font-display); font-weight: 800; color: var(--brand); font-size: 0.85rem; letter-spacing: 0.14em; }
+  .pillar h3 { font-size: var(--step-2); font-weight: 800; }
+  .pillar p { color: var(--gray); font-size: 0.97rem; }
+  .pillar .arrow-link { margin-top: 0.4rem; }
+
+  /* INTEL */
+  .intel { display: grid; gap: 2rem; }
+  .intel__slots { display: grid; gap: 1rem; }
+  .slot > .tag { justify-self: start; }
+  .slot { background: var(--white); border: 1px solid var(--line-light); padding: 1.6rem; display: grid; gap: 0.7rem; align-content: start; border-left: 4px solid var(--brand); }
+  .slot h3 { font-size: var(--step-2); font-weight: 800; }
+  .slot__meta { font-size: 0.85rem; color: var(--gray-ink); border-top: 1px dashed var(--line-light); padding-top: 0.8rem; }
+  .labels { background: var(--black); color: var(--paper); padding: 1.8rem; display: grid; gap: 1.1rem; align-content: start; }
+  .labels h3 { font-size: var(--step-1); font-weight: 800; }
+  .labels dt { font-family: var(--font-display); font-weight: 700; color: var(--brand); font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .labels dd { margin: 0.15rem 0 0.9rem; color: var(--gray); font-size: 0.93rem; }
+  .labels .arrow-link { color: var(--brand); }
+
+  /* STORIES */
+  .stories { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+  .story { position: relative; min-height: 22rem; display: grid; }
+  .story :global(.visual) { position: absolute; inset: 0; height: 100%; aspect-ratio: auto !important; }
+  .story::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10, 10, 10, 0.92), rgba(10, 10, 10, 0.1) 60%); pointer-events: none; }
+  .story__text { position: relative; z-index: 1; align-self: end; padding: 1.4rem; display: grid; gap: 0.5rem; }
+  .story__text p { font-family: var(--font-display); font-weight: 700; font-size: var(--step-1); line-height: 1.2; }
+  .story :global(.visual__tag) { top: 0.75rem; bottom: auto; z-index: 2; }
+  .more { margin-top: 2.5rem; }
+
+  /* AFRICAN INTELLIGENCE */
+  .ai { background: radial-gradient(60rem 30rem at 85% 0%, rgba(232, 117, 42, 0.16), transparent 60%), var(--black); border-top: 1px solid var(--line-dark); }
+  .ai__grid { display: grid; gap: 3rem; align-items: center; }
+  .ai__copy { display: grid; gap: 1.4rem; }
+  .platforms { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .small { font-size: 0.85rem; }
+  .ai__cta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.4rem; }
+  .ai__player { display: grid; gap: 1rem; }
+  .ai__video { outline: 1px solid var(--brand); outline-offset: 8px; }
+  .ai__meta { display: grid; gap: 0.5rem; justify-items: start; }
+
+  /* PRODUCTIONS */
+  .prods { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  .prods li { display: grid; gap: 0.5rem; align-content: start; }
+  .prods li :global(.visual) { margin-bottom: 0.6rem; }
+  .prods__kind { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
+
+  /* PUBLICATION */
+  .pub { display: grid; gap: 3rem; align-items: center; }
+  .cover { position: relative; margin: 0 auto 2.6rem; width: min(100%, 22rem); aspect-ratio: 3 / 4; background: linear-gradient(160deg, #262626, #0a0a0a); color: var(--paper); padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 30px 60px rgba(10, 10, 10, 0.35), 14px 14px 0 var(--brand); }
+  .cover__n { width: 55%; fill: none; stroke: var(--brand); stroke-width: 3; }
+  .cover__text span { display: block; font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.6rem; }
+  .cover__text strong { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; }
+  .cover__tag { position: absolute; left: 0; bottom: -2.6rem; }
+  .pub__copy { display: grid; gap: 1.4rem; }
+  .status { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+  .parts { display: grid; gap: 1.5rem; }
+  .parts h3 { font-size: 1rem; font-weight: 800; margin-bottom: 0.6rem; }
+  .parts div > h3:not(:first-child) { margin-top: 1.2rem; }
+  .chapters { counter-reset: ch; display: grid; gap: 0.35rem; }
+  .chapters li { counter-increment: ch; font-size: 0.95rem; display: flex; gap: 0.7rem; }
+  .chapters li::before { content: counter(ch); font-family: var(--font-display); font-weight: 800; color: var(--brand-ink); min-width: 1rem; }
+  .notice { font-size: 0.88rem; color: var(--gray-ink); border-left: 3px solid var(--line-light); padding-left: 1rem; }
+  .pub__cta { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+  /* DATA */
+  .data { display: grid; gap: 3rem; align-items: center; }
+  .data .reveal:first-child { display: grid; gap: 1.4rem; }
+  .small-h { font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); font-weight: 700; }
+  .chart { margin: 0; background: var(--charcoal); border: 1px solid var(--line-dark); padding: 1.5rem; display: grid; gap: 1.2rem; }
+  .chart__meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.8rem 1.5rem; margin: 0; }
+  .chart__meta dt { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); font-weight: 700; }
+  .chart__meta dd { margin: 0.1rem 0 0; font-size: 0.9rem; }
+
+  /* INSTITUTIONAL */
+  .inst { display: grid; gap: 2.5rem; }
+  .inst h2 { font-size: var(--step-3); max-width: 18ch; margin-top: 1.2rem; }
+  .inst .reveal + .reveal { display: grid; gap: 1.5rem; align-content: start; justify-items: start; }
+  .inst .rel { justify-self: stretch; width: 100%; }
+  .rel li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line-light); font-family: var(--font-display); font-weight: 600; }
+
+  /* CTA */
+  .cta { background: radial-gradient(50rem 24rem at 10% 100%, rgba(232, 117, 42, 0.18), transparent 60%), var(--charcoal); }
+  .cta__inner { display: grid; gap: 2rem; align-items: center; }
+  .cta h2 { font-size: var(--step-5); letter-spacing: -0.035em; }
+  .cta em { font-style: normal; color: var(--brand); }
+  .cta .lede { color: var(--paper); opacity: 0.8; margin-bottom: 1.6rem; }
+
+  /* NEWSLETTER */
+  .news { display: grid; gap: 3rem; }
+  .news .reveal:first-child { display: grid; gap: 1.2rem; align-content: start; }
+  .form { display: grid; gap: 1.4rem; background: var(--white); border: 1px solid var(--line-light); padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .preview-note { justify-self: start; }
+  .field { display: grid; gap: 0.4rem; font-weight: 600; }
+  .field input { padding: 0.85rem 1rem; border: 1.5px solid var(--black); border-radius: var(--radius); background: var(--paper); color: var(--black); }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend { font-weight: 600; margin-bottom: 0.7rem; padding: 0; }
+  .checks { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.95rem; cursor: pointer; }
+  .check input { width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; accent-color: var(--brand); flex: none; }
+  .consent { font-size: 0.85rem; color: var(--gray-ink); }
+  .consent a { color: var(--brand-ink); }
+  .form .btn { justify-self: start; }
+  .form__msg { min-height: 1.4em; font-weight: 600; }
+
+  @media (min-width: 900px) {
+    .intro { grid-template-columns: 1fr 1.1fr; gap: 5rem; }
+    .intel { grid-template-columns: 1.4fr 1fr; align-items: start; }
+    .ai__grid { grid-template-columns: 1fr 1.15fr; gap: 5rem; }
+    .pub { grid-template-columns: 0.8fr 1.2fr; gap: 5rem; }
+    .parts { grid-template-columns: 1fr 1fr; }
+    .data { grid-template-columns: 1fr 1.1fr; gap: 5rem; }
+    .inst { grid-template-columns: 1fr 1fr; gap: 5rem; }
+    .cta__inner { grid-template-columns: 1.2fr 0.8fr; gap: 4rem; }
+    .news { grid-template-columns: 0.8fr 1.2fr; gap: 5rem; }
+    .stories { grid-template-columns: repeat(4, 1fr); }
+    .story--big { grid-column: span 2; grid-row: span 2; min-height: 30rem; }
+  }
+</style>

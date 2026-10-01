@@ -1,0 +1,69 @@
+---
+import { company, nav, pillars, policyLinks } from '../data/site';
+const featured = [
+  { label: 'Tanzania Economic Diplomacy Review', href: '/publications/tanzania-economic-diplomacy-review' },
+  { label: 'African Intelligence', href: '/african-intelligence' },
+  { label: 'Data & Visuals', href: '/intelligence/data-and-visuals' },
+  { label: 'Production Portfolio', href: '/productions/production-portfolio' },
+];
+const publications = nav.find((n) => n.label === 'Publications')?.children ?? [];
+const year = new Date().getFullYear();
+---
+<footer class="site-footer theme-dark">
+  <div class="wrap">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <img src="/brand/native-media-logo-orange.png" width="575" height="480" alt="Native Media" class="site-footer__logo" loading="lazy" />
+        <p class="site-footer__tag">{company.tagline}</p>
+        <p class="muted">{company.descriptor} {company.promise}</p>
+        {company.email && <p><a href={`mailto:${company.email}`}>{company.email}</a></p>}
+        {company.social.length > 0 && (
+          <ul class="site-footer__social">{company.social.map((s) => <li><a href={s.href} rel="noopener">{s.label}</a></li>)}</ul>
+        )}
+      </div>
+
+      <nav aria-labelledby="f-caps">
+        <h2 id="f-caps">Capabilities</h2>
+        <ul>{pillars.map((p) => <li><a href={`/what-we-do/${p.slug}`}>{p.title}</a></li>)}</ul>
+      </nav>
+      <nav aria-labelledby="f-feat">
+        <h2 id="f-feat">Featured</h2>
+        <ul>{featured.map((f) => <li><a href={f.href}>{f.label}</a></li>)}</ul>
+      </nav>
+      <nav aria-labelledby="f-pub">
+        <h2 id="f-pub">Publications</h2>
+        <ul>{publications.map((f) => <li><a href={f.href}>{f.label}</a></li>)}</ul>
+      </nav>
+      <nav aria-labelledby="f-co">
+        <h2 id="f-co">Company</h2>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/about/leadership-and-team">Leadership &amp; Team</a></li>
+          <li><a href="/about/partnerships">Partnerships</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="site-footer__base">
+      <p>© {year} Native Media. All rights reserved.</p>
+      <ul>{policyLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    </div>
+  </div>
+</footer>
+<style>
+  .site-footer { padding: clamp(3.5rem, 7vw, 6rem) 0 2rem; border-top: 1px solid var(--line-dark); }
+  .site-footer__grid { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+  .site-footer__logo { width: 9.5rem; height: auto; margin: -1rem 0 0.5rem -0.5rem; }
+  .site-footer__tag { font-family: var(--font-display); font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); margin-bottom: 0.75rem; }
+  .site-footer__brand p { max-width: 26rem; font-size: 0.95rem; }
+  .site-footer h2 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); margin-bottom: 1rem; font-family: var(--font-display); }
+  .site-footer nav li + li { margin-top: 0.55rem; }
+  .site-footer nav a { text-decoration: none; font-size: 0.95rem; }
+  .site-footer a:hover { color: var(--brand); }
+  .site-footer__base { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line-dark); display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; font-size: 0.85rem; color: var(--gray); }
+  .site-footer__base ul { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+  .site-footer__base a { text-decoration: none; }
+  @media (min-width: 640px) { .site-footer__grid { grid-template-columns: repeat(2, 1fr); } .site-footer__brand { grid-column: 1 / -1; } }
+  @media (min-width: 1000px) { .site-footer__grid { grid-template-columns: 1.6fr 1.2fr 1fr 1fr 0.8fr; } .site-footer__brand { grid-column: auto; } }
+</style>

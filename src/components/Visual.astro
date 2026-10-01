@@ -1,0 +1,70 @@
+---
+/**
+ * Placeholder artwork. No photographs have been supplied yet, so each slot uses
+ * abstract brand-geometry art and a visible "Placeholder" label.
+ * Replace by passing a real <img> in the default slot (it overrides the artwork).
+ */
+interface Props {
+  art?: 'signal' | 'contour' | 'frames' | 'lens' | 'pages' | 'grid' | 'hero';
+  label?: string;
+  ratio?: string;
+  class?: string;
+}
+const { art = 'grid', label = 'Photography placeholder', ratio = '4 / 3', class: className = '' } = Astro.props;
+const hasSlot = Astro.slots.has('default');
+---
+<figure class:list={['visual', className]} style={`aspect-ratio:${ratio}`}>
+  {hasSlot ? (
+    <slot />
+  ) : (
+    <>
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <g fill="none" stroke="rgba(245,245,240,.16)" stroke-width="1">
+          {art === 'signal' && (<>
+            {[40, 75, 110, 145, 180, 215].map((r) => <circle cx="70" cy="230" r={r} />)}
+            <circle cx="70" cy="230" r="14" fill="#e8752a" stroke="none" />
+            <path d="M70 230 L360 60" stroke="#e8752a" stroke-width="2" />
+          </>)}
+          {art === 'contour' && (<>
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <ellipse cx="230" cy="150" rx={30 + i * 26} ry={16 + i * 17} transform={`rotate(-18 230 150)`} />)}
+            <ellipse cx="230" cy="150" rx="30" ry="16" transform="rotate(-18 230 150)" stroke="#e8752a" stroke-width="2.5" />
+          </>)}
+          {art === 'frames' && (<>
+            <rect x="40" y="40" width="210" height="140" />
+            <rect x="80" y="70" width="210" height="140" />
+            <rect x="120" y="100" width="210" height="140" stroke="#e8752a" stroke-width="2.5" />
+            <path d="M120 100 L330 240 M330 100 L120 240" />
+          </>)}
+          {art === 'lens' && (<>
+            {[30, 60, 90, 120].map((r) => <circle cx="200" cy="150" r={r} />)}
+            <circle cx="200" cy="150" r="30" stroke="#e8752a" stroke-width="2.5" />
+            <path d="M200 20 V280 M70 150 H330" />
+          </>)}
+          {art === 'pages' && (<>
+            <rect x="90" y="40" width="150" height="205" />
+            <rect x="120" y="30" width="150" height="205" />
+            <rect x="150" y="50" width="150" height="205" fill="#1a1a1a" stroke="#e8752a" stroke-width="2.5" />
+            <path d="M172 90 H278 M172 108 H278 M172 126 H240" stroke="#e8752a" />
+          </>)}
+          {art === 'grid' && (<>
+            {Array.from({ length: 9 }).map((_, i) => <path d={`M0 ${30 + i * 30} H400`} />)}
+            {Array.from({ length: 13 }).map((_, i) => <path d={`M${20 + i * 30} 0 V300`} />)}
+            <path d="M20 240 L110 190 L170 205 L250 120 L330 140 L380 60" stroke="#e8752a" stroke-width="3" />
+            <circle cx="250" cy="120" r="6" fill="#e8752a" stroke="none" />
+          </>)}
+          {art === 'hero' && (<>
+            <polygon points="1,0 119,0 222,165 222,31 321,219 321,325 202,325 100,161 100,325 1,325" transform="translate(175 25) scale(.68)" fill="rgba(232,117,42,.08)" stroke="rgba(232,117,42,.7)" stroke-width="1.5" />
+          </>)}
+        </g>
+      </svg>
+      <figcaption class="visual__tag"><span class="tag">{label}</span></figcaption>
+    </>
+  )}
+</figure>
+<style>
+  .visual { position: relative; margin: 0; overflow: hidden; background: linear-gradient(135deg, #262626, #0f0f0f); border-radius: var(--radius); }
+  .visual svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .visual :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .visual__tag { position: absolute; left: 0.75rem; bottom: 0.75rem; }
+  .visual__tag .tag { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(4px); }
+</style>

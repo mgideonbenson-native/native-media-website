@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found | Native Media" description="The page you are looking for could not be found." noindex>
+  <section class="nf theme-dark">
+    <div class="wrap">
+      <p class="eyebrow">Error 404</p>
+      <h1>This page could not be found.</h1>
+      <p class="lede">It may have moved, or the address may be mistyped.</p>
+      <a class="btn" href="/">Return to the homepage</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .nf { min-height: 80svh; display: flex; align-items: center; padding-top: calc(var(--header-h) + 3rem); }
+  .nf .wrap { display: grid; gap: 1.4rem; justify-items: start; }
+  h1 { font-size: var(--step-4); font-weight: 800; max-width: 16ch; }
+</style>

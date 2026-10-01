@@ -1,0 +1,29 @@
+---
+/**
+ * Native Media logo lockup for headers (horizontal).
+ * The N mark is a vector trace of the supplied logo artwork (public/brand/*.png).
+ * TODO(owner): replace with the official vector (SVG) logo file when available.
+ */
+interface Props { tone?: 'light' | 'dark'; class?: string }
+const { tone = 'light', class: className = '' } = Astro.props;
+---
+<span class:list={['logo', `logo--${tone}`, className]}>
+  <svg class="logo__mark" viewBox="0 0 322 325" aria-hidden="true" focusable="false">
+    <polygon points="1,0 119,0 222,165 222,31 321,219 321,325 202,325 100,161 100,325 1,325" />
+  </svg>
+  <span class="logo__word">Native Media</span>
+</span>
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 0.7rem; line-height: 1; }
+  .logo__mark { width: 1.9rem; height: auto; fill: var(--brand); flex: none; }
+  .logo__word {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.02rem;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--paper);
+    white-space: nowrap;
+  }
+  .logo--dark .logo__word { color: var(--black); }
+</style>
