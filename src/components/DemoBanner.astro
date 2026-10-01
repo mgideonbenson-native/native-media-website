@@ -1,0 +1,10 @@
+---
+interface Props { text?: string }
+const { text = 'Demonstration content. Layout preview only. Nothing on this page is a real story, project or fact.' } = Astro.props;
+---
+<div class="demo" role="note"><div class="wrap"><span class="tag tag--brand">Demonstration</span><p>{text}</p></div></div>
+<style>
+  .demo { background: var(--charcoal); border-bottom: 1px solid var(--brand); padding: 0.7rem 0; position: relative; z-index: 1; }
+  .demo .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+  .demo p { font-size: 0.88rem; color: var(--paper); }
+</style>

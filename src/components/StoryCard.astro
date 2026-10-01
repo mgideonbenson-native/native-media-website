@@ -1,0 +1,28 @@
+---
+import Visual from './Visual.astro';
+import { storyCategories, storyKinds } from '../data/categories';
+import type { CollectionEntry } from 'astro:content';
+interface Props { story: CollectionEntry<'stories'>; big?: boolean }
+const { story, big = false } = Astro.props;
+const d = story.data;
+const cat = storyCategories.find((c) => c.slug === d.category)!;
+const href = `/stories/${d.category}/${story.id}`;
+---
+<article class:list={['scard', { 'scard--big': big }]} data-search={`${d.title} ${d.subtitle} ${cat.label} ${storyKinds[d.kind].label}`.toLowerCase()} data-cat={d.category}>
+  <a href={href} class="scard__img" tabindex="-1" aria-hidden="true"><Visual art={d.art} label={d.demo ? 'Demonstration image' : 'Image'} ratio={big ? '16 / 10' : '4 / 3'} /></a>
+  <div class="scard__body">
+    <p class="scard__meta"><span>{cat.label}</span><span class="scard__kind">{storyKinds[d.kind].label}</span>{d.demo && <span class="tag tag--brand">Demo</span>}</p>
+    <h3><a href={href}>{d.title}</a></h3>
+    <p class="muted">{d.subtitle}</p>
+  </div>
+</article>
+<style>
+  .scard { display: grid; gap: 1rem; align-content: start; }
+  .scard__img { display: block; } .scard__img :global(.visual) { transition: transform 0.5s var(--ease); } .scard:hover .scard__img :global(.visual) { transform: scale(1.015); }
+  .scard__body { display: grid; gap: 0.5rem; }
+  .scard__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .scard__kind { color: var(--gray); }
+  .scard h3 { font-size: var(--step-1); font-weight: 800; line-height: 1.15; } .scard--big h3 { font-size: var(--step-3); }
+  .scard h3 a { text-decoration: none; } .scard h3 a:hover { color: var(--brand); }
+  .scard[hidden] { display: none; }
+</style>

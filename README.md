@@ -34,3 +34,6 @@ No photographs, contact details, social links, team, partners or published conte
 3. If the guest is new, copy a file in `src/content/guests/` and edit it.
 4. Optional: add the exact `youtubeUrl`, `rssUrl`, `spotifyUrl`, `appleUrl` or `amazonUrl` for the episode, and set `duration` and `transcript`.
 5. Run `npm run build` (or `npm run dev` to preview). The episode, guest page, archive, search and sitemap update automatically.
+
+## Stories and productions (demonstration content)
+The files in `src/content/stories/` and `src/content/productions/` are **demonstrations** (`demo: true`). They are labelled on the page, kept out of the sitemap and search results, and hidden from search engines. To publish real content: add a new file (copy a demo one), set `demo: false`, and delete the demo files. When real stories exist, remove the `/stories` and `/productions` exclusions in `astro.config.mjs` so they are listed in the sitemap.

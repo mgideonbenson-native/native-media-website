@@ -233,6 +233,8 @@ export const builtPaths = new Set<string>([
   ].map((s) => `/what-we-do/${s}`),
   '/contact', '/contact/general-inquiries', '/contact/strategic-communications',
   '/contact/research-collaboration', '/contact/institutional-partnerships', '/contact/production-inquiries',
+  '/search', '/stories', ...['business-and-economics','african-affairs','history','geopolitics','technology','infrastructure','society-and-culture'].map((c) => `/stories/${c}`),
+  '/productions', ...['documentaries','corporate-films','motion-graphics','visual-explainers','production-portfolio'].map((c) => `/productions/${c}`),
   '/african-intelligence', '/african-intelligence/latest-episodes', '/african-intelligence/guests',
   '/african-intelligence/interviews', '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',
 ]);

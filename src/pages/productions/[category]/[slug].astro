@@ -1,0 +1,72 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DemoBanner from '../../../components/DemoBanner.astro';
+import Visual from '../../../components/Visual.astro';
+import ProductionCard from '../../../components/ProductionCard.astro';
+import ShareBar from '../../../components/ShareBar.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { productionCategories } from '../../../data/categories';
+export async function getStaticPaths() {
+  return (await getCollection('productions')).map((p) => ({ params: { category: p.data.category, slug: p.id }, props: { p } }));
+}
+const { p } = Astro.props; const d = p.data;
+const { Content } = await render(p);
+const cat = productionCategories.find((c) => c.slug === d.category)!;
+const related = (await getCollection('productions')).filter((r) => r.id !== p.id).slice(0, 3);
+const fmt = (x?: Date) => x ? x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : 'To be confirmed';
+---
+<BaseLayout title={`${d.title} | Productions | Native Media`} description={d.synopsis} noindex={d.demo}>
+  <section class="phero theme-dark">
+    <div class="wrap">
+      <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/productions">Productions</a></li><li><a href={`/productions/${d.category}`}>{cat.label}</a></li></ol></nav>
+      <p class="eyebrow">{cat.label}</p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.synopsis}</p>
+    </div>
+  </section>
+  {d.demo && <DemoBanner text="Demonstration production page. No real project, film or credits." />}
+  <section class="section theme-charcoal">
+    <div class="wrap player">
+      {d.videoUrl
+        ? <p><a class="btn" href={d.videoUrl} rel="noopener noreferrer" target="_blank">Watch the film <span aria-hidden="true">↗</span></a></p>
+        : <Visual art={d.art} label="Trailer / video embed placeholder" ratio="16 / 9" />}
+    </div>
+  </section>
+  <section class="section theme-light">
+    <div class="wrap split">
+      <div class="stack">
+        <h2 class="h2">Synopsis</h2>
+        <div class="prose"><Content /></div>
+        <ShareBar title={d.title} path={`/productions/${d.category}/${p.id}`} />
+      </div>
+      <div class="stack">
+        <div class="two">
+          <div><h3 class="h3">Poster</h3><Visual art={d.art} label="Poster placeholder" ratio="2 / 3" /></div>
+          <div>
+            <h3 class="h3">Details</h3>
+            <dl class="dl"><dt>Duration</dt><dd>{d.duration ?? 'To be confirmed'}</dd><dt>Release date</dt><dd>{fmt(d.releaseDate)}</dd><dt>Category</dt><dd>{cat.label}</dd></dl>
+            <h3 class="h3">Production credits</h3>
+            {d.credits.length > 0
+              ? <dl class="dl">{d.credits.map((c) => <><dt>{c.role}</dt><dd>{c.name}</dd></>)}</dl>
+              : <p class="muted small">Credits will be added once confirmed.</p>}
+          </div>
+        </div>
+        <p class="muted small">Related stories and research will be linked here. See <a href="/stories">Stories</a> and <a href="/intelligence">Intelligence</a>.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section theme-dark"><div class="wrap"><div class="section-head"><p class="eyebrow">More productions</p><h2>Keep watching.</h2></div>
+    <div class="grid">{related.map((r) => <ProductionCard p={r} />)}</div></div></section>
+  <CtaBand title="Start a production." text="Documentary, corporate film, podcast or motion graphics: tell us what you have in mind." href="/contact/production-inquiries" label="Production inquiry" />
+</BaseLayout>
+<style>
+  .phero { padding: calc(var(--header-h) + 3rem) 0 3rem; } .phero .wrap { display: grid; gap: 1.2rem; justify-items: start; }
+  h1 { font-weight: 800; font-size: var(--step-4); letter-spacing: -0.03em; overflow-wrap: break-word; }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.85rem; color: var(--gray); } .crumbs li + li::before { content: '/'; margin-right: 0.4rem; opacity: 0.6; } .crumbs a { text-decoration: none; }
+  .player { max-width: 60rem; }
+  .two { display: grid; gap: 1.5rem; } .h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); margin-bottom: 0.6rem; }
+  .dl { display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 1.2rem; margin: 0 0 1.5rem; } .dl dt { font-weight: 700; } .dl dd { margin: 0; color: var(--gray-ink); }
+  .small { font-size: 0.88rem; } .grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  @media (min-width: 560px) { .two { grid-template-columns: 0.6fr 1fr; } }
+</style>

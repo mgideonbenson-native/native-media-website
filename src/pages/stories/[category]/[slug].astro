@@ -1,0 +1,76 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DemoBanner from '../../../components/DemoBanner.astro';
+import Visual from '../../../components/Visual.astro';
+import StoryCard from '../../../components/StoryCard.astro';
+import ShareBar from '../../../components/ShareBar.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { storyCategories, storyKinds } from '../../../data/categories';
+export async function getStaticPaths() {
+  return (await getCollection('stories')).map((s) => ({ params: { category: s.data.category, slug: s.id }, props: { s } }));
+}
+const { s } = Astro.props;
+const d = s.data;
+const { Content } = await render(s);
+const cat = storyCategories.find((c) => c.slug === d.category)!;
+const minutes = Math.max(1, Math.round((s.body ?? '').split(/\s+/).length / 200));
+const related = (await getCollection('stories')).filter((r) => r.id !== s.id && r.data.category === d.category).slice(0, 3);
+const more = (await getCollection('stories')).filter((r) => r.id !== s.id).slice(0, 3);
+const path = `/stories/${d.category}/${s.id}`;
+---
+<BaseLayout title={`${d.title} | Native Media`} description={d.subtitle} noindex={d.demo}>
+  <article class="story theme-light">
+    <header class="story__head theme-dark">
+      <div class="wrap">
+        <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/stories">Stories</a></li><li><a href={`/stories/${d.category}`}>{cat.label}</a></li></ol></nav>
+        <p class="kindline"><span class="eyebrow">{cat.label}</span><span class="tag tag--brand" title={storyKinds[d.kind].text}>{storyKinds[d.kind].label}</span></p>
+        <h1>{d.title}</h1>
+        <p class="lede">{d.subtitle}</p>
+        <p class="byline">By {d.author} · {d.date ? d.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) : 'Sample date'} · {minutes} min read</p>
+      </div>
+    </header>
+    {d.demo && <DemoBanner text="Demonstration story. A layout preview with no real reporting, facts or figures." />}
+    <div class="wrap hero-img"><Visual art={d.art} label={d.demo ? 'Featured image placeholder' : 'Image'} ratio="16 / 8" /></div>
+    <div class="wrap story__grid">
+      <aside class="stack side">
+        <div class="notice-box"><span class="tag">{storyKinds[d.kind].label}</span><p class="small">{storyKinds[d.kind].text}</p></div>
+        <ShareBar title={d.title} path={path} />
+      </aside>
+      <div class="prose">
+        <Content />
+        <figure class="slot"><Visual art="grid" label="Data graphic placeholder" ratio="16 / 9" />
+          <figcaption>Data graphic slot. Every published chart will show its title, indicator, reporting period, source, units and notes.</figcaption></figure>
+        <blockquote class="pull">A pull quote from the story will be set here to highlight a key line.</blockquote>
+        <figure class="slot"><Visual art="lens" label="Video embed placeholder" ratio="16 / 9" /><figcaption>Video embed slot.</figcaption></figure>
+        <h2>Sources</h2>
+        {d.sources.length > 0
+          ? <ul class="src">{d.sources.map((x) => <li>{x}</li>)}</ul>
+          : <p class="muted small">A numbered list of sources will appear here for each real story.</p>}
+        <h2>Related</h2>
+        <p class="muted small">Related research, podcast episodes and productions will be linked here. See <a href="/african-intelligence">African Intelligence</a> and <a href="/intelligence">Intelligence</a>.</p>
+      </div>
+    </div>
+  </article>
+  <section class="section theme-charcoal">
+    <div class="wrap"><div class="section-head"><p class="eyebrow">Keep reading</p><h2>More stories.</h2></div>
+      <div class="grid">{(related.length ? related : more).map((r) => <StoryCard story={r} />)}</div></div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+<style>
+  .story__head { padding: calc(var(--header-h) + 3rem) 0 3rem; } .story__head .wrap { display: grid; gap: 1.2rem; justify-items: start; }
+  h1 { font-weight: 800; font-size: var(--step-4); letter-spacing: -0.03em; max-width: 22ch; overflow-wrap: break-word; }
+  .kindline { display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; } .byline { color: var(--gray); font-size: 0.92rem; }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.85rem; color: var(--gray); } .crumbs li + li::before { content: '/'; margin-right: 0.4rem; opacity: 0.6; } .crumbs a { text-decoration: none; }
+  .hero-img { margin-top: -1px; padding-top: 2rem; }
+  .story__grid { display: grid; gap: 2.5rem; padding-block: 3rem 5rem; }
+  .prose { max-width: 44rem; display: grid; gap: 1.3rem; }
+  .prose :global(h2) { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); margin-top: 1rem; }
+  .prose :global(blockquote) { border-left: 4px solid var(--brand); padding-left: 1.2rem; color: var(--gray-ink); font-style: normal; margin: 0; }
+  .pull { border-left: 4px solid var(--brand); padding-left: 1.2rem; font-family: var(--font-display); font-weight: 800; font-size: var(--step-3); line-height: 1.1; margin: 1.5rem 0; }
+  .slot { margin: 1rem 0; display: grid; gap: 0.6rem; } .slot figcaption { font-size: 0.85rem; color: var(--gray-ink); }
+  .small { font-size: 0.88rem; } .src { padding-left: 1.2rem; list-style: decimal; }
+  .grid { display: grid; gap: 2.2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  @media (min-width: 900px) { .story__grid { grid-template-columns: 0.4fr 1fr; gap: 5rem; } .side { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; } }
+</style>

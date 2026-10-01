@@ -1,0 +1,36 @@
+---
+interface Props { title: string; path: string }
+const { title, path } = Astro.props;
+const url = new URL(path, Astro.site).toString();
+const enc = encodeURIComponent;
+const shares = [
+  ['LinkedIn', `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`],
+  ['X', `https://twitter.com/intent/tweet?text=${enc(title)}&url=${enc(url)}`],
+  ['WhatsApp', `https://wa.me/?text=${enc(title + ' ' + url)}`],
+  ['Email', `mailto:?subject=${enc(title)}&body=${enc(url)}`],
+];
+---
+<div class="share">
+  <p class="share__l">Share</p>
+  <ul>
+    {shares.map(([l, h]) => <li><a class="tag" href={h} rel="noopener noreferrer" target={l === 'Email' ? undefined : '_blank'}>{l}</a></li>)}
+    <li><button type="button" class="tag" data-copy={url}>Copy link</button></li>
+  </ul>
+  <p class="share__m" role="status" aria-live="polite" data-copied></p>
+</div>
+<style>
+  .share { display: grid; gap: 0.6rem; }
+  .share__l { font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-ink); }
+  .share ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .share .tag { text-decoration: none; cursor: pointer; background: none; } .share .tag:hover { background: var(--black); color: var(--paper); }
+  .share__m { font-size: 0.85rem; color: var(--gray-ink); min-height: 1.2em; }
+</style>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    const msg = btn.closest('.share')?.querySelector<HTMLElement>('[data-copied]');
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(btn.dataset.copy ?? location.href); if (msg) msg.textContent = 'Link copied.'; }
+      catch { if (msg) msg.textContent = 'Could not copy automatically. Please copy the address from your browser.'; }
+    });
+  });
+</script>

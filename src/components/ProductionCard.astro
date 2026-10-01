@@ -1,0 +1,21 @@
+---
+import Visual from './Visual.astro';
+import { productionCategories } from '../data/categories';
+import type { CollectionEntry } from 'astro:content';
+interface Props { p: CollectionEntry<'productions'> }
+const { p } = Astro.props; const d = p.data;
+const cat = productionCategories.find((c) => c.slug === d.category)!;
+const href = `/productions/${d.category}/${p.id}`;
+---
+<article class="pcard" data-cat={d.category}>
+  <a href={href} class="pcard__img" tabindex="-1" aria-hidden="true"><Visual art={d.art} label={d.demo ? 'Demonstration thumbnail' : 'Thumbnail'} ratio="16 / 9" /></a>
+  <p class="pcard__meta"><span>{cat.label}</span>{d.demo && <span class="tag tag--brand">Demo</span>}</p>
+  <h3><a href={href}>{d.title}</a></h3>
+  <p class="muted">{d.synopsis}</p>
+</article>
+<style>
+  .pcard { display: grid; gap: 0.6rem; align-content: start; } .pcard[hidden] { display: none; }
+  .pcard__meta { display: flex; align-items: center; gap: 0.8rem; font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); margin-top: 0.4rem; }
+  .pcard h3 { font-size: var(--step-1); font-weight: 800; } .pcard h3 a { text-decoration: none; } .pcard h3 a:hover { color: var(--brand); }
+  .pcard p.muted { font-size: 0.93rem; }
+</style>

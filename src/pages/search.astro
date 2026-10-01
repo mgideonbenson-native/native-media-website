@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+<BaseLayout title="Search | Native Media" description="Search Native Media's capabilities, podcast episodes, stories, productions and publications." noindex>
+  <PageHero eyebrow="Search" title="Search Native Media" lede="Find capabilities, podcast episodes, guests, stories and productions." crumbs={[{ label: 'Home', href: '/' }, { label: 'Search' }]} />
+  <section class="section theme-light">
+    <div class="wrap stack">
+      <form role="search" data-form>
+        <label for="q" class="sr-only">Search</label>
+        <input id="q" type="search" placeholder="Search the site" autocomplete="off" />
+      </form>
+      <div class="chips" role="group" aria-label="Filter by content type" data-chips></div>
+      <p class="muted" role="status" aria-live="polite" data-status>Type to search.</p>
+      <ul class="results" data-results></ul>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  input { width: 100%; max-width: 36rem; padding: 1rem 1.1rem; border: 1.5px solid var(--black); border-radius: var(--radius); background: var(--white); font-size: var(--step-1); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chips :global(button) { cursor: pointer; background: none; border: 1px solid var(--line-light); padding: 0.45rem 0.9rem; border-radius: 999px; font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; }
+  .chips :global(button[aria-pressed='true']) { background: var(--black); color: var(--paper); border-color: var(--black); }
+  .results { display: grid; }
+  .results :global(a) { display: grid; gap: 0.25rem; padding: 1.1rem 0; border-bottom: 1px solid var(--line-light); text-decoration: none; }
+  .results :global(a:hover strong) { color: var(--brand-ink); }
+  .results :global(.t) { font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand-ink); }
+  .results :global(strong) { font-family: var(--font-display); font-size: var(--step-1); }
+  .results :global(.s) { font-size: 0.92rem; color: var(--gray-ink); }
+</style>
+<script>
+  type Entry = { type: string; title: string; text: string; href: string };
+  const input = document.querySelector<HTMLInputElement>('#q')!;
+  const results = document.querySelector<HTMLElement>('[data-results]')!;
+  const status = document.querySelector<HTMLElement>('[data-status]')!;
+  const chipBox = document.querySelector<HTMLElement>('[data-chips]')!;
+  let index: Entry[] = []; let type = '';
+  const render = () => {
+    const terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const hits = index.filter((e) => (!type || e.type === type) && terms.every((t) => `${e.title} ${e.text}`.toLowerCase().includes(t)));
+    results.replaceChildren(...hits.slice(0, 50).map((e) => {
+      const li = document.createElement('li'); const a = document.createElement('a'); a.href = e.href;
+      const t = Object.assign(document.createElement('span'), { className: 't', textContent: e.type });
+      const s = document.createElement('strong'); s.textContent = e.title;
+      const x = Object.assign(document.createElement('span'), { className: 's', textContent: e.text.slice(0, 160) });
+      a.append(t, s, x); li.append(a); return li;
+    }));
+    status.textContent = terms.length || type ? `${hits.length} result${hits.length === 1 ? '' : 's'}` : 'Type to search.';
+    if (!terms.length && !type) results.replaceChildren();
+    chipBox.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.type ?? '') === type)));
+  };
+  fetch('/search-index.json').then((r) => r.json()).then((d: Entry[]) => {
+    index = d;
+    const types = ['', ...new Set(d.map((e) => e.type))];
+    types.forEach((t) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = t || 'All'; b.dataset.type = t; b.addEventListener('click', () => { type = t; render(); }); chipBox.append(b); });
+    const q = new URLSearchParams(location.search).get('q'); if (q) input.value = q;
+    render();
+  });
+  input.addEventListener('input', render);
+  document.querySelector('[data-form]')?.addEventListener('submit', (e) => e.preventDefault());
+</script>

@@ -42,4 +42,41 @@ const episodes = defineCollection({
     }),
 });
 
-export const collections = { guests, episodes };
+/**
+ * Stories and productions. Entries with `demo: true` are layout demonstrations only:
+ * they are labelled on the page, kept out of search engines and the sitemap.
+ * Set `demo: false` (or delete the line) when real, approved content replaces them.
+ */
+const stories = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/stories' }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    category: z.enum(['business-and-economics', 'african-affairs', 'history', 'geopolitics', 'technology', 'infrastructure', 'society-and-culture']),
+    kind: z.enum(['reporting', 'research-analysis', 'opinion', 'institutional-statement', 'sponsored']),
+    author: z.string(),
+    date: z.coerce.date().optional(),
+    featured: z.boolean().default(false),
+    art: z.enum(['signal', 'contour', 'frames', 'lens', 'pages', 'grid']).default('frames'),
+    sources: z.array(z.string()).default([]),
+    demo: z.boolean().default(true),
+  }),
+});
+
+const productions = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/productions' }),
+  schema: z.object({
+    title: z.string(),
+    category: z.enum(['documentaries', 'corporate-films', 'motion-graphics', 'visual-explainers']),
+    synopsis: z.string(),
+    duration: z.string().optional(),
+    releaseDate: z.coerce.date().optional(),
+    credits: z.array(z.object({ role: z.string(), name: z.string() })).default([]),
+    videoUrl: z.url().optional(), // YouTube/Vimeo link, added when the real project is published
+    featured: z.boolean().default(false),
+    art: z.enum(['signal', 'contour', 'frames', 'lens', 'pages', 'grid']).default('lens'),
+    demo: z.boolean().default(true),
+  }),
+});
+
+export const collections = { guests, episodes, stories, productions };
