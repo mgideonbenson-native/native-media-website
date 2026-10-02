@@ -1,0 +1,63 @@
+/*
+ * Motion layer. Everything here is decoration: the site reads the same without it.
+ * Rules: only opacity/transform are animated (no layout shift), nothing loops fast,
+ * and all of it is switched off for people who ask for reduced motion.
+ */
+
+/* Smooth cross-page fades in browsers that support it (Chrome, Edge, Safari 18+). */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: nm-fade-out 0.18s ease both; }
+::view-transition-new(root) { animation: nm-fade-in 0.32s ease both; }
+@keyframes nm-fade-out { to { opacity: 0; } }
+@keyframes nm-fade-in { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Homepage hero: staggered entrance, then a slow drift on the artwork. */
+  .hero__inner > * { animation: nm-rise 0.9s var(--ease) both; }
+  .hero__inner > :nth-child(1) { animation-delay: 0.05s; }
+  .hero__inner > :nth-child(2) { animation-delay: 0.15s; }
+  .hero__inner > :nth-child(3) { animation-delay: 0.3s; }
+  .hero__inner > :nth-child(4) { animation-delay: 0.45s; }
+  .hero__foot { animation: nm-fade-in 1.2s ease 0.7s both; }
+  .hero__art { animation: nm-drift 28s ease-in-out infinite alternate; transform-origin: 70% 60%; }
+  .hero__title em { background: linear-gradient(100deg, var(--brand) 40%, #ffb27a 50%, var(--brand) 60%) 0 0 / 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: nm-shine 6s ease-in-out 1.4s infinite; }
+
+  /* Items in a row or grid appear one after another. */
+  .js .reveal:nth-child(2) { transition-delay: 0.08s; }
+  .js .reveal:nth-child(3) { transition-delay: 0.16s; }
+  .js .reveal:nth-child(4) { transition-delay: 0.24s; }
+  .js .reveal:nth-child(5) { transition-delay: 0.32s; }
+  .js .reveal:nth-child(n + 6) { transition-delay: 0.4s; }
+
+  /* The orange rule before each eyebrow draws itself in. */
+  .js .reveal .eyebrow::before { transform: scaleX(0); transform-origin: left; transition: transform 0.7s var(--ease) 0.25s; }
+  .js .reveal.is-in .eyebrow::before { transform: none; }
+
+  /* Buttons and cards respond to the pointer. */
+  .btn { transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease); }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(237, 125, 62, 0.7); }
+  .btn:active { transform: translateY(0); box-shadow: none; }
+  .card { transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+  .card:hover { transform: translateY(-3px); border-color: var(--brand); }
+  .visual { overflow: hidden; }
+  .visual svg, .visual img { transition: transform 0.8s var(--ease); }
+  a:hover .visual svg, a:hover .visual img, .visual:hover svg, .visual:hover img { transform: scale(1.04); }
+
+  /* Links get an underline that grows from the left. */
+  .prose a:not(.btn), .policy a:not(.btn) { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; text-decoration: none; transition: background-size 0.3s var(--ease); }
+  .prose a:not(.btn):hover, .policy a:not(.btn):hover { background-size: 100% 1px; }
+
+  /* Reading progress bar and gentle hero parallax, driven by scrolling (where supported). */
+  @supports (animation-timeline: scroll()) {
+    .read-progress { position: fixed; inset: 0 0 auto 0; height: 3px; background: var(--brand); transform-origin: left; transform: scaleX(0); z-index: 100; animation: nm-progress linear both; animation-timeline: scroll(root); pointer-events: none; }
+    .hero__inner { animation: nm-rise 0.9s var(--ease) both, nm-parallax linear both; animation-timeline: auto, scroll(root); animation-range: normal, 0 100vh; }
+  }
+}
+.read-progress { display: none; }
+@media (prefers-reduced-motion: no-preference) { @supports (animation-timeline: scroll()) { .read-progress { display: block; } } }
+
+@keyframes nm-rise { from { opacity: 0; transform: translateY(26px); } }
+@keyframes nm-drift { from { transform: scale(1.02) translate3d(0, 0, 0); } to { transform: scale(1.1) translate3d(-1.5%, -1%, 0); } }
+@keyframes nm-shine { 0%, 55% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+@keyframes nm-progress { to { transform: scaleX(1); } }
+@keyframes nm-parallax { to { transform: translateY(60px); opacity: 0.2; } }
