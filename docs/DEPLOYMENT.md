@@ -64,3 +64,6 @@ The security rules in `netlify.toml` already allow `formspree.io`. The free plan
 The interests people tick on the sign-up form arrive in Buttondown as tags, so you can email only the readers interested in a topic. Every email Buttondown sends includes an unsubscribe link. Visitors who use the site's Unsubscribe page are told to use that link.
 
 Note: the website cannot read Buttondown's reply, so the page shows "check your email" whenever the request went through. The test in step 4 is how you confirm it really works.
+
+
+The Formspree form address (`https://formspree.io/f/xjygvnya`) is already set in `netlify.toml`, so you do not need to add it in Netlify. To change it later, edit that line or set `PUBLIC_FORM_ENDPOINT` in Netlify, which takes priority.

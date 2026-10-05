@@ -5,6 +5,8 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Formspree form for the contact and Native Talks forms. This address is public by design (it appears in the page code).
+  PUBLIC_FORM_ENDPOINT = "https://formspree.io/f/xjygvnya"
 
 # --- Preview builds are hidden from search engines ---
 # Preview links can be opened by anyone who has the address, so every page on a preview or branch build is marked noindex.
