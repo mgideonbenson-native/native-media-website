@@ -1,5 +1,6 @@
 ---
 import PolicyPage from '../components/PolicyPage.astro';
+const analytics = Boolean(import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN);
 const sections = [['who', 'Who we are'], ['collect', 'What we collect'], ['use', 'How we use it'], ['share', 'Who we share it with'], ['keep', 'How long we keep it'], ['rights', 'Your rights'], ['security', 'Security'], ['children', 'Children'], ['changes', 'Changes'], ['contact', 'Contact']].map(([id, title]) => ({ id, title }));
 ---
 <PolicyPage title="Privacy Policy" lede="We collect as little personal information as we can, and we tell you what we do with it." sections={sections}>
@@ -19,12 +20,20 @@ const sections = [['who', 'Who we are'], ['collect', 'What we collect'], ['use',
   <p>Our spam protection uses a hidden form field. It does not track you and collects no extra personal data.</p>
   <h3>What we do not do</h3>
   <ul>
-    <li>We do not use analytics or advertising trackers on this website.</li>
+    {analytics
+      ? <li>We do not use advertising trackers. We count visits with Plausible, a privacy-friendly service that sets no cookies, stores no personal data and does not follow you across websites.</li>
+      : <li>We do not use analytics or advertising trackers on this website.</li>}
     <li>We do not set cookies (see the <a href="/cookies">Cookie Policy</a>).</li>
     <li>We do not ask for information we do not need. A phone number on the Native Talks form is optional, and we never ask for dates of birth or identity numbers.</li>
     <li>We do not sell personal information.</li>
   </ul>
-  <p>If this changes, for example if we add analytics, we will update this policy first and ask for consent where the law requires it.</p>
+  <p>If this changes, we will update this policy first and ask for consent where the law requires it.</p>
+  <h3>Visitor statistics</h3>
+  {analytics
+    ? <p>Plausible counts page views, the pages people visit, where visits come from (for example a search engine or social link), and rough device and country information. It does this without cookies and without storing your IP address or any identifier that could be traced back to you. We use the totals to see which pages are useful.</p>
+    : <p>We do not collect visitor statistics at the moment.</p>}
+  <h3>WhatsApp</h3>
+  <p>The “Chat on WhatsApp” button is a plain link. Nothing is shared with WhatsApp until you click it. If you do, WhatsApp opens in a new tab and your messages are handled under WhatsApp’s own privacy policy.</p>
 
   <h2 id="use">How we use it</h2>
   <ul>
@@ -41,6 +50,7 @@ const sections = [['who', 'Who we are'], ['collect', 'What we collect'], ['use',
     <tbody>
       <tr><td>Form handling and inbox</td><td>Formspree</td><td>Receives what you submit through the contact and application forms and emails it to us.</td></tr>
       <tr><td>Newsletter email</td><td>Buttondown</td><td>Stores newsletter subscribers and sends the newsletters. You confirm your address by email before you are added.</td></tr>
+      {analytics && <tr><td>Visitor statistics</td><td>Plausible</td><td>Cookie-free counts of visits. No personal data is stored.</td></tr>}
       <tr><td>Website hosting</td><td>Netlify</td><td>Hosting providers see technical data such as IP addresses in server logs.</td></tr>
     </tbody>
   </table>

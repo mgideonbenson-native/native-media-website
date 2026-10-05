@@ -2,6 +2,7 @@
 import { company } from '../data/site';
 import '../styles/global.css';
 import '../styles/motion.css';
+import Analytics from './Analytics.astro';
 // Preload the two fonts every page needs, so the headline text is not held up waiting to discover them.
 import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 import hankenLatin from '@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url';
@@ -38,3 +39,4 @@ const ogImage = new URL(image, Astro.site);
   sameAs: company.social.map((x) => x.href),
 })} />
 {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+<Analytics />

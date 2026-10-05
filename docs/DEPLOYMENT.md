@@ -67,3 +67,18 @@ Note: the website cannot read Buttondown's reply, so the page shows "check your 
 
 
 The Formspree form address (`https://formspree.io/f/xjygvnya`) is already set in `netlify.toml`, so you do not need to add it in Netlify. To change it later, edit that line or set `PUBLIC_FORM_ENDPOINT` in Netlify, which takes priority.
+
+
+## Visitor statistics (Plausible)
+
+The site is ready for Plausible, which counts visits without cookies or personal data (so no cookie banner is needed).
+
+1. Create an account at plausible.io (it has a free trial, then a monthly fee) and **add a site** with the domain `nativemedia.co.tz`.
+2. In Netlify **Environment variables**, add `PUBLIC_PLAUSIBLE_DOMAIN` with the value `nativemedia.co.tz`, then **Trigger deploy**.
+3. Open your live site, then check Plausible's dashboard. Your visit should appear within a minute.
+
+Until the variable is set, no statistics are collected, and the Privacy and Cookie pages say so. When it is set, they automatically describe Plausible. Preview builds never send statistics.
+
+## WhatsApp button
+
+The green "Chat on WhatsApp" button opens a chat with `+255 746 444 380`. To change the number, edit `whatsapp` in `src/data/site.ts` (digits only, with the country code, no plus sign). Leave it empty to hide the button.

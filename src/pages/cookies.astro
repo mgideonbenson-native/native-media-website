@@ -1,10 +1,11 @@
 ---
 import PolicyPage from '../components/PolicyPage.astro';
+const analytics = Boolean(import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN);
 const sections = [['now', 'Cookies today'], ['storage', 'Other browser storage'], ['third', 'Other websites'], ['future', 'If this changes']].map(([id, title]) => ({ id, title }));
 ---
-<PolicyPage title="Cookie Policy" lede="This website does not set cookies and does not use analytics or advertising trackers." sections={sections}>
+<PolicyPage title="Cookie Policy" lede={analytics ? 'This website does not set cookies. Visits are counted without cookies or personal data.' : 'This website does not set cookies and does not use analytics or advertising trackers.'} sections={sections}>
   <h2 id="now">Cookies today</h2>
-  <p>This website does not set any cookies, and it does not use analytics or advertising trackers. For that reason it does not show a cookie banner.</p>
+  <p>This website does not set any cookies, and it does not use advertising trackers. {analytics ? 'It counts visits with Plausible, which uses no cookies and stores no personal data.' : 'It does not use analytics either.'} For that reason it does not show a cookie banner.</p>
   <h2 id="storage">Other browser storage</h2>
   <p>The site does not store information about you in your browser. The menu, search, filters and charts work on the page you are viewing and keep nothing afterwards.</p>
   <h2 id="third">Other websites</h2>

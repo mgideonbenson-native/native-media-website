@@ -19,6 +19,8 @@ export const company = {
   // Contact details supplied by the owner. Phone and street address are not supplied yet; leave empty until verified.
   email: 'benson@nativemedia.co.tz',
   phone: '+255 746 444 380',
+  // WhatsApp number in international format, digits only. Used by the floating chat button.
+  whatsapp: '255746444380',
   address: '',
   // Only verified, owner-supplied channels belong here.
   social: [
