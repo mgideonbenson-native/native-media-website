@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from './PageHero.astro';
 interface Props { title: string; lede: string; sections: { id: string; title: string }[]; review?: boolean }
-const { title, lede, sections, review = true } = Astro.props;
+const { title, lede, sections, review = false } = Astro.props;
 ---
 <BaseLayout title={`${title} | Native Media`} description={lede}>
   <PageHero eyebrow="Policies" {title} {lede} crumbs={[{ label: 'Home', href: '/' }, { label: title }]} />
@@ -12,7 +12,7 @@ const { title, lede, sections, review = true } = Astro.props;
         <ol>{sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}</ol></aside>
       <div class="body prose">
         {review && <div class="notice-box"><span class="tag tag--brand">Draft for legal review</span><p>This policy describes how the website works today. Items marked <strong>[to confirm]</strong> need Native Media’s details or legal advice before the site goes live.</p></div>}
-        <p class="muted small">Last updated: 1 October 2026</p>
+        <p class="muted small">Last updated: 6 October 2026</p>
         <slot />
       </div>
     </div>

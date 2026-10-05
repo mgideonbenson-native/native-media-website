@@ -19,7 +19,7 @@
 ## B. Items only you can supply or decide (the site is not ready to go public until these are done)
 
 - [ ] **Contact details**: email (benson@nativemedia.co.tz) and five social links are in. Phone (+255 746 444 380) is in. Still needed: office address, and a company-wide email if you prefer one over a personal address. Add them in `src/data/site.ts`.
-- [ ] **Legal details and review**: fill every **[to confirm]** in the Privacy Policy and Terms (legal name, address, contact, hosts, retention, governing law) and have a lawyer review all policies.
+- [x] **Legal pages filled in** (Privacy Policy and Terms: contact, data-retention periods, providers, Tanzania law). Still recommended: have a Tanzanian lawyer review them against the Personal Data Protection Act, 2022, and confirm the company's registered legal name if it differs from "Native Media".
 - [ ] **Form and email services**: choose them, connect them (see `DEPLOYMENT.md`), and update the Privacy Policy. Until then the forms honestly say nothing was sent.
 - [ ] **Real photographs and video** to replace the placeholder artwork (hero, capability cards, story slots, team photos).
 - [ ] **Team profiles**: the founder profile is in. Add other team members (names, titles, approved biographies, photos) on About → Leadership & Team.
