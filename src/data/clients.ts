@@ -11,6 +11,8 @@ import hesa from '../assets/clients/hesa-africa.png';
 import redhill from '../assets/clients/redhill.svg';
 import standard from '../assets/clients/the-standard.webp';
 import ubunix from '../assets/clients/ubunix.png';
+import africaPrWeek from '../assets/clients/africa-pr-week.png';
+import commsAvenue from '../assets/clients/the-comms-avenue.png';
 
 export const clients: { name: string; logo: ImageMetadata; plate: 'light' | 'dark' | 'navy' }[] = [
   { name: 'AFP', logo: afp, plate: 'light' },
@@ -21,4 +23,6 @@ export const clients: { name: string; logo: ImageMetadata; plate: 'light' | 'dar
   { name: 'Redhill', logo: redhill, plate: 'light' },
   { name: 'The Standard', logo: standard, plate: 'light' },
   { name: 'Ubunix', logo: ubunix, plate: 'light' },
+  { name: 'Africa PR Week', logo: africaPrWeek, plate: 'dark' },
+  { name: 'The Comms Avenue', logo: commsAvenue, plate: 'light' },
 ];

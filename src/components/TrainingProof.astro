@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import one from '../assets/training/udsm-session-1.webp';
+import two from '../assets/training/udsm-session-2.webp';
+import three from '../assets/training/udsm-session-3.webp';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const photos = [
+  { src: three, alt: 'A trainer presenting to a classroom of students at the University of Dar es Salaam School of PR & Advertising' },
+  { src: one, alt: 'A student taking notes during a training session' },
+  { src: two, alt: 'A student smiling during a training session' },
+];
+---
+<div class:list={['tp', { 'tp--compact': compact }]}>
+  <div class="tp__stat reveal">
+    <p class="tp__n"><strong>12</strong></p>
+    <p class="tp__l">trainees trained so far</p>
+    <p class="tp__t">Training sessions at the University of Dar es Salaam School of PR &amp; Advertising, where Native Media delivers a multi-week PR masterclass in partnership with the school.</p>
+  </div>
+  <ul class="tp__photos">
+    {photos.map((p, i) => <li class:list={['reveal', { 'tp__lead': i === 0 }]}><Image src={p.src} alt={p.alt} widths={[360, 560, 690]} sizes={i === 0 ? '(min-width: 900px) 34rem, 92vw' : '(min-width: 900px) 17rem, 46vw'} loading="lazy" /></li>)}
+  </ul>
+</div>
+<style>
+  .tp { display: grid; gap: 2rem; align-items: center; }
+  .tp__stat { display: grid; gap: 0.5rem; align-content: start; }
+  .tp__n { margin: 0; line-height: 0.9; } .tp__n strong { font-family: var(--font-display); font-weight: 800; font-size: clamp(5rem, 14vw, 9rem); letter-spacing: -0.05em; color: var(--brand); }
+  :global(.theme-light) .tp__n strong { color: var(--brand-ink); }
+  .tp__l { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); margin: 0; line-height: 1.1; }
+  .tp__t { margin: 0.4rem 0 0; opacity: 0.8; max-width: 26rem; }
+  .tp__photos { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; grid-template-columns: 1fr 1fr; }
+  .tp__photos li { overflow: hidden; background: #111; } .tp__photos li.tp__lead { grid-column: 1 / -1; }
+  .tp__photos :global(img) { width: 100%; height: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; transition: transform 0.6s var(--ease); } .tp__photos li:hover :global(img) { transform: scale(1.03); }
+  @media (min-width: 900px) { .tp { grid-template-columns: 0.8fr 1.2fr; gap: 4rem; } }
+</style>

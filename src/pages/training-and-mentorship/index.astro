@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import TrainingProof from '../../components/TrainingProof.astro';
 ---
 <BaseLayout title="Training & Mentorship | Native Media" description="Training and mentorship from Native Media: thought leadership development for communication leaders, and Native Talks, a mentorship programme for young communicators.">
   <PageHero eyebrow="What we do · 05" title="Training & Mentorship" lede="Cultivating Africa’s next thought leaders, through practical training and mentorship."
@@ -13,7 +14,6 @@ import CtaBand from '../../components/CtaBand.astro';
           <span class="eyebrow">Focus one</span>
           <h2 class="h2">Thought leadership development</h2>
           <p>Nurturing thought leaders in the area of communication, bridging academic theory and field-level tactics.</p>
-          <span class="tag">Details to be added</span>
           <a class="arrow-link" href="/training-and-mentorship/thought-leadership">Explore <span aria-hidden="true">→</span></a>
         </li>
         <li class="card">
@@ -24,6 +24,12 @@ import CtaBand from '../../components/CtaBand.astro';
           <a class="arrow-link" href="/training-and-mentorship/native-talks">Explore <span aria-hidden="true">→</span></a>
         </li>
       </ul>
+    </div>
+  </section>
+  <section class="section theme-dark" aria-labelledby="proof-t">
+    <div class="wrap">
+      <div class="section-head reveal"><p class="eyebrow">In the classroom</p><h2 id="proof-t">Training that reaches the next generation of communicators.</h2></div>
+      <TrainingProof />
     </div>
   </section>
   <CtaBand title="Ask about training and mentorship." text="Tell us whether you are interested in thought leadership development or in Native Talks, and we will reply with details." href="/contact/training-and-mentorship" label="Make an inquiry" />
