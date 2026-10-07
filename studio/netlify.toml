@@ -1,0 +1,15 @@
+# Settings for the Native Media editing Studio (a separate Netlify site from the public website).
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Public by design: the Sanity project this Studio edits.
+  SANITY_STUDIO_PROJECT_ID = "e6mws5h3"
+
+# Single-page app: every address opens the Studio.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
