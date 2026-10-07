@@ -79,6 +79,8 @@ Sanity has built-in access levels (such as Administrator, Editor and Viewer). Cu
 
 **Be aware:** on plans without custom roles, anyone with Editor access *could* tick "Approved". The safeguard is the **recorded approver name and date** plus team practice. On a plan with custom roles, you can limit who may change the workflow box.
 
+> Note: the content model below still includes types from an earlier plan (editions, embassy profiles, data exhibits and similar). The website no longer shows them, because Native Media is featuring other organizations' publications for now. Trim the Studio before turning the CMS on.
+
 ## 6. Corrections
 
 Create a **Correction** document: what was corrected, the date, the **original wording**, the **corrected wording** and why. Approve and publish it like any content. It appears on the Review's **Corrections** page, and the original is preserved there. Also fix the original content itself. Sanity keeps a revision history of each document (how long depends on your plan) which is your update history.

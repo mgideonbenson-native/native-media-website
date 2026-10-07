@@ -1,22 +1,23 @@
 ---
 import PolicyPage from '../components/PolicyPage.astro';
-import { labels } from '../data/intelligence';
-import { sourceRules, sourceTiers } from '../data/review';
-const sections = [['what', 'What intelligence means here'], ['labels', 'Fact, analysis, projection and opinion'], ['sources', 'Sources'], ['data', 'Data and charts'], ['limits', 'What we do not claim'], ['sample', 'Sample data'], ['corrections', 'Corrections']].map(([id, title]) => ({ id, title }));
+const labels = [
+  ['Verified information', 'Facts traceable to a named source and reporting period.'],
+  ['Analytical interpretation', 'Native Media’s reading of the evidence, marked as analysis.'],
+  ['External projection', 'Forecasts from identified third parties, attributed and never presented as our own.'],
+  ['Opinion', 'Views and commentary, always labelled as such.'],
+] as const;
+const sections = [['what', 'What research means here'], ['featured', 'Research from other organizations'], ['labels', 'Fact, analysis, projection and opinion'], ['data', 'Data and charts'], ['limits', 'What we do not claim'], ['sample', 'Sample data'], ['corrections', 'Corrections']].map(([id, title]) => ({ id, title }));
 ---
-<PolicyPage title="Research Policy" lede="How Native Media collects, checks and presents information in its intelligence and research products." sections={sections}>
-  <h2 id="what">What intelligence means here</h2>
-  <p>At Native Media, intelligence means collecting, organizing, analyzing and presenting relevant information to support understanding, informed decisions, institutional engagement and strategic communication. It is based on credible, published sources.</p>
+<PolicyPage title="Research Policy" lede="How Native Media chooses, credits and presents research and information." sections={sections}>
+  <h2 id="what">What research means here</h2>
+  <p>At Native Media, research means collecting, organizing, analyzing and presenting relevant information to support understanding, informed decisions and strategic communication. It is based on credible, published sources.</p>
+  <h2 id="featured">Research from other organizations</h2>
+  <p>Our Research &amp; Publications section features reports and research written by other organizations. We credit the authors and publisher, link to the original, feature work only with permission, and do not change an author’s figures or conclusions. Featuring a publication is not an endorsement. See <a href="/research-and-publications/third-party-research">how we feature research</a>.</p>
   <h2 id="labels">Fact, analysis, projection and opinion</h2>
   <p>We keep these apart and label them:</p>
   <ul>{labels.map(([t, d]) => <li><strong>{t}.</strong> {d}</li>)}</ul>
-  <h2 id="sources">Sources</h2>
-  <p>Our institutional publications use a stated source hierarchy:</p>
-  <ul>{sourceTiers.map((t) => <li><strong>{t.tier}: {t.title}.</strong> {t.items.join('; ')}.</li>)}</ul>
-  <p>Rules we follow:</p>
-  <ul>{sourceRules.map((r) => <li>{r}</li>)}</ul>
   <h2 id="data">Data and charts</h2>
-  <p>Every chart and data exhibit shows its title, indicator, reporting period, source, units and any explanatory notes. Charts have a text alternative and a data table. Each edition or report states its data cut-off date.</p>
+  <p>Every chart and data exhibit shows its title, indicator, reporting period, source, units and any explanatory notes. Charts have a text alternative and a data table.</p>
   <h2 id="limits">What we do not claim</h2>
   <ul>
     <li>Native Media does not claim confidential intelligence capabilities, government intelligence affiliations or privileged access.</li>

@@ -1,0 +1,77 @@
+---
+/**
+ * Interactive texture for the homepage hero: a field of dots that ripples slowly on its own and
+ * glows orange around the pointer. Decoration only (hidden from screen readers). With "reduce motion" on,
+ * a still frame is drawn. Pauses when off screen or in a background tab.
+ */
+---
+<div class="htx" aria-hidden="true"><canvas data-htx></canvas></div>
+<style>
+  .htx { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .htx canvas { width: 100%; height: 100%; display: block; }
+</style>
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-htx]');
+  const host = canvas?.closest<HTMLElement>('section');
+  const ctx = canvas?.getContext('2d');
+  if (canvas && host && ctx) {
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const GAP = 30;
+    let w = 0, h = 0, dpr = 1, cols = 0, rows = 0, raf = 0, visible = true;
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, on: false };
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cols = Math.ceil(w / GAP) + 2; rows = Math.ceil(h / GAP) + 2;
+      draw(performance.now());
+    };
+
+    const draw = (now: number) => {
+      const t = now / 1000;
+      // Ease the glow toward the pointer so it trails smoothly.
+      mouse.x += (mouse.tx - mouse.x) * 0.12; mouse.y += (mouse.ty - mouse.y) * 0.12;
+      ctx.clearRect(0, 0, w, h);
+      const R = 190;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const ox = c * GAP - GAP / 2 + (r % 2 ? GAP / 2 : 0), oy = r * GAP - GAP / 2;
+          const wave = Math.sin(ox * 0.011 + oy * 0.008 + t * 0.9) + Math.sin(ox * 0.006 - oy * 0.014 + t * 0.6);
+          let x = ox, y = oy + wave * 2.2;
+          let size = 1.1 + (wave + 2) * 0.22;
+          let alpha = 0.14 + (wave + 2) * 0.035;
+          let orange = 0;
+          const dx = ox - mouse.x, dy = oy - mouse.y, d = Math.hypot(dx, dy);
+          if (d < R) {
+            const k = 1 - d / R, e = k * k;
+            x += (dx / (d || 1)) * e * 9; y += (dy / (d || 1)) * e * 9; // dots are nudged away from the pointer
+            size += e * 3.2; alpha += e * 0.8; orange = e;
+          }
+          ctx.fillStyle = orange > 0.02
+            ? `rgba(${Math.round(245 - 8 * orange)},${Math.round(245 - 120 * orange)},${Math.round(240 - 178 * orange)},${Math.min(alpha, 0.95)})`
+            : `rgba(245,245,240,${alpha})`;
+          ctx.beginPath(); ctx.arc(x, y, size, 0, 6.2832); ctx.fill();
+        }
+      }
+    };
+
+    const loop = (now: number) => { draw(now); raf = requestAnimationFrame(loop); };
+    const start = () => { if (!raf && visible && !document.hidden && !still) raf = requestAnimationFrame(loop); };
+    const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+
+    host.addEventListener('pointermove', (e) => {
+      const b = canvas.getBoundingClientRect();
+      mouse.tx = e.clientX - b.left; mouse.ty = e.clientY - b.top;
+      if (!mouse.on) { mouse.x = mouse.tx; mouse.y = mouse.ty; mouse.on = true; }
+      if (still) draw(performance.now());
+    }, { passive: true });
+    host.addEventListener('pointerleave', () => { mouse.tx = mouse.ty = -9999; mouse.x = mouse.y = -9999; mouse.on = false; if (still) draw(performance.now()); });
+
+    new ResizeObserver(resize).observe(canvas);
+    new IntersectionObserver((es) => { visible = es[0].isIntersecting; visible ? start() : stop(); }).observe(host);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    resize(); start();
+  }
+</script>

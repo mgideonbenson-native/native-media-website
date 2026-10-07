@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Visual from '../components/Visual.astro';
-import ReviewCover from '../components/ReviewCover.astro';
+import ClientLogos from '../components/ClientLogos.astro';
+import HeroTexture from '../components/HeroTexture.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
-import { REVIEW_BASE, reviewMeta, chapters as reviewChapters, parts as reviewParts } from '../data/review';
 import Cover from '../components/Cover.astro';
 import { aiPlatforms, company, pillars } from '../data/site';
 import { episodeUrl, formatDate, getEpisodes, getGuest } from '../lib/episodes';
@@ -12,36 +12,7 @@ const latestEp = (await getEpisodes())[0]; // undefined until the first episode 
 const latestGuest = latestEp ? await getGuest(latestEp) : undefined;
 const disciplines = ['Narrative engineering', 'Research & publications', 'African Intelligence', 'Creative data', 'Training & mentorship'];
 
-const labels = [
-  ['Verified information', 'Facts traceable to a named source and reporting period.'],
-  ['Analytical interpretation', 'Native Media’s reading of the evidence, clearly marked as analysis.'],
-  ['External projection', 'Forecasts from identified third parties, attributed and never presented as our own.'],
-  ['Opinion', 'Views and commentary, always labelled as such.'],
-];
-
-const intelSlots = [
-  { kind: 'Third-party research', note: 'Research from other organizations, published with clear attribution.' },
-  { kind: 'Intelligence briefings', note: 'Concise analysis with sources, period and limitations stated.' },
-];
-
-const storySlots = [
-  { kind: 'Editorial feature', note: 'A major long-form feature on African business or affairs.', art: 'frames', big: true },
-  { kind: 'African history', note: 'A historical narrative told in context.', art: 'contour' },
-  { kind: 'Business & economics', note: 'An economic story with data and sources.', art: 'grid' },
-  { kind: 'Original interview', note: 'A conversation with a leader or expert.', art: 'lens' },
-  { kind: 'Visual explainer', note: 'A short animated or illustrated explainer.', art: 'signal' },
-] as const;
-
-const creativeSlots = [
-  { kind: 'Audiovisuals', note: 'Films and audio built around research, interviews and institutions.', art: 'lens' },
-  { kind: 'Motion graphics', note: 'Animated graphics that make data and ideas move.', art: 'signal' },
-  { kind: 'Digital videos', note: 'Short-form and long-form video made for digital platforms.', art: 'frames' },
-  { kind: 'Visual research presentations', note: 'Research findings designed to be shown, presented and shared.', art: 'grid' },
-] as const;
-
-const dims = ['Country', 'Region', 'Sector', 'Year', 'Indicator', 'Trading partner', 'Investment category'];
-
-const relationships = ['Institutional partners', 'Research collaborators', 'Production collaborators', 'Edition sponsors', 'Clients'];
+const relationships = ['Institutional partners', 'Research collaborators', 'Production collaborators', 'Sponsors'];
 
 ---
 
@@ -53,6 +24,7 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
   <!-- 1. HERO -->
   <section class="hero theme-dark" aria-labelledby="hero-title">
     <Visual art="hero" label="Hero image or film placeholder" ratio="auto" class="hero__art" />
+    <HeroTexture />
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="wrap hero__inner">
       <p class="eyebrow">Narrative · Research · Creative data</p>
@@ -88,6 +60,9 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
     </div>
   </section>
 
+  <!-- CLIENTS -->
+  <ClientLogos />
+
   <!-- 3. CAPABILITIES -->
   <section class="section theme-dark" id="capabilities" aria-labelledby="cap-title">
     <div class="wrap">
@@ -114,67 +89,19 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
     </div>
   </section>
 
-  <!-- 4. FEATURED INTELLIGENCE -->
+  <!-- 4. RESEARCH & PUBLICATIONS -->
   <section class="section theme-light" aria-labelledby="intel-title">
     <div class="wrap">
       <div class="section-head reveal">
         <p class="eyebrow">Research &amp; Publications</p>
-        <h2 id="intel-title">Research and publications built on documented sources.</h2>
-        <p class="lede">Our own publications, led by the Tanzania Economic Diplomacy Review, and third-party research we publish. Intelligence at Native Media means collecting, organizing, analyzing and presenting credible information so that people and institutions can understand and decide better.</p>
+        <h2 id="intel-title">Reports and research from leading organizations.</h2>
+        <p class="lede">We curate reports and research from other organizations, always credited and linked to the original, so people and institutions can understand Africa from the best available evidence.</p>
       </div>
-      <div class="intel">
-        <ul class="intel__slots">
-          <li class="slot slot--lead reveal">
-            <span class="tag tag--brand">Flagship publication</span>
-            <h3><a href={REVIEW_BASE}>{reviewMeta.title}</a></h3>
-            <p class="muted">{reviewMeta.oneLiner}</p>
-            <p class="slot__meta">{reviewMeta.status}. Sources as published up to 30 September 2026. Every figure dated and referenced.</p>
-            <a class="arrow-link" href={REVIEW_BASE}>Explore the Review <span aria-hidden="true">→</span></a>
-          </li>
-          {intelSlots.map((s) => (
-            <li class="slot reveal">
-              <span class="tag">Placeholder · Product slot</span>
-              <h3>{s.kind}</h3>
-              <p class="muted">{s.note}</p>
-              <p class="slot__meta">Headline, summary, verified data point and report link will appear here.</p>
-            </li>
-          ))}
-        </ul>
-        <aside class="labels reveal" aria-labelledby="labels-title">
-          <h3 id="labels-title">How we label what we publish</h3>
-          <dl>
-            {labels.map(([t, d]) => (<><dt>{t}</dt><dd>{d}</dd></>))}
-          </dl>
-          <a class="arrow-link" href="/research-and-publications">Explore Research &amp; Publications <span aria-hidden="true">→</span></a>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. FLAGSHIP PUBLICATION -->
-  <section class="section theme-light" aria-labelledby="pub-title">
-    <div class="wrap pub">
-      <div class="pub__cover reveal"><ReviewCover /></div>
-      <div class="pub__copy reveal">
-        <p class="eyebrow">Flagship publication</p>
-        <h2 id="pub-title" class="display">Tanzania Economic Diplomacy Review</h2>
-        <p class="status"><span class="tag tag--brand">{reviewMeta.status}</span> <span class="muted small">Not yet published.</span></p>
-        <p class="lede">{reviewMeta.oneLiner} {reviewMeta.description}</p>
-        <div class="parts">
-          <div>
-            <h3>Part One · {reviewParts[0].title}</h3>
-            <ol class="chapters">{reviewChapters.map((c) => <li>{c.title}</li>)}</ol>
-          </div>
-          <div>
-            {reviewParts.slice(1).map((p) => (<><h3>Part {p.n} · {p.title}</h3><p class="muted small">{p.text}</p></>))}
-          </div>
-        </div>
-        <p class="notice">A Native Media institutional publication. It is not an official government publication, and no organization is described as a partner or endorser unless confirmed.</p>
-        <div class="pub__cta">
-          <a class="btn" href={REVIEW_BASE}>About the Review <span aria-hidden="true">→</span></a>
-          <a class="btn btn--ghost" href="/research-and-publications/archives">Publication archive</a>
-        </div>
-      </div>
+      <ul class="cards">
+        <li class="card reveal"><h3><a href="/research-and-publications/reports">Reports</a></h3><p>Reports from institutions, agencies and organizations on Africa’s economies, societies and communication landscape.</p><a class="arrow-link" href="/research-and-publications/reports">Browse reports <span aria-hidden="true">→</span></a></li>
+        <li class="card reveal"><h3><a href="/research-and-publications/research-papers">Research papers</a></h3><p>Papers by universities, think tanks and independent researchers, each linked to its original source.</p><a class="arrow-link" href="/research-and-publications/research-papers">Browse research papers <span aria-hidden="true">→</span></a></li>
+      </ul>
+      <p class="more"><a class="arrow-link" href="/research-and-publications">Explore Research &amp; Publications <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
 
@@ -205,86 +132,6 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
           <a class="arrow-link" href={episodeUrl(latestEp)}>Episode details <span aria-hidden="true">→</span></a>
         </div>
       </div>}
-    </div>
-  </section>
-
-  <!-- 5. FEATURED STORIES -->
-  <section class="section theme-charcoal" aria-labelledby="stories-title">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">African Intelligence · Stories</p>
-        <h2 id="stories-title">African stories, told with context.</h2>
-        <p class="lede">A curated selection, not a news feed. Layout slots below show how stories will be presented.</p>
-      </div>
-      <ul class="stories">
-        {storySlots.map((s) => (
-          <li class:list={['story', 'reveal', { 'story--big': 'big' in s && s.big }]}>
-            <Visual art={s.art} label="Story placeholder" ratio="auto" />
-            <div class="story__text">
-              <span class="eyebrow">{s.kind}</span>
-              <p>{s.note}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <p class="more"><a class="arrow-link" href="/african-intelligence/stories">Browse all stories <span aria-hidden="true">→</span></a></p>
-    </div>
-  </section>
-
-  <!-- 7. CREATIVE DATA -->
-  <section class="section theme-charcoal" aria-labelledby="cd-title">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">Creative Data</p>
-        <h2 id="cd-title">Research and data you can see.</h2>
-        <p class="lede">Audiovisuals, motion graphics, digital videos and visual research presentations. Only completed, verified projects will be shown in the portfolio.</p>
-      </div>
-      <ul class="prods">
-        {creativeSlots.map((s) => (
-          <li class="reveal">
-            <Visual art={s.art} label="Portfolio placeholder" ratio="16 / 9" />
-            <p class="prods__kind">{s.kind}</p>
-            <p class="muted small">{s.note}</p>
-          </li>
-        ))}
-      </ul>
-      <p class="more"><a class="arrow-link" href="/creative-data">Explore Creative Data <span aria-hidden="true">→</span></a></p>
-    </div>
-  </section>
-
-  <!-- 9. DATA & VISUALS -->
-  <section class="section theme-dark" aria-labelledby="data-title">
-    <div class="wrap data">
-      <div class="reveal">
-        <p class="eyebrow">Creative Data · Data &amp; Visuals</p>
-        <h2 id="data-title" class="display">Complex information, made explorable.</h2>
-        <p class="lede">Interactive charts, maps and data explainers built on verified datasets, always with the source, period and units shown. The example on the right is a layout preview only.</p>
-        <h3 class="small-h">Explore by</h3>
-        <ul class="chips chips--dark">{dims.map((d) => <li>{d}</li>)}</ul>
-        <a class="arrow-link" href="/creative-data/data-and-visuals">Data &amp; Visuals <span aria-hidden="true">→</span></a>
-      </div>
-      <figure class="chart reveal" aria-labelledby="chart-cap">
-        <div class="chart__head"><span class="tag tag--brand">Illustrative placeholder · not real data</span></div>
-        <svg viewBox="0 0 400 220" role="img" aria-label="Placeholder bar chart with six bars of varying height. It contains no real data.">
-          <g stroke="rgba(245,245,240,.14)"><path d="M30 20H390M30 70H390M30 120H390M30 170H390" /></g>
-          <g fill="#3a3a3a">
-            <rect x="50" y="110" width="40" height="60" /><rect x="110" y="80" width="40" height="90" /><rect x="170" y="95" width="40" height="75" />
-            <rect x="230" y="50" width="40" height="120" /><rect x="290" y="65" width="40" height="105" />
-          </g>
-          <rect x="350" y="25" width="30" height="145" fill="#ed7d3e" />
-          <path d="M30 170H390" stroke="rgba(245,245,240,.5)" />
-        </svg>
-        <figcaption id="chart-cap">
-          <dl class="chart__meta">
-            <div><dt>Title</dt><dd>Chart title (placeholder)</dd></div>
-            <div><dt>Indicator</dt><dd>To be defined</dd></div>
-            <div><dt>Reporting period</dt><dd>To be defined</dd></div>
-            <div><dt>Source</dt><dd>Required for every published chart</dd></div>
-            <div><dt>Units</dt><dd>To be defined</dd></div>
-            <div><dt>Notes</dt><dd>Definitions and caveats appear here</dd></div>
-          </dl>
-        </figcaption>
-      </figure>
     </div>
   </section>
 

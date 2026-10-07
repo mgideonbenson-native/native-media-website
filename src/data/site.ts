@@ -10,15 +10,15 @@ export const company = {
   descriptor: 'A Pan-African media-tech and strategic communication agency based in Dar es Salaam.',
   positioning:
     'Native Media leverages storytelling, research, data and creative production to shape narratives, build reputations, generate insight and strengthen Africa’s presence in global conversations.',
-  why: 'Africa has been explained by others for long enough.',
+  why: 'We use evidence to build the narratives that change how Africa is seen, by Africans and by everyone else.',
   promise: 'African perspectives. Strategic insight. Global standards.',
   vision:
     'To become a respected African media, strategic communications and intelligence company, recognized for its ability to generate insight, shape narratives and produce high-quality creative and institutional content.',
   mission:
     'To transform African knowledge, research, intelligence and creativity into strategic communication, compelling stories and valuable information products that connect people, institutions, businesses and opportunities.',
   // Contact details supplied by the owner. Phone and street address are not supplied yet; leave empty until verified.
-  email: 'benson@nativemedia.co.tz',
-  phone: '+255 746 444 380',
+  email: '',
+  phone: '',
   // WhatsApp number in international format, digits only. Used by the floating chat button.
   whatsapp: '255746444380',
   address: '',
@@ -33,6 +33,7 @@ export const company = {
 };
 
 import { allStoryListPaths } from './categories';
+import { publicationPaths } from './publications';
 
 export type NavChild = { label: string; href: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
@@ -89,8 +90,8 @@ export const pillars = [
     href: '/research-and-publications',
     title: 'Research & Publications',
     summary:
-      'Our own research and publications, led by the Tanzania Economic Diplomacy Review, alongside third-party research we publish.',
-    tags: ['Tanzania Economic Diplomacy Review', 'Third-party research', 'Intelligence briefings'],
+      'Reports and research from leading organizations, curated and credited, so people can understand Africa from the best available evidence.',
+    tags: ['Reports', 'Research papers', 'Curated and credited'],
     art: 'pages',
   },
   {
@@ -156,13 +157,7 @@ export const builtPaths = new Set<string>([
   '/contact', '/contact/general-inquiries', '/contact/narrative-engineering', '/contact/research-collaboration',
   '/contact/institutional-partnerships', '/contact/creative-data', '/contact/training-and-mentorship',
   // Research & Publications
-  '/research-and-publications', '/research-and-publications/third-party-research',
-  '/research-and-publications/intelligence', '/research-and-publications/intelligence/economic-intelligence',
-  '/research-and-publications/intelligence/business-and-market-insights', '/research-and-publications/intelligence/economic-diplomacy',
-  '/research-and-publications/intelligence/research-and-analysis',
-  '/research-and-publications/research-papers', '/research-and-publications/institutional-reports',
-  '/research-and-publications/digital-editions', '/research-and-publications/archives',
-  '/research-and-publications/tanzania-economic-diplomacy-review',
+  '/research-and-publications', '/research-and-publications/third-party-research', ...publicationPaths,
   // African Intelligence (podcast + stories)
   '/african-intelligence', '/african-intelligence/latest-episodes', '/african-intelligence/guests', '/african-intelligence/interviews',
   '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',

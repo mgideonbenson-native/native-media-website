@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PublicationList from '../../components/PublicationList.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { publicationKinds } from '../../data/publications';
+export function getStaticPaths() { return Object.entries(publicationKinds).map(([kind, k]) => ({ params: { kind: k.slug }, props: { kind } })); }
+const { kind } = Astro.props as { kind: keyof typeof publicationKinds };
+const k = publicationKinds[kind];
+const items = (await getCollection('publications')).filter((p) => p.data.kind === kind).sort((a, b) => b.data.year - a.data.year);
+---
+<BaseLayout title={`${k.label} | Native Media`} description={k.lede} noindex={items.length === 0}>
+  <PageHero eyebrow="Research & Publications" title={k.label} lede={k.lede}
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: k.label }]} />
+  <section class="section theme-light"><div class="wrap"><PublicationList items={items} empty={k.empty} /></div></section>
+  <CtaBand title="Have research we should feature?" text="Tell us about it, who it is for and where it has appeared. We will reply about fit and permissions." href="/contact/research-collaboration" label="Research inquiry" />
+</BaseLayout>

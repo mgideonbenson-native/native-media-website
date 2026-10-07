@@ -111,4 +111,21 @@ const stories = defineCollection({
   }),
 });
 
-export const collections = { guests, episodes, stories };
+/**
+ * Reports and research published by other organizations, featured on Native Media with credit and a link to the original.
+ * Add one .md file per item in src/content/publications (see the README there).
+ */
+const publications = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/publications' }),
+  schema: z.object({
+    title: z.string(),
+    publisher: z.string(),
+    year: z.number().int(),
+    kind: z.enum(['report', 'research-paper']),
+    url: z.url(),
+    summary: z.string(),
+    featured: z.boolean().default(false),
+  }),
+});
+
+export const collections = { guests, episodes, stories, publications };

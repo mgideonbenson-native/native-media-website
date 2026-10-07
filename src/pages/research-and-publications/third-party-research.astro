@@ -3,28 +3,21 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 const standards = [
-  ['Always credited', 'Every item names its authors and the organization that produced it, with a link to the original where one exists.'],
-  ['Clearly labelled', 'Third-party research is marked as such. It is never presented as Native Media’s own finding.'],
-  ['Published with permission', 'We publish only with the owner’s permission. Nothing is republished from elsewhere without it.'],
-  ['Unaltered', 'We do not change an author’s figures or conclusions. Any summary we add is labelled as ours.'],
-  ['Not an endorsement', 'Publishing a piece does not mean Native Media endorses its conclusions, unless we say so.'],
+  ['Always credited', 'Every item names its authors and the organization that produced it, with a link to the original.'],
+  ['Clearly labelled', 'Everything featured here is marked as the work of its publisher. It is never presented as Native Media’s own finding.'],
+  ['Featured with permission', 'We feature work with the owner’s permission, and link to the original instead of republishing it.'],
+  ['Unaltered', 'We do not change an author’s figures or conclusions. Any short summary we add is ours and says so.'],
+  ['Not an endorsement', 'Featuring a publication does not mean Native Media endorses its conclusions, unless we say so.'],
 ];
 ---
-<BaseLayout title="Third-party research | Native Media" description="Native Media also publishes research by other organizations and researchers, with clear credit, permission and labelling.">
-  <PageHero eyebrow="Research & Publications" title="Third-party research" lede="Research by other institutions and researchers, published on Native Media with clear credit and clear labelling."
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: 'Third-party research' }]} />
+<BaseLayout title="How we feature research | Native Media" description="Native Media features reports and research from other organizations, with clear credit, permission and a link to the original.">
+  <PageHero eyebrow="Research & Publications" title="How we feature research" lede="Reports and research by other organizations, shown on Native Media with clear credit and a link to the original."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications', href: '/research-and-publications' }, { label: 'How we feature research' }]} />
   <section class="section theme-light">
     <div class="wrap split">
-      <div class="stack"><p class="eyebrow">Proposed standards</p><h2 class="h2">How we handle research we did not write.</h2>
-        <div class="notice-box"><span class="tag">Draft</span><p>These standards are a proposal for Native Media to confirm.</p></div></div>
+      <div class="stack"><p class="eyebrow">Our standards</p><h2 class="h2">How we handle research we did not write.</h2></div>
       <ul class="cards">{standards.map(([t, d]) => <li class="card"><h3>{t}</h3><p>{d}</p></li>)}</ul>
     </div>
   </section>
-  <section class="section theme-charcoal">
-    <div class="wrap split">
-      <div class="stack"><p class="eyebrow">Published now</p><h2 class="h2">Third-party research.</h2></div>
-      <div class="stack"><div class="notice-box"><span class="tag tag--brand">None published yet</span><p>Third-party research will be listed here as it is published, each with its authors, publisher, date and a link to the original.</p></div></div>
-    </div>
-  </section>
-  <CtaBand title="Have research we should publish?" text="Tell us about your research, who it is for and where it has appeared. We will reply about fit and permissions." href="/contact/research-collaboration" label="Research inquiry" />
+  <CtaBand title="Have research we should feature?" text="Tell us about your research, who it is for and where it has appeared. We will reply about fit and permissions." href="/contact/research-collaboration" label="Research inquiry" />
 </BaseLayout>

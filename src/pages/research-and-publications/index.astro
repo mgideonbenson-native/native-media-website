@@ -1,67 +1,30 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import PublicationList from '../../components/PublicationList.astro';
 import CtaBand from '../../components/CtaBand.astro';
-import ReviewCover from '../../components/ReviewCover.astro';
-import { REVIEW_BASE, reviewMeta, ecosystem } from '../../data/review';
-import { areas } from '../../data/intelligence';
-const types = ['Annual institutional reviews', 'Economic diplomacy publications', 'Trade and investment reports', 'Research papers', 'Institutional directories', 'Industry reports', 'Thematic studies', 'Digital reference publications', 'Data annexes', 'Periodic research updates'];
-const links = [['Research Papers', '/research-and-publications/research-papers'], ['Institutional Reports', '/research-and-publications/institutional-reports'], ['Digital Editions', '/research-and-publications/digital-editions'], ['Archives', '/research-and-publications/archives']];
+import { publicationKinds } from '../../data/publications';
+const all = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
+const featured = all.filter((p) => p.data.featured);
+const shown = featured.length ? featured : all.slice(0, 6);
 ---
-<BaseLayout title="Research & Publications | Native Media" description="Native Media's own research and publications, led by the Tanzania Economic Diplomacy Review, alongside third-party research we publish, all with sources and methods stated.">
-  <PageHero eyebrow="What we do · 02" title="Research & Publications" lede="Our own publications, led by the Tanzania Economic Diplomacy Review, and third-party research we publish. Every product states its sources, its period and its limits."
+<BaseLayout title="Research & Publications | Native Media" description="Reports and research from leading organizations, curated by Native Media with clear credit and a link to the original." noindex={all.length === 0}>
+  <PageHero eyebrow="What we do · 02" title="Research & Publications" lede="Reports and research from leading organizations, curated for people who need to understand Africa. Every item is credited and linked to its original."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications' }]} />
-
-  <section class="section theme-light" aria-labelledby="flag-t">
-    <div class="wrap split">
-      <div><ReviewCover /></div>
-      <div class="stack">
-        <p class="eyebrow">Our own publications</p>
-        <h2 id="flag-t" class="h2">{reviewMeta.title}</h2>
-        <p><span class="tag tag--brand">{reviewMeta.status}</span></p>
-        <p class="lede">{reviewMeta.oneLiner} {reviewMeta.description}</p>
-        <p><a class="btn" href={REVIEW_BASE}>Explore the Review <span aria-hidden="true">→</span></a></p>
-        <p class="muted small">Planned products: {ecosystem.map((e) => e.title.toLowerCase()).join('; ')}.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section theme-dark">
-    <div class="wrap split">
-      <div class="stack">
-        <p class="eyebrow">Third-party research</p>
-        <h2 class="h2">Research from other organizations, published with clear credit.</h2>
-        <p class="muted">We also publish research by other institutions and researchers. It is always attributed to its authors, labelled as third-party work, and kept separate from Native Media’s own findings.</p>
-      </div>
-      <div class="stack"><div class="notice-box"><span class="tag tag--brand">None published yet</span><p>Third-party research will be listed here as it is published.</p></div>
-        <p><a class="arrow-link" href="/research-and-publications/third-party-research">How third-party research works <span aria-hidden="true">→</span></a></p></div>
-    </div>
-  </section>
-
-  <section class="section theme-light">
+  <section class="section theme-light" aria-labelledby="feat-t">
     <div class="wrap">
-      <div class="section-head"><p class="eyebrow">Intelligence briefings and analysis</p><h2>What our research covers.</h2>
-        <p class="lede">Intelligence here means collecting, organizing, analyzing and presenting credible information so people and institutions can understand and decide better.</p></div>
-      <ul class="cards">
-        {areas.map((a) => <li class="card"><h3><a href={`/research-and-publications/intelligence/${a.slug}`}>{a.title}</a></h3><p>{a.lede}</p></li>)}
-      </ul>
-      <p class="more"><a class="arrow-link" href="/research-and-publications/intelligence">Our approach to intelligence <span aria-hidden="true">→</span></a></p>
+      <div class="section-head"><p class="eyebrow">Featured</p><h2 id="feat-t">Featured publications.</h2></div>
+      <PublicationList items={shown} empty="Featured reports and research from other organizations will be listed here." />
     </div>
   </section>
-
   <section class="section theme-dark">
     <div class="wrap">
-      <div class="section-head"><p class="eyebrow">Browse</p><h2>Publication collections.</h2></div>
-      <ul class="cards">{links.map(([t, h]) => <li class="card"><h3><a href={h}>{t}</a></h3><a class="arrow-link" href={h}>Open <span aria-hidden="true">→</span></a></li>)}</ul>
+      <div class="section-head"><p class="eyebrow">Browse</p><h2>By type.</h2></div>
+      <ul class="cards">{Object.values(publicationKinds).map((k) => <li class="card"><h3><a href={`/research-and-publications/${k.slug}`}>{k.label}</a></h3><p>{k.lede}</p><a class="arrow-link" href={`/research-and-publications/${k.slug}`}>Open <span aria-hidden="true">→</span></a></li>)}</ul>
+      <p class="more"><a class="arrow-link" href="/research-and-publications/third-party-research">How we feature other organizations’ work <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
-
-  <section class="section theme-light">
-    <div class="wrap split">
-      <div class="stack"><p class="eyebrow">What we publish</p><h2 class="h2">Types of publication.</h2></div>
-      <ul class="checklist">{types.map((t) => <li>{t}</li>)}</ul>
-    </div>
-  </section>
-  <CtaBand title="Commission or contribute research." text="Annual reviews, research papers, directories and reference publications built on documented sources, or research you would like us to publish." href="/contact/research-collaboration" label="Research inquiry" />
+  <CtaBand title="Have research we should feature?" text="Tell us about it, who it is for and where it has appeared. We will reply about fit and permissions." href="/contact/research-collaboration" label="Research inquiry" />
 </BaseLayout>
-<style>.card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand); } .theme-light .card h3 a:hover { color: var(--brand-ink); } .small { font-size: 0.88rem; } .more { margin-top: 2rem; }</style>
+<style>.card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand); } .more { margin-top: 2rem; }</style>

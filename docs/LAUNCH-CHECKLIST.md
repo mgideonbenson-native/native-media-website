@@ -18,7 +18,7 @@
 
 ## B. Items only you can supply or decide (the site is not ready to go public until these are done)
 
-- [ ] **Contact details**: email (benson@nativemedia.co.tz) and five social links are in. Phone (+255 746 444 380) is in. Still needed: office address, and a company-wide email if you prefer one over a personal address. Add them in `src/data/site.ts`.
+- [ ] **Contact details**: your email and phone are intentionally **not shown** on the site (people use the contact forms and the WhatsApp button). Add an office address or a public email later in `src/data/site.ts` if you want them shown.
 - [x] **Legal pages filled in** (Privacy Policy and Terms: contact, data-retention periods, providers, Tanzania law). Still recommended: have a Tanzanian lawyer review them against the Personal Data Protection Act, 2022, and confirm the company's registered legal name if it differs from "Native Media".
 - [ ] **Form and email services**: choose them, connect them (see `DEPLOYMENT.md`), and update the Privacy Policy. Until then the forms honestly say nothing was sent.
 - [ ] **Real photographs and video** to replace the placeholder artwork (hero, capability cards, story slots, team photos).
@@ -30,7 +30,8 @@
 - [ ] **Training & Mentorship**: details for Native Talks and thought leadership development (who it is for, format, dates, how to apply, mentors). The pages hold placeholders until you supply them.
 - [ ] **Third-party research**: confirm the proposed standards on that page, and add real items only with the owners' permission.
 - [ ] **Data & Visuals**: the charts, map and timeline use sample data. Replace with verified, sourced data or leave them unpublished.
-- [ ] **Tanzania Economic Diplomacy Review**: approve how it is shown. The draft's figures, the partner countries and the Ministerial foreword are deliberately **not** on the site. Confirm the draft cover (AI-generated, labelled) may be public.
+- [ ] **Publications from other organizations**: add the first reports and research papers (one file each in `src/content/publications`), with the publisher's permission. Until then the section shows "coming soon".
+- [ ] **Client logos**: confirm each organization is happy to be shown. The Afromark Communication logo you sent is very small (143 px wide), so a larger version would look sharper.
 - [ ] **Episode links**: the exact YouTube/Spotify/Apple/Amazon link for each episode (currently show-level links).
 - [ ] **Official vector logo** (the site uses your supplied PNG files).
 - [ ] **Domain**: confirm `nativemedia.co.tz` and who controls its DNS.

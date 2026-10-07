@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { publicationKinds } from '../data/publications';
+interface Props { items: CollectionEntry<'publications'>[]; empty: string }
+const { items, empty } = Astro.props;
+---
+{items.length === 0
+  ? <div class="notice-box"><span class="tag tag--brand">Coming soon</span><p>{empty}</p></div>
+  : <ul class="pubs">{items.map((p) => (
+      <li class="card">
+        <span class="eyebrow">{publicationKinds[p.data.kind].one} · {p.data.year}</span>
+        <h3><a href={p.data.url} rel="noopener noreferrer" target="_blank">{p.data.title}<span class="sr-only"> (opens the original in a new tab)</span></a></h3>
+        <p class="muted small">Published by {p.data.publisher}</p>
+        <p>{p.data.summary}</p>
+        <a class="arrow-link" href={p.data.url} rel="noopener noreferrer" target="_blank" aria-hidden="true" tabindex="-1">Read the original <span aria-hidden="true">↗</span></a>
+      </li>))}</ul>}
+<style>
+  .pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+  .pubs .card { padding: 1.6rem; display: grid; gap: 0.6rem; align-content: start; } .pubs h3 a { text-decoration: none; } .pubs h3 a:hover { color: var(--brand-ink); } .small { font-size: 0.88rem; }
+</style>
