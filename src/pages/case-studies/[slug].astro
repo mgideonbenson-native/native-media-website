@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { caseStudies } from '../../data/caseStudies';
+export function getStaticPaths() { return caseStudies.map((c) => ({ params: { slug: c.slug }, props: { c } })); }
+const { c: cs } = Astro.props;
+const others = caseStudies.filter((o) => o.slug !== cs.slug);
+---
+<BaseLayout title={`${cs.title.length > 48 ? cs.title.slice(0, 46).trimEnd() + '…' : cs.title} | Case study | Native Media`} description={cs.summary}>
+  <section class="chead theme-dark">
+    <div class="wrap">
+      <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/narrative-engineering">Narrative Engineering</a></li><li><a href="/case-studies">Case studies</a></li><li><span aria-current="page">{cs.title}</span></li></ol></nav>
+      <p class="eyebrow">Case study · {cs.sector}</p>
+      <h1>{cs.title}</h1>
+      <p class="lede">{cs.headline}</p>
+    </div>
+  </section>
+  <div class="theme-light">
+    <div class="wrap hero-img"><Image src={cs.cover} alt={cs.coverAlt} widths={[720, 1080, 1440]} sizes="(min-width: 1300px) 78rem, 92vw" loading="eager" class="cover" /></div>
+    <div class="wrap cs">
+      <aside class="side" aria-label="Project facts">
+        <p class="eyebrow">At a glance</p>
+        <dl>{cs.facts.map(([k, v]) => <><dt>{k}</dt><dd>{v}</dd></>)}</dl>
+        <nav aria-label="On this page"><p class="eyebrow">On this page</p><ul>{cs.sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}</ul></nav>
+      </aside>
+      <article class="body">
+        <p class="lede">{cs.summary}</p>
+        {cs.sections.map((s) => (
+          <section id={s.id} class="blk" aria-labelledby={`${s.id}-h`}>
+            <h2 id={`${s.id}-h`}>{s.title}</h2>
+            {s.paragraphs?.map((p) => <p>{p}</p>)}
+            {s.callout && <div class="callout"><span class="tag tag--brand">{s.callout.label}</span>{s.callout.title && <p class="callout__t">{s.callout.title}</p>}<p>{s.callout.text}</p></div>}
+            {s.stats && <ul class="stats">{s.stats.map((x) => <li><strong>{x.value}</strong><span>{x.label}</span></li>)}</ul>}
+            {s.table && <div class="tbl" role="region" aria-label={`${s.title} table`} tabindex="0"><table><thead><tr>{s.table.head.map((h) => <th scope="col">{h}</th>)}</tr></thead><tbody>{s.table.rows.map((r) => <tr>{r.map((cell, i) => i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody></table></div>}
+            {s.items && (s.numbered
+              ? <ol class="items items--n">{s.items.map((i) => <li><h3>{i.title}</h3><p>{i.text}</p></li>)}</ol>
+              : <ul class="items">{s.items.map((i) => <li><h3>{i.title}</h3><p>{i.text}</p></li>)}</ul>)}
+            {s.bullets && <ul class="bul">{s.bullets.map((b) => <li>{b}</li>)}</ul>}
+            {s.note && <div class="notice-box"><span class="tag">{s.note.label}</span><p>{s.note.text}</p></div>}
+            {s.gallery && <ul class="gal">{s.gallery.map((g) => <li><Image src={g.img} alt={g.alt} widths={[480, 720, 960]} sizes="(min-width: 900px) 24rem, 92vw" loading="lazy" /></li>)}</ul>}
+          </section>
+        ))}
+      </article>
+    </div>
+    <div class="wrap more">
+      <p class="eyebrow">More case studies</p>
+      <ul>{others.map((o) => <li><a href={`/case-studies/${o.slug}`}>{o.title}</a></li>)}</ul>
+    </div>
+  </div>
+  <CtaBand title="Let us work together." text="Tell us what you need to communicate and who needs to hear it." href="/contact/narrative-engineering" label="Narrative engineering inquiry" />
+</BaseLayout>
+<style>
+  .chead { padding: calc(var(--header-h) + 3rem) 0 3rem; } .chead .wrap { display: grid; gap: 1.2rem; justify-items: start; }
+  .chead h1 { font-weight: 800; font-size: var(--step-4); letter-spacing: -0.03em; max-width: 22ch; overflow-wrap: break-word; line-height: 1.04; } .chead .lede { max-width: 48rem; }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.85rem; color: var(--gray); } .crumbs li + li::before { content: '/'; margin-right: 0.4rem; opacity: 0.6; } .crumbs a { text-decoration: none; } .crumbs [aria-current] { color: var(--paper); }
+  .hero-img { padding-top: 2rem; } .hero-img :global(.cover) { width: 100%; height: auto; max-height: 34rem; object-fit: cover; display: block; }
+  .cs { display: grid; gap: 2.5rem; padding-block: 3rem 4rem; }
+  .side { display: grid; gap: 1.2rem; align-content: start; } .side dl { display: grid; gap: 0.2rem; margin: 0; } .side dt { font-family: var(--font-display); font-weight: 800; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand-ink); margin-top: 0.7rem; } .side dd { margin: 0; }
+  .side nav ul { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; gap: 0.35rem; font-size: 0.92rem; } .side nav a { color: var(--gray-ink); text-decoration: none; } .side nav a:hover { color: var(--brand-ink); text-decoration: underline; }
+  .body { display: grid; gap: 2.6rem; max-width: 48rem; } .blk { display: grid; gap: 1.1rem; scroll-margin-top: calc(var(--header-h) + 1rem); } .blk h2 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.1; border-top: 2px solid var(--black); padding-top: 1rem; }
+  .callout { border-left: 4px solid var(--brand); padding: 0.4rem 0 0.4rem 1.2rem; display: grid; gap: 0.6rem; } .callout__t { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); line-height: 1.2; }
+  .stats { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); } .stats li { display: grid; gap: 0.2rem; padding: 1rem; border: 1px solid var(--line-light); background: #fff; } .stats strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1; } .stats span { font-size: 0.85rem; color: var(--gray-ink); }
+  .tbl { overflow-x: auto; } table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 34rem; } th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line-light); } thead th { font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-ink); }
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; } .items li { padding-left: 0; border-top: 1px solid var(--line-light); padding-top: 0.9rem; display: grid; gap: 0.3rem; } .items h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-0); } .items--n { counter-reset: n; } .items--n li { counter-increment: n; } .items--n h3::before { content: '0' counter(n) '  '; color: var(--brand-ink); }
+  .bul { padding-left: 1.2rem; display: grid; gap: 0.6rem; } .bul li::marker { color: var(--brand); }
+  .gal { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); } .gal :global(img) { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+  .more { padding-bottom: 3rem; display: grid; gap: 0.6rem; } .more ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; } .more a { color: var(--brand-ink); font-weight: 700; }
+  @media (min-width: 960px) { .cs { grid-template-columns: 17rem 1fr; gap: 4rem; } .side { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; max-height: calc(100vh - var(--header-h) - 3rem); overflow: auto; } }
+</style>

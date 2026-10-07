@@ -34,6 +34,7 @@ export const company = {
 
 import { allStoryListPaths } from './categories';
 import { publicationPaths } from './publications';
+import { caseStudies } from './caseStudies';
 
 export type NavChild = { label: string; href: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
@@ -156,6 +157,8 @@ export const builtPaths = new Set<string>([
   '/what-we-do', '/narrative-engineering',
   '/contact', '/contact/general-inquiries', '/contact/narrative-engineering', '/contact/research-collaboration',
   '/contact/institutional-partnerships', '/contact/creative-data', '/contact/training-and-mentorship',
+  // Case studies
+  '/case-studies', ...caseStudies.map((c) => `/case-studies/${c.slug}`),
   // Research & Publications
   '/research-and-publications', '/research-and-publications/third-party-research', ...publicationPaths,
   // African Intelligence (podcast + stories)
@@ -163,8 +166,7 @@ export const builtPaths = new Set<string>([
   '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',
   '/african-intelligence/stories', ...allStoryListPaths(),
   // Creative Data
-  '/creative-data', '/creative-data/data-and-visuals', '/creative-data/data-and-visuals/data-hub', '/creative-data/data-and-visuals/bilateral-trade',
-  '/creative-data/data-and-visuals/investment', '/creative-data/data-and-visuals/africa-map', '/creative-data/data-and-visuals/diplomacy-timeline',
+  '/creative-data',
   // Training & Mentorship
   '/training-and-mentorship', '/training-and-mentorship/native-talks', '/training-and-mentorship/thought-leadership',
   // Site pages

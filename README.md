@@ -41,9 +41,6 @@ The files in `src/content/stories/` are **demonstrations** (`demo: true`). They 
 ## Research & Publications (other organizations' work)
 Reports and research from other organizations are listed from `src/content/publications/`: add one `.md` file per item (see `_README.txt` there). Each is credited and links to the original. Until items are added, the pages say "coming soon" and are hidden from search engines. Native Media is not publishing its own publications for now.
 
-## Data & Visuals (sample data)
-The charts, map and explorer under `/creative-data/data-and-visuals` use **illustrative sample data** from `src/data/sample.ts` (generic "Partner A" names, invented index values). Every exhibit says so, the pages are hidden from search engines and the sitemap, and nothing there is real. To publish real data: replace `sampleRows` with verified, sourced rows, update `datasetMeta` (source, units, period, notes), set `isSample = false`, and remove the `/creative-data/data-and-visuals` exclusion in `astro.config.mjs`. Chart code is in `src/lib/charts.ts`; map boundaries come from the public-domain Natural Earth data via `world-atlas`.
-
 ## Policies, newsletter and forms
 - Policies live in `src/pages/` (`privacy`, `terms`, `cookies`, `editorial-policy`, `research-policy`). They describe the site as it works today (no cookies, no analytics, fonts served from the site itself). Items marked **[to confirm]** need Native Media's details and a lawyer's review before launch. If you add analytics, embedded players or another service, update the Privacy and Cookie policies first.
 - Forms send nothing until you set the web addresses in `.env` (copy `.env.example`): `PUBLIC_FORM_ENDPOINT` (contact forms), `PUBLIC_NEWSLETTER_ENDPOINT` and `PUBLIC_UNSUBSCRIBE_ENDPOINT`. Turn on confirmation emails (double opt-in) in your email service **before** setting the newsletter address. Until then each form tells the visitor honestly that nothing was sent.

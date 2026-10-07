@@ -9,12 +9,6 @@ const formats = [
   { title: 'Digital videos', art: 'frames', text: 'Video made for digital platforms, from short explainers to longer features.' },
   { title: 'Visual research presentations', art: 'grid', text: 'Research findings designed to be presented, shown and shared.' },
 ] as const;
-const tools = [
-  ['Data hub', '/creative-data/data-and-visuals/data-hub', 'Filter and compare indicators by partner, region, sector and year.'],
-  ['Africa map', '/creative-data/data-and-visuals/africa-map', 'An interactive map ready for country-level indicators.'],
-  ['Bilateral trade and investment', '/creative-data/data-and-visuals/bilateral-trade', 'Charts for trade and investment relationships.'],
-  ['Timeline', '/creative-data/data-and-visuals/diplomacy-timeline', 'Events in date order, with sources.'],
-];
 ---
 <BaseLayout title="Creative Data | Native Media" description="Creative Data from Native Media: audiovisuals, motion graphics, digital videos and visual research presentations that turn research and data into something people can see.">
   <PageHero eyebrow="What we do · 04" title="Creative Data" lede="Audiovisuals, motion graphics, digital videos and visual research presentations. We turn research and data into something people can see."
@@ -41,14 +35,6 @@ const tools = [
     </div>
   </section>
 
-  <section class="section theme-light">
-    <div class="wrap">
-      <div class="section-head"><p class="eyebrow">Data &amp; Visuals</p><h2>Explorable data, with sources shown.</h2>
-        <p class="lede">Prototypes of the interactive charts and maps we build. They currently use clearly labelled sample data. Real work shows its source, period and units on every chart.</p></div>
-      <ul class="cards">{tools.map(([t, h, d]) => <li class="card"><h3><a href={h}>{t}</a></h3><p>{d}</p><span class="tag">Sample data</span></li>)}</ul>
-      <p class="more"><a class="arrow-link" href="/creative-data/data-and-visuals">All Data &amp; Visuals <span aria-hidden="true">→</span></a></p>
-    </div>
-  </section>
   <CtaBand title="Make your research visible." text="Tell us what you need to show and who needs to see it." href="/contact/creative-data" label="Creative Data inquiry" />
 </BaseLayout>
 <style>

@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { caseStudies } from '../../data/caseStudies';
+---
+<BaseLayout title="Case studies | Native Media" description="Selected Native Media work: media coordination, stakeholder linkage and narrative strategy for national development, energy transition and banking communications in Tanzania.">
+  <PageHero eyebrow="Our work" title="Case studies" lede="Selected projects in media coordination, stakeholder linkage and narrative strategy. Each case sets out the ask, our approach, what we delivered and what the evidence does and does not show."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Narrative Engineering', href: '/narrative-engineering' }, { label: 'Case studies' }]} />
+  <section class="section theme-light">
+    <div class="wrap">
+      <ul class="cases">
+        {caseStudies.map((c) => (
+          <li class="case reveal">
+            <a href={`/case-studies/${c.slug}`} class="case__img" tabindex="-1" aria-hidden="true"><Image src={c.cover} alt="" widths={[480, 720, 960]} sizes="(min-width: 900px) 30rem, 92vw" /></a>
+            <div class="case__body">
+              <p class="eyebrow">{c.sector}</p>
+              <h2><a href={`/case-studies/${c.slug}`}>{c.title}</a></h2>
+              <p class="muted">{c.headline}</p>
+              <a class="arrow-link" href={`/case-studies/${c.slug}`}>Read the case study <span aria-hidden="true">→</span></a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CtaBand title="Let us work together." text="Tell us what you need to communicate and who needs to hear it." href="/contact/narrative-engineering" label="Narrative engineering inquiry" />
+</BaseLayout>
+<style>
+  .cases { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.4rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+  .case { display: grid; gap: 1.1rem; align-content: start; } .case__img { display: block; overflow: hidden; aspect-ratio: 16 / 10; background: #111; } .case__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); } .case:hover .case__img :global(img) { transform: scale(1.03); }
+  .case__body { display: grid; gap: 0.6rem; } .case h2 { font-size: var(--step-2); font-weight: 800; line-height: 1.1; } .case h2 a { text-decoration: none; } .case h2 a:hover { color: var(--brand-ink); }
+</style>

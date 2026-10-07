@@ -31,6 +31,7 @@
 - [ ] **Third-party research**: confirm the proposed standards on that page, and add real items only with the owners' permission.
 - [ ] **Data & Visuals**: the charts, map and timeline use sample data. Replace with verified, sourced data or leave them unpublished.
 - [ ] **Publications from other organizations**: add the first reports and research papers (one file each in `src/content/publications`), with the publisher's permission. Until then the section shows "coming soon".
+- [ ] **Case studies**: four are published from your documents (DIRA 2050, National Clean Cooking Strategy launch, E-cooking, KCB at the Tanzania–Kenya Business Forum). Confirm each client and contractor has agreed, and that the event photos may be used. The KCB case names a Group CEO and Heads of State, so please double-check wording and photos with the client.
 - [ ] **Client logos**: confirm each organization is happy to be shown. The Afromark Communication logo you sent is very small (143 px wide), so a larger version would look sharper.
 - [ ] **Episode links**: the exact YouTube/Spotify/Apple/Amazon link for each episode (currently show-level links).
 - [ ] **Official vector logo** (the site uses your supplied PNG files).
