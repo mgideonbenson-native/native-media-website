@@ -1,7 +1,6 @@
 ---
 /**
- * Placeholder artwork. No photographs have been supplied yet, so each slot uses
- * abstract brand-geometry art and a visible "Placeholder" label.
+ * Brand artwork. Where no photograph is supplied, a slot uses abstract brand-geometry art (no visible label).
  * Replace by passing a real <img> in the default slot (it overrides the artwork).
  */
 interface Props {
@@ -57,7 +56,6 @@ const hasSlot = Astro.slots.has('default');
           </>)}
         </g>
       </svg>
-      <figcaption class="visual__tag"><span class="tag">{label}</span></figcaption>
     </>
   )}
 </figure>
