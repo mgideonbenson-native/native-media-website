@@ -14,12 +14,12 @@ const { title, lede, topic, points = [], crumb = true } = Astro.props;
       <div class="stack">
         <h2 class="h2">What to include</h2>
         {points.length > 0 && <ul class="checklist" style="grid-template-columns:1fr">{points.map((p) => <li>{p}</li>)}</ul>}
-        <div class="notice-box">
-          <h3>Direct contact</h3>
-          {company.email || company.phone || company.address
-            ? <p>{company.email && <a href={`mailto:${company.email}`}>{company.email}</a>}{company.phone && <> · <a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a></>}{company.address && ` · ${company.address}`}</p>
-            : <><span class="tag">Placeholder</span><p>Office details will be published here once confirmed. Please use the form for now.</p></>}
-        </div>
+        {(company.email || company.phone || company.address) && (
+          <div class="notice-box">
+            <h3>Direct contact</h3>
+            <p>{company.email && <a href={`mailto:${company.email}`}>{company.email}</a>}{company.phone && <> · <a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a></>}{company.address && ` · ${company.address}`}</p>
+          </div>
+        )}
         <slot />
       </div>
       <ContactForm topic={topic} />

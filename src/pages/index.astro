@@ -2,9 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Visual from '../components/Visual.astro';
 import ClientLogos from '../components/ClientLogos.astro';
-import { Image } from 'astro:assets';
-import { caseStudies } from '../data/caseStudies';
-import HeroTexture from '../components/HeroTexture.astro';
+import CaseCards from '../components/CaseCards.astro';
+import HeroNetwork from '../components/HeroNetwork.astro';
 import NewsletterForm from '../components/NewsletterForm.astro';
 import Cover from '../components/Cover.astro';
 import { aiPlatforms, company, pillars } from '../data/site';
@@ -14,7 +13,6 @@ const latestEp = (await getEpisodes())[0]; // undefined until the first episode 
 const latestGuest = latestEp ? await getGuest(latestEp) : undefined;
 const disciplines = ['Narrative engineering', 'Research & publications', 'African Intelligence', 'Creative data', 'Training & mentorship'];
 
-const relationships = ['Institutional partners', 'Research collaborators', 'Production collaborators', 'Sponsors'];
 
 ---
 
@@ -25,7 +23,7 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
 >
   <!-- 1. HERO -->
   <section class="hero theme-dark" aria-labelledby="hero-title">
-    <HeroTexture />
+    <HeroNetwork />
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="wrap hero__inner">
       <p class="eyebrow">Narrative · Research · Creative data</p>
@@ -98,15 +96,7 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
         <h2 id="work-title">Narrative engineering in practice.</h2>
         <p class="lede">Media coordination, stakeholder linkage and narrative strategy for national development, energy transition and banking communications.</p>
       </div>
-      <ul class="work">
-        {caseStudies.map((x) => (
-          <li class="work__item reveal">
-            <a href={`/case-studies/${x.slug}`} class="work__img" tabindex="-1" aria-hidden="true"><Image src={x.cover} alt="" widths={[480, 720]} sizes="(min-width: 900px) 20rem, 92vw" /></a>
-            <p class="eyebrow">{x.sector}</p>
-            <h3><a href={`/case-studies/${x.slug}`}>{x.title}</a></h3>
-          </li>
-        ))}
-      </ul>
+      <CaseCards />
       <p class="more"><a class="arrow-link" href="/case-studies">All case studies <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
@@ -173,27 +163,10 @@ const relationships = ['Institutional partners', 'Research collaborators', 'Prod
     </div>
   </section>
 
-  <!-- 10. INSTITUTIONAL ENGAGEMENT -->
-  <section class="section theme-light" aria-labelledby="inst-title">
-    <div class="wrap inst">
-      <div class="reveal">
-        <p class="eyebrow">Institutional engagement</p>
-        <h2 id="inst-title" class="display">Working with institutions, businesses and professional communities.</h2>
-      </div>
-      <div class="reveal">
-        <p class="lede">Native Media collaborates on research, communications, publishing and production. Only confirmed relationships, shown with approved names and logos, will be listed.</p>
-        <ul class="rel" aria-label="Relationship categories">
-          {relationships.map((r) => (<li><span>{r}</span><span class="tag">None listed yet</span></li>))}
-        </ul>
-        <a class="btn" href="/contact/institutional-partnerships">Start a conversation <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </section>
-
   <!-- 11. CORPORATE CTA -->
   <section class="section theme-charcoal cta" aria-labelledby="cta-title">
     <div class="wrap cta__inner reveal">
-      <h2 id="cta-title" class="display">Let’s shape the next <em>African narrative.</em></h2>
+      <h2 id="cta-title" class="display">Let’s work <em>together.</em></h2>
       <div>
         <p class="lede">From strategic communications and intelligence to storytelling and creative production, Native Media works with organizations seeking to communicate with clarity, insight and impact.</p>
         <a class="btn" href="/contact">Make an inquiry <span aria-hidden="true">→</span></a>

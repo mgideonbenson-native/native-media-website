@@ -1,0 +1,167 @@
+---
+/**
+ * Hero background: a dotted map of Africa with a network of cities linked to Dar es Salaam.
+ * Arcs draw themselves in, small signals travel along them, and moving the pointer lights up the nearest city and its links.
+ * Decoration only (hidden from screen readers). With "reduce motion" on, a still frame is drawn.
+ * The map is computed at build time from public-domain country outlines (Natural Earth via world-atlas).
+ */
+import { geoContains, geoMercator } from 'd3-geo';
+import { feature } from 'topojson-client';
+import topo from 'world-atlas/countries-110m.json';
+
+const AFRICA = new Set(['12','24','204','72','854','108','120','140','148','178','180','384','262','818','226','232','748','231','266','270','288','324','624','404','426','430','434','450','454','466','478','504','508','516','562','566','646','686','694','706','710','728','729','834','768','788','800','894','716','732']);
+const fc = feature(topo as any, (topo as any).objects.countries) as any;
+const africa = { type: 'FeatureCollection', features: fc.features.filter((f: any) => AFRICA.has(String(Number(f.id)))) } as any;
+const W = 1000, H = 1080, STEP = 15;
+const projection = geoMercator().fitExtent([[10, 10], [W - 10, H - 10]], africa);
+
+const land: [number, number][] = [];
+for (let y = 10; y < H - 10; y += STEP) {
+  for (let x = 10; x < W - 10; x += STEP) {
+    const ll = projection.invert!([x + ((y / STEP) % 2 ? STEP / 2 : 0), y]);
+    if (ll && africa.features.some((f: any) => geoContains(f, ll))) land.push([Math.round(x + ((y / STEP) % 2 ? STEP / 2 : 0)), y]);
+  }
+}
+// Major African cities (name, latitude, longitude). Dar es Salaam is the home city.
+const cityList: [string, number, number, number?][] = [
+  ['Dar es Salaam', -6.79, 39.28, 1], ['Nairobi', -1.29, 36.82], ['Kampala', 0.35, 32.58], ['Kigali', -1.94, 30.06], ['Addis Ababa', 9.03, 38.74],
+  ['Cairo', 30.04, 31.24], ['Tunis', 36.81, 10.18], ['Casablanca', 33.57, -7.59], ['Dakar', 14.72, -17.47], ['Accra', 5.6, -0.19],
+  ['Lagos', 6.52, 3.38], ['Abidjan', 5.36, -4.01], ['Kinshasa', -4.44, 15.27], ['Luanda', -8.84, 13.23], ['Lusaka', -15.39, 28.32],
+  ['Maputo', -25.97, 32.57], ['Johannesburg', -26.2, 28.05], ['Cape Town', -33.92, 18.42],
+];
+const cities = cityList.map(([n, lat, lon, hq]) => { const p = projection([lon, lat])!; return { n, x: Math.round(p[0]), y: Math.round(p[1]), hq: Boolean(hq) }; });
+const data = JSON.stringify({ w: W, h: H, land, cities });
+---
+<div class="hnet" aria-hidden="true"><canvas data-hnet={data}></canvas></div>
+<style>
+  .hnet { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .hnet canvas { width: 100%; height: 100%; display: block; }
+</style>
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-hnet]');
+  const host = canvas?.closest<HTMLElement>('section');
+  const ctx = canvas?.getContext('2d');
+  if (canvas && host && ctx) {
+    const g: CanvasRenderingContext2D = ctx;
+    const cv: HTMLCanvasElement = canvas;
+    const hostEl: HTMLElement = host;
+    const map = JSON.parse(cv.dataset.hnet!) as { w: number; h: number; land: [number, number][]; cities: { n: string; x: number; y: number; hq: boolean }[] };
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hq = map.cities.findIndex((c) => c.hq);
+    let cw = 0, ch = 0, dpr = 1, s = 1, ox = 0, oy = 0, raf = 0, visible = true, t0 = performance.now();
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+    const ease = (v: number) => 1 - Math.pow(1 - v, 3);
+
+    // Links: every city to Dar es Salaam, plus each city to its two nearest neighbours.
+    const links: [number, number][] = [];
+    const key = new Set<string>();
+    const add = (a: number, b: number) => { const k = a < b ? `${a}-${b}` : `${b}-${a}`; if (a !== b && !key.has(k)) { key.add(k); links.push([a, b]); } };
+    map.cities.forEach((_, i) => add(hq, i));
+    map.cities.forEach((c, i) => {
+      map.cities.map((d, j) => ({ j, d: Math.hypot(c.x - d.x, c.y - d.y) })).filter((o) => o.j !== i).sort((a, b) => a.d - b.d).slice(0, 2).forEach((o) => add(i, o.j));
+    });
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cw = cv.clientWidth; ch = cv.clientHeight;
+      cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const wide = cw >= 900;
+      s = Math.min((ch * (wide ? 0.82 : 0.62)) / map.h, (cw * (wide ? 0.44 : 0.92)) / map.w);
+      ox = wide ? cw - map.w * s - cw * 0.05 : (cw - map.w * s) / 2;
+      oy = wide ? (ch - map.h * s) / 2 + ch * 0.04 : ch * 0.16;
+      draw(performance.now());
+    };
+    const P = (x: number, y: number): [number, number] => [ox + x * s, oy + y * s];
+
+    const arc = (a: number, b: number) => {
+      const [x1, y1] = P(map.cities[a].x, map.cities[a].y), [x2, y2] = P(map.cities[b].x, map.cities[b].y);
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, d = Math.hypot(x2 - x1, y2 - y1);
+      return { x1, y1, x2, y2, cx: mx + (y1 - y2) * 0.08, cy: my - d * 0.13 };
+    };
+    const at = (q: ReturnType<typeof arc>, u: number): [number, number] => [
+      (1 - u) * (1 - u) * q.x1 + 2 * (1 - u) * u * q.cx + u * u * q.x2,
+      (1 - u) * (1 - u) * q.y1 + 2 * (1 - u) * u * q.cy + u * u * q.y2,
+    ];
+
+    function draw(now: number) {
+      const t = (now - t0) / 1000;
+      mouse.x += (mouse.tx - mouse.x) * 0.15; mouse.y += (mouse.ty - mouse.y) * 0.15;
+      g.clearRect(0, 0, cw, ch);
+      const intro = still ? 1 : Math.min(1, t / 2.8);
+      const R = 120;
+
+      // Nearest city to the pointer lights up.
+      let hot = -1, hotD = R;
+      map.cities.forEach((c, i) => { const [x, y] = P(c.x, c.y); const d = Math.hypot(x - mouse.x, y - mouse.y); if (d < hotD) { hotD = d; hot = i; } });
+
+      // Land dots
+      for (const [lx, ly] of map.land) {
+        const [x, y] = P(lx, ly);
+        const wave = still ? 0 : Math.sin(lx * 0.012 + ly * 0.009 + t * 0.8);
+        let a = (cw >= 900 ? 0.24 : 0.12) + wave * 0.05, r = Math.max(s * 2.3, 0.9), o = 0;
+        const d = Math.hypot(x - mouse.x, y - mouse.y);
+        if (d < 140) { const k = (1 - d / 140) ** 2; a += k * 0.5; r += k * 1.2; o = k; }
+        g.fillStyle = o > 0.03 ? `rgba(237,${Math.round(245 - 120 * o)},${Math.round(240 - 178 * o)},${Math.min(a, 0.8)})` : `rgba(245,245,240,${a})`;
+        g.beginPath(); g.arc(x, y, r, 0, 6.2832); g.fill();
+      }
+
+      // Links
+      links.forEach(([a, b], idx) => {
+        const delay = (idx % 9) * 0.07 + (a === hq || b === hq ? 0 : 0.5);
+        const u = ease(Math.max(0, Math.min(1, (intro * 2.8 - delay) / 1.6)));
+        if (u <= 0) return;
+        const q = arc(a, b);
+        const lit = hot >= 0 && (a === hot || b === hot);
+        g.strokeStyle = lit ? 'rgba(237,125,62,0.95)' : (a === hq || b === hq ? 'rgba(237,125,62,0.3)' : 'rgba(245,245,240,0.12)');
+        g.lineWidth = lit ? 1.6 : 1;
+        g.beginPath(); g.moveTo(q.x1, q.y1);
+        const steps = 28, n = Math.max(1, Math.round(steps * u));
+        for (let k = 1; k <= n; k++) { const [x, y] = at(q, (k / steps)); g.lineTo(x, y); }
+        g.stroke();
+        // Travelling signal
+        if (!still && u >= 1 && (a === hq || b === hq)) {
+          const v = ((t * 0.18 + idx * 0.37) % 1);
+          const [x, y] = at(q, a === hq ? v : 1 - v);
+          g.fillStyle = 'rgba(255,180,130,0.95)'; g.beginPath(); g.arc(x, y, 1.9, 0, 6.2832); g.fill();
+        }
+      });
+
+      // Cities
+      g.font = '600 12px "Hanken Grotesk Variable", system-ui, sans-serif'; g.textBaseline = 'middle';
+      map.cities.forEach((c, i) => {
+        const [x, y] = P(c.x, c.y);
+        const lit = i === hot;
+        const pulse = still ? 0.5 : (Math.sin(t * 2 + i) + 1) / 2;
+        if (c.hq || lit) {
+          g.strokeStyle = `rgba(237,125,62,${0.25 + 0.35 * (1 - pulse)})`; g.lineWidth = 1.2;
+          g.beginPath(); g.arc(x, y, (c.hq ? 9 : 7) + pulse * 9, 0, 6.2832); g.stroke();
+        }
+        g.fillStyle = c.hq ? '#ed7d3e' : lit ? '#ffb27a' : 'rgba(245,245,240,0.85)';
+        g.beginPath(); g.arc(x, y, c.hq ? 5.2 : lit ? 4 : 2.6, 0, 6.2832); g.fill();
+        if ((c.hq || lit) && cw >= 700) {
+          g.fillStyle = c.hq ? '#ed7d3e' : '#ffd2b0';
+          const left = x > cw * 0.62;
+          g.textAlign = left ? 'right' : 'left';
+          g.fillText(c.n, x + (left ? -12 : 12), y - 1);
+        }
+      });
+    }
+
+    const loop = (now: number) => { draw(now); raf = requestAnimationFrame(loop); };
+    const start = () => { if (!raf && visible && !document.hidden && !still) raf = requestAnimationFrame(loop); };
+    const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+
+    hostEl.addEventListener('pointermove', (e) => {
+      const b = cv.getBoundingClientRect();
+      mouse.tx = e.clientX - b.left; mouse.ty = e.clientY - b.top;
+      if (mouse.x < -9000) { mouse.x = mouse.tx; mouse.y = mouse.ty; }
+      if (still) draw(performance.now());
+    }, { passive: true });
+    hostEl.addEventListener('pointerleave', () => { mouse.tx = mouse.ty = mouse.x = mouse.y = -9999; if (still) draw(performance.now()); });
+    new ResizeObserver(resize).observe(cv);
+    new IntersectionObserver((es) => { visible = es[0].isIntersecting; visible ? start() : stop(); }).observe(hostEl);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    resize(); start();
+  }
+</script>

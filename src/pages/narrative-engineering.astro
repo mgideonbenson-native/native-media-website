@@ -3,9 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Visual from '../components/Visual.astro';
-import { Image } from 'astro:assets';
+import CaseCards from '../components/CaseCards.astro';
 import { capabilities } from '../data/capabilities';
-import { caseStudies } from '../data/caseStudies';
 
 const c = capabilities.find((x) => x.slug === 'narrative-engineering')!;
 const contactHref = '/contact/narrative-engineering';
@@ -63,9 +62,7 @@ const pillarNo = '01';
     <div class="wrap">
       <div class="section-head"><p class="eyebrow">Proof of work</p><h2 id="work-h">Case studies.</h2>
         <p class="lede">Selected projects, with the ask, our approach, what we delivered and what the evidence does and does not show.</p></div>
-      <ul class="cs-cards">{caseStudies.map((x) => (
-        <li class="cs-card"><a href={`/case-studies/${x.slug}`} class="cs-card__img" tabindex="-1" aria-hidden="true"><Image src={x.cover} alt="" widths={[480, 720]} sizes="(min-width: 900px) 20rem, 92vw" /></a>
-          <p class="eyebrow">{x.sector}</p><h3><a href={`/case-studies/${x.slug}`}>{x.title}</a></h3><p class="muted">{x.headline}</p></li>))}</ul>
+      <CaseCards />
       <p class="more"><a class="arrow-link" href="/case-studies">All case studies <span aria-hidden="true">→</span></a></p>
       <p class="muted small" style="margin-top:1.5rem">Related</p>
       <div class="related">{c.related.map((r) => <a class="arrow-link" href={r.href}>{r.label} <span aria-hidden="true">→</span></a>)}</div>

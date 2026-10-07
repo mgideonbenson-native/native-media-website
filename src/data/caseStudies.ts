@@ -12,8 +12,10 @@ import un2 from '../assets/cases/uncdf-launch-group.jpg';
 import kcb1 from '../assets/cases/kcb-forum-stage.jpg';
 import kcb2 from '../assets/cases/kcb-op-ed.jpg';
 import kcb3 from '../assets/cases/kcb-forum-leaders.jpg';
-import ec1 from '../assets/cases/ecooking-broadcast.jpg';
-import ec2 from '../assets/cases/ecooking-testimonials.jpg';
+import ec1 from '../assets/cases/ecooking-unveiling.jpg';
+import ec2 from '../assets/cases/ecooking-exhibition.jpg';
+import ec3 from '../assets/cases/ecooking-stalls.jpg';
+import ec4 from '../assets/cases/ecooking-team.jpg';
 
 export type Item = { title: string; text: string };
 export type Section = {
@@ -146,7 +148,7 @@ export const caseStudies: CaseStudy[] = [
     sector: 'Energy transition · Development communications',
     headline: 'Launch and post-launch media coordination: turning coverage into public understanding and a feedback loop',
     summary: 'Native Media coordinated national and regional media engagement around Tanzania’s e-cooking agenda, connecting institutional voices with credible media, localising the story across regions, and using coverage to surface public concerns that could strengthen future campaign narratives.',
-    cover: ec2, coverAlt: 'Stills from community testimonial videos about e-cooking',
+    cover: ec1, coverAlt: 'Two women unveil the Pika Smart campaign backdrop at the launch, with orange curtains and confetti',
     facts: [['Project partners', 'Ministry of Energy • UKAID • MECS'], ['Contractor', 'Fern Company Ltd'], ['Sector', 'Energy transition / clean cooking / development communications'], ['Geography', 'Tanzania'], ['Project period', '2025'], ['Role', 'Media coordination • strategic media relations • narrative amplification']],
     sections: [
       { id: 'context', title: 'Context and framing', items: [
@@ -195,8 +197,10 @@ export const caseStudies: CaseStudy[] = [
       { id: 'learning', title: 'Strategic learning', callout: { label: 'From coverage to feedback loop', text: 'Strong public-interest campaigns should not treat media only as a distribution channel. The most valuable system connects campaign message, media, community response, strategic insight and a stronger narrative.' } },
       { id: 'source', title: 'Evidence source', paragraphs: ['Smart Pika: Media Coverage Report (August 2025), Native Media. The report documents media activity across Arusha, Mwanza and Dodoma, including digital, radio, print, television and documentary formats, testimonial videos and common public sentiments.'] },
       { id: 'field', title: 'From the field', gallery: [
-        { img: ec1, alt: 'Stills from regional broadcast and online coverage of e-cooking' },
-        { img: ec2, alt: 'Stills from community testimonial videos about e-cooking' }] },
+        { img: ec1, alt: 'Two women unveil the Pika Smart campaign backdrop at the launch, with orange curtains and confetti' },
+        { img: ec2, alt: 'White tents at the Pika Smart exhibition, with visitors at the green display counters' },
+        { img: ec3, alt: 'Officials and guests at a cooking demonstration stall, listening to an exhibitor beside pots and cookers' },
+        { img: ec4, alt: 'Three men smiling in front of electric pressure cookers at the Pika Smart stand' }] },
     ],
   },
   {

@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import { caseStudies } from '../data/caseStudies';
+interface Props { initial?: number }
+const { initial = 3 } = Astro.props;
+---
+<div class="cc" data-cc>
+  <ul class="cc__list">
+    {caseStudies.map((x, i) => (
+      <li class="cc__item reveal" data-extra={i >= initial ? '' : undefined}>
+        <a href={`/case-studies/${x.slug}`} class="cc__img" tabindex="-1" aria-hidden="true"><Image src={x.cover} alt="" widths={[480, 720, 960]} sizes="(min-width: 900px) 22rem, 92vw" /></a>
+        <p class="eyebrow">{x.sector}</p>
+        <h3><a href={`/case-studies/${x.slug}`}>{x.title}</a></h3>
+        <p class="cc__sum">{x.headline}</p>
+      </li>
+    ))}
+  </ul>
+  {caseStudies.length > initial && (
+    <p class="cc__more"><button type="button" class="btn btn--ghost" data-cc-btn aria-expanded="false">Show more case studies</button></p>
+  )}
+</div>
+<style>
+  .cc__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+  .cc__item { display: grid; gap: 0.6rem; align-content: start; }
+  .cc__img { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #111; }
+  .cc__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+  .cc__item:hover .cc__img :global(img) { transform: scale(1.04); }
+  .cc h3 { font-size: var(--step-1); font-weight: 800; line-height: 1.15; } .cc h3 a { text-decoration: none; } .cc h3 a:hover { color: var(--brand-ink); }
+  :global(.theme-dark) .cc h3 a:hover { color: var(--brand); }
+  .cc__sum { color: inherit; opacity: 0.75; font-size: 0.95rem; }
+  .cc__more { margin-top: 2rem; display: none; } :global(.js) .cc__more { display: block; }
+  :global(.js) .cc [data-extra]:not(.is-shown) { display: none; }
+  :global(.theme-light) .cc__more .btn--ghost { color: var(--black); border-color: var(--black); } :global(.theme-light) .cc__more .btn--ghost:hover { background: var(--black); color: var(--paper); }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-cc]').forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>('[data-cc-btn]');
+    btn?.addEventListener('click', () => {
+      const extra = [...root.querySelectorAll<HTMLElement>('[data-extra]')];
+      extra.forEach((el) => { el.classList.add('is-shown', 'is-in'); });
+      btn.setAttribute('aria-expanded', 'true');
+      btn.parentElement!.hidden = true;
+      extra[0]?.querySelector<HTMLAnchorElement>('h3 a')?.focus();
+    });
+  });
+</script>

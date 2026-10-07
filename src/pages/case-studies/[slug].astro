@@ -48,7 +48,7 @@ const others = caseStudies.filter((o) => o.slug !== cs.slug);
       <ul>{others.map((o) => <li><a href={`/case-studies/${o.slug}`}>{o.title}</a></li>)}</ul>
     </div>
   </div>
-  <CtaBand title="Let us work together." text="Tell us what you need to communicate and who needs to hear it." href="/contact/narrative-engineering" label="Narrative engineering inquiry" />
+  <CtaBand title="Let’s work together." text="Tell us what you need to communicate and who needs to hear it." href="/contact/narrative-engineering" label="Narrative engineering inquiry" />
 </BaseLayout>
 <style>
   .chead { padding: calc(var(--header-h) + 3rem) 0 3rem; } .chead .wrap { display: grid; gap: 1.2rem; justify-items: start; }
@@ -64,7 +64,7 @@ const others = caseStudies.filter((o) => o.slug !== cs.slug);
   .tbl { overflow-x: auto; } table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 34rem; } th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line-light); } thead th { font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-ink); }
   .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; } .items li { padding-left: 0; border-top: 1px solid var(--line-light); padding-top: 0.9rem; display: grid; gap: 0.3rem; } .items h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-0); } .items--n { counter-reset: n; } .items--n li { counter-increment: n; } .items--n h3::before { content: '0' counter(n) '  '; color: var(--brand-ink); }
   .bul { padding-left: 1.2rem; display: grid; gap: 0.6rem; } .bul li::marker { color: var(--brand); }
-  .gal { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); } .gal :global(img) { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+  .gal { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); } .gal :global(img) { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
   .more { padding-bottom: 3rem; display: grid; gap: 0.6rem; } .more ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; } .more a { color: var(--brand-ink); font-weight: 700; }
   @media (min-width: 960px) { .cs { grid-template-columns: 17rem 1fr; gap: 4rem; } .side { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; max-height: calc(100vh - var(--header-h) - 3rem); overflow: auto; } }
 </style>
