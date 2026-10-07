@@ -1,4 +1,5 @@
 ---
+import AiNav from '../../components/AiNav.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import { episodeUrl, formatDate, getEpisodes } from '../../lib/episodes';
@@ -7,6 +8,7 @@ const eps = await getEpisodes();
 <BaseLayout title="Transcripts | African Intelligence" description="Transcripts of African Intelligence episodes, where available.">
   <PageHero eyebrow="African Intelligence" title="Transcripts" lede="Transcripts will be published here as they are prepared and approved."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Transcripts' }]} />
+  <AiNav />
   <section class="section theme-light">
     <div class="wrap">
       <ul class="list">{eps.map((e) => <li><a href={episodeUrl(e)}><strong>Episode {e.data.number}: {e.data.title}</strong><span class="muted">{formatDate(e.data.publishDate)} · {e.data.transcript ? 'Transcript available' : 'Transcript not yet published'}</span></a></li>)}</ul>

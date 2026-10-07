@@ -24,7 +24,7 @@ const href = storyPath(story);
   .scard__img { display: block; } .scard__img :global(.visual) { transition: transform 0.5s var(--ease); } .scard:hover .scard__img :global(.visual) { transform: scale(1.015); }
   .scard__body { display: grid; gap: 0.5rem; }
   .scard__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
-  .scard__kind { color: var(--gray); }
+  .scard__kind { color: var(--gray); } :global(.theme-light) .scard__kind { color: var(--gray-ink); }
   .scard h3 { font-size: var(--step-1); font-weight: 800; line-height: 1.15; } .scard--big h3 { font-size: var(--step-3); }
   .scard h3 a { text-decoration: none; } .scard h3 a:hover { color: var(--brand); }
   .scard[hidden] { display: none; }

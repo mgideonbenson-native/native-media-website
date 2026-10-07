@@ -1,4 +1,5 @@
 ---
+import AiNav from './AiNav.astro';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from './PageHero.astro';
@@ -20,6 +21,7 @@ const crumbs = [{ label: 'Home', href: '/' }, { label: 'African Intelligence', h
 ---
 <BaseLayout title={`${title} | Stories | Native Media`} description={`${blurb} Stories from Native Media.`} noindex={allDemo}>
   <PageHero eyebrow={sub ? `Stories · ${section.label}` : 'Stories'} title={title} lede={blurb} crumbs={crumbs} />
+  <AiNav />
   {allDemo && stories.length > 0 && <DemoBanner />}
   <section class="section theme-charcoal">
     <div class="wrap">

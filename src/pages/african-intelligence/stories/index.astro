@@ -1,4 +1,5 @@
 ---
+import AiNav from '../../../components/AiNav.astro';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHero from '../../../components/PageHero.astro';
@@ -14,6 +15,7 @@ const allDemo = stories.length === 0 || stories.every((s) => s.data.demo);
 <BaseLayout title="Stories | Native Media" description="African stories, thought leadership articles and stories of opportunity such as scholarships and fellowships, from Native Media’s African Intelligence." noindex={allDemo}>
   <PageHero eyebrow="Stories" title="Stories, ideas and opportunities." lede="African stories told with context, thought leadership articles, and stories of opportunity for African talent."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'African Intelligence', href: '/african-intelligence' }, { label: 'Stories' }]} />
+  <AiNav />
   {stories.length > 0 && allDemo && <DemoBanner text="The stories below are layout demonstrations. Real stories will replace them, and none of this content is real." />}
   <section class="section theme-charcoal">
     <div class="wrap">

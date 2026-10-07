@@ -1,0 +1,42 @@
+---
+/**
+ * Navigation for the whole African Intelligence section. It always shows the two parts clearly:
+ * The Show (the audio podcast) and Stories (African Stories, Opportunities, Thought Leadership).
+ */
+const path = Astro.url.pathname.replace(/\/$/, '');
+const showLinks = [
+  ['Episodes', '/african-intelligence/latest-episodes'], ['Guests', '/african-intelligence/guests'], ['Interviews', '/african-intelligence/interviews'],
+  ['Video & audio', '/african-intelligence/video-and-audio'], ['Transcripts', '/african-intelligence/transcripts'],
+];
+const storyLinks = [
+  ['African Stories', '/african-intelligence/stories/african-stories'], ['Opportunities', '/african-intelligence/stories/opportunities'], ['Thought Leadership', '/african-intelligence/stories/thought-leadership'],
+];
+const inStories = path.startsWith('/african-intelligence/stories');
+const inShow = !inStories && path !== '/african-intelligence';
+const active = (href: string) => path === href || path.startsWith(href + '/');
+---
+<nav class="ain" aria-label="African Intelligence">
+  <div class="wrap ain__in">
+    <div class:list={['ain__group', { 'is-current': inShow }]}>
+      <a class="ain__head" href="/african-intelligence#the-show" aria-current={inShow ? 'true' : undefined}><span>Audio</span>The Show</a>
+      <ul>{showLinks.map(([l, h]) => <li><a href={h} aria-current={active(h) ? 'page' : undefined}>{l}</a></li>)}</ul>
+    </div>
+    <div class:list={['ain__group', { 'is-current': inStories }]}>
+      <a class="ain__head" href="/african-intelligence/stories" aria-current={inStories ? 'true' : undefined}><span>Reading</span>Stories</a>
+      <ul>{storyLinks.map(([l, h]) => <li><a href={h} aria-current={active(h) ? 'page' : undefined}>{l}</a></li>)}</ul>
+    </div>
+  </div>
+</nav>
+<style>
+  .ain { background: var(--charcoal); border-bottom: 1px solid var(--line-dark); position: sticky; top: var(--header-h); z-index: 50; }
+  .ain__in { display: flex; gap: 0.5rem 2.5rem; overflow-x: auto; scrollbar-width: thin; }
+  .ain__group { display: flex; align-items: center; gap: 0.4rem 1rem; flex: none; padding-block: 0.3rem; }
+  .ain__group + .ain__group { border-left: 1px solid var(--line-dark); padding-left: 2.5rem; }
+  .ain__head { display: grid; line-height: 1.05; text-decoration: none; font-family: var(--font-display); font-weight: 800; font-size: 1rem; color: var(--paper); padding-block: 0.5rem; }
+  .ain__head span { font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+  .ain ul { display: flex; list-style: none; margin: 0; padding: 0; }
+  .ain ul a { display: block; padding: 0.95rem 0.7rem; white-space: nowrap; text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.04em; color: var(--paper); opacity: 0.8; border-bottom: 2px solid transparent; }
+  .ain a:hover { color: var(--brand); opacity: 1; } .ain ul a[aria-current] { color: var(--brand); opacity: 1; border-bottom-color: var(--brand); }
+  .ain__group.is-current .ain__head { color: var(--brand); }
+  @media (max-width: 700px) { .ain__group + .ain__group { padding-left: 1.5rem; } .ain__in { gap: 1.5rem; } }
+</style>

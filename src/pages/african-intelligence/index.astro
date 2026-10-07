@@ -5,11 +5,17 @@ import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import EpisodeCard from '../../components/EpisodeCard.astro';
 import ListenLinks from '../../components/ListenLinks.astro';
+import AiNav from '../../components/AiNav.astro';
+import StoryCard from '../../components/StoryCard.astro';
+import { getCollection } from 'astro:content';
+import { storySections } from '../../data/categories';
 import { episodeUrl, formatDate, getEpisodes, getGuest, guestUrl } from '../../lib/episodes';
 
 const episodes = await getEpisodes();
 const rows = await Promise.all(episodes.map(async (ep) => ({ ep, guest: await getGuest(ep) })));
 const [featured, ...rest] = rows; // `featured` is undefined until the first episode exists
+const stories = (await getCollection('stories')).sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
+const latestStories = stories.slice(0, 3);
 const topics = [...new Set(episodes.flatMap((e) => e.data.topics))].sort();
 const guests = [...new Map(rows.map((r) => [r.guest.id, r.guest])).values()];
 
@@ -22,15 +28,36 @@ const ld = {
 ---
 <BaseLayout title="African Intelligence | Native Media" description="African Intelligence explores African business, economics, leadership, strategy, diplomacy, innovation and development, and the ideas shaping the continent." jsonLd={ld}
   image={featured?.ep.data.cover.src}>
-  <PageHero eyebrow="What we do · 03" title="African Intelligence" lede="Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development: the ideas, people and forces shaping Africa’s future, and how Africans can play a greater role in shaping the narratives around it."
-    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'African Intelligence' }]}>
-    <ListenLinks />
-  </PageHero>
-  <nav class="xnav" aria-label="African Intelligence sections"><div class="wrap"><ul>
-    <li><a href="/african-intelligence/latest-episodes">Episodes</a></li><li><a href="/african-intelligence/guests">Guests</a></li>
-    <li><a href="/african-intelligence/interviews">Interviews</a></li><li><a href="/african-intelligence/video-and-audio">Video &amp; Audio</a></li>
-    <li><a href="/african-intelligence/transcripts">Transcripts</a></li><li><a href="/african-intelligence/stories">Stories</a></li>
-  </ul></div></nav>
+  <PageHero eyebrow="What we do · 03" title="African Intelligence" lede="Two ways into the ideas, people and forces shaping Africa’s future: listen to The Show, or read our Stories."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'African Intelligence' }]} />
+  <AiNav />
+
+  <section class="section theme-light doors" aria-label="Choose how to explore African Intelligence">
+    <div class="wrap doors__grid">
+      <a class="door door--show" href="#the-show">
+        <span class="door__k">01 · Audio</span>
+        <h2>The Show</h2>
+        <p>The African Intelligence podcast. Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development. Pick your platform, then open any episode for its guest, summary and links.</p>
+        <span class="door__go">Listen to the show <span aria-hidden="true">↓</span></span>
+      </a>
+      <a class="door door--stories" href="#stories">
+        <span class="door__k">02 · Reading</span>
+        <h2>Stories</h2>
+        <p>Original stories and ideas, in three sections:</p>
+        <ul><li>African Stories</li><li>Stories of Opportunity</li><li>Thought Leadership</li></ul>
+        <span class="door__go">Read the stories <span aria-hidden="true">↓</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section theme-dark" id="the-show" aria-labelledby="show-t">
+    <div class="wrap show-head">
+      <div class="stack"><p class="eyebrow">01 · The Show</p><h2 id="show-t" class="display">African Intelligence, the podcast.</h2>
+        <p class="lede">Conversations on African business, economics, leadership, strategy, diplomacy, innovation and development. New episodes feature the founders, practitioners and thinkers shaping the continent.</p></div>
+      <div class="stack"><ListenLinks label="Where to listen" />
+        <p class="small"><a class="arrow-link" href="/african-intelligence/latest-episodes">All episodes <span aria-hidden="true">→</span></a> <a class="arrow-link" href="/african-intelligence/video-and-audio">Video &amp; audio <span aria-hidden="true">→</span></a></p></div>
+    </div>
+  </section>
 
   {featured ? (
   <section class="section theme-dark feat" aria-labelledby="feat-t">
@@ -70,7 +97,7 @@ const ld = {
     </div>
   </section>
 
-  <section class="section theme-light" aria-labelledby="c-t">
+  <section class="section theme-charcoal" aria-labelledby="c-t">
     <div class="wrap">
       <div class="section-head"><p class="eyebrow">Collections</p><h2 id="c-t">Browse by theme.</h2></div>
       <ul class="cards">
@@ -82,20 +109,48 @@ const ld = {
     </div>
   </section>
 
-  <section class="section theme-charcoal" aria-labelledby="st-t">
-    <div class="wrap split">
-      <div class="stack"><p class="eyebrow">Stories</p><h2 id="st-t" class="h2">African stories, told with context.</h2>
-        <p class="muted">Original reporting, research-based analysis, interviews and multimedia, curated for depth rather than speed. Every story is labelled so you know what you are reading.</p></div>
-      <div class="stack"><p><a class="btn" href="/african-intelligence/stories">Browse stories <span aria-hidden="true">→</span></a></p>
-        <p class="muted small">Stories currently shown are layout demonstrations. Real stories will replace them.</p></div>
+  <section class="section theme-light" id="stories" aria-labelledby="st-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">02 · Stories</p><h2 id="st-t">Read the stories.</h2>
+        <p class="lede">Three sections, each clearly labelled so you know what you are reading. Open one to browse its stories.</p></div>
+      <ul class="secs">
+        {storySections.map((sec) => {
+          const n = stories.filter((x) => x.data.section === sec.slug).length;
+          return (
+            <li class="sec">
+              <h3><a href={`/african-intelligence/stories/${sec.slug}`}>{sec.label}</a></h3>
+              <p>{sec.blurb}</p>
+              {sec.subs.length > 0 && <ul class="subs">{sec.subs.map((sub) => <li><a href={`/african-intelligence/stories/${sec.slug}/${sub.slug}`}>{sub.label}</a></li>)}</ul>}
+              <a class="arrow-link" href={`/african-intelligence/stories/${sec.slug}`}>Browse {sec.label.toLowerCase()} <span aria-hidden="true">→</span></a>
+            </li>
+          );
+        })}
+      </ul>
+      {latestStories.length > 0 && (<>
+        <h3 class="latest-h">Latest stories</h3>
+        <div class="grid">{latestStories.map((x) => <StoryCard story={x} />)}</div>
+      </>)}
+      <p class="more"><a class="arrow-link" href="/african-intelligence/stories">All stories <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
 
   <CtaBand title="Be a guest, or support the show." text="If you believe independent African storytelling, research and thought leadership matter, share an episode and help us build a stronger platform for African ideas and perspectives." href="/contact/general-inquiries" label="Get in touch" />
 </BaseLayout>
 <style>
-  .xnav { background: var(--charcoal); border-bottom: 1px solid var(--line-dark); position: sticky; top: var(--header-h); z-index: 50; }
-  .xnav ul { display: flex; overflow-x: auto; } .xnav a { display: block; padding: 0.95rem 0.9rem; white-space: nowrap; text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray); } .xnav a:hover { color: var(--brand); }
+  .doors { padding-block: 3rem; } .doors__grid { display: grid; gap: 1.2rem; }
+  .door { display: grid; gap: 0.8rem; align-content: start; padding: clamp(1.4rem, 3vw, 2.4rem); text-decoration: none; border: 1px solid var(--black); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+  .door:hover { transform: translateY(-4px); box-shadow: 8px 8px 0 var(--brand); }
+  .door--show { background: var(--black); color: var(--paper); } .door--stories { background: #fff; color: var(--black); }
+  .door__k { font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); } .door--stories .door__k { color: var(--brand-ink); }
+  .door h2 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.03em; line-height: 1; } .door p { margin: 0; max-width: 34rem; opacity: 0.85; }
+  .door ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.4rem; font-family: var(--font-display); font-weight: 700; } .door ul li { border-top: 1px solid var(--line-light); padding-top: 0.4rem; }
+  .door__go { font-family: var(--font-display); font-weight: 800; color: var(--brand); } .door--stories .door__go { color: var(--brand-ink); }
+  .show-head { display: grid; gap: 2rem; align-items: end; } .display { font-size: var(--step-4); }
+  .secs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+  .sec { display: grid; gap: 0.7rem; align-content: start; padding: 1.6rem; border: 1px solid var(--line-light); background: #fff; } .sec h3 { font-size: var(--step-2); font-weight: 800; line-height: 1.1; } .sec h3 a { text-decoration: none; } .sec h3 a:hover { color: var(--brand-ink); }
+  .subs { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; } .subs a { display: inline-block; padding: 0.3rem 0.7rem; border: 1px solid var(--line-light); border-radius: 999px; font-size: 0.82rem; text-decoration: none; font-weight: 600; } .subs a:hover { border-color: var(--brand); color: var(--brand-ink); }
+  .latest-h { margin: 3rem 0 1.2rem; font-size: var(--step-1); font-weight: 800; }
+  @media (min-width: 900px) { .doors__grid { grid-template-columns: 1fr 1fr; } .show-head { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
   .small { font-size: 0.88rem; }
   .feat__grid { display: grid; gap: 2.5rem; align-items: center; }
   .feat__img { display: block; border: 1px solid var(--line-dark); box-shadow: 14px 14px 0 var(--brand); max-width: 36rem; width: 100%; }
@@ -108,6 +163,6 @@ const ld = {
   .guests a { display: grid; gap: 0.2rem; padding: 1.1rem 0; border-bottom: 1px solid var(--line-dark); text-decoration: none; }
   .guests a:hover strong { color: var(--brand); }
   .guests strong { font-family: var(--font-display); font-size: var(--step-1); }
-  .card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand-ink); }
+  .card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand); }
   @media (min-width: 900px) { .feat__grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
 </style>
