@@ -1,0 +1,61 @@
+---
+/**
+ * Google Analytics 4 with a consent choice.
+ * Loads only when PUBLIC_GA_ID is set (a "G-XXXXXXXXXX" Measurement ID), and never on preview builds.
+ * Nothing is sent to Google, and no cookie is set, until the visitor presses "Accept".
+ * The choice is remembered in this browser (localStorage key "nm-consent").
+ */
+const gaId = import.meta.env.PUBLIC_GA_ID as string | undefined;
+const preview = import.meta.env.PUBLIC_NOINDEX === 'true';
+const on = Boolean(gaId) && !preview;
+---
+{on && (
+  <section class="consent" id="consent" data-ga={gaId} aria-labelledby="consent-title" hidden>
+    <h2 id="consent-title" class="consent__title">Can we count your visit?</h2>
+    <p>We use Google Analytics, which sets cookies, to see which pages are useful. It is off unless you accept. <a href="/cookies">Cookie Policy</a></p>
+    <div class="consent__btns">
+      <button type="button" class="btn" data-consent="granted">Accept</button>
+      <button type="button" class="btn btn--ghost" data-consent="denied">Decline</button>
+    </div>
+  </section>
+)}
+<style>
+  .consent { position: fixed; left: max(1rem, env(safe-area-inset-left)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 95; width: min(24rem, calc(100vw - 2rem)); padding: 1.1rem 1.2rem; background: var(--charcoal); color: var(--paper); border: 1px solid var(--line-dark, rgba(245,245,240,.2)); border-radius: var(--radius, 6px); box-shadow: 0 10px 30px rgba(0,0,0,.4); display: grid; gap: 0.7rem; }
+  .consent[hidden] { display: none; }
+  .consent__title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; margin: 0; }
+  .consent p { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--paper); }
+  .consent a { color: var(--brand); text-decoration: underline; }
+  .consent__btns { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  @media print { .consent { display: none; } }
+</style>
+<script>
+  const box = document.getElementById('consent') as HTMLElement | null;
+  const KEY = 'nm-consent';
+  const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+  const write = (v: string) => { try { localStorage.setItem(KEY, v); } catch { /* choice just will not be remembered */ } };
+  const w = window as any;
+  let loaded = false;
+  const load = (id: string) => {
+    if (loaded) return; loaded = true;
+    w.dataLayer = w.dataLayer || [];
+    w.gtag = function () { w.dataLayer.push(arguments); };
+    w.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    w.gtag('consent', 'update', { analytics_storage: 'granted' });
+    w.gtag('js', new Date());
+    w.gtag('config', id, { allow_google_signals: false, allow_ad_personalization_signals: false });
+    const s = document.createElement('script'); s.async = true; s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+    document.head.appendChild(s);
+  };
+  if (box) {
+    const id = box.dataset.ga!;
+    const choice = read();
+    if (choice === 'granted') load(id); else if (choice !== 'denied') box.hidden = false;
+    box.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((b) => b.addEventListener('click', () => {
+      const v = b.dataset.consent!; write(v); box.hidden = true;
+      if (v === 'granted') load(id);
+      else if (loaded) { w.gtag('consent', 'update', { analytics_storage: 'denied' }); document.cookie.split(';').map((c) => c.split('=')[0].trim()).filter((n) => n === '_ga' || n.startsWith('_ga_')).forEach((n) => { document.cookie = `${n}=; Max-Age=0; path=/`; }); }
+    }));
+    // "Cookie settings" links reopen the choice.
+    document.querySelectorAll('[data-cookie-settings]').forEach((el) => el.addEventListener('click', (e) => { e.preventDefault(); box.hidden = false; (box.querySelector('button') as HTMLElement)?.focus(); }));
+  }
+</script>

@@ -1,13 +1,24 @@
 ---
 import PolicyPage from '../components/PolicyPage.astro';
 const analytics = Boolean(import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN);
+const ga = Boolean(import.meta.env.PUBLIC_GA_ID) && import.meta.env.PUBLIC_NOINDEX !== 'true';
 const sections = [['now', 'Cookies today'], ['storage', 'Other browser storage'], ['third', 'Other websites'], ['future', 'If this changes']].map(([id, title]) => ({ id, title }));
 ---
-<PolicyPage title="Cookie Policy" lede={analytics ? 'This website does not set cookies. Visits are counted without cookies or personal data.' : 'This website does not set cookies and does not use analytics or advertising trackers.'} sections={sections}>
+<PolicyPage title="Cookie Policy" lede={ga ? 'This website sets analytics cookies only if you accept them. You can change your choice at any time.' : analytics ? 'This website does not set cookies. Visits are counted without cookies or personal data.' : 'This website does not set cookies and does not use analytics or advertising trackers.'} sections={sections}>
   <h2 id="now">Cookies today</h2>
-  <p>This website does not set any cookies, and it does not use advertising trackers. {analytics ? 'It counts visits with Plausible, which uses no cookies and stores no personal data.' : 'It does not use analytics either.'} For that reason it does not show a cookie banner.</p>
+  {ga ? <>
+    <p>This website uses Google Analytics to count visits. Google Analytics sets cookies, so we ask first: <strong>nothing is sent to Google and no cookie is set unless you press Accept</strong> on the banner. We do not use advertising trackers, and we turn off Google’s advertising features.</p>
+    <table>
+      <thead><tr><th>Cookie</th><th>Set by</th><th>What it does</th><th>Lasts</th></tr></thead>
+      <tbody>
+        <tr><td><code>_ga</code></td><td>Google Analytics</td><td>Tells one visitor’s visits apart, so we can count visitors</td><td>2 years</td></tr>
+        <tr><td><code>_ga_*</code></td><td>Google Analytics</td><td>Keeps the state of a visit, such as which pages were viewed in it</td><td>2 years</td></tr>
+      </tbody>
+    </table>
+    <p>If you decline, or never answer, none of these are set. To change your mind, use <a href="/cookies" data-cookie-settings>Cookie settings</a> (also in the footer), or clear this site’s data in your browser.</p>
+  </> : <p>This website does not set any cookies, and it does not use advertising trackers. {analytics ? 'It counts visits with Plausible, which uses no cookies and stores no personal data.' : 'It does not use analytics either.'} For that reason it does not show a cookie banner.</p>}
   <h2 id="storage">Other browser storage</h2>
-  <p>The site does not store information about you in your browser. The menu, search, filters and charts work on the page you are viewing and keep nothing afterwards.</p>
+  <p>{ga ? 'Apart from the analytics cookies above, and a note in your browser that remembers your Accept or Decline choice, the site does not store information about you in your browser.' : 'The site does not store information about you in your browser.'} The menu, search, filters and charts work on the page you are viewing and keep nothing afterwards.</p>
   <h2 id="third">Other websites</h2>
   <p>Links to YouTube, Spotify, Apple Podcasts, Amazon Music, RSS.com, LinkedIn and other sites open those services, which may use their own cookies under their own policies. We do not embed their players or share buttons on our pages at present.</p>
   <h2 id="future">If this changes</h2>

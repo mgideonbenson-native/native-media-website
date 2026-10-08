@@ -1,5 +1,6 @@
 ---
 import { company, pillars, policyLinks } from '../data/site';
+const gaOn = Boolean(import.meta.env.PUBLIC_GA_ID) && import.meta.env.PUBLIC_NOINDEX !== 'true';
 const featured = [
   { label: 'Case studies', href: '/case-studies' },
   { label: 'African Intelligence podcast', href: '/african-intelligence' },
@@ -54,7 +55,7 @@ const year = new Date().getFullYear();
 
     <div class="site-footer__base">
       <p>© {year} Native Media. All rights reserved.</p>
-      <ul>{policyLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      <ul>{policyLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}{gaOn && <li><a href="/cookies" data-cookie-settings>Cookie settings</a></li>}</ul>
     </div>
   </div>
 </footer>
