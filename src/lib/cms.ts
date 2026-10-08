@@ -14,6 +14,13 @@ const env = (k: string): string | undefined => (import.meta as any).env?.[k] ?? 
 export const projectId = env('SANITY_PROJECT_ID');
 export const dataset = env('SANITY_DATASET') || 'production';
 export const cmsEnabled = Boolean(projectId);
+/**
+ * Which collections are read from Sanity once SANITY_PROJECT_ID is set. Default: stories only,
+ * so episodes and guests keep coming from the local files until they are copied into Sanity.
+ * Set SANITY_COLLECTIONS=stories,episodes,guests (comma separated) to move more of them.
+ */
+const fromCms = new Set((env('SANITY_COLLECTIONS') || 'stories').split(',').map((x) => x.trim()).filter(Boolean));
+export const cmsFor = (collection: string) => cmsEnabled && fromCms.has(collection);
 
 const client = cmsEnabled
   ? createClient({

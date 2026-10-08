@@ -1,7 +1,7 @@
 import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { IMG, LIVE, cms, cmsEnabled, ptToHtml, ptToText, sourceLine, toImage } from './lib/cms';
+import { IMG, LIVE, cms, cmsFor, ptToHtml, ptToText, sourceLine, toImage } from './lib/cms';
 
 /**
  * Content comes from ONE of two places:
@@ -31,7 +31,7 @@ const remoteImage = z.object({ remote: z.literal(true), src: z.string(), width: 
 const links = (l: any[] | undefined) => (l ?? []).map((x) => ({ label: x.label, href: x.href }));
 
 const guests = defineCollection({
-  loader: cmsEnabled
+  loader: cmsFor('guests')
     ? sanityLoader('sanity-guests', `*[_type == "guest" && ${LIVE} && bioApproved == true]{ "id": slug.current, name, role, organization, bio, links }`,
         (d) => ({ id: d.id, data: { name: d.name, role: d.role, organization: d.organization ?? undefined, links: links(d.links) }, body: d.bio }))
     : glob({ pattern: '**/*.md', base: './src/content/guests' }),
@@ -44,7 +44,7 @@ const guests = defineCollection({
 });
 
 const episodes = defineCollection({
-  loader: cmsEnabled
+  loader: cmsFor('episodes')
     ? sanityLoader('sanity-episodes', `*[_type == "episode" && ${LIVE} && count(*[_type == "guest" && _id == ^.guest._ref && ${LIVE} && bioApproved == true]) > 0]{
         "id": slug.current, title, number, "guest": guest->slug.current, publishDate, summary, cover ${IMG}, topics, themes, format, duration,
         youtubeUrl, rssUrl, spotifyUrl, appleUrl, amazonUrl, transcript, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
@@ -82,7 +82,7 @@ const episodes = defineCollection({
  * Set `demo: false` (or delete the line) when real, approved content replaces them.
  */
 const stories = defineCollection({
-  loader: cmsEnabled
+  loader: cmsFor('stories')
     ? sanityLoader('sanity-stories', `*[_type == "story" && ${LIVE} && defined(author->name)]{
         "id": slug.current, title, subtitle, section, sub, opportunity, kind, "author": author->name, "authorProfile": author->{ role, bio, "photo": photo ${IMG}, links }, date, featured, heroImage ${IMG}, sources, "sponsor": sponsor->name, body[]{ ..., _type == "image" => { ..., "url": asset->url } } }`,
         (d) => ({ id: d.id, html: ptToHtml(d.body), body: ptToText(d.body), data: {
