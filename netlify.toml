@@ -7,6 +7,10 @@
   NODE_VERSION = "22"
   # Formspree form for the contact and Native Talks forms. This address is public by design (it appears in the page code).
   PUBLIC_FORM_ENDPOINT = "https://formspree.io/f/xjygvnya"
+  # Sanity CMS project that holds the published stories. The Project ID is public by design (it appears in API addresses).
+  # Episodes and guests still come from the files in src/content (see SANITY_COLLECTIONS in docs/CMS-GUIDE.md).
+  SANITY_PROJECT_ID = "e6mws5h3"
+  SANITY_DATASET = "production"
 
 # --- Preview builds are hidden from search engines ---
 # Preview links can be opened by anyone who has the address, so every page on a preview or branch build is marked noindex.
