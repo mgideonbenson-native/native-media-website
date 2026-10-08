@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import { publicationKinds } from '../data/publications';
 interface Props { items: CollectionEntry<'publications'>[]; empty: string }
 const { items, empty } = Astro.props;
@@ -8,6 +9,7 @@ const { items, empty } = Astro.props;
   ? <div class="notice-box"><span class="tag tag--brand">Coming soon</span><p>{empty}</p></div>
   : <ul class="pubs">{items.map((p) => (
       <li class="card">
+        {p.data.cover && <a class="pubs__cover" href={p.data.url} rel="noopener noreferrer" target="_blank" tabindex="-1" aria-hidden="true"><Image src={p.data.cover} alt="" widths={[240, 360, 480]} sizes="(min-width: 600px) 22rem, 90vw" loading="lazy" /></a>}
         <span class="eyebrow">{publicationKinds[p.data.kind].one} · {p.data.year}</span>
         <h3><a href={p.data.url} rel="noopener noreferrer" target="_blank">{p.data.title}<span class="sr-only"> (opens the original in a new tab)</span></a></h3>
         <p class="muted small">Published by {p.data.publisher}</p>

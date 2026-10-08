@@ -117,13 +117,16 @@ const stories = defineCollection({
  */
 const publications = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/publications' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     publisher: z.string(),
     year: z.number().int(),
     kind: z.enum(['report', 'research-paper']),
     url: z.url(),
     summary: z.string(),
+    // Optional cover picture (a file in src/assets/publications), shown with the publisher's permission.
+    cover: image().optional(),
+    coverAlt: z.string().optional(),
     featured: z.boolean().default(false),
   }),
 });
