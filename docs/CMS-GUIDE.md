@@ -6,6 +6,8 @@ A **CMS** (content management system) is a web page where your team writes and a
 
 **Important:** today the website reads its content from files in the project (`src/content`). It switches to the CMS **only when you set `SANITY_PROJECT_ID`** (step 2). Until then nothing changes, and nothing breaks.
 
+> **Current setup:** only **stories** are read from Sanity (the Project ID is set in `netlify.toml`). Episodes and guests still come from the files in `src/content`. To move them too, copy them into Sanity (section 2b), then set `SANITY_COLLECTIONS=stories,episodes,guests` in Netlify.
+
 > Switching the CMS on replaces the local files. Your three real episodes and guests are in those files, so **copy them into the CMS first** with the import script (section 2b) before you turn the CMS on.
 
 ## 2. One-time setup (about 30 minutes)
