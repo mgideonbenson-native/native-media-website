@@ -91,8 +91,8 @@ export const pillars = [
     href: '/research-and-publications',
     title: 'Research & Publications',
     summary:
-      'Reports and research from leading organizations, curated and credited, so people can understand Africa from the best available evidence.',
-    tags: ['Reports', 'Research papers', 'Curated and credited'],
+      'Reports and research published by other credible organizations, featured with credit and a link to the original, so people can understand Africa from the best available evidence.',
+    tags: ['Reports', 'Research papers', 'Credited and linked'],
     art: 'pages',
   },
   {

@@ -9,8 +9,8 @@ const all = (await getCollection('publications')).sort((a, b) => b.data.year - a
 const featured = all.filter((p) => p.data.featured);
 const shown = featured.length ? featured : all.slice(0, 6);
 ---
-<BaseLayout title="Research & Publications | Native Media" description="Reports and research from leading organizations, curated by Native Media with clear credit and a link to the original." noindex={all.length === 0}>
-  <PageHero eyebrow="What we do · 02" title="Research & Publications" lede="Reports and research from leading organizations, curated for people who need to understand Africa. Every item is credited and linked to its original."
+<BaseLayout title="Research & Publications | Native Media" description="Reports and research from leading organizations, featured by Native Media with clear credit and a link to the original." noindex={all.length === 0}>
+  <PageHero eyebrow="What we do · 02" title="Research & Publications" lede="Reports and research from leading organizations, featured for people who need to understand Africa. Every item is credited and linked to its original."
     crumbs={[{ label: 'Home', href: '/' }, { label: 'What We Do', href: '/what-we-do' }, { label: 'Research & Publications' }]} />
   <section class="section theme-light" aria-labelledby="feat-t">
     <div class="wrap">
