@@ -11,6 +11,8 @@
   # Episodes and guests still come from the files in src/content (see SANITY_COLLECTIONS in docs/CMS-GUIDE.md).
   SANITY_PROJECT_ID = "e6mws5h3"
   SANITY_DATASET = "production"
+  # Google Analytics 4 Measurement ID. Public by design (it appears in the page code). Visitors are counted only after they accept the cookie banner.
+  PUBLIC_GA_ID = "G-Z9QP99PNEN"
 
 # --- Preview builds are hidden from search engines ---
 # Preview links can be opened by anyone who has the address, so every page on a preview or branch build is marked noindex.
