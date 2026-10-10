@@ -5,10 +5,9 @@ import CtaBand from '../../components/CtaBand.astro';
 import { geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import topo from 'world-atlas/countries-50m.json';
-import { reports, countries, metrics, compareRows, wbFacts, groups, outOf100, pov, povApproved } from '../../data/snapshot';
+import { reports, countries, metrics, compareRows, wbFacts, groups, outOf100 } from '../../data/snapshot';
 const fmt = (n: number) => n.toLocaleString('en-US');
 const data = JSON.stringify({ countries, metrics, compareRows });
-const show = (k: keyof typeof pov) => (povApproved ? pov[k] : '');
 
 // Africa map, computed at build time from public-domain outlines (Natural Earth via world-atlas).
 const africa = ['Algeria','Angola','Benin','Botswana','Burkina Faso','Burundi','Cameroon','Central African Rep.','Chad','Congo','Dem. Rep. Congo','Côte d\'Ivoire','Djibouti','Egypt','Eq. Guinea','Eritrea','eSwatini','Ethiopia','Gabon','Gambia','Ghana','Guinea','Guinea-Bissau','Kenya','Lesotho','Liberia','Libya','Madagascar','Malawi','Mali','Mauritania','Morocco','Mozambique','Namibia','Niger','Nigeria','Rwanda','Senegal','Sierra Leone','Somalia','Somaliland','South Africa','S. Sudan','Sudan','Tanzania','Togo','Tunisia','Uganda','W. Sahara','Zambia','Zimbabwe'];
@@ -55,7 +54,6 @@ const lab: Record<string, [number, number, string]> = { Ghana: [0, -12, 'middle'
         </figure>
       </div>
       <p class="chart-note">Source: ITU data, quoted in the PDAA / GSMA Intelligence report (2025).</p>
-      {show('dots') && <aside class="pov"><p class="pov__label">Native Media’s view</p><p>{show('dots')}</p></aside>}
     </div>
   </section>
 
@@ -72,7 +70,6 @@ const lab: Record<string, [number, number, string]> = { Ghana: [0, -12, 'middle'
         </ul>
         <figcaption class="chart-note">Source: PDAA / GSMA Intelligence, 2025. “Mobile internet users” is the report’s own count of people using the mobile internet (517 million); the three groups add up to roughly 1.5 billion. The widths are drawn to scale.</figcaption>
       </figure>
-      {show('gap') && <aside class="pov"><p class="pov__label">Native Media’s view</p><p>{show('gap')}</p></aside>}
     </div>
   </section>
 
@@ -153,7 +150,6 @@ const lab: Record<string, [number, number, string]> = { Ghana: [0, -12, 'middle'
           </ul>
           </div>
           <p class="chart-note">Source: GSMA Intelligence, World Bank, as published in the PDAA / GSMA Intelligence report. Reporting year 2025; electricity access 2024. Percentages of each country’s population. The map repeats the ranked list for people who prefer to see where countries are; keyboard and screen-reader users can use the list. Tanzania was not one of the 11 countries assessed.</p>
-          {show('map') && <aside class="pov pov--light"><p class="pov__label">Native Media’s view</p><p>{show('map')}</p></aside>}
         </div>
         <aside class="explore__detail" aria-labelledby="d-t" data-detail>
           <h3 id="d-t" data-d-name>Kenya</h3>
@@ -195,7 +191,6 @@ const lab: Record<string, [number, number, string]> = { Ghana: [0, -12, 'middle'
         </svg>
         <figcaption class="chart-note">Source: GSMA Intelligence, as published in the PDAA / GSMA Intelligence report (2025). The dashed line is a straight line of best fit that Native Media drew through the 11 points; the correlation is {r.toFixed(2)} (1.00 would mean the two move in perfect step). Eleven countries is a small sample, and a pattern is not proof that one thing causes the other.</figcaption>
       </figure>
-      {show('price') && <aside class="pov"><p class="pov__label">Native Media’s view</p><p>{show('price')}</p></aside>}
     </div>
   </section>
 
@@ -248,12 +243,6 @@ const lab: Record<string, [number, number, string]> = { Ghana: [0, -12, 'middle'
     </div>
   </section>
 
-  {show('close') && (
-    <section class="section theme-dark" aria-labelledby="pov-t"><div class="wrap">
-      <div class="section-head"><p class="eyebrow">Native Media’s view</p><h2 id="pov-t">What it means.</h2></div>
-      <p class="pov__big">{show('close')}</p>
-    </div></section>
-  )}
 
   <CtaBand title="Want your research to look like this?" text="We turn reports and datasets into interactive pieces people want to explore." href="/contact/creative-data" label="Creative Data inquiry" />
 
@@ -393,11 +382,6 @@ const lab: Record<string, [number, number, string]> = { Ghana: [0, -12, 'middle'
   .scatter .pt:hover circle, .scatter .pt:focus circle { r: 9; fill: #fff; }
   .scatter .pt:focus { outline: none; } .scatter .pt:focus-visible circle { stroke: var(--paper); stroke-width: 3; }
 
-  .pov { margin-top: 2.5rem; padding: 1.3rem 1.5rem; border-left: 4px solid var(--brand); background: rgba(237, 125, 62, 0.1); max-width: 46rem; display: grid; gap: 0.5rem; }
-  .pov p { margin: 0; } .pov p:last-child { font-size: var(--step-1); line-height: 1.45; }
-  .pov__label { font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
-  .theme-light .pov__label { color: #8a3a0a; }
-  .pov__big { font-size: var(--step-2); line-height: 1.35; font-weight: 600; max-width: 42rem; margin: 0; }
 
   .tz { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-content: start; }
   .tz li { background: var(--white); border: 1px solid var(--line-light); border-top: 3px solid var(--brand); padding: 1rem; display: grid; gap: 0.2rem; }
