@@ -1,0 +1,359 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { reports, headline, countries, metrics, compareRows, wbFacts } from '../../data/snapshot';
+const fmt = (n: number) => n.toLocaleString('en-US');
+const data = JSON.stringify({ countries, metrics, compareRows });
+---
+<BaseLayout title="Reports in focus: an interactive snapshot | Native Media" description="An interactive snapshot of two reports featured by Native Media: connecting 1 billion Africans by 2030 (PDAA and GSMA Intelligence) and the World Bank’s Africa Economic Update on AI readiness.">
+  <PageHero eyebrow="Creative Data · Interactive" title="Reports in focus."
+    lede="An interactive snapshot of two reports featured on Native Media: how Africa can connect 1 billion people by 2030, and how ready the continent is for artificial intelligence."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Creative Data', href: '/creative-data' }, { label: 'Reports in focus' }]}>
+    <a class="btn" href="#story">Start the story <span aria-hidden="true">↓</span></a>
+    <a class="btn btn--ghost" href="#explore">Jump to the data</a>
+  </PageHero>
+
+  <section class="section theme-charcoal" aria-labelledby="h-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">At a glance</p><h2 id="h-t">Four numbers to start with.</h2></div>
+      <ul class="stats">
+        {headline.map((h) => (
+          <li class="stat">
+            <span class="stat__src">{reports[h.report].short}</span>
+            <p class="stat__num"><span data-count data-to={h.to} data-dec={'decimals' in h ? h.decimals : 0}>{h.to}</span><span class="stat__suffix">{h.suffix}</span></p>
+            <p class="stat__label">{h.label}</p>
+            <p class="stat__note">{h.note}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section theme-dark story" id="story" aria-labelledby="s-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">The story in four steps</p><h2 id="s-t">From coverage to meaningful use.</h2></div>
+      <div class="story__grid" data-story data-step="1">
+        <div class="story__stage" aria-hidden="false">
+          <figure class="stage" data-stage="1">
+            <figcaption class="stage__title">Mobile broadband gaps, Africa<span>PDAA / GSMA Intelligence · % of population</span></figcaption>
+            <ul class="hbars">
+              <li><span class="hbars__l">Coverage gap, 2015</span><span class="hbars__t"><i style="--w:41%"></i></span><span class="hbars__v">41%</span></li>
+              <li><span class="hbars__l">Coverage gap, 2025</span><span class="hbars__t"><i style="--w:8%"></i></span><span class="hbars__v">8%</span></li>
+              <li><span class="hbars__l">Usage gap, 2025</span><span class="hbars__t"><i class="hot" style="--w:60%"></i></span><span class="hbars__v">almost 60%</span></li>
+            </ul>
+          </figure>
+          <figure class="stage" data-stage="2">
+            <figcaption class="stage__title">Internet users in Africa<span>PDAA / GSMA Intelligence · millions of people</span></figcaption>
+            <ul class="hbars">
+              <li><span class="hbars__l">2025</span><span class="hbars__t"><i style="--w:55%"></i></span><span class="hbars__v">550</span></li>
+              <li><span class="hbars__l">2030, current path</span><span class="hbars__t"><i style="--w:70%"></i></span><span class="hbars__v">about 700</span></li>
+              <li><span class="hbars__l">2030 ambition</span><span class="hbars__t"><i class="hot" style="--w:100%"></i></span><span class="hbars__v">1,000</span></li>
+            </ul>
+            <p class="stage__note">A shortfall of more than 300 million against the ambition.</p>
+          </figure>
+          <figure class="stage" data-stage="3">
+            <figcaption class="stage__title">If both gaps were halved<span>PDAA / GSMA Intelligence · acceleration scenario, not a forecast</span></figcaption>
+            <ul class="hbars">
+              <li><span class="hbars__l">Mobile internet users, 2025</span><span class="hbars__t"><i style="--w:51.7%"></i></span><span class="hbars__v">517 million</span></li>
+              <li><span class="hbars__l">Added by halving both gaps</span><span class="hbars__t"><i class="hot" style="--w:51.4%"></i></span><span class="hbars__v">+514 million</span></li>
+            </ul>
+            <p class="stage__note">Together: more than 1 billion, the report’s ambition. Coverage gap: 122 million people. Usage gap: 906 million people.</p>
+          </figure>
+          <figure class="stage" data-stage="4">
+            <figcaption class="stage__title">Africa and AI readiness<span>World Bank · % of the world or of Africa</span></figcaption>
+            <ul class="hbars">
+              <li><span class="hbars__l">Share of world population</span><span class="hbars__t"><i style="--w:18%"></i></span><span class="hbars__v">{wbFacts.popShare}%</span></li>
+              <li><span class="hbars__l">Share of global data-centre capacity</span><span class="hbars__t"><i class="hot" style="--w:3%"></i></span><span class="hbars__v">{wbFacts.dataCentreShare}%</span></li>
+              <li><span class="hbars__l">African data centres that are AI-ready</span><span class="hbars__t"><i style="--w:5%"></i></span><span class="hbars__v">about {wbFacts.aiReadyDataCentres}%</span></li>
+              <li><span class="hbars__l">Share of global AI training data from Africa</span><span class="hbars__t"><i style="--w:2%"></i></span><span class="hbars__v">about {wbFacts.aiTrainingData}%</span></li>
+            </ul>
+          </figure>
+        </div>
+        <ol class="story__steps">
+          <li data-step-text="1"><h3>Networks have mostly arrived.</h3><p>Africa’s mobile broadband coverage gap fell from 41% in 2015 to 8% in 2025. The bigger gap now is use: almost 60% of people live within coverage but do not use the mobile internet. <cite>PDAA / GSMA Intelligence</cite></p></li>
+          <li data-step-text="2"><h3>The current path falls short.</h3><p>Africa had 550 million internet users in 2025, or 36% of the population, against 74% worldwide. At the current pace it reaches about 700 million by 2030, more than 300 million short of the 1 billion ambition. <cite>PDAA / GSMA Intelligence</cite></p></li>
+          <li data-step-text="3"><h3>The gap is closable.</h3><p>Halving the coverage and usage gaps could bring about 514 million more people online. The report calls this an acceleration scenario rather than a forecast, and says it depends on affordable devices, infrastructure, energy, skills, relevant services and trust. <cite>PDAA / GSMA Intelligence</cite></p></li>
+          <li data-step-text="4"><h3>And the next gap is AI.</h3><p>Africa holds 18% of the world’s people but just 0.6% of global data-centre capacity, and only about 2% of global AI training data comes from the continent. About 900 million Africans remain offline. <cite>World Bank</cite></p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-light" id="explore" aria-labelledby="e-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Explore the data</p><h2 id="e-t">Eleven countries, one shared challenge.</h2>
+        <p class="lede">The PDAA / GSMA Intelligence report assessed 11 countries. Choose a measure to rank them, then select a country for its full profile.</p></div>
+      <div class="explore" data-explore>
+        <div class="explore__main">
+          <div class="chips" role="group" aria-label="Choose a measure" data-metrics>
+            {metrics.map((m, i) => <button type="button" class="chip" aria-pressed={i === 0 ? 'true' : 'false'} data-metric={m.key}>{m.label}</button>)}
+          </div>
+          <p class="explore__what" data-metric-text aria-live="polite">{metrics[0].text} {metrics[0].higher}</p>
+          <ul class="vbars" data-bars>
+            {[...countries].sort((a, b) => b.usageGap - a.usageGap).map((c) => (
+              <li><button type="button" data-country={c.name} class="vbars__row"><span class="vbars__l">{c.name}</span><span class="vbars__t"><i style={`--w:${c.usageGap}%`}></i></span><span class="vbars__v">{c.usageGap}%</span></button></li>
+            ))}
+          </ul>
+          <p class="chart-note">Source: GSMA Intelligence, World Bank, as published in the PDAA / GSMA Intelligence report. Reporting year 2025; electricity access 2024. Percentages of each country’s population.</p>
+        </div>
+        <aside class="explore__detail" aria-labelledby="d-t" data-detail>
+          <h3 id="d-t" data-d-name>Kenya</h3>
+          <dl class="facts" data-d-facts>
+            {compareRows.map((r) => <div><dt>{r.label}</dt><dd data-fact={r.key}>{(countries.find((c) => c.name === 'Kenya') as any)[r.key]}{r.unit}</dd></div>)}
+          </dl>
+        </aside>
+      </div>
+      <details class="table-view">
+        <summary>View all the numbers as a table</summary>
+        <div class="table-wrap">
+          <table>
+            <caption>Eleven countries assessed in the PDAA / GSMA Intelligence report (percent of population unless stated)</caption>
+            <thead><tr><th scope="col">Country</th><th scope="col">Mobile internet adoption</th><th scope="col">Usage gap</th><th scope="col">Coverage gap</th><th scope="col">Smartphone adoption</th><th scope="col">Phone price, % of monthly income</th><th scope="col">Rural population</th><th scope="col">Rural electricity access</th><th scope="col">Million people if gaps halved</th></tr></thead>
+            <tbody>{countries.map((c) => <tr><th scope="row">{c.name}</th><td>{c.adoption}%</td><td>{c.usageGap}%</td><td>{c.coverageGap}%</td><td>{c.smartphone}%</td><td>{c.priceShare}%</td><td>{c.rural}%</td><td>{c.elecRural}%</td><td>{c.halving}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section theme-charcoal" id="compare" aria-labelledby="c-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Compare</p><h2 id="c-t">Put two countries side by side.</h2></div>
+      <div class="compare" data-compare>
+        <div class="compare__pick">
+          <label>First country<select data-pick="0">{countries.map((c) => <option value={c.name} selected={c.name === 'Kenya'}>{c.name}</option>)}</select></label>
+          <label>Second country<select data-pick="1">{countries.map((c) => <option value={c.name} selected={c.name === 'Ethiopia'}>{c.name}</option>)}</select></label>
+        </div>
+        <div class="compare__out" data-compare-out aria-live="polite"></div>
+        <noscript><p class="muted">Turn on JavaScript to compare countries, or use the table in the section above.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-light" aria-labelledby="tz-t">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow">Close to home</p>
+        <h2 class="h2" id="tz-t">Tanzania: connecting schools is the start.</h2>
+        <p>One of the report’s case studies looks at Airtel SmartWasomi, a partnership between Airtel Tanzania, Unicef and the Ministry of Education. It combines school connectivity, learning platforms that can be used without data charges, and teacher training.</p>
+        <p class="muted small">The report notes that the figures below are programme-wide across 13 African countries, not Tanzania-only results.</p>
+      </div>
+      <ul class="tz">
+        <li><strong>3,296</strong><span>schools connected by 2025/2026</span></li>
+        <li><strong>64</strong><span>education platforms zero-rated</span></li>
+        <li><strong>38,800+</strong><span>teachers trained</span></li>
+        <li><strong>2.1 million</strong><span>children with access to the internet or digital learning</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section theme-light sources" aria-labelledby="src-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Sources</p><h2 id="src-t">Read the reports in full.</h2>
+        <p class="lede">Every figure on this page comes from these two reports and is shown as they published it. Native Media has not changed, estimated or combined the numbers. Native Media is not the author of either report.</p></div>
+      <ul class="cards">
+        {Object.values(reports).map((r) => (
+          <li class="card">
+            <span class="eyebrow">Report · {r.year}</span>
+            <h3><a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}<span class="sr-only"> (opens the original in a new tab)</span></a></h3>
+            <p class="muted small">Published by {r.by}</p>
+            <a class="arrow-link" href={r.url} target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">Read the original <span aria-hidden="true">↗</span></a>
+          </li>
+        ))}
+      </ul>
+      <p class="muted small">See all featured reports in <a href="/research-and-publications/reports">Research &amp; Publications</a>.</p>
+    </div>
+  </section>
+
+  <CtaBand title="Want your research to look like this?" text="We turn reports and datasets into interactive pieces people want to explore." href="/contact/creative-data" label="Creative Data inquiry" />
+
+  <script type="application/json" id="snap-data" set:html={data}></script>
+</BaseLayout>
+
+<style>
+  .stats { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .stat { padding: 1.4rem; border: 1px solid var(--line-dark); border-top: 3px solid var(--brand); display: grid; gap: 0.4rem; align-content: start; }
+  .stat__src { font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); }
+  .stat__num { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--step-4); line-height: 1; color: var(--brand); }
+  .stat__suffix { font-size: 0.5em; margin-left: 0.15em; color: var(--paper); }
+  .stat__label { margin: 0; font-weight: 600; }
+  .stat__note { margin: 0; font-size: 0.88rem; color: var(--gray); }
+
+  .story__grid { display: grid; gap: 1.5rem; }
+  .story__stage { position: sticky; top: calc(var(--header-h, 4.5rem) + 0.5rem); z-index: 2; background: var(--black); border: 1px solid var(--line-dark); padding: 1.2rem; min-height: 16rem; display: grid; }
+  .stage { grid-area: 1 / 1; margin: 0; display: grid; gap: 1rem; align-content: start; }
+  :global(.js) .stage { opacity: 0; visibility: hidden; transition: opacity 0.4s var(--ease), visibility 0.4s; }
+  :global(.js) [data-step='1'] .stage[data-stage='1'], :global(.js) [data-step='2'] .stage[data-stage='2'], :global(.js) [data-step='3'] .stage[data-stage='3'], :global(.js) [data-step='4'] .stage[data-stage='4'] { opacity: 1; visibility: visible; }
+  :global(html:not(.js)) .story__stage { position: static; }
+  .stage__title { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); display: grid; gap: 0.2rem; }
+  .stage__title span { font-weight: 500; font-size: 0.82rem; color: var(--gray); font-family: var(--font-body, inherit); }
+  .stage__note { margin: 0; font-size: 0.9rem; color: var(--gray); }
+  .hbars { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+  .hbars li { display: grid; grid-template-columns: minmax(7rem, 11rem) 1fr auto; gap: 0.7rem; align-items: center; font-size: 0.9rem; }
+  .hbars__t, :global(.vbars__t) { display: block; height: 1.1rem; background: var(--charcoal-2); position: relative; overflow: hidden; }
+  .hbars__t i { position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--gray); transition: width 0.9s var(--ease); }
+  .hbars__t i.hot { background: var(--brand); }
+  :global(.js) .stage:not(.on) .hbars__t i { width: 0; }
+  @media (max-width: 600px) { .hbars li { grid-template-columns: 1fr auto; gap: 0.3rem 0.7rem; } .hbars__t { grid-column: 1 / -1; order: 3; } }
+  .hbars__v { font-family: var(--font-display); font-weight: 800; min-width: 4.5rem; text-align: right; }
+  .story__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .story__steps li { min-height: 55vh; display: grid; align-content: center; gap: 0.6rem; padding: 1rem 0; opacity: 0.85; transition: opacity 0.3s; }
+  .story__steps li.on, :global(html:not(.js)) .story__steps li { opacity: 1; }
+  .story__steps h3 { font-size: var(--step-2); font-weight: 800; }
+  .story__steps p { margin: 0; color: var(--paper); max-width: 34rem; }
+  .story__steps cite { display: block; margin-top: 0.4rem; font-style: normal; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); }
+  @media (min-width: 900px) { .story__grid { grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: start; } .story__stage { order: 2; top: 7rem; min-height: 22rem; padding: 1.6rem; } .story__steps { order: 1; } }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .chip { cursor: pointer; background: none; border: 1px solid var(--line-light); color: var(--black); padding: 0.45rem 0.9rem; border-radius: 999px; font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; }
+  .chip:hover { border-color: var(--brand-ink); }
+  .chip[aria-pressed='true'] { background: var(--black); border-color: var(--black); color: var(--paper); }
+  .explore { display: grid; gap: 2rem; }
+  @media (min-width: 900px) { .explore { grid-template-columns: 1.5fr 1fr; align-items: start; } }
+  .explore__what { margin: 0 0 1.2rem; color: var(--gray-ink); min-height: 3rem; }
+  .vbars { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  :global(.vbars__row) { width: 100%; display: grid; grid-template-columns: 6.5rem 1fr 3.2rem; gap: 0.7rem; align-items: center; padding: 0.3rem 0.4rem; background: none; border: 1px solid transparent; color: var(--black); cursor: pointer; text-align: left; font: inherit; }
+  :global(.vbars__row):hover { border-color: var(--line-light); }
+  :global(.vbars__row[aria-current='true']) { border-color: var(--black); background: var(--white); }
+  :global(.vbars__t) { background: rgba(10, 10, 10, 0.08); height: 1.2rem; display: block; position: relative; overflow: hidden; }
+  :global(.vbars__t i) { position: absolute; inset: 0 auto 0 0; width: var(--w); transition: width 0.9s var(--ease); }
+  :global(.vbars__t i) { background: var(--black); }
+  :global(.vbars__row[aria-current='true'] .vbars__t i) { background: var(--brand); }
+  :global(.vbars__v) { font-family: var(--font-display); font-weight: 800; text-align: right; }
+  .chart-note { font-size: 0.82rem; color: var(--gray-ink); margin: 1rem 0 0; }
+  .explore__detail { background: var(--white); border: 1px solid var(--line-light); border-top: 3px solid var(--brand); padding: 1.3rem; }
+  .explore__detail h3 { font-size: var(--step-2); font-weight: 800; margin: 0 0 0.8rem; }
+  .facts { margin: 0; display: grid; gap: 0.1rem; }
+  .facts div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--line-light); font-size: 0.92rem; }
+  .facts dt { color: var(--gray-ink); } .facts dd { margin: 0; font-family: var(--font-display); font-weight: 800; white-space: nowrap; }
+  .table-view { margin-top: 2rem; } .table-view summary { cursor: pointer; font-weight: 700; color: var(--brand-ink); }
+  .table-wrap { overflow-x: auto; margin-top: 1rem; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.86rem; min-width: 46rem; }
+  caption { text-align: left; padding-bottom: 0.6rem; color: var(--gray-ink); }
+  th, td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--line-light); text-align: right; } th:first-child, td:first-child { text-align: left; } thead th { vertical-align: bottom; }
+
+  .compare__pick { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); margin-bottom: 2rem; max-width: 36rem; }
+  .compare__pick label { display: grid; gap: 0.4rem; font-weight: 600; font-size: 0.9rem; }
+  select { padding: 0.75rem 0.9rem; background: var(--black); color: var(--paper); border: 1.5px solid var(--line-dark); border-radius: var(--radius); font: inherit; }
+  :global(.cmp) { display: grid; gap: 1.4rem; }
+  :global(.cmp__head), :global(.cmp__row) { display: grid; gap: 0.5rem; }
+  :global(.cmp__head) { grid-template-columns: 1fr 1fr; font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); }
+  :global(.cmp__head span:last-child) { text-align: right; }
+  :global(.cmp__label) { font-size: 0.88rem; color: var(--gray); }
+  :global(.cmp__bars) { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  :global(.cmp__side) { display: grid; gap: 0.25rem; }
+  :global(.cmp__side--b) { text-align: right; }
+  :global(.cmp__track) { display: block; height: 0.9rem; background: var(--charcoal-2); position: relative; }
+  :global(.cmp__track i) { position: absolute; top: 0; bottom: 0; left: 0; width: var(--w); background: var(--brand); transition: width 0.6s var(--ease); }
+  :global(.cmp__side--b .cmp__track i) { left: auto; right: 0; background: var(--paper); }
+  :global(.cmp__val) { font-family: var(--font-display); font-weight: 800; }
+
+  .tz { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-content: start; }
+  .tz li { background: var(--white); border: 1px solid var(--line-light); border-top: 3px solid var(--brand); padding: 1rem; display: grid; gap: 0.2rem; }
+  .tz strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-3); }
+  .tz span { font-size: 0.88rem; color: var(--gray-ink); }
+  .cards { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+  .cards .card { padding: 1.6rem; display: grid; gap: 0.6rem; align-content: start; } .cards h3 a { text-decoration: none; } .cards h3 a:hover { color: var(--brand-ink); } .small { font-size: 0.88rem; }
+  @media (prefers-reduced-motion: reduce) { .hbars__t i, :global(.vbars__t i), :global(.cmp__track i), :global(.js) .stage { transition: none; } }
+  @media print { .story__stage { position: static; } :global(.js) .stage { opacity: 1; visibility: visible; } .story__steps li { min-height: 0; opacity: 1; } }
+</style>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. Numbers count up when they scroll into view.
+  document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+    const to = Number(el.dataset.to), dec = Number(el.dataset.dec || 0);
+    if (reduce || !('IntersectionObserver' in window)) return;
+    el.textContent = (0).toFixed(dec);
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return; io.disconnect();
+      const t0 = performance.now(), dur = 1200;
+      const tick = (t: number) => { const p = Math.min(1, (t - t0) / dur), v = to * (1 - Math.pow(1 - p, 3)); el.textContent = v.toFixed(dec); if (p < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }), { threshold: 0.4 });
+    io.observe(el);
+  });
+
+  // 2. Scroll story: the chart changes as each step scrolls into view.
+  const story = document.querySelector<HTMLElement>('[data-story]');
+  if (story && 'IntersectionObserver' in window) {
+    const stages = [...story.querySelectorAll<HTMLElement>('[data-stage]')];
+    const texts = [...story.querySelectorAll<HTMLElement>('[data-step-text]')];
+    const show = (n: string) => {
+      story.dataset.step = n;
+      stages.forEach((s) => { const on = s.dataset.stage === n; s.classList.toggle('on', on); s.setAttribute('aria-hidden', String(!on)); });
+      texts.forEach((t) => t.classList.toggle('on', t.dataset.stepText === n));
+    };
+    show('1');
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) show((e.target as HTMLElement).dataset.stepText!); }), { rootMargin: '-45% 0px -45% 0px' });
+    texts.forEach((t) => io.observe(t));
+  }
+
+  // 3. Explore and 4. Compare use the numbers embedded in the page.
+  type C = Record<string, number | string>;
+  const raw = document.getElementById('snap-data');
+  if (raw) {
+    const { countries, metrics, compareRows } = JSON.parse(raw.textContent || '{}') as { countries: C[]; metrics: { key: string; label: string; unit: string; text: string; higher: string }[]; compareRows: { key: string; label: string; unit: string }[] };
+    const byName = (n: string) => countries.find((c) => c.name === n)!;
+
+    const explore = document.querySelector<HTMLElement>('[data-explore]');
+    if (explore) {
+      const list = explore.querySelector<HTMLElement>('[data-bars]')!;
+      const what = explore.querySelector<HTMLElement>('[data-metric-text]')!;
+      const chips = [...explore.querySelectorAll<HTMLButtonElement>('[data-metric]')];
+      let metric = metrics[0].key, selected = 'Kenya';
+      const detail = () => {
+        const c = byName(selected);
+        explore.querySelector('[data-d-name]')!.textContent = selected;
+        explore.querySelectorAll<HTMLElement>('[data-fact]').forEach((d) => {
+          const row = compareRows.find((r) => r.key === d.dataset.fact)!; d.textContent = `${c[row.key]}${row.unit}`;
+        });
+      };
+      const draw = () => {
+        const m = metrics.find((x) => x.key === metric)!;
+        const sorted = [...countries].sort((a, b) => Number(b[metric]) - Number(a[metric]));
+        list.replaceChildren(...sorted.map((c) => {
+          const li = document.createElement('li'); const b = document.createElement('button'); b.type = 'button'; b.className = 'vbars__row'; b.dataset.country = String(c.name);
+          if (c.name === selected) b.setAttribute('aria-current', 'true');
+          const l = document.createElement('span'); l.className = 'vbars__l'; l.textContent = String(c.name);
+          const t = document.createElement('span'); t.className = 'vbars__t'; const i = document.createElement('i'); i.style.setProperty('--w', `${Number(c[metric])}%`); t.append(i);
+          const v = document.createElement('span'); v.className = 'vbars__v'; v.textContent = `${c[metric]}${m.unit}`;
+          b.append(l, t, v); li.append(b); return li;
+        }));
+        what.textContent = `${m.text} ${m.higher}`;
+        chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.metric === metric)));
+      };
+      chips.forEach((x) => x.addEventListener('click', () => { metric = x.dataset.metric!; draw(); }));
+      list.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('[data-country]'); if (!b) return; selected = b.dataset.country!; draw(); detail(); (list.querySelector(`[data-country="${selected}"]`) as HTMLElement | null)?.focus(); });
+      draw(); detail();
+    }
+
+    const cmp = document.querySelector<HTMLElement>('[data-compare]');
+    if (cmp) {
+      const out = cmp.querySelector<HTMLElement>('[data-compare-out]')!;
+      const picks = [...cmp.querySelectorAll<HTMLSelectElement>('[data-pick]')];
+      const maxHalving = Math.max(...countries.map((c) => Number(c.halving)));
+      const el = (tag: string, cls?: string, text?: string) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; };
+      const render = () => {
+        const [a, b] = picks.map((p) => byName(p.value));
+        const wrap = el('div', 'cmp');
+        const head = el('div', 'cmp__head'); head.append(el('span', '', String(a.name)), el('span', '', String(b.name))); wrap.append(head);
+        compareRows.forEach((r) => {
+          const row = el('div', 'cmp__row'); row.append(el('span', 'cmp__label', r.label));
+          const bars = el('div', 'cmp__bars');
+          [a, b].forEach((c, idx) => {
+            const side = el('div', idx ? 'cmp__side cmp__side--b' : 'cmp__side');
+            const tr = el('span', 'cmp__track'); const i = document.createElement('i'); const pct = r.key === 'halving' ? (Number(c[r.key]) / maxHalving) * 100 : Number(c[r.key]); i.style.setProperty('--w', `${pct}%`); tr.append(i);
+            side.append(tr, el('span', 'cmp__val', `${c[r.key]}${r.unit}`)); bars.append(side);
+          });
+          row.append(bars); wrap.append(row);
+        });
+        out.replaceChildren(wrap);
+      };
+      picks.forEach((p) => p.addEventListener('change', render));
+      render();
+    }
+  }
+</script>

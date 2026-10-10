@@ -134,6 +134,7 @@ export const allPaths: { href: string; label: string }[] = [
   ...nav.flatMap((i) => (i.children ? [{ label: i.label, href: i.href }, ...i.children] : [])),
   ...policyLinks,
   { label: 'Search', href: '/search' },
+  { label: 'Reports in focus: an interactive snapshot', href: '/creative-data/reports-snapshot' },
 ].filter((p, i, a) => p.href !== '/' && a.findIndex((q) => q.href === p.href) === i);
 
 /** Inquiry categories used by the contact forms. */
@@ -166,7 +167,7 @@ export const builtPaths = new Set<string>([
   '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',
   '/african-intelligence/stories', ...allStoryListPaths(),
   // Creative Data
-  '/creative-data',
+  '/creative-data', '/creative-data/reports-snapshot',
   // Training & Mentorship
   '/training-and-mentorship', '/training-and-mentorship/native-talks', '/training-and-mentorship/thought-leadership',
   // Site pages
