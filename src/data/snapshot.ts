@@ -82,3 +82,27 @@ export const wbFacts = {
   swahili: 710,
   english: 88844,
 };
+
+/** The three groups in the PDAA / GSMA report, in millions of people (2025). */
+export const groups = [
+  { key: 'users', label: 'Use the mobile internet', million: 517 },
+  { key: 'covered', label: 'Covered by mobile broadband, but not using it', million: 906 },
+  { key: 'uncovered', label: 'No mobile broadband network', million: 122 },
+] as const;
+
+/** Share of people online, out of every 100 (ITU data quoted in the PDAA / GSMA report). */
+export const outOf100 = { africa: 36, world: 74 };
+
+/**
+ * Native Media’s point of view, shown beside the data.
+ * These are Native Media’s own reading of the reports, not statements by the report authors.
+ * They stay hidden until `approved` is set to true by the owner.
+ */
+export const povApproved = false;
+export const pov = {
+  dots: 'Africa is not offline for lack of ambition. Networks arrived faster than the reasons to use them. The story of the next five years is about relevance and trust, not reach.',
+  gap: 'The headline is not “millions without a signal”. Most of the people still offline are already within reach of one. That changes the question for anyone communicating in Africa: not “how do we reach them?” but “why would they come online, and what would they find when they do?”',
+  map: 'No two countries face the same barrier, so one continental message about “digital inclusion” will miss most of them. In the DRC the network is the problem. In Rwanda, Ethiopia and Niger the phone is. And in South Africa, where a basic phone costs about 3% of a month’s income, 42% of people are still not using the mobile internet.',
+  price: 'Price matters a great deal: across these 11 countries, the dearer a basic phone is compared with income, the bigger the usage gap tends to be. But it is not the whole story. Uganda, Ethiopia and Ghana sit above the line, with larger usage gaps than phone prices alone would suggest, and the report points to skills, trust and relevant content among the other barriers.',
+  close: 'For Native Media, this is the point. Infrastructure builds the road, but narrative, language and trust are what bring people onto it. The evidence says the next billion will be won by being useful and understood, and that is a communication challenge as much as an engineering one.',
+} as const;

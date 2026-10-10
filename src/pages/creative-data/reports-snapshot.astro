@@ -2,9 +2,35 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
-import { reports, headline, countries, metrics, compareRows, wbFacts } from '../../data/snapshot';
+import { geoMercator, geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import topo from 'world-atlas/countries-50m.json';
+import { reports, countries, metrics, compareRows, wbFacts, groups, outOf100, pov, povApproved } from '../../data/snapshot';
 const fmt = (n: number) => n.toLocaleString('en-US');
 const data = JSON.stringify({ countries, metrics, compareRows });
+const show = (k: keyof typeof pov) => (povApproved ? pov[k] : '');
+
+// Africa map, computed at build time from public-domain outlines (Natural Earth via world-atlas).
+const africa = ['Algeria','Angola','Benin','Botswana','Burkina Faso','Burundi','Cameroon','Central African Rep.','Chad','Congo','Dem. Rep. Congo','Côte d\'Ivoire','Djibouti','Egypt','Eq. Guinea','Eritrea','eSwatini','Ethiopia','Gabon','Gambia','Ghana','Guinea','Guinea-Bissau','Kenya','Lesotho','Liberia','Libya','Madagascar','Malawi','Mali','Mauritania','Morocco','Mozambique','Namibia','Niger','Nigeria','Rwanda','Senegal','Sierra Leone','Somalia','Somaliland','South Africa','S. Sudan','Sudan','Tanzania','Togo','Tunisia','Uganda','W. Sahara','Zambia','Zimbabwe'];
+const atlasName: Record<string, string> = { DRC: 'Dem. Rep. Congo' };
+const feats = ((feature(topo as any, (topo as any).objects.countries) as any).features as any[]).filter((f) => africa.includes(f.properties.name));
+const proj = geoMercator().fitSize([600, 640], { type: 'FeatureCollection', features: feats } as any);
+const path = geoPath(proj).digits(1);
+const reportNames = new Map(countries.map((c) => [atlasName[c.name] ?? c.name, c.name]));
+const mapPaths = feats.map((f) => ({ id: f.properties.name as string, short: reportNames.get(f.properties.name) ?? null, d: path(f) as string, tz: f.properties.name === 'Tanzania' }));
+const dar = proj([39.28, -6.79]) as [number, number];
+
+// Scatter: phone price against usage gap, with a straight line of best fit (our own arithmetic on the report's numbers).
+const xs = countries.map((c) => c.priceShare), ys = countries.map((c) => c.usageGap);
+const mean = (a: number[]) => a.reduce((t, v) => t + v, 0) / a.length;
+const mx = mean(xs), my = mean(ys);
+const slope = xs.reduce((t, v, i) => t + (v - mx) * (ys[i] - my), 0) / xs.reduce((t, v) => t + (v - mx) ** 2, 0);
+const icpt = my - slope * mx;
+const r = xs.reduce((t, v, i) => t + (v - mx) * (ys[i] - my), 0) / Math.sqrt(xs.reduce((t, v) => t + (v - mx) ** 2, 0) * ys.reduce((t, v) => t + (v - my) ** 2, 0));
+const SW = 640, SH = 420, L = 56, R = 24, T = 20, B = 52;
+const X = (v: number) => L + (v / 100) * (SW - L - R);
+const Y = (v: number) => SH - B - ((v - 30) / 50) * (SH - T - B);
+const lab: Record<string, [number, number, string]> = { Ghana: [0, -12, 'middle'], Kenya: [-10, -9, 'end'], Egypt: [-6, 30, 'end'], Nigeria: [11, -6, 'start'], Senegal: [12, 14, 'start'], 'South Africa': [11, 4, 'start'], Uganda: [11, 4, 'start'], DRC: [11, 4, 'start'], Ethiopia: [-11, 4, 'end'], Niger: [11, 14, 'start'], Rwanda: [-11, 18, 'end'] };
 ---
 <BaseLayout title="Reports in focus: an interactive snapshot | Native Media" description="An interactive snapshot of two reports featured by Native Media: connecting 1 billion Africans by 2030 (PDAA and GSMA Intelligence) and the World Bank’s Africa Economic Update on AI readiness.">
   <PageHero eyebrow="Creative Data · Interactive" title="Reports in focus."
@@ -14,19 +40,39 @@ const data = JSON.stringify({ countries, metrics, compareRows });
     <a class="btn btn--ghost" href="#explore">Jump to the data</a>
   </PageHero>
 
-  <section class="section theme-charcoal" aria-labelledby="h-t">
+  <section class="section theme-charcoal dots" aria-labelledby="dots-t">
     <div class="wrap">
-      <div class="section-head"><p class="eyebrow">At a glance</p><h2 id="h-t">Four numbers to start with.</h2></div>
-      <ul class="stats">
-        {headline.map((h) => (
-          <li class="stat">
-            <span class="stat__src">{reports[h.report].short}</span>
-            <p class="stat__num"><span data-count data-to={h.to} data-dec={'decimals' in h ? h.decimals : 0}>{h.to}</span><span class="stat__suffix">{h.suffix}</span></p>
-            <p class="stat__label">{h.label}</p>
-            <p class="stat__note">{h.note}</p>
-          </li>
-        ))}
-      </ul>
+      <div class="section-head"><p class="eyebrow">Out of every 100 people</p><h2 id="dots-t">Who is online?</h2>
+        <p class="lede">Each dot is one person out of 100. Lit dots used the internet in 2025.</p></div>
+      <div class="dots__pair" data-dots>
+        <figure class="dots__fig">
+          <ol class="dotgrid" aria-hidden="true">{Array.from({ length: 100 }, (_, i) => <li class={i < outOf100.africa ? 'on' : ''} style={`--i:${i}`}></li>)}</ol>
+          <figcaption><strong>{outOf100.africa} out of 100</strong><span>in Africa used the internet in 2025</span></figcaption>
+        </figure>
+        <figure class="dots__fig">
+          <ol class="dotgrid dotgrid--world" aria-hidden="true">{Array.from({ length: 100 }, (_, i) => <li class={i < outOf100.world ? 'on' : ''} style={`--i:${i}`}></li>)}</ol>
+          <figcaption><strong>{outOf100.world} out of 100</strong><span>worldwide</span></figcaption>
+        </figure>
+      </div>
+      <p class="chart-note">Source: ITU data, quoted in the PDAA / GSMA Intelligence report (2025).</p>
+      {show('dots') && <aside class="pov"><p class="pov__label">Native Media’s view</p><p>{show('dots')}</p></aside>}
+    </div>
+  </section>
+
+  <section class="section theme-dark" id="gap" aria-labelledby="gap-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">The people behind the percentages</p><h2 id="gap-t">Africa’s 1.5 billion, in one picture.</h2>
+        <p class="lede">The report splits Africa’s population into three groups. The biggest is not the one most people expect.</p></div>
+      <figure class="onebar" data-onebar>
+        <div class="onebar__bar" role="img" aria-label={groups.map((g) => `${g.million} million: ${g.label}`).join('; ')}>
+          {groups.map((g) => <span class={`seg seg--${g.key}`} style={`--w:${g.million}`}><b>{g.million}M</b></span>)}
+        </div>
+        <ul class="onebar__legend">
+          {groups.map((g) => <li class={`seg-key seg-key--${g.key}`}><strong>{g.million} million</strong><span>{g.label}</span></li>)}
+        </ul>
+        <figcaption class="chart-note">Source: PDAA / GSMA Intelligence, 2025. “Mobile internet users” is the report’s own count of people using the mobile internet (517 million); the three groups add up to roughly 1.5 billion. The widths are drawn to scale.</figcaption>
+      </figure>
+      {show('gap') && <aside class="pov"><p class="pov__label">Native Media’s view</p><p>{show('gap')}</p></aside>}
     </div>
   </section>
 
@@ -90,12 +136,24 @@ const data = JSON.stringify({ countries, metrics, compareRows });
             {metrics.map((m, i) => <button type="button" class="chip" aria-pressed={i === 0 ? 'true' : 'false'} data-metric={m.key}>{m.label}</button>)}
           </div>
           <p class="explore__what" data-metric-text aria-live="polite">{metrics[0].text} {metrics[0].higher}</p>
+          <div class="explore__viz">
+          <figure class="map" aria-hidden="true">
+            <svg viewBox="0 0 600 640" role="presentation" focusable="false" data-map>
+              {mapPaths.map((m) => m.short
+                ? <path class="c in" d={m.d} data-country={m.short}><title>{m.short}</title></path>
+                : <path class={m.tz ? 'c tz' : 'c'} d={m.d} />)}
+              <g class="map__dar" transform={`translate(${dar[0]} ${dar[1]})`}><circle r="4" /><text x="9" y="4">Dar es Salaam</text></g>
+            </svg>
+            <figcaption class="map__legend"><span>Lower</span><i></i><span>Higher</span><span class="map__none">Not in the report</span></figcaption>
+          </figure>
           <ul class="vbars" data-bars>
             {[...countries].sort((a, b) => b.usageGap - a.usageGap).map((c) => (
               <li><button type="button" data-country={c.name} class="vbars__row"><span class="vbars__l">{c.name}</span><span class="vbars__t"><i style={`--w:${c.usageGap}%`}></i></span><span class="vbars__v">{c.usageGap}%</span></button></li>
             ))}
           </ul>
-          <p class="chart-note">Source: GSMA Intelligence, World Bank, as published in the PDAA / GSMA Intelligence report. Reporting year 2025; electricity access 2024. Percentages of each country’s population.</p>
+          </div>
+          <p class="chart-note">Source: GSMA Intelligence, World Bank, as published in the PDAA / GSMA Intelligence report. Reporting year 2025; electricity access 2024. Percentages of each country’s population. The map repeats the ranked list for people who prefer to see where countries are; keyboard and screen-reader users can use the list. Tanzania was not one of the 11 countries assessed.</p>
+          {show('map') && <aside class="pov pov--light"><p class="pov__label">Native Media’s view</p><p>{show('map')}</p></aside>}
         </div>
         <aside class="explore__detail" aria-labelledby="d-t" data-detail>
           <h3 id="d-t" data-d-name>Kenya</h3>
@@ -114,6 +172,30 @@ const data = JSON.stringify({ countries, metrics, compareRows });
           </table>
         </div>
       </details>
+    </div>
+  </section>
+
+  <section class="section theme-dark" id="price" aria-labelledby="p-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">A pattern in the numbers</p><h2 id="p-t">Does the price of a phone explain who is offline?</h2>
+        <p class="lede">Each dot is one of the 11 countries. The further right, the harder a basic phone is to afford. The higher up, the larger the share of covered people not using the mobile internet.</p></div>
+      <figure class="scatter">
+        <svg viewBox={`0 0 ${SW} ${SH}`} role="img" aria-labelledby="sc-t sc-d" focusable="false">
+          <title id="sc-t">Scatter plot of entry-level phone price against the usage gap in 11 African countries</title>
+          <desc id="sc-d">{countries.map((c) => `${c.name}: phone price ${c.priceShare}% of monthly income, usage gap ${c.usageGap}%`).join('. ')}.</desc>
+          {[30, 40, 50, 60, 70, 80].map((v) => <g class="grid"><line x1={L} x2={SW - R} y1={Y(v)} y2={Y(v)} /><text x={L - 8} y={Y(v) + 4} text-anchor="end">{v}%</text></g>)}
+          {[0, 20, 40, 60, 80, 100].map((v) => <g class="grid"><line x1={X(v)} x2={X(v)} y1={T} y2={SH - B} /><text x={X(v)} y={SH - B + 18} text-anchor="middle">{v}%</text></g>)}
+          <line class="fit" x1={X(0)} y1={Y(icpt)} x2={X(100)} y2={Y(icpt + slope * 100)} />
+          <text class="axis" x={(L + SW - R) / 2} y={SH - 8} text-anchor="middle">Entry-level smartphone price, as a share of average monthly income</text>
+          <text class="axis" transform={`translate(14 ${(T + SH - B) / 2}) rotate(-90)`} text-anchor="middle">Usage gap</text>
+          {countries.map((c) => { const [dx, dy, anchor] = lab[c.name] ?? [10, 4, 'start']; return (
+            <g class="pt" tabindex="0" role="group" aria-label={`${c.name}: phone price ${c.priceShare}% of monthly income, usage gap ${c.usageGap}%`}>
+              {c.name === 'Egypt' && <line class="leader" x1={X(c.priceShare)} y1={Y(c.usageGap) + 5} x2={X(c.priceShare) - 8} y2={Y(c.usageGap) + 20} />}<circle cx={X(c.priceShare)} cy={Y(c.usageGap)} r="7" /><text x={X(c.priceShare) + dx} y={Y(c.usageGap) + dy} text-anchor={anchor}>{c.name}</text>
+            </g>); })}
+        </svg>
+        <figcaption class="chart-note">Source: GSMA Intelligence, as published in the PDAA / GSMA Intelligence report (2025). The dashed line is a straight line of best fit that Native Media drew through the 11 points; the correlation is {r.toFixed(2)} (1.00 would mean the two move in perfect step). Eleven countries is a small sample, and a pattern is not proof that one thing causes the other.</figcaption>
+      </figure>
+      {show('price') && <aside class="pov"><p class="pov__label">Native Media’s view</p><p>{show('price')}</p></aside>}
     </div>
   </section>
 
@@ -165,6 +247,13 @@ const data = JSON.stringify({ countries, metrics, compareRows });
       <p class="muted small">See all featured reports in <a href="/research-and-publications/reports">Research &amp; Publications</a>.</p>
     </div>
   </section>
+
+  {show('close') && (
+    <section class="section theme-dark" aria-labelledby="pov-t"><div class="wrap">
+      <div class="section-head"><p class="eyebrow">Native Media’s view</p><h2 id="pov-t">What it means.</h2></div>
+      <p class="pov__big">{show('close')}</p>
+    </div></section>
+  )}
 
   <CtaBand title="Want your research to look like this?" text="We turn reports and datasets into interactive pieces people want to explore." href="/contact/creative-data" label="Creative Data inquiry" />
 
@@ -249,18 +338,87 @@ const data = JSON.stringify({ countries, metrics, compareRows });
   :global(.cmp__side--b .cmp__track i) { left: auto; right: 0; background: var(--paper); }
   :global(.cmp__val) { font-family: var(--font-display); font-weight: 800; }
 
+
+  .dots__pair { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); max-width: 46rem; }
+  .dots__fig { margin: 0; display: grid; gap: 1rem; }
+  .dotgrid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(10, 1fr); gap: clamp(0.3rem, 1vw, 0.55rem); max-width: 20rem; }
+  .dotgrid li { aspect-ratio: 1; border-radius: 50%; background: var(--charcoal-2); border: 1px solid var(--line-dark); }
+  .dotgrid li.on { background: var(--brand); border-color: var(--brand); }
+  .dotgrid--world li.on { background: var(--paper); border-color: var(--paper); }
+  :global(.js) .dots__pair:not(.go) .dotgrid li.on { background: var(--charcoal-2); border-color: var(--line-dark); }
+  :global(.js) .dots__pair.go .dotgrid li { transition: background 0.35s ease calc(var(--i) * 24ms), border-color 0.35s ease calc(var(--i) * 24ms); }
+  .dots__fig figcaption { display: grid; gap: 0.1rem; } .dots__fig figcaption strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-3); line-height: 1; } .dots__fig figcaption span { color: var(--gray); }
+  .chart-note { font-size: 0.82rem; color: var(--gray); margin: 1.4rem 0 0; max-width: 46rem; }
+  .theme-light .chart-note { color: var(--gray-ink); }
+
+  .onebar { margin: 0; display: grid; gap: 1.2rem; }
+  .onebar__bar { display: flex; gap: 3px; height: clamp(3.4rem, 9vw, 5rem); }
+  .seg { flex: var(--w) 1 0; min-width: 0; display: grid; align-items: center; padding: 0 0.7rem; overflow: hidden; }
+  .seg b { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
+  .seg--users { background: var(--brand); color: var(--black); }
+  .seg--covered { background: repeating-linear-gradient(135deg, #3a3a38 0 8px, #2a2a28 8px 16px); color: var(--paper); }
+  .seg--uncovered { background: var(--paper); color: var(--black); padding: 0 0.3rem; }
+  @media (max-width: 640px) { .seg b { display: none; } }
+  .onebar__legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  .seg-key { display: grid; gap: 0.2rem; padding-left: 1.7rem; position: relative; }
+  .seg-key::before { content: ''; position: absolute; left: 0; top: 0.3rem; width: 1.1rem; height: 1.1rem; background: var(--brand); }
+  .seg-key--covered::before { background: repeating-linear-gradient(135deg, #5a5a57 0 4px, #2a2a28 4px 8px); }
+  .seg-key--uncovered::before { background: var(--paper); }
+  .seg-key strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.1; } .seg-key span { color: var(--gray); font-size: 0.92rem; }
+
+  .explore__viz { display: grid; gap: 1.5rem; margin-top: 0.5rem; }
+  @media (min-width: 1100px) { .explore__viz { grid-template-columns: 1fr 1fr; align-items: start; } }
+  .map { margin: 0; max-width: 26rem; }
+  .map svg { width: 100%; height: auto; display: block; }
+  .map .c { fill: #d9d9d1; stroke: #f5f5f0; stroke-width: 0.6; }
+  .map .c.in { fill: #f3e3d6; cursor: pointer; stroke-width: 0.8; }
+  .map .c.in:hover { stroke: var(--black); stroke-width: 1.8; }
+  .map .c.sel { stroke: var(--black); stroke-width: 2.6; }
+  .map .c.tz { fill: #cfcfc6; stroke: var(--black); stroke-width: 1; stroke-dasharray: 3 2; }
+  .map__dar circle { fill: var(--black); } .map__dar text { font-family: var(--font-display); font-weight: 700; font-size: 13px; fill: var(--black); paint-order: stroke; stroke: #f5f5f0; stroke-width: 3px; }
+  .map__legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.7rem; margin-top: 0.8rem; font-size: 0.8rem; color: var(--gray-ink); }
+  .map__legend i { width: 7rem; height: 0.7rem; background: linear-gradient(90deg, #f3e3d6, #b04f12); display: block; }
+  .map__none::before { content: ''; display: inline-block; width: 0.8rem; height: 0.8rem; background: #d9d9d1; margin-right: 0.35rem; vertical-align: -0.1rem; }
+  .map__none { margin-left: auto; }
+
+  .scatter { margin: 0; }
+  .scatter svg { width: 100%; min-width: 36rem; height: auto; display: block; }
+  .scatter { overflow-x: auto; }
+  .scatter .grid line { stroke: rgba(245, 245, 240, 0.12); } .scatter .grid text { fill: var(--gray); font-size: 12px; }
+  .scatter .fit { stroke: var(--gray); stroke-width: 1.5; stroke-dasharray: 6 5; }
+  .scatter .axis { fill: var(--paper); font-size: 12.5px; }
+  .scatter .leader { stroke: var(--gray); stroke-width: 1; }
+  .scatter .pt circle { fill: var(--brand); stroke: var(--black); stroke-width: 2; transition: r 0.2s; }
+  .scatter .pt text { fill: var(--paper); font-size: 12.5px; font-weight: 600; paint-order: stroke; stroke: var(--black); stroke-width: 3px; }
+  .scatter .pt:hover circle, .scatter .pt:focus circle { r: 9; fill: #fff; }
+  .scatter .pt:focus { outline: none; } .scatter .pt:focus-visible circle { stroke: var(--paper); stroke-width: 3; }
+
+  .pov { margin-top: 2.5rem; padding: 1.3rem 1.5rem; border-left: 4px solid var(--brand); background: rgba(237, 125, 62, 0.1); max-width: 46rem; display: grid; gap: 0.5rem; }
+  .pov p { margin: 0; } .pov p:last-child { font-size: var(--step-1); line-height: 1.45; }
+  .pov__label { font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .theme-light .pov__label { color: #8a3a0a; }
+  .pov__big { font-size: var(--step-2); line-height: 1.35; font-weight: 600; max-width: 42rem; margin: 0; }
+
   .tz { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-content: start; }
   .tz li { background: var(--white); border: 1px solid var(--line-light); border-top: 3px solid var(--brand); padding: 1rem; display: grid; gap: 0.2rem; }
   .tz strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-3); }
   .tz span { font-size: 0.88rem; color: var(--gray-ink); }
   .cards { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
   .cards .card { padding: 1.6rem; display: grid; gap: 0.6rem; align-content: start; } .cards h3 a { text-decoration: none; } .cards h3 a:hover { color: var(--brand-ink); } .small { font-size: 0.88rem; }
-  @media (prefers-reduced-motion: reduce) { .hbars__t i, :global(.vbars__t i), :global(.cmp__track i), :global(.js) .stage { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { :global(.js) .dots__pair.go .dotgrid li, .hbars__t i, :global(.vbars__t i), :global(.cmp__track i), :global(.js) .stage { transition: none; } }
   @media print { .story__stage { position: static; } :global(.js) .stage { opacity: 1; visibility: visible; } .story__steps li { min-height: 0; opacity: 1; } }
 </style>
 
 <script>
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+  // 0. The dots light up one by one when they scroll into view.
+  const dots = document.querySelector<HTMLElement>('[data-dots]');
+  if (dots) {
+    if (reduce || !('IntersectionObserver' in window)) dots.classList.add('go');
+    else { const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { dots.classList.add('go'); io.disconnect(); } }), { threshold: 0.35 }); io.observe(dots); }
+  }
 
   // 1. Numbers count up when they scroll into view.
   document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
@@ -311,8 +469,23 @@ const data = JSON.stringify({ countries, metrics, compareRows });
           const row = compareRows.find((r) => r.key === d.dataset.fact)!; d.textContent = `${c[row.key]}${row.unit}`;
         });
       };
+      const svg = explore.querySelector<SVGSVGElement>('[data-map]');
+      const dar = svg?.querySelector('.map__dar') ?? null;
+      const paintMap = (m: { key: string; unit: string; label: string }) => {
+        if (!svg) return;
+        const vals = countries.map((c) => Number(c[m.key])); const lo = Math.min(...vals), hi = Math.max(...vals);
+        const a = [243, 227, 214], z = [176, 79, 18];
+        svg.querySelectorAll<SVGPathElement>('path[data-country]').forEach((pa) => {
+          const c = byName(pa.dataset.country!); const t = hi === lo ? 0 : (Number(c[m.key]) - lo) / (hi - lo);
+          pa.style.fill = `rgb(${a.map((v, i) => Math.round(v + (z[i] - v) * t)).join(',')})`;
+          const ti = pa.querySelector('title'); if (ti) ti.textContent = `${c.name}: ${c[m.key]}${m.unit} (${m.label})`;
+          pa.classList.toggle('sel', c.name === selected);
+          if (c.name === selected && dar) svg.insertBefore(pa, dar);
+        });
+      };
       const draw = () => {
         const m = metrics.find((x) => x.key === metric)!;
+        paintMap(m);
         const sorted = [...countries].sort((a, b) => Number(b[metric]) - Number(a[metric]));
         list.replaceChildren(...sorted.map((c) => {
           const li = document.createElement('li'); const b = document.createElement('button'); b.type = 'button'; b.className = 'vbars__row'; b.dataset.country = String(c.name);
@@ -326,6 +499,7 @@ const data = JSON.stringify({ countries, metrics, compareRows });
         chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.metric === metric)));
       };
       chips.forEach((x) => x.addEventListener('click', () => { metric = x.dataset.metric!; draw(); }));
+      svg?.addEventListener('click', (e) => { const pa = (e.target as Element).closest<SVGPathElement>('path[data-country]'); if (!pa) return; selected = pa.dataset.country!; draw(); detail(); });
       list.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('[data-country]'); if (!b) return; selected = b.dataset.country!; draw(); detail(); (list.querySelector(`[data-country="${selected}"]`) as HTMLElement | null)?.focus(); });
       draw(); detail();
     }
