@@ -1,0 +1,19 @@
+---
+/**
+ * One visible source line for a figure or statement taken from the UONGOZI report.
+ * `s` is a source object from data/strategic-minerals.json. The link opens the PDF at the right page.
+ */
+import data from '../../../data/strategic-minerals.json';
+interface Props { s: { pdf_page: number; printed_page: string; ref?: string }; class?: string }
+const { s, class: cls = '' } = Astro.props;
+const href = `${data.meta.pdf_url}#page=${s.pdf_page}`;
+const same = String(s.pdf_page) === String(s.printed_page);
+---
+<p class:list={['srcline', cls]}>Source: UONGOZI Institute, <cite>Strategic Minerals in Tanzania</cite> (2024), <a href={href} target="_blank" rel="noopener noreferrer">p. {s.printed_page}{!same && <> (PDF p. {s.pdf_page})</>}{s.ref && <>, {s.ref}</>}<span class="sr-only"> (opens the report PDF in a new tab)</span></a></p>
+<style>
+  .srcline { margin: 0.5rem 0 0; font-size: 0.78rem; line-height: 1.4; color: var(--gray); }
+  :global(.theme-light) .srcline { color: var(--gray-ink); }
+  .srcline a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .srcline a:hover { color: var(--brand); } :global(.theme-light) .srcline a:hover { color: var(--brand-ink); }
+  .srcline cite { font-style: normal; }
+</style>

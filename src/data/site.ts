@@ -135,6 +135,7 @@ export const allPaths: { href: string; label: string }[] = [
   ...policyLinks,
   { label: 'Search', href: '/search' },
   { label: 'Reports in focus: an interactive snapshot', href: '/creative-data/reports-snapshot' },
+  { label: 'Follow the mineral: Tanzania’s strategic minerals', href: '/creative-data/follow-the-mineral' },
 ].filter((p, i, a) => p.href !== '/' && a.findIndex((q) => q.href === p.href) === i);
 
 /** Inquiry categories used by the contact forms. */
@@ -167,7 +168,7 @@ export const builtPaths = new Set<string>([
   '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',
   '/african-intelligence/stories', ...allStoryListPaths(),
   // Creative Data
-  '/creative-data', '/creative-data/reports-snapshot',
+  '/creative-data', '/creative-data/reports-snapshot', '/creative-data/follow-the-mineral',
   // Training & Mentorship
   '/training-and-mentorship', '/training-and-mentorship/native-talks', '/training-and-mentorship/thought-leadership',
   // Site pages

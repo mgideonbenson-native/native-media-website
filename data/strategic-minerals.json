@@ -1,0 +1,1136 @@
+{
+  "meta": {
+    "title": "Strategic minerals in Tanzania: Policy options for expanding domestic value chains",
+    "series": "Research Report 24/3",
+    "published": "December 2024",
+    "authors": [
+      "Silas Olan’g",
+      "Peter Kafumu",
+      "Lulu Silas"
+    ],
+    "publisher": "UONGOZI Institute",
+    "pdf_url": "https://www.uongozi.go.tz/newsite/wp-content/uploads/2025/10/Strategic-minerals-2024_Web.pdf",
+    "landing_page": "https://www.uongozi.go.tz/research-studies/",
+    "method": {
+      "text": "Qualitative: 11 key informant interviews plus desk research. The authors note that real-time data availability was a major limitation.",
+      "source": {
+        "pdf_page": 6,
+        "printed_page": "3",
+        "quote": "11 key informant interviews"
+      }
+    },
+    "page_numbering": "pdf_page is the page number in the PDF file (1 to 19). Each PDF page is a spread of two printed pages, so printed_page gives the number printed on the page itself.",
+    "extracted_with": "pdftotext and visual check of the page images. Every quote is checked against the PDF text by scripts/verify-strategic-minerals.mjs."
+  },
+  "stages": [
+    {
+      "id": "exploration",
+      "label": "Exploration",
+      "group": "mining"
+    },
+    {
+      "id": "construction",
+      "label": "Mine construction",
+      "group": "mining"
+    },
+    {
+      "id": "extraction",
+      "label": "Mineral extraction",
+      "group": "mining"
+    },
+    {
+      "id": "processing",
+      "label": "Basic mineral processing",
+      "group": "manufacturing"
+    },
+    {
+      "id": "value_addition",
+      "label": "Further value addition",
+      "group": "manufacturing"
+    }
+  ],
+  "stages_source": {
+    "pdf_page": 7,
+    "printed_page": "6",
+    "quote": "Further value addition",
+    "ref": "Figure 2: Mineral value chain"
+  },
+  "aggregate": {
+    "exports_by_form": {
+      "period": "2019-2023",
+      "processed_pct": 0.7,
+      "processed_pct_text": 0.73,
+      "semi_processed_pct": 14.8,
+      "raw_pct": 84.5,
+      "note": "Share of the minerals Tanzania exports, by form. All minerals together, not per mineral. The text says approximately 0.73 percent are processed domestically (mainly salt and sulphate); the chart labels it 0.7%.",
+      "source": {
+        "pdf_page": 11,
+        "printed_page": "13",
+        "quote": "Processed",
+        "ref": "Figure 4"
+      },
+      "source_text": {
+        "pdf_page": 10,
+        "printed_page": "12",
+        "quote": "approximately 0.73 percent are"
+      }
+    },
+    "mining_share_of_gdp": {
+      "fy_2020_21_pct": 7.2,
+      "fy_2019_20_pct": 6.7,
+      "source": {
+        "pdf_page": 5,
+        "printed_page": "1",
+        "quote": "rose to 7.2 percent from 6.7 percent in 2019/20"
+      }
+    },
+    "mining_employment": {
+      "full_time_equivalents": 218353,
+      "share_of_direct_employment_pct": 0.9,
+      "source": {
+        "pdf_page": 5,
+        "printed_page": "1",
+        "quote": "218,353 full-time employment"
+      }
+    },
+    "factories_using_local_strategic_minerals": {
+      "listed_factories": 10,
+      "using_in_country_minerals": 1,
+      "importing_inputs": 9,
+      "note": "Counted from Table 2, which lists ten manufacturing industries. Only the first, a fertilizer maker, uses a mineral sourced in the country; all others list their mineral inputs as imported. This count is Native Media’s tally of the table, not a figure the report states.",
+      "source": {
+        "pdf_page": 9,
+        "printed_page": "10",
+        "quote": "Rock phosphate (Sourced In-Country)",
+        "ref": "Table 2"
+      }
+    },
+    "no_smelting_or_refining": {
+      "text": "Tanzania currently has no operating smelting or refining capabilities for strategic minerals.",
+      "source": {
+        "pdf_page": 9,
+        "printed_page": "9",
+        "quote": "Tanzania currently has no operating smelting or"
+      }
+    },
+    "global_context": [
+      {
+        "label": "Combined global market value of strategic minerals, 2024",
+        "value": 770,
+        "unit": "USD billion",
+        "source": {
+          "pdf_page": 5,
+          "printed_page": "2",
+          "quote": "combined market value to reach USD 770 billion in 2024"
+        }
+      },
+      {
+        "label": "Clean energy’s share of total copper demand",
+        "value": 23,
+        "unit": "%",
+        "source": {
+          "pdf_page": 5,
+          "printed_page": "2",
+          "quote": "from 23 percent of total demand across all applications to over 42 percent by 2050"
+        },
+        "note": "As cited from UNCTAD 2024b."
+      },
+      {
+        "label": "Forecast clean energy share of copper demand by 2050",
+        "value": 42,
+        "unit": "% (over)",
+        "source": {
+          "pdf_page": 5,
+          "printed_page": "2",
+          "quote": "from 23 percent of total demand across all applications to over 42 percent by 2050"
+        },
+        "note": "Forecast, as cited from UNCTAD 2024b."
+      },
+      {
+        "label": "Battery-grade graphite expected to come from China in 2030",
+        "value": 90,
+        "unit": "% (over)",
+        "source": {
+          "pdf_page": 5,
+          "printed_page": "2",
+          "quote": "over 90 percent of battery-"
+        },
+        "note": "Forecast cited in the report."
+      },
+      {
+        "label": "Refined rare earths expected to come from China in 2030",
+        "value": 77,
+        "unit": "%",
+        "source": {
+          "pdf_page": 5,
+          "printed_page": "2",
+          "quote": "77 percent of refined rare earths"
+        },
+        "note": "Forecast cited in the report."
+      }
+    ]
+  },
+  "minerals": [
+    {
+      "id": "phosphate",
+      "short_status": "Made into fertilizer at home",
+      "name": "Phosphate",
+      "what_for": {
+        "text": "Largely used in the fertilizer industry, and it can also be used in energy transition technologies.",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "7",
+          "quote": "Phosphate is largely used in the fertilizer industry but can also be used in energy transition technologies."
+        }
+      },
+      "reserve": {
+        "label": "Recoverable reserve",
+        "value": 2.8,
+        "unit": "million tons",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "Phosphate",
+          "ref": "Table 1"
+        }
+      },
+      "location": "Minjingu, Arusha",
+      "where_chain_stands": {
+        "text": "The only strategic mineral with a well-established value chain in Tanzania, reaching stage 5, where processed phosphate is used in domestic and regional industry and agriculture.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "24",
+          "quote": "rock phosphate is the only mineral with a well-established value chain network in Tanzania, reaching stage 5"
+        }
+      },
+      "stages": [
+        {
+          "stage": "exploration",
+          "status": "unsaid",
+          "summary": "The report does not describe exploration for phosphate.",
+          "source": null,
+          "facts": []
+        },
+        {
+          "stage": "construction",
+          "status": "unsaid",
+          "summary": "The report does not describe mine construction for phosphate.",
+          "source": null,
+          "facts": []
+        },
+        {
+          "stage": "extraction",
+          "status": "here",
+          "summary": "100,000 tons a year are mined at Minjingu, in Arusha region, by Minjingu Mines and Fertilizer Limited.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "7",
+            "quote": "100,000 tons per annum (tpa) of phosphate is mined, concentrated and granulated"
+          },
+          "facts": [
+            {
+              "label": "Mined, concentrated and granulated",
+              "value": 100000,
+              "unit": "tons per year",
+              "source": {
+                "pdf_page": 8,
+                "printed_page": "7",
+                "quote": "100,000 tons per annum (tpa) of phosphate is mined, concentrated and granulated"
+              }
+            }
+          ]
+        },
+        {
+          "stage": "processing",
+          "status": "here",
+          "summary": "The phosphate is concentrated and granulated in Tanzania.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "7",
+            "quote": "mined, concentrated and granulated"
+          },
+          "facts": []
+        },
+        {
+          "stage": "value_addition",
+          "status": "here",
+          "summary": "It is made into fertilizer for use on farms, linking mining, manufacturing and agriculture. The report lists Minjingu Mines Fertilizers Limited, in Arusha, as using rock phosphate sourced in the country.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "10",
+            "quote": "Rock phosphate (Sourced In-Country)",
+            "ref": "Table 2, row 1"
+          },
+          "facts": []
+        }
+      ],
+      "domestic_vs_export": {
+        "summary": "Phosphate is the one strategic mineral the report shows being processed into a finished product at home.",
+        "source": {
+          "pdf_page": 9,
+          "printed_page": "9",
+          "quote": "Other than phosphate, all other inputs are imported."
+        }
+      },
+      "numbers_not_in_report": [
+        "export value",
+        "price",
+        "value-add multiple",
+        "share of value kept in Tanzania"
+      ]
+    },
+    {
+      "id": "copper",
+      "short_status": "Concentrate is exported",
+      "name": "Copper",
+      "what_for": {
+        "text": "A strategic mineral for clean energy systems such as wind, geothermal and solar, as well as energy storage, power transmission, electronics and electric vehicles.",
+        "source": {
+          "pdf_page": 7,
+          "printed_page": "5",
+          "quote": "Copper (Cu) is a strategic mineral for clean energy systems like wind, geothermal and solar technologies"
+        }
+      },
+      "reserve": {
+        "label": "Recoverable reserve",
+        "value": 28.1,
+        "unit": "million tons",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "Copper",
+          "ref": "Table 1"
+        }
+      },
+      "location": "Bulyanhulu, Kahama",
+      "where_chain_stands": {
+        "text": "Copper is mined and made into a concentrate in Tanzania, then exported. The report found no smelting or refining in the country.",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "7",
+          "quote": "At present, Tanzania does not have a smelting or refining factory."
+        }
+      },
+      "stages": [
+        {
+          "stage": "exploration",
+          "status": "unsaid",
+          "summary": "The report does not describe exploration for copper.",
+          "source": null,
+          "facts": []
+        },
+        {
+          "stage": "construction",
+          "status": "unsaid",
+          "summary": "The report does not describe mine construction for copper.",
+          "source": null,
+          "facts": []
+        },
+        {
+          "stage": "extraction",
+          "status": "here",
+          "summary": "Copper is mined at a large scale at the Bulyanhulu gold mine as a by-product of gold. Artisanal and small-scale miners also dig copper ore in several regions, again for export.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "7",
+            "quote": "copper ore is mined on a large scale at the Bulyanhulu gold mine as an associated product of gold extraction"
+          },
+          "facts": []
+        },
+        {
+          "stage": "processing",
+          "status": "abroad",
+          "summary": "Bulyanhulu ore is made into a copper concentrate in Tanzania, then exported to Japan and China for smelting. The report found no smelting or refining factory in the country.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "7",
+            "quote": "exported to Japan and China for smelting"
+          },
+          "facts": [
+            {
+              "label": "Copper concentrate Bulyanhulu was expected to produce",
+              "value": 20000,
+              "unit": "tons per year",
+              "source": {
+                "pdf_page": 11,
+                "printed_page": "14",
+                "quote": "expected to produce 20,000 tons per annum of copper concentrate"
+              },
+              "note": "Expected output, citing Yager (2004). It is not a measured figure."
+            }
+          ]
+        },
+        {
+          "stage": "value_addition",
+          "status": "abroad",
+          "summary": "The copper Tanzania mines leaves as concentrate. The report notes that Tanzania and its neighbours already make significant quantities of copper wire for local construction, vehicles and power transmission, but that Tanzania imports copper cables and foil sheets, and the factories that make cables and transformers here use imported copper.",
+          "source": {
+            "pdf_page": 15,
+            "printed_page": "21-22",
+            "quote": "instead imports coppers cables and foil sheets"
+          },
+          "facts": []
+        }
+      ],
+      "domestic_vs_export": {
+        "summary": "In 2017 Tanzania banned the export of copper concentrates, but it did not have, and still does not have, installed smelting capacity. The report says exploration activity stood still after the ban.",
+        "source": {
+          "pdf_page": 12,
+          "printed_page": "15-16",
+          "quote": "banned the export of copper concentrates to encourage domestic value addition"
+        }
+      },
+      "numbers_not_in_report": [
+        "export value",
+        "price",
+        "value-add multiple",
+        "share of value kept in Tanzania"
+      ]
+    },
+    {
+      "id": "nickel",
+      "short_status": "Mine and plant planned",
+      "name": "Nickel",
+      "what_for": {
+        "text": "Used in lithium-ion batteries for electric vehicles, in grid storage and portable electronics, and to make stainless steel and alloys for aerospace, military and construction.",
+        "source": {
+          "pdf_page": 7,
+          "printed_page": "5",
+          "quote": "nickel is a key component in lithium-ion (Li-ion) battery technology"
+        }
+      },
+      "reserve": {
+        "label": "Recoverable reserve",
+        "value": 22.1,
+        "unit": "million tons",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "Nickel",
+          "ref": "Table 1"
+        }
+      },
+      "location": "Kabanga, Ngara",
+      "where_chain_stands": {
+        "text": "Nickel is at the first stage of its value chain. Mining is expected to start soon, and a multi-metal processing plant is planned.",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "In Tanzania, nickel is at the first stage of the value chain"
+        }
+      },
+      "stages": [
+        {
+          "stage": "exploration",
+          "status": "here",
+          "summary": "Tembo Nickel Corporation has completed bankable feasibility studies for Kabanga, with a reserve of 58 million tons at a grade of 2.62% nickel, accredited under the JORC code.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "reserve of 58 million tons (Mt) at a grade of 2.62 percent Ni"
+          },
+          "facts": [
+            {
+              "label": "Reserve at Kabanga (Tembo Nickel)",
+              "value": 58,
+              "unit": "million tons",
+              "source": {
+                "pdf_page": 8,
+                "printed_page": "8",
+                "quote": "reserve of 58 million tons (Mt) at a grade of 2.62 percent Ni"
+              },
+              "note": "The report gives this figure separately from the 22.1 million tons of recoverable reserves in Table 1."
+            },
+            {
+              "label": "Grade",
+              "value": 2.62,
+              "unit": "% nickel",
+              "source": {
+                "pdf_page": 8,
+                "printed_page": "8",
+                "quote": "grade of 2.62 percent Ni"
+              }
+            }
+          ]
+        },
+        {
+          "stage": "construction",
+          "status": "coming",
+          "summary": "Kabanga is described as ready for mine development at the time of the study.",
+          "source": {
+            "pdf_page": 7,
+            "printed_page": "5",
+            "quote": "is ready for mine development at the"
+          },
+          "facts": []
+        },
+        {
+          "stage": "extraction",
+          "status": "coming",
+          "summary": "Mining is expected to come on stream soon.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "mining is expected to come on stream soon"
+          },
+          "facts": []
+        },
+        {
+          "stage": "processing",
+          "status": "coming",
+          "summary": "The project plans a multi-metal facility for nickel, copper and cobalt to produce battery-grade materials. Nickel would be refined in Tanzania to about 99% purity at Kahama once the mine is commissioned. A multi-metal smelting facility is planned by 2026.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "about 99 percent purity level at Kahama"
+          },
+          "facts": [
+            {
+              "label": "Purity planned at Kahama",
+              "value": 99,
+              "unit": "% (about)",
+              "source": {
+                "pdf_page": 8,
+                "printed_page": "8",
+                "quote": "about 99 percent purity level at Kahama"
+              }
+            },
+            {
+              "label": "Multi-metal smelting facility planned by",
+              "value": 2026,
+              "unit": "year",
+              "source": {
+                "pdf_page": 9,
+                "printed_page": "9",
+                "quote": "multi-metal smelting facility by 2026"
+              }
+            },
+            {
+              "label": "Planned multi-metal plant capacity",
+              "value": 3.4,
+              "unit": "million tons a year (around)",
+              "source": {
+                "pdf_page": 15,
+                "printed_page": "21",
+                "quote": "capacity of around 3.4 million tons a year"
+              }
+            }
+          ]
+        },
+        {
+          "stage": "value_addition",
+          "status": "unsaid",
+          "summary": "The report describes nickel going on to battery precursors and finished goods in general, but says nothing about Tanzania making them. It says nickel could be fully processed in Tanzania if local manufacturing grows.",
+          "source": {
+            "pdf_page": 15,
+            "printed_page": "21",
+            "quote": "great potential exists for nickel to be fully processed in Tanzania"
+          },
+          "facts": []
+        }
+      ],
+      "domestic_vs_export": {
+        "summary": "A respondent told the study it would be cheaper to sell products domestically than to export them, but that this only makes business sense if Tanzania substantially grows its local manufacturing sector.",
+        "source": {
+          "pdf_page": 15,
+          "printed_page": "21",
+          "quote": "It will be cheaper to sell products domestically than export them."
+        }
+      },
+      "numbers_not_in_report": [
+        "export value",
+        "price",
+        "value-add multiple",
+        "share of value kept in Tanzania"
+      ]
+    },
+    {
+      "id": "graphite",
+      "short_status": "Projects poised to start",
+      "name": "Graphite",
+      "what_for": {
+        "text": "Used in lithium-ion batteries for electric vehicles and portable electronics, thanks to its conductivity, heat resistance and lubrication properties.",
+        "source": {
+          "pdf_page": 7,
+          "printed_page": "5",
+          "quote": "Graphite, a form of carbon (C), plays an essential role"
+        }
+      },
+      "reserve": {
+        "label": "Recoverable reserve",
+        "value": 22.4,
+        "unit": "million tons",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "Graphite",
+          "ref": "Table 1"
+        }
+      },
+      "location": "Nachu, Chilalo, Bunyu, Epanko, Mahenge and Jumbo",
+      "reserve_by_site": [
+        {
+          "label": "Nachu",
+          "value": 2.4,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Nachu (2.4Mt)",
+            "ref": "Table 1"
+          }
+        },
+        {
+          "label": "Chilalo",
+          "value": 2.0,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Chilalo (2.0 Mt)",
+            "ref": "Table 1"
+          }
+        },
+        {
+          "label": "Bunyu",
+          "value": 5.6,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Bunyu (5.6Mt)",
+            "ref": "Table 1"
+          }
+        },
+        {
+          "label": "Epanko",
+          "value": 0.9,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Epanko (0.9 Mt)",
+            "ref": "Table 1"
+          }
+        },
+        {
+          "label": "Mahenge",
+          "value": 7.0,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Mahenge (7.0Mt)",
+            "ref": "Table 1"
+          }
+        },
+        {
+          "label": "Jumbo",
+          "value": 4.5,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Jumbo (4.5 Mt)",
+            "ref": "Table 1"
+          }
+        }
+      ],
+      "where_chain_stands": {
+        "text": "Graphite is at stage one, with six large-scale projects poised to come on stream.",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "Graphite exploitation in Tanzania is at stage one of the value chain with six large-scale exploration projects"
+        }
+      },
+      "stages": [
+        {
+          "stage": "exploration",
+          "status": "here",
+          "summary": "Six large-scale exploration projects are under way: Mahenge, Epanko, Chilalo, Bunyu, Lindi Jumbo and Nachu.",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "six large-scale exploration projects poised to come on stream soon"
+          },
+          "facts": []
+        },
+        {
+          "stage": "construction",
+          "status": "unsaid",
+          "summary": "The report does not describe mine construction for graphite.",
+          "source": null,
+          "facts": []
+        },
+        {
+          "stage": "extraction",
+          "status": "coming",
+          "summary": "The six projects are described as poised to come on stream soon. Small quantities are produced by artisanal and small-scale miners.",
+          "source": {
+            "pdf_page": 16,
+            "printed_page": "24",
+            "quote": "miners primarily produce graphite and nickel in small quantities"
+          },
+          "facts": []
+        },
+        {
+          "stage": "processing",
+          "status": "coming",
+          "summary": "The report says the flake graphite concentrate produced at Mahenge is considered by experts to be of a particularly high purity. It is sold in varying sizes to different customers, except as battery feed material.",
+          "source": {
+            "pdf_page": 16,
+            "printed_page": "23",
+            "quote": "particularly high"
+          },
+          "facts": []
+        },
+        {
+          "stage": "value_addition",
+          "status": "coming",
+          "summary": "Nachu was licensed in 2014 to operate in the Mtwara SEZ to build a processing plant for graphite-based products such as EV batteries. The report says it could not obtain the latest information on that plant.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "the latest information on its value-addition operations could not be obtained"
+          },
+          "facts": []
+        }
+      ],
+      "domestic_vs_export": {
+        "summary": "The report suggests Tanzania, Mozambique and Madagascar could build a joint graphite processing facility, based on combined recoverable reserves of about 70 million tonnes.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "23",
+          "quote": "combined recoverable reserves  of about 70 million tonnes"
+        },
+        "facts": [
+          {
+            "label": "Combined recoverable reserves of Tanzania, Mozambique and Madagascar",
+            "value": 70,
+            "unit": "million tonnes (about)",
+            "source": {
+              "pdf_page": 16,
+              "printed_page": "23",
+              "quote": "combined recoverable reserves  of about 70 million tonnes"
+            },
+            "note": "Citing AMDC (2024)."
+          }
+        ]
+      },
+      "numbers_not_in_report": [
+        "export value",
+        "price",
+        "value-add multiple",
+        "share of value kept in Tanzania"
+      ]
+    },
+    {
+      "id": "rare_earths",
+      "short_status": "Early stage: Ngualla project",
+      "name": "Rare earth elements",
+      "what_for": {
+        "text": "Used to make the permanent magnets in wind turbines and hybrid electric vehicles, and in electronics such as smartphones and advanced defence systems.",
+        "source": {
+          "pdf_page": 7,
+          "printed_page": "5",
+          "quote": "Rare earth elements are essential metals for various"
+        }
+      },
+      "reserve": {
+        "label": "Recoverable reserve",
+        "value": 18.5,
+        "unit": "million tons",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "Rare earth elements",
+          "ref": "Table 1"
+        }
+      },
+      "location": "Ngualla Hill, Songwe",
+      "where_chain_stands": {
+        "text": "The value chain for rare earth elements in Tanzania is still at stage one.",
+        "source": {
+          "pdf_page": 9,
+          "printed_page": "9",
+          "quote": "The value chain for REEs in Tanzania is still at stage"
+        }
+      },
+      "stages": [
+        {
+          "stage": "exploration",
+          "status": "here",
+          "summary": "The Ngualla project, in southern Tanzania, is being developed by Mamba Minerals Corporation.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "located in southern Tanzania, is being developed by the Mamba Minerals"
+          },
+          "facts": []
+        },
+        {
+          "stage": "construction",
+          "status": "unsaid",
+          "summary": "The report does not describe mine construction for rare earths.",
+          "source": null,
+          "facts": []
+        },
+        {
+          "stage": "extraction",
+          "status": "coming",
+          "summary": "Mamba plans to mine, process and export rare earth oxide concentrates to the UK.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "to mine, process and export REO"
+          },
+          "facts": []
+        },
+        {
+          "stage": "processing",
+          "status": "coming",
+          "summary": "Mamba has a plan for a multi-commodity refinery in Tanzania. At the time of the study its parent company, Peak Resources, had not made a firm decision, and was also considering its Teesside site in the United Kingdom.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "had not made a"
+          },
+          "facts": []
+        },
+        {
+          "stage": "value_addition",
+          "status": "abroad",
+          "summary": "The report describes rare earth metals going on to alloys, magnets, laser coating and electronics, and mentions only a future possibility of building a value addition plant in Tanzania.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "with a future possibility of"
+          },
+          "facts": []
+        }
+      ],
+      "domestic_vs_export": {
+        "summary": "The report notes that some downstream operations, such as coating and purification, could be done in Tanzania, which would reduce global dependence on China for feedstock.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "23",
+          "quote": "Some downstream operations can leverage"
+        }
+      },
+      "numbers_not_in_report": [
+        "export value",
+        "price",
+        "value-add multiple",
+        "share of value kept in Tanzania"
+      ]
+    },
+    {
+      "id": "titanium",
+      "short_status": "Mine in development",
+      "name": "Titanium",
+      "what_for": {
+        "text": "Titanium dioxide is used in solar energy technologies, to improve battery capacity and longevity, and as a pigment in paints.",
+        "source": {
+          "pdf_page": 7,
+          "printed_page": "6",
+          "quote": "Titanium (Ti) is an essential mineral in clean energy"
+        }
+      },
+      "reserve": {
+        "label": "Recoverable reserve",
+        "value": 173.9,
+        "unit": "million tons",
+        "source": {
+          "pdf_page": 8,
+          "printed_page": "8",
+          "quote": "Titanium",
+          "ref": "Table 1"
+        }
+      },
+      "location": "Fungoni (8.9 Mt) and Liganga (165 Mt)",
+      "reserve_by_site": [
+        {
+          "label": "Fungoni",
+          "value": 8.9,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Fungoni (8.9 Mt)",
+            "ref": "Table 1"
+          }
+        },
+        {
+          "label": "Liganga",
+          "value": 165,
+          "unit": "million tons",
+          "source": {
+            "pdf_page": 8,
+            "printed_page": "8",
+            "quote": "Liganga (165 Mt)",
+            "ref": "Table 1"
+          }
+        }
+      ],
+      "where_chain_stands": {
+        "text": "Titanium is still at stage one, where exploration and mine development are in progress.",
+        "source": {
+          "pdf_page": 9,
+          "printed_page": "9",
+          "quote": "titanium resource exploitation is still at stage one"
+        }
+      },
+      "stages": [
+        {
+          "stage": "exploration",
+          "status": "here",
+          "summary": "Exploration and mine development are in progress. Rich heavy mineral sands have been discovered along the Indian Ocean shoreline.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "exploration and mine development are in progress"
+          },
+          "facts": []
+        },
+        {
+          "stage": "construction",
+          "status": "here",
+          "summary": "A large-scale mine is being developed by the Nyati Minerals Company at Fungoni, near Dar es Salaam.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "a large-scale mine is being developed by the Nyati Minerals Company"
+          },
+          "facts": []
+        },
+        {
+          "stage": "extraction",
+          "status": "unsaid",
+          "summary": "The report describes the chain as starting with exploration and ore extraction, mainly of rutile and ilmenite, but gives no timing for Tanzania.",
+          "source": {
+            "pdf_page": 9,
+            "printed_page": "9",
+            "quote": "exploration and ore extraction, mainly rutile and ilmenite"
+          },
+          "facts": []
+        },
+        {
+          "stage": "processing",
+          "status": "unsaid",
+          "summary": "The report describes the Kroll method, which makes sponge titanium that is smelted into ingots and billets, but does not say where this would happen for Tanzanian titanium.",
+          "source": null,
+          "facts": []
+        },
+        {
+          "stage": "value_addition",
+          "status": "unsaid",
+          "summary": "The report describes ingots and billets going to plants that make components, but does not say where for Tanzanian titanium.",
+          "source": null,
+          "facts": []
+        }
+      ],
+      "domestic_vs_export": null,
+      "numbers_not_in_report": [
+        "export value",
+        "price",
+        "value-add multiple",
+        "share of value kept in Tanzania"
+      ]
+    }
+  ],
+  "policy": {
+    "gaps": [
+      {
+        "text": "Tanzania has a fairly strong policy foundation for adding value to minerals, but it lacks a strategic policy to identify, define, categorize and prioritize strategic minerals.",
+        "source": {
+          "pdf_page": 4,
+          "printed_page": "iv",
+          "quote": "it lacks a strategic policy to identify, define, categorize and prioritize strategic minerals"
+        }
+      },
+      {
+        "text": "Most existing policies and plans were created before the global focus on the energy transition and do not acknowledge the importance of strategic minerals.",
+        "source": {
+          "pdf_page": 4,
+          "printed_page": "iv",
+          "quote": "Most existing policies and plans were created before"
+        }
+      },
+      {
+        "text": "The 2017 export ban on copper concentrates came when Tanzania had no installed smelting capacity.",
+        "source": {
+          "pdf_page": 12,
+          "printed_page": "15-16",
+          "quote": "did not (and still does not) have installed smelting capacity"
+        }
+      },
+      {
+        "text": "Coordination between the Ministry of Industries and Trade and the Ministry of Minerals is limited.",
+        "source": {
+          "pdf_page": 14,
+          "printed_page": "19-20",
+          "quote": "coordination between the Ministry of Industries and Trade and the Ministry of Minerals is limited"
+        }
+      }
+    ],
+    "options": [
+      {
+        "id": "cluster",
+        "title": "Adopt a cluster model for mineral processing",
+        "summary": "Mining companies form consortiums to build shared processing and smelting facilities, or attract independent investors who focus only on processing. The existing Special Economic Zones and Export Processing Zones already offer incentive packages. The report suggests the Mtwara SEZ, designated the Minerals Corridor, could serve as a graphite processing cluster.",
+        "source": {
+          "pdf_page": 15,
+          "printed_page": "21",
+          "quote": "Tanzania could adopt a cluster model to develop"
+        }
+      },
+      {
+        "id": "selective",
+        "title": "Take a selective approach to downstream value addition",
+        "summary": "Choose carefully which intermediate or final products to make, with the key test being whether they can feed domestic manufacturing. That would allow targeted fiscal incentives. The report’s example: Tanzania and its neighbours already make copper wiring for the local construction, motor vehicle and power transmission markets.",
+        "source": {
+          "pdf_page": 15,
+          "printed_page": "22",
+          "quote": "Achieving downstream value addition will require"
+        }
+      },
+      {
+        "id": "cross_border",
+        "title": "Consider cross-border cooperation to achieve economies of scale",
+        "summary": "Pursue joint investments and regional trade across the East African Community, COMESA and SADC, and use the African Continental Free Trade Area. Examples in the report: a joint graphite processing facility with Mozambique and Madagascar, and offering to refine ores from the DRC and Zambia at the planned Kahama refinery if there is spare capacity.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "23",
+          "quote": "Tanzania should proactively pursue joint"
+        }
+      }
+    ],
+    "recommendations": [
+      {
+        "text": "Expand exploration to broaden the resource base of strategic minerals, which are still under-explored and under-developed.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "24",
+          "quote": "Expansion of exploration to broaden the resource"
+        }
+      },
+      {
+        "text": "Invest in advanced technologies and infrastructure so that extraction, processing, smelting, refining and manufacturing can happen in the country.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "24",
+          "quote": "Investment in advanced technologies and"
+        }
+      },
+      {
+        "text": "Develop a skilled workforce through targeted education and training programmes.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "24",
+          "quote": "Development of a skilled workforce through"
+        }
+      },
+      {
+        "text": "Take part in partnerships across the regional economic blocs (EAC, SADC and COMESA) to create economies of scale that attract investors.",
+        "source": {
+          "pdf_page": 16,
+          "printed_page": "24",
+          "quote": "Participation in partnerships with and across states"
+        }
+      }
+    ],
+    "challenges": [
+      {
+        "text": "Mineral processing capacity is limited, and the manufacturing sector relies heavily on imported intermediate goods.",
+        "source": {
+          "pdf_page": 14,
+          "printed_page": "19-20",
+          "quote": "The country’s mineral processing capacity is"
+        }
+      },
+      {
+        "text": "Infrastructure and utilities, especially electricity for energy-intensive smelting, are insufficient.",
+        "source": {
+          "pdf_page": 14,
+          "printed_page": "19-20",
+          "quote": "Infrastructure and utilities are insufficient to"
+        }
+      },
+      {
+        "text": "Local private companies lack access to finance.",
+        "source": {
+          "pdf_page": 14,
+          "printed_page": "19-20",
+          "quote": "The local private sector lacks access to finance"
+        }
+      }
+    ],
+    "enablers": [
+      {
+        "text": "Geological potential, particularly nickel, graphite and rare earths.",
+        "source": {
+          "pdf_page": 14,
+          "printed_page": "19-20",
+          "quote": "Geological potential. The country has already"
+        }
+      },
+      {
+        "text": "A strategic location with three major seaports (Dar es Salaam, Mtwara and Tanga) serving six neighbouring landlocked countries.",
+        "source": {
+          "pdf_page": 14,
+          "printed_page": "19-20",
+          "quote": "With three major seaports"
+        }
+      },
+      {
+        "text": "A record of political stability.",
+        "source": {
+          "pdf_page": 14,
+          "printed_page": "19-20",
+          "quote": "Political stability. Tanzania’s track record"
+        }
+      }
+    ]
+  },
+  "other_countries": [
+    {
+      "country": "Morocco",
+      "summary": "In 2015 Morocco reformed its mining rules to attract investment and increase domestic value addition, including tax exemptions on imported equipment for investments and reduced tax rates for companies that supply ores to domestic processors. It has a production capacity of over 700,000 vehicles a year.",
+      "source": {
+        "pdf_page": 10,
+        "printed_page": "12",
+        "quote": "production capacity of over 700,000 vehicles annually"
+      },
+      "attribution": "Box 1, citing Andreonia and Avenyo 2023 and UNCTAD 2016"
+    },
+    {
+      "country": "Indonesia",
+      "summary": "Indonesia’s share of global nickel extraction grew from 5 percent in 2015 to 50 percent in 2023. It used export bans on crude ore (nickel in 2020, bauxite in 2023) and the divestment of foreign companies in local firms to build new industrial segments.",
+      "source": {
+        "pdf_page": 13,
+        "printed_page": "17",
+        "quote": "from 5 percent in 2015"
+      },
+      "attribution": "Box 2, citing UNCTAD 2017"
+    }
+  ],
+  "not_available_in_report": [
+    "Export value or tonnage for any individual mineral",
+    "Prices for any mineral",
+    "Value-add multiples between stages",
+    "The share of a mineral’s value that Tanzania captures at each stage",
+    "Production figures for most minerals (only phosphate, and an expected figure for copper concentrate)"
+  ],
+  "not_used": [
+    {
+      "item": "Figure 3: Prospecting licenses issued, FYs 2018/19 to 2022/23",
+      "why": "A bar chart with no printed values, so exact numbers cannot be read from it without estimating. The text says only that licences rose significantly in 2021/22 and 2022/23.",
+      "source": {
+        "pdf_page": 10,
+        "printed_page": "12",
+        "quote": "the issuing of prospecting licenses significantly increased"
+      }
+    }
+  ]
+}

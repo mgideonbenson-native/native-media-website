@@ -1,0 +1,375 @@
+---
+/**
+ * "Follow the mineral": an interactive walk down the value chain of six strategic minerals in Tanzania.
+ * Every figure comes from data/strategic-minerals.json, which cites the page of the UONGOZI Institute report it was taken from.
+ * Where the report gives no number, the page says so and shows the chain in words.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import SourceLine from '../../components/mineral/SourceLine.astro';
+import data from '../../../data/strategic-minerals.json';
+
+const { meta, stages, minerals, aggregate, policy } = data as any;
+const statusLabel: Record<string, string> = { here: 'In Tanzania', coming: 'Planned or in development', abroad: 'Happens outside Tanzania', unsaid: 'The report does not say' };
+const statusMark: Record<string, string> = { here: '●', coming: '◐', abroad: '↗', unsaid: '○' };
+const fmt = (v: number) => v.toLocaleString('en-US');
+const ex = aggregate.exports_by_form;
+const phosphate = minerals.find((m: any) => m.id === 'phosphate');
+const copper = minerals.find((m: any) => m.id === 'copper');
+const tbl = aggregate.factories_using_local_strategic_minerals;
+---
+<BaseLayout title="Follow the mineral | Native Media" description="Six strategic minerals in Tanzania, followed down the value chain from the ground to the finished product. An interactive built from the UONGOZI Institute’s 2024 research report.">
+  <PageHero eyebrow="Creative Data · Interactive" title="Follow the mineral."
+    lede="Tanzania has six strategic minerals in the ground. Pick one and follow it from exploration to finished product, to see how much of the journey happens at home."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Creative Data', href: '/creative-data' }, { label: 'Follow the mineral' }]}>
+    <a class="btn" href="#choose">Choose a mineral <span aria-hidden="true">↓</span></a>
+    <a class="btn btn--ghost" href="#take">What would it take?</a>
+  </PageHero>
+
+  <section class="section theme-dark" id="choose" aria-labelledby="c-t">
+    <div class="wrap">
+      <div class="stripes" aria-hidden="true"></div>
+      <div class="section-head"><p class="eyebrow">Step 1</p><h2 id="c-t">Which mineral do you want to follow?</h2>
+        <p class="lede">These are the six the UONGOZI Institute studied. The report is qualitative: it describes where each chain stands rather than putting a price on each stage, and this page shows only what it says.</p></div>
+      <ul class="pick" data-pick>
+        {minerals.map((m: any, i: number) => (
+          <li><button type="button" class="pick__btn" data-mineral={m.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            <span class="pick__name">{m.name}</span>
+            <span class="pick__stat"><strong>{m.reserve.value}</strong> million tons</span>
+            <span class="pick__status">{m.short_status}</span>
+          </button></li>
+        ))}
+      </ul>
+      <p class="srcline-wrap"><SourceLine s={minerals[0].reserve.source} /></p>
+    </div>
+  </section>
+
+  {minerals.map((m: any, mi: number) => (
+    <section class="section theme-charcoal panel" id={m.id} data-panel={m.id} hidden={mi !== 0 ? true : undefined} aria-labelledby={`${m.id}-t`}>
+      <div class="wrap">
+        <div class="panel__head">
+          <div>
+            <p class="eyebrow">Step 2 · Follow it down the chain</p>
+            <h2 id={`${m.id}-t`} class="panel__title">{m.name}</h2>
+            <p class="lede">{m.what_for.text}</p>
+            <SourceLine s={m.what_for.source} />
+          </div>
+          <dl class="reserve">
+            <div><dt>Recoverable reserve</dt><dd><strong>{m.reserve.value}</strong> million tons</dd></div>
+            <div><dt>Where</dt><dd>{m.location}</dd></div>
+          </dl>
+        </div>
+        <SourceLine s={m.reserve.source} class="reserve__src" />
+        {m.reserve_by_site && (
+          <p class="by-site"><span>By site:</span> {m.reserve_by_site.map((r: any) => `${r.label} ${r.value} Mt`).join(' · ')}</p>
+        )}
+
+        <ol class="chain" data-chain aria-label={`The value chain for ${m.name}, in five stages`}>
+          {stages.map((st: any, si: number) => {
+            const x = m.stages[si];
+            return (
+              <li class={`node node--${x.status}`} data-stage={si}>
+                <button type="button" class="node__btn" data-node={si} aria-current={si === 0 ? 'step' : undefined}>
+                  <span class="node__dot" aria-hidden="true">{statusMark[x.status]}</span>
+                  <span class="node__label"><span class="node__n">Stage {si + 1}</span>{st.label}</span>
+                  <span class="node__status">{statusLabel[x.status]}</span>
+                </button>
+                <div class="node__card" data-card={si} hidden={si !== 0 ? true : undefined}>
+                  <p class={`chip chip--${x.status}`}><span aria-hidden="true">{statusMark[x.status]}</span> {statusLabel[x.status]}</p>
+                  <p class="node__text">{x.summary}</p>
+                  {x.facts.length > 0 && (
+                    <ul class="facts">{x.facts.map((f: any) => (
+                      <li><strong>{typeof f.value === 'number' && f.value >= 1000 && f.unit !== 'year' ? fmt(f.value) : f.value}</strong> <span>{f.unit}</span> <em>{f.label}</em>
+                        {f.note && <small>{f.note}</small>}</li>
+                    ))}</ul>
+                  )}
+                  {x.source ? <SourceLine s={x.source} /> : <p class="srcline srcline--none">The report has nothing on this stage for {m.name.toLowerCase()}, so this page shows nothing rather than guess.</p>}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+        <div class="stepper" data-stepper>
+          <button type="button" class="btn btn--ghost" data-prev disabled>← Back</button>
+          <p class="stepper__pos" aria-live="polite" data-pos>Stage 1 of 5</p>
+          <button type="button" class="btn" data-next>Next stage →</button>
+        </div>
+        <p class="legend" aria-label="What the symbols mean"><span><b>●</b> In Tanzania</span><span><b>◐</b> Planned or in development</span><span><b>↗</b> Happens outside Tanzania</span><span><b>○</b> The report does not say</span></p>
+
+        <div class="where">
+          <h3>Where does it stand?</h3>
+          <p>{m.where_chain_stands.text}</p>
+          <SourceLine s={m.where_chain_stands.source} />
+          {m.domestic_vs_export && (
+            <>
+              <h3>Home or abroad?</h3>
+              <p>{m.domestic_vs_export.summary}</p>
+              <SourceLine s={m.domestic_vs_export.source} />
+            </>
+          )}
+          <p class="nonum"><strong>Not in the report:</strong> {m.numbers_not_in_report.join(', ')} for {m.name.toLowerCase()}. We have not added any.</p>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section theme-dark" id="compare" aria-labelledby="cmp-t">
+    <div class="wrap">
+      <div class="stripes" aria-hidden="true"></div>
+      <div class="section-head"><p class="eyebrow">Step 3 · The comparison</p><h2 id="cmp-t">Raw, or made at home?</h2>
+        <p class="lede">The report puts no price on the difference. What it does give is how much of Tanzania’s mineral exports leave in each form, and how few factories use minerals dug at home.</p></div>
+
+      <div class="cmp-block">
+        <h3>Tanzania’s mineral exports, by form, {ex.period}</h3>
+        <figure class="split" data-split>
+          <div class="split__bar" role="img" aria-label={`${ex.raw_pct}% raw, ${ex.semi_processed_pct}% semi-processed, ${ex.processed_pct}% processed`}>
+            <span class="seg seg--raw" style={`--w:${ex.raw_pct}`}><b>{ex.raw_pct}%</b></span>
+            <span class="seg seg--semi" style={`--w:${ex.semi_processed_pct}`}><b>{ex.semi_processed_pct}%</b></span>
+            <span class="seg seg--proc" style={`--w:${ex.processed_pct}`}></span>
+          </div>
+          <ul class="split__key">
+            <li class="k-raw"><strong>{ex.raw_pct}%</strong> exported raw</li>
+            <li class="k-semi"><strong>{ex.semi_processed_pct}%</strong> semi-processed</li>
+            <li class="k-proc"><strong>{ex.processed_pct}%</strong> processed in Tanzania</li>
+          </ul>
+          <figcaption class="note">{ex.note}</figcaption>
+          <SourceLine s={ex.source} />
+        </figure>
+      </div>
+
+      <div class="cmp-block">
+        <h3>Who uses minerals dug at home?</h3>
+        <p class="lede lede--sm">The report lists ten manufacturing industries linked to strategic minerals. Each dot is one of them.</p>
+        <figure class="tens" data-tens>
+          <ol class="tens__dots" aria-label={`${tbl.using_in_country_minerals} of ${tbl.listed_factories} use minerals sourced in the country`}>
+            {Array.from({ length: tbl.listed_factories }, (_, i) => <li class={i < tbl.using_in_country_minerals ? 'on' : ''} style={`--i:${i}`}></li>)}
+          </ol>
+          <figcaption><strong>{tbl.using_in_country_minerals} of {tbl.listed_factories}</strong> uses a mineral sourced in the country. The other {tbl.importing_inputs} list their mineral inputs as imported.
+            <small>{tbl.note}</small></figcaption>
+          <SourceLine s={tbl.source} />
+        </figure>
+      </div>
+
+      <div class="cmp-block">
+        <h3>Two minerals, two different journeys</h3>
+        <div class="duo">
+          <article class="duo__card duo__card--home">
+            <p class="duo__tag">Phosphate: finished at home</p>
+            <p>{phosphate.stages[2].facts[0].value.toLocaleString('en-US')} tons a year are mined, concentrated and granulated into fertilizer in Tanzania, for use on farms.</p>
+            <SourceLine s={phosphate.stages[2].source} />
+          </article>
+          <article class="duo__card duo__card--away">
+            <p class="duo__tag">Copper: shipped out as concentrate</p>
+            <p>{copper.stages[3].summary}</p>
+            <SourceLine s={copper.stages[3].source} />
+          </article>
+        </div>
+        <p class="note">These are the two cases the report describes most clearly. It does not say what each is worth, so no value is shown.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-light" id="take" aria-labelledby="t-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Step 4 · What would it take?</p><h2 id="t-t">Three options the report puts forward.</h2>
+        <p class="lede">This is the report’s own list, in plain English. It describes options for Tanzania rather than a single plan.</p></div>
+      <ol class="opts">
+        {policy.options.map((o: any, i: number) => (
+          <li class="opt"><span class="opt__n" aria-hidden="true">{i + 1}</span><div><h3>{o.title}</h3><p>{o.summary}</p><SourceLine s={o.source} /></div></li>
+        ))}
+      </ol>
+
+      <div class="two">
+        <div>
+          <h3>What the report says is in the way</h3>
+          <ul class="plain">{policy.gaps.concat(policy.challenges).map((g: any) => <li>{g.text}<SourceLine s={g.source} /></li>)}</ul>
+        </div>
+        <div>
+          <h3>What Tanzania has going for it</h3>
+          <ul class="plain">{policy.enablers.map((g: any) => <li>{g.text}<SourceLine s={g.source} /></li>)}</ul>
+        </div>
+      </div>
+
+      <h3 class="h3-gap">The report’s recommendations</h3>
+      <ul class="plain plain--recs">{policy.recommendations.map((g: any) => <li>{g.text}<SourceLine s={g.source} /></li>)}</ul>
+
+      <h3 class="h3-gap">What other countries did</h3>
+      <div class="duo duo--light">
+        {data.other_countries.map((c: any) => (
+          <article class="duo__card duo__card--light"><p class="duo__tag">{c.country}</p><p>{c.summary}</p><p class="srcline">{c.attribution}, as reported by UONGOZI Institute.</p><SourceLine s={c.source} /></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-charcoal" id="about-data" aria-labelledby="a-t">
+    <div class="wrap about">
+      <div class="stripes" aria-hidden="true"></div>
+      <h2 id="a-t" class="h2">About this data</h2>
+      <p>All the figures and statements on this page come from <a href={meta.pdf_url} target="_blank" rel="noopener noreferrer"><cite>{meta.title}</cite></a>, {meta.series}, {meta.publisher}, {meta.published}, by {meta.authors.join(', ')}. Our thanks to UONGOZI Institute, a regional leadership hub under the Office of the President of the United Republic of Tanzania, for making it public. Read the full report, and more of their research, <a href={meta.landing_page} target="_blank" rel="noopener noreferrer">on their website</a>.</p>
+      <p><strong>How the report was made.</strong> {meta.method.text}</p>
+      <p><strong>What Native Media did.</strong> We turned the report’s findings into this interactive and added nothing to them: no estimates, and no figures from other sources. One number is our own tally, the count of factories in Table 2 that use minerals sourced in the country, and it is labelled where it appears. The views in the report are the authors’, not Native Media’s.</p>
+      <p><strong>What the report does not give.</strong> It is a qualitative study, so it has no:</p>
+      <ul class="plain plain--tight">{data.not_available_in_report.map((t: string) => <li>{t}</li>)}</ul>
+      <p>Where a number is missing we show the chain in words and say so. We also left out the report’s chart of prospecting licences, because it prints no values and we would have had to estimate them.</p>
+      <p class="about__links"><a class="btn" href={meta.pdf_url} target="_blank" rel="noopener noreferrer">Read the full report (PDF) <span aria-hidden="true">↗</span></a> <a class="btn btn--ghost" href="/data/strategic-minerals.json">Download the data (JSON)</a></p>
+    </div>
+  </section>
+
+  <CtaBand title="Want your research to move like this?" text="We turn reports into interactive stories people want to explore." href="/contact/creative-data" label="Creative Data inquiry" />
+</BaseLayout>
+
+<style>
+  .stripes { width: 3.2rem; height: 0.7rem; margin-bottom: 1.4rem; background: repeating-linear-gradient(90deg, var(--brand) 0 4px, transparent 4px 9px); }
+  .srcline-wrap { margin: 0; }
+
+  .pick { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 700px) { .pick { grid-template-columns: repeat(3, 1fr); } }
+  .pick__btn { width: 100%; height: 100%; min-height: 6.5rem; text-align: left; display: grid; gap: 0.25rem; align-content: start; padding: 1rem; background: var(--charcoal); color: var(--paper); border: 1px solid var(--line-dark); cursor: pointer; font: inherit; transition: border-color 0.2s, background 0.2s; }
+  .pick__btn:hover { border-color: var(--brand); }
+  .pick__btn[aria-pressed='true'] { border-color: var(--brand); background: rgba(237, 125, 62, 0.14); box-shadow: inset 0 3px 0 var(--brand); }
+  .pick__name { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); line-height: 1.1; }
+  .pick__stat { font-size: 0.85rem; color: var(--gray); } .pick__stat strong { color: var(--paper); font-family: var(--font-display); }
+  .pick__status { font-size: 0.8rem; color: var(--brand); font-weight: 600; }
+
+  .panel__head { display: grid; gap: 1.5rem; }
+  @media (min-width: 900px) { .panel__head { grid-template-columns: 1.6fr 1fr; align-items: start; gap: 3rem; } }
+  .panel__title { font-size: var(--step-4); font-weight: 800; line-height: 1; margin: 0 0 0.8rem; }
+  .reserve { margin: 0; display: grid; gap: 0.8rem; padding: 1.2rem; border: 1px solid var(--line-dark); border-top: 3px solid var(--brand); }
+  .reserve dt { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+  .reserve dd { margin: 0.15rem 0 0; } .reserve strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-3); color: var(--brand); }
+  .by-site { font-size: 0.85rem; color: var(--gray); margin: 0.4rem 0 0; } .by-site span { color: var(--paper); }
+
+  .chain { list-style: none; margin: 2.2rem 0 0; padding: 0; display: grid; gap: 0.5rem; position: relative; }
+  .node { display: grid; gap: 0.5rem; }
+  .node__btn { width: 100%; min-height: 3.4rem; display: grid; grid-template-columns: 2rem 1fr; grid-template-areas: 'dot label' 'dot status'; column-gap: 0.8rem; align-items: center; text-align: left; padding: 0.7rem 0.9rem; background: transparent; color: var(--paper); border: 1px solid var(--line-dark); cursor: pointer; font: inherit; }
+  .node__btn:hover { border-color: var(--gray); }
+  .node__btn[aria-current='step'] { border-color: var(--brand); background: rgba(237, 125, 62, 0.1); }
+  .node__dot { grid-area: dot; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid var(--gray); font-size: 0.95rem; line-height: 1; color: var(--paper); }
+  .node__label { grid-area: label; font-weight: 700; display: grid; } .node__n { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); font-weight: 600; }
+  .node__status { grid-area: status; font-size: 0.8rem; color: var(--gray); }
+  .node--here .node__dot { background: var(--brand); border-color: var(--brand); color: var(--black); }
+  .node--coming .node__dot { border-color: var(--brand); border-style: dashed; color: var(--brand); }
+  .node--abroad .node__dot { border-color: var(--paper); color: var(--paper); }
+  .node--unsaid .node__dot { border-color: var(--gray); color: var(--gray); }
+  .node__card { padding: 1rem 1rem 1.1rem; border-left: 3px solid var(--brand); background: var(--black); }
+  .node__card[hidden] { display: none; }
+  .chip { display: inline-flex; gap: 0.4rem; align-items: center; margin: 0 0 0.6rem; padding: 0.2rem 0.6rem; border: 1px solid var(--brand); color: var(--brand); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; }
+  .node__text { margin: 0 0 0.6rem; font-size: var(--step-0); line-height: 1.55; }
+  .facts { list-style: none; margin: 0.6rem 0; padding: 0; display: grid; gap: 0.6rem; }
+  .facts li { display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; align-items: baseline; padding: 0.6rem 0.7rem; border: 1px solid var(--line-dark); }
+  .facts strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); color: var(--brand); }
+  .facts em { font-style: normal; color: var(--gray); font-size: 0.88rem; } .facts small { flex-basis: 100%; color: var(--gray); font-size: 0.78rem; }
+  .srcline--none { font-size: 0.82rem; color: var(--gray); margin: 0.4rem 0 0; }
+
+  /* Wide screens: the five stages sit in a row and the open card shows underneath. */
+  @media (min-width: 900px) {
+    .chain { grid-template-columns: repeat(5, 1fr); gap: 0.6rem; align-items: start; }
+    .node { display: contents; }
+    .node__btn { grid-row: 1; min-height: 7.5rem; grid-template-columns: 1fr; grid-template-areas: 'dot' 'label' 'status'; row-gap: 0.4rem; align-content: start; }
+    .node__card { grid-row: 2; grid-column: 1 / -1; margin-top: 0.4rem; }
+    .node:nth-child(n) .node__card { order: 0; }
+  }
+  .stepper { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; margin-top: 1.2rem; }
+  .stepper .btn { min-height: 3rem; } .stepper .btn[disabled] { opacity: 0.35; cursor: default; }
+  .stepper__pos { margin: 0; font-weight: 700; color: var(--gray); font-size: 0.9rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 1rem 0 0; font-size: 0.8rem; color: var(--gray); } .legend b { color: var(--brand); margin-right: 0.2rem; }
+  :global(html:not(.js)) .stepper, :global(html:not(.js)) .pick { display: none; }
+  :global(html:not(.js)) .node__card[hidden], :global(html:not(.js)) .panel[hidden] { display: block; }
+
+  .where { margin-top: 2.2rem; padding-top: 1.4rem; border-top: 1px solid var(--line-dark); max-width: 46rem; }
+  .where h3 { font-size: var(--step-1); font-weight: 800; margin: 1.2rem 0 0.3rem; } .where h3:first-child { margin-top: 0; } .where p { margin: 0; }
+  .nonum { margin-top: 1.2rem !important; font-size: 0.88rem; color: var(--gray); }
+
+  .cmp-block { margin-top: 2.8rem; } .cmp-block h3 { font-size: var(--step-2); font-weight: 800; margin: 0 0 0.8rem; }
+  .lede--sm { margin: 0 0 1rem; color: var(--gray); max-width: 40rem; }
+  .split { margin: 0; display: grid; gap: 0.9rem; }
+  .split__bar { display: flex; gap: 3px; height: clamp(3rem, 8vw, 4.4rem); }
+  .seg { flex: var(--w) 1 0; min-width: 0.6rem; display: grid; align-items: center; padding: 0 0.7rem; overflow: hidden; }
+  .seg b { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
+  .seg--raw { background: var(--brand); color: var(--black); }
+  .seg--semi { background: repeating-linear-gradient(135deg, #3a3a38 0 6px, #2a2a28 6px 12px); }
+  .seg--proc { background: var(--paper); }
+  :global(.js) .split:not(.go) .seg { flex-grow: 0.0001; } :global(.js) .split.go .seg { transition: flex-grow 1.1s var(--ease); }
+  .split__key { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+  .split__key li { padding-left: 1.6rem; position: relative; } .split__key li::before { content: ''; position: absolute; left: 0; top: 0.25rem; width: 1rem; height: 1rem; background: var(--brand); }
+  .split__key .k-semi::before { background: repeating-linear-gradient(135deg, #5a5a57 0 3px, #2a2a28 3px 6px); } .split__key .k-proc::before { background: var(--paper); }
+  .split__key strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
+  .note { font-size: 0.82rem; color: var(--gray); margin: 0; max-width: 46rem; }
+  .tens { margin: 0; display: grid; gap: 0.9rem; }
+  .tens__dots { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .tens__dots li { width: clamp(2rem, 8vw, 2.8rem); aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line-dark); background: var(--charcoal-2); }
+  .tens__dots li.on { background: var(--brand); border-color: var(--brand); }
+  :global(.js) .tens:not(.go) .tens__dots li.on { background: var(--charcoal-2); border-color: var(--line-dark); }
+  :global(.js) .tens.go .tens__dots li { transition: background 0.4s ease calc(var(--i) * 120ms); }
+  .tens figcaption { max-width: 40rem; } .tens figcaption strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); } .tens small { display: block; margin-top: 0.4rem; color: var(--gray); font-size: 0.8rem; }
+  .duo { display: grid; gap: 1rem; } @media (min-width: 760px) { .duo { grid-template-columns: 1fr 1fr; } }
+  .duo__card { padding: 1.3rem; border: 1px solid var(--line-dark); display: grid; gap: 0.5rem; align-content: start; } .duo__card p { margin: 0; }
+  .duo__card--home { border-top: 3px solid var(--brand); } .duo__card--away { border-top: 3px dashed var(--paper); }
+  .duo__tag { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); }
+  .duo__card--light { background: var(--white); border-color: var(--line-light); border-top: 3px solid var(--brand); }
+
+  .opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  .opt { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 1.3rem; background: var(--white); border: 1px solid var(--line-light); }
+  .opt__n { font-family: var(--font-display); font-weight: 800; font-size: var(--step-4); line-height: 1; color: var(--brand-ink); }
+  .opt h3 { font-size: var(--step-1); font-weight: 800; margin: 0 0 0.4rem; } .opt p { margin: 0; }
+  .two { display: grid; gap: 2rem; margin-top: 2.5rem; } @media (min-width: 800px) { .two { grid-template-columns: 1fr 1fr; gap: 3rem; } }
+  .two h3, .h3-gap { font-size: var(--step-1); font-weight: 800; margin: 0 0 0.6rem; } .h3-gap { margin-top: 2.5rem; }
+  .plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; } .plain li { padding-left: 1rem; border-left: 3px solid var(--brand); }
+  .plain--tight { gap: 0.4rem; } .plain--tight li { border: 0; padding-left: 1.1rem; position: relative; } .plain--tight li::before { content: '–'; position: absolute; left: 0; color: var(--brand); }
+  .about { max-width: 46rem; display: grid; gap: 1rem; } .about p { margin: 0; } .about a:not(.btn) { color: var(--brand); } .about cite { font-style: normal; font-weight: 600; }
+  .about__links { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.5rem !important; }
+  @media (max-width: 640px) { .seg--semi b { display: none; } }
+  @media (prefers-reduced-motion: reduce) { :global(.js) .split.go .seg, :global(.js) .tens.go .tens__dots li, .pick__btn { transition: none; } }
+  @media print { .node__card[hidden], .panel[hidden] { display: block; } .stepper, .pick { display: none; } }
+</style>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ids = [...document.querySelectorAll<HTMLElement>('[data-panel]')].map((p) => p.dataset.panel!);
+  const picks = [...document.querySelectorAll<HTMLButtonElement>('[data-mineral]')];
+
+  // Choose a mineral: only its panel is shown. The choice can be shared as ?mineral=copper.
+  const show = (id: string, scroll: boolean) => {
+    document.querySelectorAll<HTMLElement>('[data-panel]').forEach((p) => { p.hidden = p.dataset.panel !== id; });
+    picks.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mineral === id)));
+    try { const u = new URL(location.href); u.searchParams.set('mineral', id); u.hash = ''; history.replaceState(null, '', u); } catch { /* sharing the choice is optional */ }
+    if (scroll) document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  };
+  picks.forEach((b) => b.addEventListener('click', () => show(b.dataset.mineral!, true)));
+  const asked = new URLSearchParams(location.search).get('mineral');
+  show(asked && ids.includes(asked) ? asked : ids[0], false);
+
+  // Step through the five stages of a chain.
+  document.querySelectorAll<HTMLElement>('[data-panel]').forEach((panel) => {
+    const nodes = [...panel.querySelectorAll<HTMLButtonElement>('[data-node]')];
+    const cards = [...panel.querySelectorAll<HTMLElement>('[data-card]')];
+    const prev = panel.querySelector<HTMLButtonElement>('[data-prev]')!, next = panel.querySelector<HTMLButtonElement>('[data-next]')!;
+    const pos = panel.querySelector<HTMLElement>('[data-pos]')!;
+    let i = 0;
+    const go = (n: number, focus = false) => {
+      i = Math.max(0, Math.min(nodes.length - 1, n));
+      nodes.forEach((b, k) => { if (k === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+      cards.forEach((c, k) => { c.hidden = k !== i; });
+      prev.disabled = i === 0; next.disabled = i === nodes.length - 1;
+      pos.textContent = `Stage ${i + 1} of ${nodes.length}`;
+      if (focus) nodes[i].focus();
+    };
+    nodes.forEach((b, k) => b.addEventListener('click', () => go(k)));
+    prev.addEventListener('click', () => go(i - 1)); next.addEventListener('click', () => go(i + 1));
+    panel.querySelector('[data-chain]')!.addEventListener('keydown', (e) => {
+      const ke = e as KeyboardEvent;
+      if (ke.key === 'ArrowRight' || ke.key === 'ArrowDown') { e.preventDefault(); go(i + 1, true); }
+      if (ke.key === 'ArrowLeft' || ke.key === 'ArrowUp') { e.preventDefault(); go(i - 1, true); }
+    });
+    go(0);
+  });
+
+  // Bars and dots animate once when they scroll into view.
+  document.querySelectorAll<HTMLElement>('[data-split], [data-tens]').forEach((el) => {
+    if (reduce || !('IntersectionObserver' in window)) { el.classList.add('go'); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { el.classList.add('go'); io.disconnect(); } }), { threshold: 0.4 });
+    io.observe(el);
+  });
+</script>
