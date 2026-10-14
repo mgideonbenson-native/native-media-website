@@ -1,0 +1,339 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../../assets/benson-mambosho.png';
+import unv from '../../assets/leadership/unv-certificate.jpg';
+import { skills, lanes, roles, MAP_START, MAP_END } from '../../data/leadership';
+
+const span = MAP_END - MAP_START;
+const pct = (y: number) => `${(((y - MAP_START) / span) * 100).toFixed(2)}%`;
+const years = Array.from({ length: 11 }, (_, i) => 2016 + i);
+const skillName = (id: string) => skills.find((s) => s.id === id)?.n ?? id;
+const topSkill = skills.find((s) => s.top)!;
+const otherSkills = skills.filter((s) => !s.top);
+const roleCount = (id: string) => roles.filter((r) => r.sk.includes(id)).length;
+
+const recs = [
+  { q: 'I had the pleasure of working with Benson during my time as Country Manager of everjobs (Jumia Jobs) Tanzania. I got to know Benson as a hardworking and reliable person. He successfully managed all of his social media / content duties, and took further initiative in the onboarding of our newly acquired customers. Benson is a pleasant person to work with and I happily recommend him to any future employer.', n: 'Florens Röell', r: 'Co-Founder & CEO, ParlayPlay', k: 'Managed Benson directly · 24 Sep 2017' },
+  { q: 'Reliable person to work with. Benson will make sure he will look for solutions to problems and make sure it’s taken care of within time frame.', n: 'Poonam Divecha', r: 'HR Consultant', k: 'Senior to Benson · 30 Mar 2021' },
+  { q: 'Benson is a highly dedicated individual with keen leadership demonstrated through his ability to empower others and provide solutions to business problems to the team and clients. He is a great asset to ensure organisational strategies are delivered timely.', n: 'Dickson Luhikula, ACPA', r: 'Senior Grants & Operations Manager, Pact', k: 'Was Benson’s client · 18 Nov 2021' },
+  { q: 'Benson is an exceptional individual with so much work rate and enthusiasm in what he does. You have to meet him to know what he is capable of, and I didn’t regret a single day working with him. He is very self-driven, passionate and gets the job done. He has an eye in seeing solutions amidst complexities, coordinating teams, writing, managing projects and a polite individual who serves others with respect and humility', n: 'Fathiya Accram', r: 'Food & Seed System Innovation · Agritech · Africa Business Development', k: 'Worked on the same team · 6 Dec 2021' },
+];
+---
+<div class="lead" data-leadership>
+  <!-- Profile -->
+  <section class="section theme-light">
+    <div class="wrap">
+      <article class="founder">
+        <Image src={photo} alt="Benson Gideon Mambosho, founder and head of strategy at Native Media" widths={[360, 600]} sizes="(min-width: 800px) 22rem, 90vw" class="founder__img" />
+        <div class="founder__text">
+          <p class="eyebrow">Founder and head of strategy</p>
+          <h2 class="h-name">Benson Gideon Mambosho</h2>
+          <p class="exp"><strong>11</strong><span>years of experience</span></p>
+          <p>Benson Mambosho is a recognized and award-winning Tanzanian PR and communications strategist whose work bridges brand positioning, media relations, and stakeholder engagement. Based in Dar es Salaam and founder of Native Media, he advises brands and institutions on earned-media strategy, reputation, and the evolving role of communications in advancing development, a perspective sharpened by both agency leadership and earlier in-house experience in traditional and digital marketing.</p>
+          <p>Benson is a recognised voice on the structural shifts reshaping the Tanzanian and broader East African PR industry. He argues for adaptive leadership in fast-moving communications environments and for a hard reset of the country’s PR playbook: a move away from intuition-led campaigns and vanity metric reporting toward evidence-based PR that ties communications work directly to Africa’s development agenda.</p>
+          <p>Beyond his client work, Benson is committed to building the next generation of Tanzanian communications professionals. In August 2026 he taught a four-week PR masterclass at the University of Dar es Salaam, and he serves as chapter lead for Tanzania at The Comms Avenue, the pan-African network for communications professionals.</p>
+          <p><a class="arrow-link" href="https://www.linkedin.com/in/benson-mambosho-152753105/" rel="noopener">Benson on LinkedIn <span aria-hidden="true">→</span></a></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="section theme-dark" aria-labelledby="lead-skills">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">What he is best at</p><h2 id="lead-skills">Strategy first. Everything else serves it.</h2>
+        <p class="lede">Select a skill to light up the roles on the career map below where it was put to work.</p></div>
+      <div class="skills" id="lead-skill-list">
+        <button type="button" class="skill skill--top" aria-pressed="false" data-skill={topSkill.id}>
+          <i>Top skill</i><b>{topSkill.n}</b><span>{topSkill.d}</span>
+          <div class="meter" aria-hidden="true">{Array.from({ length: 5 }, (_, i) => <u class:list={{ off: i >= topSkill.lv }}></u>)}</div>
+        </button>
+        {otherSkills.map((k) => (
+          <button type="button" class="skill" aria-pressed="false" data-skill={k.id}>
+            <i>{roleCount(k.id)} {roleCount(k.id) === 1 ? 'role' : 'roles'}</i><b>{k.n}</b><span>{k.d}</span>
+            <div class="meter" aria-hidden="true">{Array.from({ length: 5 }, (_, i) => <u class:list={{ off: i >= k.lv }}></u>)}</div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Career map -->
+  <section class="section theme-charcoal" aria-labelledby="lead-map">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Career map, drawn to scale</p><h2 id="lead-map">Eleven years, role by role.</h2>
+        <p class="lede">Each bar is as long as the role lasted. Several roles ran at the same time, so some bars sit above one another. Select a bar to read the story behind it.</p></div>
+      <div class="map" tabindex="0" role="region" aria-label="Career map. Scrolls sideways on small screens.">
+        <div class="map__inner">
+          <div class="axis">
+            {years.map((y) => <><span style={`left:${pct(y)}`}>{y}</span><i style={`left:${pct(y)}`}></i></>)}
+          </div>
+          {lanes.map((L, i) => (
+            <div class="lane">
+              <div class="lane__name">{L.n}</div>
+              <div class="track" style={`height:${L.rows * 2.6}rem`}>
+                {roles.filter((r) => r.l === i).map((r) => (
+                  <button type="button" class:list={['bar', { 'bar--now': r.now }]} aria-pressed="false" data-role={r.id} data-skills={r.sk.join(' ')} title={`${r.org}, ${r.dt}`}
+                    style={`left:${pct(r.s)};width:${(((r.e - r.s) / span) * 100).toFixed(2)}%;top:${r.r * 2.6}rem`}>{r.org}</button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p class="hint">On a phone, slide the map sideways. The full story for every role is always shown below it.</p>
+      <div class="details" id="lead-details">
+        {roles.map((r) => (
+          <article class="detail" data-detail={r.id}>
+            <div><h3>{r.org}</h3><p class="meta">{r.t} · {r.dt}</p></div>
+            <div class="cwc">
+              <div><h4>The need</h4><p>{r.c}</p></div>
+              <div><h4>What he led</h4><p>{r.w}</p></div>
+              <div><h4>What changed</h4><p>{r.h}</p></div>
+            </div>
+            <div class="chips">
+              {r.sk.map((s) => <span class="chip">{skillName(s)}</span>)}
+              {(r.tags ?? []).map((t) => <span class="chip chip--q">{t}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapters -->
+  <section class="section theme-dark" aria-labelledby="lead-chapters">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">The story in four chapters</p><h2 id="lead-chapters">How the work grew.</h2></div>
+      <div class="chapters">
+        <div class="chap"><small>2015 – 2018</small><h3>Learning the platforms</h3><p>First roles in e-commerce and agency social media. Learned how audiences behave, how stories travel, and how to measure both.</p></div>
+        <div class="chap"><small>2018 – 2020</small><h3>Running brands and teams</h3><p>Led a creative team for a mobile brand, wrote opinion columns for national newspapers and ran a community campaign that raised funds for a cause.</p></div>
+        <div class="chap"><small>2020 – 2025</small><h3>Reputation and impact at scale</h3><p>Moved into sustainability and public-interest communications: clean water, youth skills, women’s inclusion, financial access and clean energy.</p></div>
+        <div class="chap"><small>2025 – now</small><h3>Building the field</h3><p>Founded Native Media, took on a regional leadership role with a network of communicators, and began mentoring and volunteering internationally.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recognition -->
+  <section class="section theme-charcoal" aria-labelledby="lead-awards">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Recognition</p><h2 id="lead-awards">Three Business SDG awards.</h2>
+        <p class="lede">In September 2024 a sustainability programme Benson supported for a leading Tanzanian brewer won three Business SDG awards from the UN Global Compact Network Tanzania.</p></div>
+      <div class="awards">
+        <div class="award award--top"><div class="medal" aria-hidden="true">1</div><b>Overall Corporate Winner</b><span>Business SDG Awards 2024</span></div>
+        <div class="award award--top"><div class="medal" aria-hidden="true">1</div><b>Winner, People Category</b><span>Business SDG Awards 2024</span></div>
+        <div class="award award--2"><div class="medal" aria-hidden="true">2</div><b>2nd Runner-Up, Prosperity Category</b><span>Business SDG Awards 2024</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Giving back -->
+  <section class="section theme-dark" aria-labelledby="lead-give">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Giving back</p><h2 id="lead-give">Teaching, mentoring and volunteering.</h2></div>
+      <div class="cards">
+        <div class="card"><span class="when">August 2026 · 4 weeks</span><b>Masterclass, University of Dar es Salaam</b><p>Taught a four-week communications masterclass at his former university.</p></div>
+        <div class="card"><span class="when">Apr 2026 – now</span><b>Chapter Lead, The Comms Avenue</b><p>Leads a chapter of a network of 1,500+ communications professionals across 25 African countries.</p></div>
+        <div class="card"><span class="when">Jan 2026 – now</span><b>Student Mentor, Global Mentorship Initiative</b><p>Mentors college students in France preparing for their first job: networking, career planning, global business communication, interviews and workplace skills.</p></div>
+        <div class="card"><span class="when">Nov 2025 – Jan 2026</span><b>Online Volunteer, UNDP via UN Volunteers</b><p>Mentored 20 young people in Bangladesh in digital skills for freelancing and remote work, under the Global Mentorship Programme and Workwave Initiative.</p></div>
+        <div class="card"><span class="when">Jan 2021 – Nov 2025 · 4 yrs 11 mos</span><b>Communication Professional, Bridge for Change</b><p>Mentored 10 young adults at Kijana Café, a platform that uses art, storytelling, games and dialogue on issues affecting young people in Tanzania.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certificates -->
+  <section class="section theme-charcoal" aria-labelledby="lead-certs">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Certificates</p><h2 id="lead-certs">Verified learning and service.</h2></div>
+      <div class="certs">
+        <div class="cert">
+          <Image src={unv} alt="UN Volunteers Certificate of Appreciation awarded to Benson Mambosho" widths={[500, 800, 1000]} sizes="(min-width: 800px) 34rem, 90vw" />
+          <h3>UN Volunteers · Certificate of Appreciation</h3>
+          <p>Mentoring in Digital Skills for Freelancing and Remote Employment. Online volunteer with UNDP, 10 hours a week for 8 weeks from 24 November 2025, contributing to SDG 8, Decent Work and Economic Growth. Signed 20 January 2026.</p>
+        </div>
+        <div class="cert">
+          <div class="badge">
+            <div class="seal" aria-hidden="true"><span>GMI</span></div>
+            <h3>Mentor English Program</h3>
+            <p>Open Badge from the Global Mentorship Initiative, issued 13 April 2026. Mentors guide students through goal setting, using AI for professional growth, and working across cultures, and join a network of 20,000+ professionals and students.</p>
+            <p class="k">Credential ID 1a686fc6-d3d2-48f9-9635-4159e38588f5</p>
+            <a class="arrow-link" href="https://credsverse.com/credentials/1a686fc6-d3d2-48f9-9635-4159e38588f5" rel="noopener">Verify this badge <span aria-hidden="true">→</span></a>
+          </div>
+          <p class="hint">Also certified in</p>
+          <div class="chips"><span class="chip chip--q">Storytelling in the Digital Age</span><span class="chip chip--q">Digital Transformation for Biodiversity Action</span><span class="chip chip--q">Digital Transformation for Sustainable Development</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendations -->
+  <section class="section theme-dark" aria-labelledby="lead-recs">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">In their words</p><h2 id="lead-recs">What managers, clients and colleagues say.</h2>
+        <p class="lede">Taken from LinkedIn recommendations.</p></div>
+      <div class="recs">
+        {recs.map((x) => (
+          <figure class="rec">
+            <blockquote><p>{x.q}</p></blockquote>
+            <figcaption><b>{x.n}</b><span>{x.r}</span><small>{x.k}</small></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="section theme-light" aria-labelledby="lead-edu">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Education</p><h2 id="lead-edu">Where it started.</h2></div>
+      <ul class="edu">
+        <li><strong>University of Dar es Salaam</strong> · BA Political Science and Public Administration (International Relations), 2012–2015</li>
+        <li><strong>Center for Foreign Relations</strong> · Economic Diplomacy, 2016–2017</li>
+        <li>Languages: English (professional), Swahili (native)</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<style>
+  .founder { display: grid; gap: 2rem; align-items: start; }
+  .founder__img { width: 100%; height: auto; max-width: 22rem; background: var(--paper); }
+  .founder__text { display: grid; gap: 1rem; max-width: 46rem; }
+  .h-name { font-size: var(--step-3); font-weight: 800; line-height: 1.1; }
+  .exp { display: flex; align-items: baseline; gap: 0.6rem; margin: 0; }
+  .exp strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-4); line-height: 1; color: var(--brand-ink); }
+  .exp span { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.8rem; }
+  @media (min-width: 800px) { .founder { grid-template-columns: 22rem 1fr; gap: 3.5rem; } }
+
+  .hint { font-size: 0.85rem; color: var(--gray); margin-top: 0.8rem; }
+
+  /* skills */
+  .skills { display: grid; gap: 0.8rem; grid-template-columns: repeat(4, 1fr); }
+  .skill { appearance: none; cursor: pointer; text-align: left; background: var(--charcoal); color: var(--paper); border: 1px solid var(--line-dark); padding: 1rem; display: grid; gap: 0.5rem; align-content: start; font: inherit; min-width: 0; }
+  .skill b { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; line-height: 1.2; }
+  .skill span { font-size: 0.88rem; color: var(--gray); line-height: 1.4; }
+  .skill i { font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-style: normal; }
+  .skill:hover { border-color: var(--brand); }
+  .skill[aria-pressed='true'] { background: var(--brand); border-color: var(--brand); color: var(--black); }
+  .skill[aria-pressed='true'] span, .skill[aria-pressed='true'] i { color: var(--black); }
+  .skill--top { grid-column: 1 / -1; padding: 1.6rem; border-color: var(--brand); box-shadow: inset 0 4px 0 var(--brand); gap: 0.8rem; }
+  .skill--top b { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.02em; }
+  .skill--top span { font-size: 1rem; max-width: 42rem; }
+  .meter { display: flex; gap: 3px; height: 0.45rem; }
+  .meter u { flex: 1; background: var(--brand); text-decoration: none; }
+  .meter u.off { background: var(--charcoal-2); }
+  .skill[aria-pressed='true'] .meter u { background: var(--black); }
+  .skill[aria-pressed='true'] .meter u.off { background: rgba(0, 0, 0, 0.25); }
+  @media (max-width: 900px) { .skills { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .skills { grid-template-columns: 1fr; } }
+
+  /* map */
+  .map { border: 1px solid var(--line-dark); background: var(--black); overflow-x: auto; }
+  .map__inner { min-width: 60rem; position: relative; padding: 0 1rem 1rem 8.5rem; }
+  .axis { position: relative; height: 2.2rem; border-bottom: 1px solid var(--line-dark); }
+  .axis span { position: absolute; top: 0.7rem; font-size: 0.72rem; line-height: 1; color: var(--gray); transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+  .axis i { position: absolute; top: 2.2rem; height: 40rem; width: 1px; background: var(--line-dark); opacity: 0.5; pointer-events: none; }
+  .map__inner { overflow: hidden; }
+  .lane { position: relative; padding-block: 0.7rem; border-bottom: 1px solid var(--line-dark); }
+  .lane:last-child { border-bottom: 0; }
+  .lane__name { position: absolute; left: -7.6rem; top: 0.8rem; width: 7rem; font-family: var(--font-display); font-weight: 600; font-size: 0.78rem; line-height: 1.25; }
+  .track { position: relative; }
+  .bar { position: absolute; height: 2.2rem; min-width: 1.4rem; display: flex; align-items: center; padding: 0 0.5rem; background: var(--charcoal-2); color: var(--paper); border: 1px solid var(--line-dark); border-left: 3px solid var(--brand); font: 600 0.76rem/1.1 var(--font-body); cursor: pointer; overflow: hidden; white-space: nowrap; text-align: left; transition: opacity 0.2s, background 0.2s; }
+  .bar:hover { border-color: var(--brand); }
+  .bar[aria-pressed='true'] { background: var(--brand); color: var(--black); border-color: var(--brand); }
+  .bar.dim { background: var(--black); color: var(--gray); border-color: var(--line-dark); border-left-color: var(--line-dark); }
+  .bar.lit { border-color: var(--brand); background: rgba(237, 125, 62, 0.22); }
+  .bar.lit[aria-pressed='true'] { background: var(--brand); }
+  .bar--now::after { content: '→'; margin-left: auto; padding-left: 0.4rem; }
+
+  .details { display: grid; gap: 1.2rem; margin-top: 1.4rem; }
+  .detail { display: grid; gap: 1.1rem; border: 1px solid var(--line-dark); background: var(--black); padding: 1.4rem; }
+  .detail h3 { font-size: var(--step-2); font-weight: 800; }
+  .meta { font-size: 0.85rem; color: var(--gray); margin-top: 0.3rem; }
+  .cwc { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); }
+  .cwc div { display: grid; gap: 0.35rem; align-content: start; min-width: 0; }
+  .cwc h4 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .cwc p { font-size: 0.95rem; line-height: 1.5; }
+  @media (max-width: 760px) { .cwc { grid-template-columns: 1fr; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chip { font-family: var(--font-display); font-weight: 600; font-size: 0.74rem; line-height: 1; padding: 0.4rem 0.55rem; border: 1px solid var(--brand); color: var(--brand); }
+  .chip--q { border-color: var(--line-dark); color: var(--gray); }
+  /* With scripting on, only the selected role is open. Without it, every role stays visible. */
+  [data-leadership].is-js .detail { display: none; }
+  [data-leadership].is-js .detail.on { display: grid; border-color: var(--brand); }
+
+  /* chapters */
+  .chapters { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .chap { background: var(--charcoal); border: 1px solid var(--line-dark); padding: 1.2rem; display: grid; gap: 0.6rem; align-content: start; border-top: 3px solid var(--brand); }
+  .chap small { font-family: var(--font-display); font-weight: 700; font-size: 0.8rem; color: var(--brand); letter-spacing: 0.1em; }
+  .chap h3 { font-size: 1.35rem; font-weight: 800; }
+  .chap p { font-size: 0.93rem; color: var(--gray); }
+
+  /* awards */
+  .awards { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .award { border: 1px solid var(--line-dark); background: var(--black); padding: 1.2rem; display: grid; gap: 0.5rem; justify-items: start; }
+  .award--top { border-color: var(--brand); }
+  .medal { width: 3.2rem; height: 3.2rem; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #f6b284, var(--brand) 55%, #a24e1c); display: grid; place-items: center; color: var(--black); font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; }
+  .award--2 .medal { background: radial-gradient(circle at 35% 30%, #f1efe8, #b9b7ad 60%, #7d7b72); }
+  .award b { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; line-height: 1.2; }
+  .award span { color: var(--gray); font-size: 0.88rem; }
+
+  /* give back */
+  .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
+  .card { background: var(--charcoal); border: 1px solid var(--line-dark); padding: 1.2rem; display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+  .card b { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.2; }
+  .card p { font-size: 0.92rem; color: var(--gray); }
+  .card .when { font-size: 0.78rem; color: var(--brand); font-family: var(--font-display); font-weight: 600; letter-spacing: 0.04em; }
+
+  /* certificates */
+  .certs { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+  .cert { background: var(--black); border: 1px solid var(--line-dark); display: grid; gap: 0.8rem; padding: 1rem; align-content: start; min-width: 0; }
+  .cert :global(img) { width: 100%; height: auto; display: block; border: 1px solid var(--line-dark); }
+  .cert h3 { font-size: 1.2rem; font-weight: 800; }
+  .cert p { font-size: 0.9rem; color: var(--gray); }
+  .badge { display: grid; gap: 0.6rem; padding: 1.2rem; background: var(--charcoal); border: 1px solid var(--line-dark); justify-items: start; }
+  .seal { width: 4.2rem; height: 4.2rem; border: 2px solid var(--brand); display: grid; place-items: center; transform: rotate(45deg); margin: 0.6rem 0 1rem 0.6rem; }
+  .seal span { transform: rotate(-45deg); font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; color: var(--brand); }
+  .cert .k { font-size: 0.74rem; overflow-wrap: anywhere; }
+
+  /* recommendations */
+  .recs { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); }
+  .rec { margin: 0; background: var(--charcoal); border: 1px solid var(--line-dark); padding: 1.3rem; display: grid; gap: 1rem; align-content: space-between; min-width: 0; }
+  .rec blockquote { margin: 0; font-size: 0.98rem; line-height: 1.55; }
+  .rec figcaption { display: grid; gap: 0.15rem; border-top: 1px solid var(--line-dark); padding-top: 0.8rem; }
+  .rec figcaption b { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+  .rec figcaption span { font-size: 0.86rem; color: var(--gray); }
+  .rec figcaption small { font-size: 0.76rem; color: var(--brand); }
+
+  .edu { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; max-width: 46rem; }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-leadership]');
+  if (root) {
+    root.classList.add('is-js');
+    const bars = [...root.querySelectorAll<HTMLButtonElement>('.bar')];
+    const details = [...root.querySelectorAll<HTMLElement>('.detail')];
+    const skillBtns = [...root.querySelectorAll<HTMLButtonElement>('.skill')];
+    const open = (id: string) => {
+      bars.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.role === id)));
+      details.forEach((d) => d.classList.toggle('on', d.dataset.detail === id));
+    };
+    bars.forEach((b) => b.addEventListener('click', () => open(b.dataset.role!)));
+    open('hs');
+    let active: string | null = null;
+    skillBtns.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.skill!;
+        active = active === id ? null : id;
+        skillBtns.forEach((s) => s.setAttribute('aria-pressed', String(s === btn && active !== null)));
+        bars.forEach((b) => {
+          const on = active !== null && (b.dataset.skills ?? '').split(' ').includes(active);
+          b.classList.toggle('lit', on);
+          b.classList.toggle('dim', active !== null && !on);
+        });
+        if (active) document.getElementById('lead-map')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      }),
+    );
+  }
+</script>
