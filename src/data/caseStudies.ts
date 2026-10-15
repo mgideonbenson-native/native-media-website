@@ -77,7 +77,6 @@ export const caseStudies: CaseStudy[] = [
         { title: 'Media relations and local intelligence', text: 'Identifying relevant outlets and coordinating access across national and regional media.' },
         { title: 'Narrative translation and stakeholder linkage', text: 'Connecting journalists with institutional stakeholders and helping complex priorities travel through public channels.' }] },
       { id: 'learning', title: 'Strategic learning', callout: { label: 'From communications activity to narrative infrastructure', text: 'Launches, interviews and media tours can create visibility, but sustained understanding requires an overarching narrative system that connects policy priorities, stakeholders, messages, channels and timing. Building that infrastructure earlier would make communications more resilient to shifting calendars and execution windows.' } },
-      { id: 'source', title: 'Evidence source', paragraphs: ['DIRA 2050 Media Coverage Report, April–May 2026, prepared for Gatsby Africa. The report records 9 placements across television, radio and Instagram, with total AVE of TZS 69,944,999 and PR value of TZS 209,834,997 using a 3× PRV/AVE multiplier.'] },
       { id: 'field', title: 'From the field', gallery: [
         { img: dira2, alt: 'A television studio interview in progress' },
         { img: dira1, alt: 'A speaker at the podium of the DIRA 2050 launch event' },
@@ -136,7 +135,6 @@ export const caseStudies: CaseStudy[] = [
         { title: 'Stakeholder–media linkage', text: 'Connecting journalists with authoritative institutional voices and creating conditions for substantive engagement.' },
         { title: 'Narrative architecture', text: 'Aligning message, messenger, channel, timing and institutional visibility around one public-facing story.' }] },
       { id: 'learning', title: 'Strategic learning', callout: { label: 'From event visibility to narrative governance', text: 'In multi-stakeholder development campaigns, the communications challenge is not simply getting everyone seen. It is ensuring that every voice strengthens, rather than fragments, the central public narrative.' } },
-      { id: 'source', title: 'Evidence source', paragraphs: ['Launch of National Clean Cooking Strategy Awareness Campaign communications response and brief (2025). The source documents the National Clean Cooking Communication Strategy and Awareness Plan context, campaign objectives, stakeholder groups, Kiswahili key message, three-phase launch approach and proposed media engagement methodology.'] },
       { id: 'field', title: 'From the field', gallery: [
         { img: un1, alt: 'Officials on stage holding the National Clean Cooking Strategy document at its launch' },
         { img: un2, alt: 'Officials and partners gathered on stage at the National Clean Cooking Strategy launch' }] },
@@ -195,7 +193,6 @@ export const caseStudies: CaseStudy[] = [
         { title: 'Stakeholder–media coordination', text: 'Connecting institutional voices with journalists for credible interviews, explanation and access.' },
         { title: 'Narrative and sentiment intelligence', text: 'Using public feedback and testimonial content to refine future communications.' }] },
       { id: 'learning', title: 'Strategic learning', callout: { label: 'From coverage to feedback loop', text: 'Strong public-interest campaigns should not treat media only as a distribution channel. The most valuable system connects campaign message, media, community response, strategic insight and a stronger narrative.' } },
-      { id: 'source', title: 'Evidence source', paragraphs: ['Smart Pika: Media Coverage Report (August 2025), Native Media. The report documents media activity across Arusha, Mwanza and Dodoma, including digital, radio, print, television and documentary formats, testimonial videos and common public sentiments.'] },
       { id: 'field', title: 'From the field', gallery: [
         { img: ec1, alt: 'Two women unveil the Pika Smart campaign backdrop at the launch, with orange curtains and confetti' },
         { img: ec2, alt: 'White tents at the Pika Smart exhibition, with visitors at the green display counters' },
@@ -253,7 +250,6 @@ export const caseStudies: CaseStudy[] = [
         { title: 'Message architecture', text: 'Translating technical financial themes (trade finance, PAPSS, corporate banking and AfCFTA) into media-relevant narratives.' },
         { title: 'Media intelligence and reporting', text: 'Tracking channel mix, media value and message penetration, then identifying gaps and follow-on opportunities for sustained visibility.' }] },
       { id: 'learning', title: 'Strategic learning', callout: { label: 'From sponsorship to influence', text: 'High-profile sponsorship creates access to attention. Strategic communications determines whether that attention becomes reputation, authority and influence.' } },
-      { id: 'source', title: 'Evidence source', paragraphs: ['KCB Bank – Tanzania–Kenya Business Forum 2026 Media Coverage Report, 4–7 May 2026. The report documents 11 earned placements, channel mix, media valuation, timing, CEO-bylined op-eds, message penetration and strategic recommendations. Native Media’s contracting relationship with Fern Company Ltd and its advisory role on the KCB communications framework and messaging are based on project information supplied for this case study.'] },
       { id: 'field', title: 'From the field', gallery: [
         { img: kcb1, alt: 'The stage at the Tanzania–Kenya Business Forum 2026' },
         { img: kcb3, alt: 'Leaders seated at the Tanzania–Kenya Business Forum 2026' },
