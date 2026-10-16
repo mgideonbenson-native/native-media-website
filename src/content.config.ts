@@ -128,6 +128,8 @@ const publications = defineCollection({
     cover: image().optional(),
     coverAlt: z.string().optional(),
     featured: z.boolean().default(false),
+    // Optional: a page on this site with our interactive version of the report, for example /creative-data/reports-snapshot.
+    snapshot: z.string().startsWith('/').optional(),
   }),
 });
 

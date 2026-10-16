@@ -6,4 +6,5 @@ kind: report
 url: "https://www.gsma.com/about-us/regions/africa/gsma_resources/advancing-digital-connectivity-in-africa/"
 summary: "Examines why only 36% of Africans used the internet in 2025, against 74% worldwide, and what it would take to reach 1 billion people meaningfully connected by 2030. Covers country pathways, case studies including Tanzania, and priority actions for governments, the private sector and development partners."
 featured: true
+snapshot: "/creative-data/reports-snapshot"
 ---
