@@ -6,8 +6,8 @@ import PublicationList from '../../components/PublicationList.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { publicationKinds } from '../../data/publications';
 const all = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
-const featured = all.filter((p) => p.data.featured);
-const shown = featured.length ? featured : all.slice(0, 6);
+// Everything is shown here, with starred ("featured") items first. Once the list grows long, cut it with .slice(0, 9).
+const shown = [...all].sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || b.data.year - a.data.year);
 ---
 <BaseLayout title="Research & Publications | Native Media" description="Reports and research from leading organizations, featured by Native Media with clear credit and a link to the original." noindex={all.length === 0}>
   <PageHero eyebrow="What we do · 02" title="Research & Publications" lede="Reports and research from leading organizations, featured for people who need to understand Africa. Every item is credited and linked to its original."
