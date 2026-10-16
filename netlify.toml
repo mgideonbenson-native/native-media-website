@@ -61,3 +61,9 @@
   to = "/training-and-mentorship"
   status = 301
   force = true
+
+# The Partnerships page is paused until there are partners to show. Send old links to the About page.
+[[redirects]]
+  from = "/about/partnerships"
+  to = "/about"
+  status = 301

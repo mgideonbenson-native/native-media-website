@@ -49,7 +49,6 @@ export const nav: NavItem[] = [
       { label: 'Our Philosophy', href: '/about/our-philosophy' },
       { label: 'Our Approach', href: '/about/our-approach' },
       { label: 'Leadership & Team', href: '/about/leadership-and-team' },
-      { label: 'Partnerships', href: '/about/partnerships' },
     ],
   },
   {
@@ -155,7 +154,7 @@ export const contactTopics = [
 
 /** Pages that exist for real. The placeholder route skips these. */
 export const builtPaths = new Set<string>([
-  '/about', '/about/our-story', '/about/our-philosophy', '/about/our-approach', '/about/leadership-and-team', '/about/partnerships',
+  '/about', '/about/our-story', '/about/our-philosophy', '/about/our-approach', '/about/leadership-and-team',
   '/what-we-do', '/narrative-engineering',
   '/contact', '/contact/general-inquiries', '/contact/narrative-engineering', '/contact/research-collaboration',
   '/contact/institutional-partnerships', '/contact/creative-data', '/contact/training-and-mentorship',
