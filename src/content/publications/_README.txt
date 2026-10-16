@@ -17,3 +17,8 @@ featured: true
 ```
 
 Always link to the original, credit the publisher, and publish only with their permission.
+
+Optional extras on a card:
+- cover: a picture of the cover in src/assets/publications (only with the publisher's permission), plus coverAlt.
+- snapshot: a page on this site with our interactive version, for example "/creative-data/reports-snapshot".
+- finding: the main figure from the report, drawn as a small chart (kind: bars or stack). Only use numbers checked against the report.

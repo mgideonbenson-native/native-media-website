@@ -4,22 +4,112 @@ import { Image } from 'astro:assets';
 import { publicationKinds } from '../data/publications';
 interface Props { items: CollectionEntry<'publications'>[]; empty: string }
 const { items, empty } = Astro.props;
+const fmt = (n: number) => String(n);
 ---
 {items.length === 0
   ? <div class="notice-box"><span class="tag tag--brand">Coming soon</span><p>{empty}</p></div>
-  : <ul class="pubs">{items.map((p) => (
+  : <ul class="pubs" data-pubs>{items.map((p) => {
+      const f = p.data.finding;
+      return (
       <li class="card">
-        {p.data.cover && <a class="pubs__cover" href={p.data.url} rel="noopener noreferrer" target="_blank" tabindex="-1" aria-hidden="true"><Image src={p.data.cover} alt="" widths={[240, 360, 480]} sizes="(min-width: 600px) 22rem, 90vw" loading="lazy" /></a>}
-        <span class="eyebrow">{publicationKinds[p.data.kind].one} · {p.data.year}</span>
-        <h3><a href={p.data.url} rel="noopener noreferrer" target="_blank">{p.data.title}<span class="sr-only"> (opens the original in a new tab)</span></a></h3>
-        <p class="muted small">Published by {p.data.publisher}</p>
-        <p>{p.data.summary}</p>
+        <div class="pubs__head">
+          {p.data.cover && <a class="pubs__cover" href={p.data.url} rel="noopener noreferrer" target="_blank" tabindex="-1" aria-hidden="true"><Image src={p.data.cover} alt="" widths={[120, 240, 360]} sizes="7rem" loading="lazy" /></a>}
+          <div class="pubs__title">
+            <span class="eyebrow">{publicationKinds[p.data.kind].one} · {p.data.year}</span>
+            <h3><a href={p.data.url} rel="noopener noreferrer" target="_blank">{p.data.title}<span class="sr-only"> (opens the original in a new tab)</span></a></h3>
+            <p class="muted small">{p.data.publisher}</p>
+          </div>
+        </div>
+
+        {f && (
+          <div class="finding" data-finding={f.kind} role="group" aria-label="Main finding from the report">
+            <p class="finding__k">What the report finds</p>
+            <div class="finding__big"><strong>{f.value}</strong><span>{f.label}</span></div>
+            {f.kind === 'stack' ? (
+              <>
+                <div class="stack" role="group" aria-label="Choose a segment to read its share">
+                  {f.items.map((it, i) => (
+                    <button type="button" class={`seg seg--${it.tone ?? 'raw'}`} style={`flex-grow:${it.value}`} data-label={it.label} data-value={`${fmt(it.value)}%`} aria-pressed={i === f.items.length - 1 ? 'true' : 'false'} aria-label={`${it.label}, ${fmt(it.value)}%`}></button>
+                  ))}
+                </div>
+                <p class="stack__read" aria-live="polite"><b>{f.items[f.items.length - 1].label}</b> <span>{fmt(f.items[f.items.length - 1].value)}%</span></p>
+              </>
+            ) : (
+              <ul class="rows">
+                {f.items.map((it, i) => (
+                  <li class={i === f.items.length - 1 ? 'row row--hi' : 'row'}>
+                    <span class="row__l">{it.label}</span>
+                    <span class="row__track"><i style={`--w:${((it.value / (f.max ?? 100)) * 100).toFixed(1)}%`}></i></span>
+                    <b class="row__v">{fmt(it.value)}{f.unit}</b>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p class="finding__src">{f.note}</p>
+          </div>
+        )}
+
+        <details class="about"><summary>About this report</summary><p>{p.data.summary}</p></details>
+
         <p class="pubs__actions">
           <a class="arrow-link" href={p.data.url} rel="noopener noreferrer" target="_blank" aria-label={`Read the report: ${p.data.title} (opens the original in a new tab)`}>Read the report <span aria-hidden="true">↗</span></a>
           {p.data.snapshot && <a class="arrow-link" href={p.data.snapshot} aria-label={`Open the snapshot: ${p.data.title}`}>Open the snapshot <span aria-hidden="true">→</span></a>}
         </p>
-      </li>))}</ul>}
+      </li>);
+    })}</ul>}
 <style>
-  .pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
-  .pubs .card { padding: 1.6rem; display: grid; gap: 0.6rem; align-content: start; } .pubs h3 a { text-decoration: none; } .pubs h3 a:hover { color: var(--brand-ink); } .small { font-size: 0.88rem; } .pubs__actions { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; margin: 0.4rem 0 0; }
+  .pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
+  .pubs .card { padding: 1.5rem; display: grid; gap: 1rem; align-content: start; min-width: 0; }
+  .pubs h3 { font-size: var(--step-1); line-height: 1.2; } .pubs h3 a { text-decoration: none; } .pubs h3 a:hover { color: var(--brand-ink); } .small { font-size: 0.88rem; }
+  .pubs__head { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; align-items: start; }
+  .pubs__head:not(:has(.pubs__cover)) { grid-template-columns: 1fr; }
+  .pubs__cover { display: block; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); } .pubs__cover :global(img) { display: block; width: 100%; height: auto; }
+  .pubs__title { display: grid; gap: 0.45rem; min-width: 0; }
+  .pubs__actions { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; margin: 0; }
+  .about { font-size: 0.92rem; } .about summary { cursor: pointer; font-weight: 600; } .about p { margin-top: 0.5rem; }
+
+  /* finding: a chart drawn from the report's own figures */
+  .finding { display: grid; gap: 0.8rem; padding: 1rem; background: var(--paper-2); color: var(--black); border-top: 3px solid var(--brand); }
+  .finding__k { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-ink); }
+  .finding__big { display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
+  .finding__big strong { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.4rem, 8vw, 3.4rem); line-height: 0.95; color: var(--brand-ink); font-variant-numeric: tabular-nums; }
+  .finding__big span { font-weight: 600; line-height: 1.3; max-width: 17rem; }
+  .finding__src { margin: 0; font-size: 0.76rem; color: var(--gray-ink); }
+
+  .stack { display: flex; height: 1.8rem; gap: 2px; }
+  .seg { appearance: none; border: 0; padding: 0; margin: 0; cursor: pointer; min-width: 6px; opacity: 0.6; transition: opacity 0.2s; }
+  .seg:hover, .seg[aria-pressed='true'] { opacity: 1; }
+  .seg--raw { background: var(--black); } .seg--semi { background: #6b6b65; } .seg--proc { background: var(--brand); }
+  .stack__read { margin: 0; display: flex; justify-content: space-between; gap: 1rem; font-size: 0.92rem; min-height: 1.4rem; }
+  .stack__read span { font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; }
+
+  .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .row { display: grid; grid-template-columns: 4rem 1fr 3.4rem; gap: 0.7rem; align-items: center; font-size: 0.9rem; }
+  .row__track { height: 1.1rem; background: rgba(10, 10, 10, 0.1); display: block; }
+  .row__track i { display: block; height: 100%; width: var(--w); background: var(--black); transform-origin: left; transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .row--hi .row__track i { background: var(--brand); }
+  .row__v { text-align: right; font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; }
+  [data-pubs].is-js .row__track i { transform: scaleX(0); }
+  [data-pubs].is-js .finding.in .row__track i { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) { .row__track i, .seg { transition: none; } [data-pubs].is-js .row__track i { transform: scaleX(1); } }
 </style>
+<script>
+  const root = document.querySelector<HTMLElement>('[data-pubs]');
+  if (root) {
+    root.classList.add('is-js');
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.4 });
+    root.querySelectorAll('.finding').forEach((f) => io.observe(f));
+    root.querySelectorAll<HTMLElement>('.stack').forEach((stack) => {
+      const read = stack.parentElement!.querySelector<HTMLElement>('.stack__read')!;
+      const segs = [...stack.querySelectorAll<HTMLButtonElement>('.seg')];
+      const pick = (s: HTMLButtonElement) => {
+        segs.forEach((x) => x.setAttribute('aria-pressed', String(x === s)));
+        read.innerHTML = '';
+        const b = document.createElement('b'); b.textContent = s.dataset.label ?? '';
+        const v = document.createElement('span'); v.textContent = s.dataset.value ?? '';
+        read.append(b, ' ', v);
+      };
+      segs.forEach((s) => { s.addEventListener('click', () => pick(s)); s.addEventListener('mouseenter', () => pick(s)); });
+    });
+  }
+</script>

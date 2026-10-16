@@ -130,6 +130,16 @@ const publications = defineCollection({
     featured: z.boolean().default(false),
     // Optional: a page on this site with our interactive version of the report, for example /creative-data/reports-snapshot.
     snapshot: z.string().startsWith('/').optional(),
+    // Optional main finding, drawn on the card. Use only figures checked against the report itself.
+    finding: z.object({
+      value: z.string(),
+      label: z.string(),
+      note: z.string(),
+      kind: z.enum(['bars', 'stack']),
+      max: z.number().optional(),
+      unit: z.string().optional(),
+      items: z.array(z.object({ label: z.string(), value: z.number(), tone: z.enum(['raw', 'semi', 'proc']).optional() })),
+    }).optional(),
   }),
 });
 
