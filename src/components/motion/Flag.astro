@@ -1,0 +1,25 @@
+---
+/**
+ * Small national flags drawn as SVG from their official layouts (no image files, no third-party assets).
+ * Used beside place names in the motion snapshot pages.
+ */
+import type { FlagCode } from '../../data/motion';
+interface Props { code: FlagCode; h?: number }
+const { code, h = 18 } = Astro.props;
+const ratio = { tz: 3 / 2, fi: 18 / 11, it: 3 / 2, nl: 3 / 2, be: 15 / 13 }[code];
+const name = { tz: 'Tanzania', fi: 'Finland', it: 'Italy', nl: 'Netherlands', be: 'Belgium' }[code];
+const w = Math.round(h * ratio);
+---
+<svg class="flag" width={w} height={h} viewBox={code === 'fi' ? '0 0 18 11' : code === 'be' ? '0 0 15 13' : '0 0 3 2'} role="img" aria-label={`Flag of ${name}`} preserveAspectRatio="none">
+  {code === 'tz' && (<>
+    <rect width="3" height="2" fill="#1eb53a" /><path d="M3 0V2H0z" fill="#00a3dd" />
+    <path d="M-1 2.667L4 -0.667" stroke="#fcd116" stroke-width="0.84" /><path d="M-1 2.667L4 -0.667" stroke="#000" stroke-width="0.56" />
+  </>)}
+  {code === 'fi' && (<><rect width="18" height="11" fill="#fff" /><rect x="5" width="3" height="11" fill="#002f6c" /><rect y="4" width="18" height="3" fill="#002f6c" /></>)}
+  {code === 'it' && (<><rect width="1" height="2" fill="#009246" /><rect x="1" width="1" height="2" fill="#fff" /><rect x="2" width="1" height="2" fill="#ce2b37" /></>)}
+  {code === 'nl' && (<><rect width="3" height="0.667" fill="#ae1c28" /><rect y="0.667" width="3" height="0.667" fill="#fff" /><rect y="1.333" width="3" height="0.667" fill="#21468b" /></>)}
+  {code === 'be' && (<><rect width="5" height="13" fill="#000" /><rect x="5" width="5" height="13" fill="#fdda24" /><rect x="10" width="5" height="13" fill="#ef3340" /></>)}
+</svg>
+<style>
+  .flag { display: inline-block; flex: none; vertical-align: middle; box-shadow: 0 0 0 1px rgba(245, 245, 240, 0.25); }
+</style>
