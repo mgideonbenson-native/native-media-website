@@ -26,7 +26,7 @@ const formats = [
           f.title === 'Motion graphics' ? (
             <li class="fmt-live">
               <a href={`/creative-data/${latest.slug}`} class="fmt-live__link" aria-label={`Watch the motion graphic: ${latest.title}`}>
-                <Visual ratio="16 / 9"><img src={latest.video.poster} alt="Still from the motion graphic: 68 projects, worth USD 30.1 billion, rising out of a dot map of Tanzania" width="1600" height="900" loading="lazy" decoding="async" /></Visual>
+                <Visual ratio="16 / 9"><img src={latest.video.poster} alt="Still from the motion graphic: the Helsinki stop, with a Finnish flag on a dot map of Europe and what Tanzania pitched there" width="1600" height="900" loading="lazy" decoding="async" /></Visual>
                 <span class="play" aria-hidden="true"></span>
               </a>
               <h3>{f.title}</h3><p class="muted">{f.text}</p>
@@ -51,7 +51,7 @@ const formats = [
         <p class="eyebrow">Motion snapshot · New</p>
         <h2 class="h2" id="motion-t">{latest.title}</h2>
         <p class="lede">{latest.dek}</p>
-        <p class="muted small">Built from {latest.primary.publisher}’s recap of {latest.primary.date}. A snapshot, not a report: every figure is sourced and marked as reported, targeted or planned.</p>
+        <p class="muted small">A snapshot, not a report: one minute on where Tanzania pitched, what it showed and what comes next.</p>
         <p><a class="btn" href={`/creative-data/${latest.slug}`}>Watch the film <span aria-hidden="true">→</span></a></p>
       </div>
     </div>

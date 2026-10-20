@@ -1,0 +1,121 @@
+---
+/**
+ * Chronological route map for a motion snapshot: the stops in order, drawn as great-circle legs on a real map.
+ * Computed at build time from public-domain country outlines (Natural Earth via world-atlas). Routes are schematic.
+ * Hovering or focusing a stop in the list highlights it on the map (CSS :has, no script needed).
+ */
+import { geoAzimuthalEqualArea, geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import topo from 'world-atlas/countries-110m.json';
+import Flag from './Flag.astro';
+import type { MotionSnapshot } from '../../data/motion';
+
+interface Props { m: MotionSnapshot }
+const { m } = Astro.props;
+const MW = 720, MH = 860;
+const HOST = new Set(['246', '380', '528', '056']); // Finland, Italy, Netherlands, Belgium
+const TZ = '834';
+
+const all = (feature(topo as any, (topo as any).objects.countries) as any).features as any[];
+const frame = { type: 'MultiPoint', coordinates: [[-9, -18], [50, -18], [-9, 63], [50, 63], [30, 67]] };
+const proj = geoAzimuthalEqualArea().rotate([-20, -27]).fitExtent([[24, 24], [MW - 24, MH - 24]], frame as any);
+const path = geoPath(proj).digits(1);
+const near = all.filter((f) => { const c = (path as any).centroid(f); return c[0] > -200 && c[0] < MW + 200 && c[1] > -200 && c[1] < MH + 200; });
+const P = (ll: [number, number]) => proj(ll)!.map((v) => Math.round(v * 10) / 10) as [number, number];
+
+const pts = [m.start.lonlat, ...m.route.map((r) => r.lonlat)];
+const legs = pts.slice(1).map((b, i) => path({ type: 'LineString', coordinates: [pts[i], b] } as any));
+const back = path({ type: 'LineString', coordinates: [m.route[m.route.length - 1].lonlat, m.start.lonlat] } as any);
+const dar = P(m.start.lonlat);
+// label placement for each stop (the three Low Countries stops sit close together, so they fan out to the left)
+const lab: { dx: number; dy: number; anchor: 'start' | 'end' }[] = [
+  { dx: 14, dy: 5, anchor: 'start' }, { dx: 14, dy: 5, anchor: 'start' }, { dx: -14, dy: -6, anchor: 'end' }, { dx: -14, dy: 16, anchor: 'end' },
+];
+---
+<figure class="routemap reveal">
+  <div class="routemap__grid">
+    <svg class="map" viewBox={`0 0 ${MW} ${MH}`} role="img" aria-labelledby="rm-title">
+      <title id="rm-title">Map of the roadshow route: from Dar es Salaam to Helsinki, Cesena, The Hague, and Rotterdam and Antwerp, 28 September to 6 October 2026, with the forum returning to Dar es Salaam in early 2027.</title>
+      <g class="land">{near.map((f) => <path d={path(f)!} class:list={{ tz: f.id === TZ, host: HOST.has(f.id) }} />)}</g>
+      <path class="leg leg--back" d={back!} pathLength="1" />
+      {legs.map((d, i) => <path class={`leg leg-${i + 1}`} d={d!} pathLength="1" style={`--i:${i}`} />)}
+      <g class="start">
+        <circle cx={dar[0]} cy={dar[1]} r="7" class="dot dot--start" />
+        <text x={dar[0] + 14} y={dar[1] + 5} class="lbl lbl--start">Dar es Salaam</text>
+      </g>
+      {m.route.map((r, i) => {
+        const [x, y] = P(r.lonlat); const L = lab[i];
+        return (
+          <g class={`stop stop-${i + 1}`} style={`--i:${i}`}>
+            <circle cx={x} cy={y} r="6" class="dot" />
+            <circle cx={x} cy={y} r="13" class="halo" />
+            <text x={x + L.dx} y={y + L.dy} text-anchor={L.anchor} class="lbl"><tspan class="lbl__n">{r.n}</tspan> {r.place === 'Rotterdam → Antwerp' ? 'Antwerp' : r.place}</text>
+          </g>
+        );
+      })}
+    </svg>
+
+    <ol class="steps-list" aria-label="The roadshow in order">
+      <li class="step step--start"><span class="step__n" aria-hidden="true">00</span><div><p class="step__date">Departure</p><p class="step__place"><Flag code="tz" /> {m.start.place}</p></div></li>
+      {m.route.map((r, i) => (
+        <li class={`step step-${i + 1}`} tabindex="0" data-stop={i + 1}>
+          <span class="step__n" aria-hidden="true">{r.n}</span>
+          <div><p class="step__date">{r.date} 2026</p><p class="step__place"><span class="step__flags">{r.flags.map((f) => <Flag code={f} />)}</span><span class="step__name">{r.place}</span></p><p class="step__focus">{r.focus}</p></div>
+        </li>
+      ))}
+      <li class="step step--next"><span class="step__n" aria-hidden="true">→</span><div><p class="step__date">{m.next.date} · planned</p><p class="step__place"><Flag code="tz" /> {m.next.place}</p><p class="step__focus">{m.next.text}</p></div></li>
+    </ol>
+  </div>
+  <figcaption class="routemap__cap">Map: Natural Earth. Routes are schematic, not flight paths.</figcaption>
+</figure>
+
+<style>
+  .routemap { margin: 0; }
+  .routemap__grid { display: grid; gap: 2rem; align-items: center; }
+  @media (min-width: 960px) { .routemap__grid { grid-template-columns: 1.15fr 0.85fr; gap: 3.5rem; } }
+  .map { width: 100%; height: auto; display: block; max-height: 82vh; -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent); mask-composite: intersect; }
+  .land path { fill: rgba(245, 245, 240, 0.06); stroke: rgba(245, 245, 240, 0.14); stroke-width: 0.6; }
+  .land path.host { fill: rgba(245, 245, 240, 0.22); }
+  .land path.tz { fill: var(--brand); stroke: var(--brand); }
+  .leg { fill: none; stroke: var(--paper); stroke-width: 2.2; stroke-linecap: round; }
+  .leg-1 { stroke: var(--brand); }
+  .leg--back { stroke: var(--gray); stroke-width: 1.6; stroke-dasharray: 0.006 0.012; opacity: 0.8; }
+  .dot { fill: var(--paper); stroke: var(--charcoal); stroke-width: 2; }
+  .dot--start { fill: var(--brand); }
+  .halo { fill: none; stroke: var(--brand); stroke-width: 2; opacity: 0; transition: opacity 0.25s var(--ease); }
+  .lbl { font-family: var(--font-display); font-weight: 700; font-size: 15px; fill: var(--paper); paint-order: stroke; stroke: var(--charcoal); stroke-width: 4px; stroke-linejoin: round; }
+  .lbl__n { fill: var(--brand); }
+  .lbl--start { fill: var(--brand); }
+
+  /* Draw the route in order when the map scrolls into view (only when JS and motion are on; otherwise it is simply shown). */
+  .js .routemap.reveal { opacity: 1; transform: none; }
+  .js .routemap .leg:not(.leg--back) { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .js .routemap.is-in .leg:not(.leg--back) { stroke-dashoffset: 0; transition: stroke-dashoffset 0.9s var(--ease) calc(0.3s + var(--i) * 0.75s); }
+  .js .routemap .stop, .js .routemap .leg--back { opacity: 0; }
+  .js .routemap.is-in .stop { opacity: 1; transition: opacity 0.4s var(--ease) calc(1.05s + var(--i) * 0.75s); }
+  .js .routemap.is-in .leg--back { opacity: 0.8; transition: opacity 0.8s var(--ease) 3.8s; }
+  @media (prefers-reduced-motion: reduce) { .js .routemap .leg, .js .routemap .stop, .js .routemap .leg--back { stroke-dashoffset: 0 !important; opacity: 1 !important; } }
+
+  /* List */
+  .steps-list { display: grid; gap: 0; border-left: 2px solid var(--line-dark); }
+  .step { display: grid; grid-template-columns: 3rem 1fr; gap: 0.6rem; padding: 0.9rem 0 0.9rem 1.1rem; position: relative; border-radius: var(--radius); outline-offset: 2px; }
+  .step::before { content: ''; position: absolute; left: -7px; top: 1.35rem; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--charcoal); }
+  .step--start::before { background: var(--brand); }
+  .step--next::before { background: var(--charcoal); border: 2px dashed var(--gray); }
+  .step__n { font-family: var(--font-display); font-weight: 800; color: var(--brand); font-size: 0.9rem; letter-spacing: 0.08em; padding-top: 0.15rem; }
+  .step__date { font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); }
+  .step__place { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.15; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+  .step__focus { color: var(--gray); font-size: 0.92rem; }
+  .step__flags { display: inline-flex; gap: 0.3rem; } .step__name { min-width: 0; overflow-wrap: anywhere; }
+  @media (max-width: 600px) { .lbl { font-size: 26px; stroke-width: 6px; } .step__place { font-size: var(--step-1); } }
+  .step--next .step__place { color: var(--brand); }
+  .step[data-stop] { cursor: default; transition: background 0.2s var(--ease); }
+  .step[data-stop]:hover, .step[data-stop]:focus-visible { background: var(--charcoal-2); }
+  .routemap__cap { margin-top: 1.4rem; font-size: 0.78rem; color: var(--gray); }
+
+  /* Highlight the matching stop on the map */
+  .routemap:has(.step-1:hover, .step-1:focus-visible) .stop-1 .halo,
+  .routemap:has(.step-2:hover, .step-2:focus-visible) .stop-2 .halo,
+  .routemap:has(.step-3:hover, .step-3:focus-visible) .stop-3 .halo,
+  .routemap:has(.step-4:hover, .step-4:focus-visible) .stop-4 .halo { opacity: 1; }
+</style>
