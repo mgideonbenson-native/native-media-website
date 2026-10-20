@@ -1,0 +1,222 @@
+---
+/**
+ * Motion snapshot: the EU–Tanzania investment roadshow (28 Sep – 6 Oct 2026) in a 30-second motion graphic.
+ * A snapshot of one news recap, not a report. Content and sources live in src/data/motion.ts.
+ * The film is self-hosted (public/media/motion), so no third-party player or cookies are involved.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { euTanzaniaRoadshow as m, sourceById } from '../../data/motion';
+
+const statusLabel = { reported: 'Reported', 'not-yet': 'Not reported yet', target: 'Target, not result', planned: 'Planned' } as const;
+const mmss = (t: number) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+const cite = (ids: string[]) => ids.map(sourceById);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'Tanzania’s pitch to Europe: the EU–Tanzania investment roadshow in 30 seconds',
+  description: m.dek,
+  thumbnailUrl: [new URL(m.video.poster, 'https://nativemedia.co.tz').href],
+  uploadDate: m.date,
+  duration: m.duration,
+  contentUrl: new URL(m.video.hd, 'https://nativemedia.co.tz').href,
+  publisher: { '@type': 'Organization', name: 'Native Media', url: 'https://nativemedia.co.tz' },
+  isBasedOn: { '@type': 'NewsArticle', headline: m.primary.title, url: m.primary.url, publisher: { '@type': 'Organization', name: m.primary.publisher } },
+};
+---
+<BaseLayout title="Tanzania’s pitch to Europe: a motion snapshot | Native Media" description={m.dek} image={m.video.og} jsonLd={jsonLd}>
+  <PageHero eyebrow="Creative Data · Motion snapshot" title={m.title} lede={m.dek}
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Creative Data', href: '/creative-data' }, { label: 'EU–Tanzania roadshow' }]}>
+    <div class="hero-actions">
+      <a class="btn" href="#film">Watch the film <span aria-hidden="true">↓</span></a>
+      <a class="btn btn--ghost" href={m.primary.url} target="_blank" rel="noopener noreferrer">Read the original recap <span aria-hidden="true">↗</span><span class="sr-only"> (TanzaniaInvest, opens in a new tab)</span></a>
+    </div>
+    <p class="hero-meta"><span class="tag tag--brand">Snapshot, not a report</span> <span class="muted">Runtime {m.runtimeLabel} · Built from TanzaniaInvest’s recap of 19 October 2026</span></p>
+  </PageHero>
+
+  <section class="section theme-dark film" id="film" aria-labelledby="film-t">
+    <div class="wrap">
+      <h2 class="sr-only" id="film-t">The film</h2>
+      <figure class="player">
+        <video controls playsinline preload="metadata" poster={m.video.poster} data-video
+          aria-describedby="film-transcript-t" width="1920" height="1080">
+          <source src={m.video.hd} type="video/mp4" media="(min-width: 900px)" />
+          <source src={m.video.sd} type="video/mp4" />
+          <source src={m.video.webm} type="video/webm" />
+          <p>Your browser cannot play this video. <a href={m.video.sd}>Download it (MP4, 8 MB)</a>, or read the scene-by-scene text below.</p>
+        </video>
+        <figcaption class="player__cap">
+          <span>Tanzania’s pitch to Europe · Native Media, October 2026</span>
+          <span>Has sound · works muted</span>
+        </figcaption>
+      </figure>
+
+      <ol class="chapters" aria-label="Jump to a scene" data-chapters>
+        {m.chapters.map((c, i) => (
+          <li><button type="button" class="chap" data-t={c.t} aria-label={`Play from ${mmss(c.t)}: ${c.label}`}>
+            <span class="chap__t">{mmss(c.t)}</span><span class="chap__l">{c.label}</span>
+            <span class="chap__bar" aria-hidden="true" style={`--a:${c.t / 30};--b:${(m.chapters[i + 1]?.t ?? 30) / 30}`}></span>
+          </button></li>
+        ))}
+      </ol>
+
+      <details class="transcript">
+        <summary id="film-transcript-t">Read what the film says, scene by scene</summary>
+        <ol>{m.chapters.map((c) => <li><span class="chap__t">{mmss(c.t)}</span> <strong>{c.label}.</strong> {c.text}</li>)}</ol>
+      </details>
+    </div>
+  </section>
+
+  <section class="section theme-light" id="ledger" aria-labelledby="ledger-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Read it straight</p><h2 id="ledger-t">What happened, what didn’t, what’s next.</h2>
+        <p class="lede">A roadshow is a pitch, not a deal. This is where things stood on 19 October 2026, sorted by how certain they are.</p></div>
+      <ul class="ledger">
+        {m.ledger.map((l) => (
+          <li class={`led led--${l.status}`}>
+            <p class="led__status">{statusLabel[l.status]}</p>
+            <p class="led__text">{l.text}</p>
+            {l.detail && <p class="led__detail">{l.detail}</p>}
+            <p class="srcline">Source: {cite(l.src).map((s, i) => <>{i > 0 && '; '}<a href={s.url} target="_blank" rel="noopener noreferrer">{s.publisher}, {s.date}<span class="sr-only"> (opens in a new tab)</span></a></>)}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section theme-charcoal" id="route" aria-labelledby="route-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">The route</p><h2 id="route-t">Nine days, four countries.</h2>
+        <p class="lede">Each stop had its own focus. Tanzania’s delegation pitched to companies, investors and development lenders, with site visits on the second day.</p></div>
+      <ol class="route">
+        {m.route.map((r, i) => (
+          <li class="stop">
+            <p class="stop__date"><span class="stop__n">0{i + 1}</span>{r.date}</p>
+            <h3>{r.place}<span class="stop__c">{r.country}</span></h3>
+            <p class="stop__focus">{r.focus}</p>
+            <p class="muted">{r.note}</p>
+            <p class="srcline">Source: {cite(r.src).map((s, j) => <>{j > 0 && '; '}<a href={s.url} target="_blank" rel="noopener noreferrer">{s.publisher}, {s.date}<span class="sr-only"> (opens in a new tab)</span></a></>)}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section theme-dark" id="source" aria-labelledby="src-t">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow">The source</p>
+        <h2 class="h2" id="src-t">Read the full recap.</h2>
+        <p class="lede">This film condenses one news recap and the coverage behind it. The detail, including the full project list and every financing instrument mentioned, is in the original.</p>
+        <article class="card source-card">
+          <p class="tag">News recap · {m.primary.date}</p>
+          <h3><a href={m.primary.url} target="_blank" rel="noopener noreferrer">{m.primary.title}<span class="sr-only"> (opens in a new tab)</span></a></h3>
+          <p>{m.primary.publisher}</p>
+          <a class="arrow-link" href={m.primary.url} target="_blank" rel="noopener noreferrer" aria-label={`Read the original on ${m.primary.publisher}`}>Read the original <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+      <div class="stack">
+        <h3 class="sub-h">All sources</h3>
+        <ul class="srclist">
+          {m.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}<span class="sr-only"> (opens in a new tab)</span></a><span>{s.publisher} · {s.date}</span></li>)}
+        </ul>
+        <h3 class="sub-h">How we made it</h3>
+        <ul class="plain">{m.made.map((x) => <li>{x}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Want your news to move like this?" text="We turn reports, recaps and announcements into short, sourced motion graphics people actually watch." href="/contact/creative-data" label="Creative Data inquiry" />
+</BaseLayout>
+
+<script>
+  // Chapter buttons seek the film and show which scene is playing. Without JS the list is still a readable outline.
+  const video = document.querySelector<HTMLVideoElement>('[data-video]');
+  const chaps = [...document.querySelectorAll<HTMLButtonElement>('[data-chapters] [data-t]')];
+  if (video && chaps.length) {
+    const times = chaps.map((b) => Number(b.dataset.t));
+    // Seek once the film's metadata is known; before that, setting currentTime is ignored by some browsers.
+    const seek = (t: number) => {
+      const go = () => { video.currentTime = t; video.play().catch(() => {}); };
+      if (video.readyState >= 1) go();
+      else { video.addEventListener('loadedmetadata', go, { once: true }); video.load(); }
+    };
+    chaps.forEach((b) => b.addEventListener('click', () => {
+      seek(Number(b.dataset.t) + 0.05);
+      video.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    }));
+    const mark = () => {
+      const t = video.currentTime;
+      let k = 0; times.forEach((x, i) => { if (t >= x) k = i; });
+      chaps.forEach((b, i) => {
+        b.toggleAttribute('aria-current', i === k && t > 0);
+        const a = times[i], z = times[i + 1] ?? 30;
+        b.style.setProperty('--p', String(Math.max(0, Math.min(1, (t - a) / (z - a)))));
+      });
+    };
+    video.addEventListener('timeupdate', mark);
+    video.addEventListener('seeked', mark);
+  }
+</script>
+
+<style>
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; font-size: 0.9rem; }
+
+  .film { padding-top: clamp(2.5rem, 5vw, 4rem); }
+  .player { margin: 0; display: grid; gap: 0.8rem; }
+  .player video { width: 100%; height: auto; aspect-ratio: 16 / 9; background: #04060b; border: 1px solid var(--line-dark); border-radius: var(--radius); display: block; }
+  .player__cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 1rem; font-size: 0.82rem; color: var(--gray); }
+
+  .chapters { margin-top: 1.6rem; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); }
+  .chap { width: 100%; text-align: left; display: grid; gap: 0.2rem; padding: 0.8rem 0.9rem 1rem; background: var(--charcoal); border: 1px solid var(--line-dark); border-radius: var(--radius); cursor: pointer; position: relative; overflow: hidden; transition: border-color 0.2s var(--ease), background 0.2s var(--ease); }
+  .chap:hover { border-color: var(--brand); }
+  .chap[aria-current] { border-color: var(--brand); background: var(--charcoal-2); }
+  .chap__t { font-family: var(--font-display); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.12em; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .chap__l { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; }
+  .chap__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--line-dark); }
+  .chap__bar::after { content: ''; position: absolute; inset: 0; background: var(--brand); transform-origin: left; transform: scaleX(var(--p, 0)); }
+
+  .transcript { margin-top: 1.6rem; border-top: 1px solid var(--line-dark); padding-top: 1.2rem; }
+  .transcript summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; color: var(--paper); }
+  .transcript summary:hover { color: var(--brand); }
+  .transcript ol { margin-top: 1rem; display: grid; gap: 0.7rem; max-width: 52rem; color: var(--gray); }
+  .transcript strong { color: var(--paper); }
+
+  .ledger { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
+  .led { background: var(--white); border: 1px solid var(--line-light); border-top: 4px solid var(--black); padding: 1.4rem 1.5rem; display: grid; gap: 0.55rem; align-content: start; }
+  .led--reported { border-top-color: var(--brand); }
+  .led--not-yet { border-top-style: dashed; border-top-color: var(--gray-ink); background: var(--paper-2); }
+  .led--target { border-top-color: var(--gray-ink); }
+  .led--planned { border-top-color: var(--black); }
+  .led__status { font-family: var(--font-display); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-ink); }
+  .led--reported .led__status { color: var(--brand-ink); }
+  .led__text { font-family: var(--font-display); font-weight: 700; font-size: var(--step-1); line-height: 1.3; }
+  .led__detail { color: var(--gray-ink); font-size: 0.95rem; }
+
+  .route { display: grid; gap: 1px; background: var(--line-dark); border: 1px solid var(--line-dark); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .stop { background: var(--charcoal); padding: 1.6rem 1.5rem; display: grid; gap: 0.55rem; align-content: start; }
+  .stop__date { font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); display: flex; gap: 0.8rem; }
+  .stop__n { color: var(--brand); }
+  .stop h3 { font-size: var(--step-2); font-weight: 800; display: grid; gap: 0.15rem; }
+  .stop__c { font-family: var(--font-body); font-weight: 500; font-size: 0.9rem; letter-spacing: 0; color: var(--gray); }
+  .stop__focus { font-weight: 600; }
+
+  .srcline { margin-top: 0.3rem; font-size: 0.78rem; line-height: 1.45; color: var(--gray); }
+  .theme-light .srcline { color: var(--gray-ink); }
+  .srcline a { color: inherit; text-underline-offset: 2px; }
+  .srcline a:hover { color: var(--brand); }
+  .theme-light .srcline a:hover { color: var(--brand-ink); }
+
+  .source-card h3 a { text-decoration: none; } .source-card h3 a:hover { color: var(--brand); }
+  .source-card .tag { justify-self: start; }
+  .sub-h { font-size: var(--step-1); font-weight: 800; margin-top: 0.4rem; }
+  .srclist { display: grid; gap: 0.9rem; }
+  .srclist li { display: grid; gap: 0.15rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--line-dark); }
+  .srclist a { font-weight: 600; text-decoration: none; line-height: 1.35; } .srclist a:hover { color: var(--brand); text-decoration: underline; }
+  .srclist span { font-size: 0.82rem; color: var(--gray); }
+  .plain { display: grid; gap: 0.6rem; color: var(--gray); }
+  .plain li { padding-left: 1.2rem; position: relative; }
+  .plain li::before { content: ''; position: absolute; left: 0; top: 0.75rem; width: 0.6rem; height: 2px; background: var(--brand); }
+</style>

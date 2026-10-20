@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Visual from '../../components/Visual.astro';
+import { euTanzaniaRoadshow as latest } from '../../data/motion';
 const formats = [
   { title: 'Audiovisuals', art: 'lens', text: 'Films and audio built around research, interviews and institutions.' },
   { title: 'Motion graphics', art: 'signal', text: 'Animated graphics that make data and ideas move and become easier to follow.' },
@@ -22,9 +23,37 @@ const formats = [
         <p class="lede">Each one starts from evidence and is designed for the people who need to understand it.</p></div>
       <ul class="formats">
         {formats.map((f) => (
+          f.title === 'Motion graphics' ? (
+            <li class="fmt-live">
+              <a href={`/creative-data/${latest.slug}`} class="fmt-live__link" aria-label={`Watch the motion graphic: ${latest.title}`}>
+                <Visual ratio="16 / 9"><img src={latest.video.poster} alt="Still from the motion graphic: 68 projects, worth USD 30.1 billion, rising out of a dot map of Tanzania" width="1600" height="900" loading="lazy" decoding="async" /></Visual>
+                <span class="play" aria-hidden="true"></span>
+              </a>
+              <h3>{f.title}</h3><p class="muted">{f.text}</p>
+              <a class="arrow-link" href={`/creative-data/${latest.slug}`}>Watch: Tanzania’s pitch to Europe <span aria-hidden="true">→</span></a>
+            </li>
+          ) : (
           <li><Visual art={f.art} label="Portfolio placeholder" ratio="16 / 9" /><h3>{f.title}</h3><p class="muted">{f.text}</p></li>
+          )
         ))}
       </ul>
+    </div>
+  </section>
+
+  <section class="section theme-dark" aria-labelledby="motion-t">
+    <div class="wrap feature">
+      <a class="feature__media" href={`/creative-data/${latest.slug}`} aria-label={`Watch the motion graphic: ${latest.title}`}>
+        <img src={latest.video.poster} alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <span class="play play--lg" aria-hidden="true"></span>
+        <span class="feature__time" aria-hidden="true">{latest.runtimeLabel}</span>
+      </a>
+      <div class="stack">
+        <p class="eyebrow">Motion snapshot · New</p>
+        <h2 class="h2" id="motion-t">{latest.title}</h2>
+        <p class="lede">{latest.dek}</p>
+        <p class="muted small">Built from {latest.primary.publisher}’s recap of {latest.primary.date}. A snapshot, not a report: every figure is sourced and marked as reported, targeted or planned.</p>
+        <p><a class="btn" href={`/creative-data/${latest.slug}`}>Watch the film <span aria-hidden="true">→</span></a></p>
+      </div>
     </div>
   </section>
 
@@ -45,5 +74,19 @@ const formats = [
   .formats { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
   .formats li { display: grid; gap: 0.6rem; align-content: start; } .formats h3 { font-size: var(--step-1); font-weight: 800; }
   .snap { max-width: 46rem; }
+  .fmt-live__link { position: relative; display: block; }
+  .fmt-live__link img { width: 100%; height: 100%; object-fit: cover; }
+  .fmt-live .arrow-link { justify-self: start; }
+  .play { position: absolute; left: 50%; top: 50%; width: 3.6rem; height: 3.6rem; translate: -50% -50%; border-radius: 50%; background: var(--brand); transition: transform 0.25s var(--ease); }
+  .play::after { content: ''; position: absolute; left: 54%; top: 50%; translate: -50% -50%; border-style: solid; border-width: 0.6rem 0 0.6rem 1rem; border-color: transparent transparent transparent var(--black); }
+  .play--lg { width: 5rem; height: 5rem; } .play--lg::after { border-width: 0.8rem 0 0.8rem 1.35rem; }
+  a:hover > .play, a:focus-visible > .play { transform: scale(1.08); }
+  .feature { display: grid; gap: 2.5rem; align-items: center; }
+  .feature__media { position: relative; display: block; border: 1px solid var(--line-dark); border-radius: var(--radius); overflow: hidden; }
+  .feature__media img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 0.6s var(--ease); }
+  .feature__media:hover img { transform: scale(1.02); }
+  .feature__time { position: absolute; right: 0.8rem; bottom: 0.8rem; background: rgba(10,10,10,.75); padding: 0.2rem 0.5rem; font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; }
+  .small { font-size: 0.92rem; }
+  @media (min-width: 900px) { .feature { grid-template-columns: 1.25fr 0.75fr; gap: 4rem; } }
   .card h3 a { text-decoration: none; } .card h3 a:hover { color: var(--brand-ink); } .card .tag { justify-self: start; } .more { margin-top: 2rem; }
 </style>
