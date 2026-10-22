@@ -10,7 +10,7 @@ export const company = {
   descriptor: 'A Pan-African media-tech and strategic communication agency based in Dar es Salaam.',
   positioning:
     'Native Media leverages storytelling, research, data and creative production to shape narratives, build reputations, generate insight and strengthen Africa’s presence in global conversations.',
-  why: 'We believe Africa should be easy to understand. That’s why we make information about Africa more accessible, so people everywhere can understand it.',
+  why: 'We believe Africa should be easy to understand. That’s why we make information about Africa more accessible, so Africans and the world can understand it.',
   promise: 'African perspectives. Strategic insight. Global standards.',
   vision:
     'To become a respected African media, strategic communications and intelligence company, recognized for its ability to generate insight, shape narratives and produce high-quality creative and institutional content.',
