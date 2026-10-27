@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Visual from '../../components/Visual.astro';
-import { euTanzaniaRoadshow as latest } from '../../data/motion';
+import { tanzaniaSgr as latest, euTanzaniaRoadshow as earlier } from '../../data/motion';
 const formats = [
   { title: 'Audiovisuals', art: 'lens', text: 'Films and audio built around research, interviews and institutions.' },
   { title: 'Motion graphics', art: 'signal', text: 'Animated graphics that make data and ideas move and become easier to follow.' },
@@ -26,11 +26,11 @@ const formats = [
           f.title === 'Motion graphics' ? (
             <li class="fmt-live">
               <a href={`/creative-data/${latest.slug}`} class="fmt-live__link" aria-label={`Watch the motion graphic: ${latest.title}`}>
-                <Visual ratio="16 / 9"><img src={latest.video.poster} alt="Opening frame of the motion graphic: Tanzania took its investment pitch to Europe, over a glowing dot map of Tanzania with its flag at Dar es Salaam" width="1600" height="900" loading="lazy" decoding="async" /></Visual>
+                <Visual ratio="16 / 9"><img src={latest.video.poster} alt="Title frame of the motion graphic: The Standard Gauge Railway, over an electric train crossing the savanna at sunset" width="1600" height="900" loading="lazy" decoding="async" /></Visual>
                 <span class="play" aria-hidden="true"></span>
               </a>
               <h3>{f.title}</h3><p class="muted">{f.text}</p>
-              <a class="arrow-link" href={`/creative-data/${latest.slug}`}>Watch: Tanzania’s pitch to Europe <span aria-hidden="true">→</span></a>
+              <a class="arrow-link" href={`/creative-data/${latest.slug}`}>Watch: Tanzania’s Standard Gauge Railway <span aria-hidden="true">→</span></a>
             </li>
           ) : (
           <li><Visual art={f.art} label="Portfolio placeholder" ratio="16 / 9" /><h3>{f.title}</h3><p class="muted">{f.text}</p></li>
@@ -48,11 +48,12 @@ const formats = [
         <span class="feature__time" aria-hidden="true">{latest.runtimeLabel}</span>
       </a>
       <div class="stack">
-        <p class="eyebrow">Motion snapshot · New</p>
+        <p class="eyebrow">Motion explainer · New</p>
         <h2 class="h2" id="motion-t">{latest.title}</h2>
         <p class="lede">{latest.dek}</p>
-        <p class="muted small">A snapshot, not a report: one minute on where Tanzania pitched, what it showed and what comes next.</p>
+        <p class="muted small">Two minutes on what is running, what is still being built, and the first passenger and freight figures, with measured and projected numbers kept apart.</p>
         <p><a class="btn" href={`/creative-data/${latest.slug}`}>Watch the film <span aria-hidden="true">→</span></a></p>
+        <p class="small"><a class="arrow-link" href={`/creative-data/${earlier.slug}`}>Also: {earlier.title} ({earlier.runtimeLabel}) <span aria-hidden="true">→</span></a></p>
       </div>
     </div>
   </section>

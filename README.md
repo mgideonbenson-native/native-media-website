@@ -24,6 +24,7 @@ Nothing is published to the internet by these commands.
 | `src/data/site.ts` | **Company facts, menu items and the six pillars.** Edit text here. |
 | `src/styles/global.css` | **Design system**: colours, fonts, spacing. |
 | `public/brand/` | Your supplied logo files. |
+| `motion/sgr/` | Source for the SGR motion explainer: script, fact sheet and storyboard (`PRODUCTION.md`), on-screen text (`content.js`), and the renderer that produces the film in `public/media/motion/`. |
 
 ## Placeholders (nothing here is invented fact)
 No photographs, contact details, social links, team, partners or published content were supplied, so those areas are clearly labelled **Placeholder**. Search for "placeholder" to find them.

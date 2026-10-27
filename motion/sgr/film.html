@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Tanzania's Standard Gauge Railway · film renderer</title>
+<!-- Open through render.mjs (it serves the repo root), or `node motion/sgr/render.mjs --serve` to scrub in a browser. -->
+<style>
+  html, body { margin: 0; background: #000; }
+  canvas { display: block; width: 1920px; height: 1080px; }
+  body.preview canvas { width: 100vw; height: 56.25vw; }
+  #scrub { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<canvas id="film" width="1920" height="1080"></canvas>
+<script>
+  // Fonts are the site's own (self-hosted fontsource files), loaded before the first frame.
+  const fontBase = '/node_modules/@fontsource-variable';
+  window.READY = Promise.all([
+    new FontFace('Archivo SGR', `url(${fontBase}/archivo/files/archivo-latin-wdth-normal.woff2)`, { weight: '100 900', stretch: '62% 125%' }).load(),
+    new FontFace('Hanken SGR', `url(${fontBase}/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2)`, { weight: '100 900' }).load(),
+  ]).then((faces) => faces.forEach((f) => document.fonts.add(f)));
+</script>
+<script src="content.js"></script>
+<script src="geo.js"></script>
+<script>
+  window.READY = window.READY.then(() => new Promise((res) => {
+    const s = document.createElement('script'); s.src = 'film.js'; s.onload = res; document.body.appendChild(s);
+  }));
+  // Interactive preview: ?preview adds a scrubber and plays in real time.
+  if (location.search.includes('preview')) window.READY.then(() => {
+    document.body.classList.add('preview');
+    const r = document.createElement('input'); r.type = 'range'; r.id = 'scrub'; r.min = 0; r.max = 120; r.step = 1 / 30; r.value = 0; document.body.appendChild(r);
+    let t0 = performance.now(), playing = true;
+    r.addEventListener('input', () => { playing = false; renderFrame(+r.value); });
+    document.addEventListener('keydown', (e) => { if (e.code === 'Space') { playing = !playing; t0 = performance.now() - r.value * 1000; } });
+    const loop = (now) => { if (playing) { const t = ((now - t0) / 1000) % 120; r.value = t; renderFrame(t); } requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  });
+</script>
+</body>
+</html>
