@@ -407,7 +407,7 @@
     if (phase === 'gauge') {
       // end-on view down the track; the rails slide from metre gauge out to standard gauge
       const o = eio(prog(t, 62.0, 1.6));
-      cam = { yaw: lerp(Math.PI / 2 - 0.04, 0.0, o), pitch: lerp(0.08, 0.16, o), dist: lerp(200, 5.2, o), fov: 1300, cx: 640, cy: 470, target: [lerp(-60, 0, o), 0, lerp(2, 0.05, o)] };
+      cam = { yaw: lerp(Math.PI / 2 - 0.25, 0.0, o), pitch: lerp(0.35, 0.16, o), dist: lerp(16, 5.2, o), fov: 1300, cx: 640, cy: 470, target: [lerp(1.5, 0, o), 0, lerp(0.3, 0.05, o)] };   // starts on a close 3/4 view of the track, swings end-on
       const P = projector(cam);
       const g = lerp(1.0, 1.435, eio(prog(t, 63.6, 1.6)));
       const tr = CP.track(S, { x0: -1.2, x1: 6, gauge: g, fastenings: false });
