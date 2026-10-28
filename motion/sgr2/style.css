@@ -1,0 +1,74 @@
+/* Tanzania SGR v2 — design tokens and layout. 1280 × 720 stage; everything is positioned by film.js per frame. */
+@font-face { font-family: 'Poppins'; font-weight: 400; src: url('../fonts/Poppins-Regular.ttf'); }
+@font-face { font-family: 'Poppins'; font-weight: 500; src: url('../fonts/Poppins-Medium.ttf'); }
+@font-face { font-family: 'Poppins'; font-weight: 600; src: url('../fonts/Poppins-SemiBold.ttf'); }
+@font-face { font-family: 'Poppins'; font-weight: 700; src: url('../fonts/Poppins-Bold.ttf'); }
+
+:root {
+  --orange: #E8752A;
+  --orange-soft: rgba(232, 117, 42, 0.55);
+  --black: #0b0b0a;
+  --charcoal: #161615;
+  --charcoal-2: #1f1e1c;
+  --charcoal-3: #2a2826;
+  --cream: #efe7d6;
+  --cream-2: #d9cfbb;
+  --white: #ffffff;
+  --grey: #8e8c86;
+  --grey-2: #5e5c57;
+  --m: 64px;              /* safe margin */
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #000; }
+#stage { position: relative; width: 1280px; height: 720px; overflow: hidden; background: var(--charcoal);
+  font-family: 'Poppins', sans-serif; color: var(--white); -webkit-font-smoothing: antialiased; }
+body.preview #stage { transform-origin: 0 0; }
+.layer { position: absolute; inset: 0; }
+
+/* map: a CSS 3D stage; the plane is transformed like a camera move (see film.js mapCamera) */
+#mapStage { perspective: 1500px; perspective-origin: 50% 38%; overflow: hidden; background: #141516; }
+#mapPlane { position: absolute; left: 0; top: 0; transform-origin: 0 0; transform-style: preserve-3d; }
+#mapPlane > img, #mapPlane > svg, #mapAnchors { position: absolute; left: 0; top: 0; }
+#reliefTz { transform: translateZ(10px); }
+#reliefShadow { transform: translate(6px, 14px); opacity: 0.9; }
+#mapVec { transform: translateZ(11px); overflow: visible; }
+#mapAnchors { transform: translateZ(11px); }
+#mapAnchors i { position: absolute; width: 1px; height: 1px; }
+#mapShade { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%),
+              linear-gradient(to bottom, rgba(11,11,10,0.55), rgba(11,11,10,0) 22%, rgba(11,11,10,0) 75%, rgba(11,11,10,0.6)); }
+
+/* typography */
+.kicker { font-weight: 600; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); }
+.rule { display: block; width: 44px; height: 3px; background: var(--orange); margin-bottom: 14px; }
+.title { font-weight: 600; font-size: 46px; line-height: 1.08; letter-spacing: -0.01em; }
+.title.xl { font-size: 58px; }
+.sub { font-weight: 400; font-size: 19px; line-height: 1.4; color: var(--cream); }
+.num { font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 0.95; }
+.label { font-weight: 500; font-size: 15px; color: var(--cream); }
+.note { font-weight: 400; font-size: 12px; line-height: 1.45; color: var(--grey); }
+.tag { display: inline-block; font-weight: 600; font-size: 11px; letter-spacing: 0.16em; padding: 4px 8px 3px; border-radius: 2px; }
+.tag.solid { background: var(--orange); color: var(--black); }
+.tag.grey { background: var(--grey-2); color: var(--white); }
+.tag.line { border: 1.5px dashed var(--orange); color: var(--orange); padding: 3px 7px 2px; }
+
+/* reusable UI blocks (absolutely positioned by film.js) */
+.block { position: absolute; will-change: opacity, transform; }
+.card { position: absolute; padding: 18px 22px 18px 24px; background: rgba(22,22,21,0.84); border-left: 3px solid var(--orange);
+  backdrop-filter: none; box-shadow: 0 12px 30px rgba(0,0,0,0.35); }
+.card .tag { margin-bottom: 10px; }
+.card .ttl { font-weight: 600; font-size: 22px; line-height: 1.2; }
+.card .sb { font-size: 13.5px; color: var(--cream-2); margin-top: 6px; line-height: 1.4; }
+.mlabel { position: absolute; font-weight: 600; font-size: 15px; color: var(--white); white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6); transform: translate(12px, -50%); }
+.mlabel.left { transform: translate(calc(-100% - 12px), -50%); }
+.mlabel.below { transform: translate(-50%, 10px); }
+.mlabel.minor { font-weight: 500; font-size: 13px; color: var(--cream-2); }
+.marker { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--orange);
+  box-shadow: 0 0 0 2.5px var(--cream), 0 2px 6px rgba(0,0,0,0.6); }
+.marker.minor { width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: var(--cream); box-shadow: 0 0 0 2px var(--charcoal), 0 1px 4px rgba(0,0,0,0.6); }
+.wlabel { position: absolute; font-weight: 500; font-style: italic; font-size: 13px; color: rgba(239,231,214,0.42); white-space: nowrap; transform: translate(-50%, -50%); }
+.clabel { position: absolute; font-weight: 600; font-size: 11px; letter-spacing: 0.3em; color: rgba(239,231,214,0.3); white-space: nowrap; transform: translate(-50%, -50%); }
+.clabel.tz { color: rgba(22,22,21,0.45); font-size: 14px; letter-spacing: 0.5em; }
+
+#grain { pointer-events: none; opacity: 0.06; mix-blend-mode: overlay; background-size: 256px 256px; }

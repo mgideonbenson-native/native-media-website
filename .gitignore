@@ -10,3 +10,4 @@ motion/sgr3d/out/
 motion/sgr3d/data/tiles/
 motion/sgr3d/data/dem_*.npz
 motion/sgr3d/data/rail.geojson
+motion/sgr2/out/

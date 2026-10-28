@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Tanzania SGR · v2 renderer</title>
+<!-- Render with render.mjs (serves the repo root). Preview: node motion/sgr2/render.mjs --serve, then open …/index.html?preview -->
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="stage">
+  <!-- map: one persistent, tilted plane shared by the map scenes -->
+  <div id="mapStage" class="layer">
+    <div id="mapPlane">
+      <img id="reliefBase" src="assets/relief_base.jpg" alt="" />
+      <img id="reliefShadow" src="assets/relief_tz_shadow.webp" alt="" />
+      <img id="reliefTz" src="assets/relief_tz.webp" alt="" />
+      <svg id="mapVec" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="mapAnchors"></div>
+    </div>
+    <div id="mapShade"></div>
+  </div>
+  <div id="mapLabels" class="layer"></div>
+  <svg id="scene" class="layer" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div id="ui" class="layer"></div>
+  <div id="grain" class="layer"></div>
+</div>
+<script src="content.js"></script>
+<script src="lib/core.js"></script>
+<script src="lib/solid.js"></script>
+<script src="lib/components.js"></script>
+<script src="film.js"></script>
+</body>
+</html>

@@ -13,7 +13,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'out')
 W, H, SS = 1920, 1080, 2                       # overlays drawn at 2x and downsampled for clean anti-aliasing
 ORANGE, CREAM, WHITE, GREY, CHAR = (232, 117, 42), (239, 231, 214), (255, 255, 255), (154, 152, 146), (22, 22, 21)
-F = lambda w, s: ImageFont.truetype(os.path.join(HERE, 'fonts', f'Poppins-{w}.ttf'), s * SS)
+F = lambda w, s: ImageFont.truetype(os.path.join(HERE, '..', 'fonts', f'Poppins-{w}.ttf'), s * SS)
 
 # timeline (output frame numbers, 30 fps)
 S1 = (1, 105)          # shot 1 frames 1..105
