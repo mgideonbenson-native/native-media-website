@@ -1,6 +1,13 @@
 # Phases 5–7: Production notes, TBPL Newsletter Issue 001
 
-**Output:** `out/TBPL-Newsletter-Issue-001-October-2026.pdf`. This is the online edition: 20 pages, A4, RGB, about 5.9 MB, tagged for accessibility, with 38 bookmarks and live links (contents, cover lines, cross-references, email and website).
+**Output:** `out/TBPL-Newsletter-Issue-001-October-2026-editor-review.pdf`. This is the **editor-review edition**: anything with an error or a missing label prints as a yellow **EDITOR** placeholder (client instruction, 30 October 2026). The checklist of all placeholders, by page, is in `out/editor-placeholders.md`.
+
+## Placeholder rule
+- **Errors** (contradictions, misspellings, inconsistent names) are *replaced* by a placeholder that quotes the source text. Examples: the "2026/2027 financial year" versus "by June 2026" conflict, the "Distribution network expands" subhead (councils fell from 178 to 149), product-name variants, "Product"/"Products" Limited, "Magazine", "Mohamed"/"Mohammed", and three misspellings.
+- **Missing labels** keep their text and gain a placeholder where the label belongs. These cover photo credits and the names of people pictured, event dates, the Liuka byline and ending, the Nanenane quote attribution, the malaria-figure source, the 751,870-litre period, the domestic/export period, and the Morogoro quantities.
+- **To publish:** resolve each placeholder in `content/issue-001.js` (or the page file), re-render until `out/editor-placeholders.md` lists none, then set `meta.editorPlaceholders` to `false`.
+
+The issue itself is: 20 pages, A4, RGB, about 5.9 MB, tagged for accessibility, with 38 bookmarks and live links (contents, cover lines, cross-references, email and website).
 **Source:** `issue/issue-001.html`, built from `content/issue-001.js` in Direction A (Documentary Ledger).
 
 ## Client decisions (30 October 2026)
@@ -9,11 +16,12 @@
 | Visual direction | A, Documentary Ledger, adapted to the available assets | Whole issue |
 | Embassy (F1) | **Embassy of Canada** | Headline and contents corrected; original kept in `articles.embassy.sourceTitle` |
 | Annual sales (F3) | No exact figures exist | Shown as approximate with the source's qualifiers; neutral note that they do not sum exactly to the total |
-| Liuka article (F13) | No further text, byline or date exist | Published without byline or date; final sentence closed with a full stop |
-| Event dates (F22) | Unavailable | No date fields printed for undated events |
-| Photo captions (F16) | No caption sheet exists | Captions written from the article context only: place and event, never names; no photo credits printed |
+| Liuka article (F13) | No further text, byline or date exist | Placeholders for byline, date and ending |
+| Event dates (F22) | Unavailable | Date placeholder in each dateline or fact box |
+| Photo captions (F16) | No caption sheet exists | Context caption (place and event) plus a placeholder for names and photo credit |
 | Originals and vectors (F17, F18) | Unavailable | Extracted assets used within the size rules; logo used as supplied, never redrawn |
 | Output | Online PDF | 150 ppi floor; RGB; links and bookmarks |
+| Errors and missing labels | Placeholders for editors' review | 57 placeholders on 19 pages; see `out/editor-placeholders.md` |
 
 ## Corrections log
 Corrections are marked in the content file as `[[ID|original=>fix]]`. Approved corrections always apply. Proposed ones apply only when `meta.applyProposedCorrections` is set to `true`. Review mode shows every correction.
@@ -21,12 +29,12 @@ Corrections are marked in the content file as `[[ID|original=>fix]]`. Approved c
 | ID | Where | Source text | Corrected to | Status |
 |---|---|---|---|---|
 | F1 | Embassy headline, contents | "…to the Denmark Embassy: …" | "…to the Embassy of Canada: …" | **Approved, applied** |
-| F13 | Liuka, last sentence | "…strengthening preventive public health" | "…health." | **Approved, applied** (punctuation only) |
-| F15 | Performance, p. 4–5 | "commitee" | "committee" | Proposed, not applied |
-| F15 | Morogoro, p. 8 | "equipment's" | "equipment" | Proposed, not applied |
-| F15 | El Niño headline and text | "El Nino" | "El Niño" | Proposed, not applied |
+| F13 | Liuka, last sentence | "…strengthening preventive public health" | Placeholder: ending to be supplied | Awaiting editors |
+| F15 | Performance, p. 5 | "commitee" | "committee" | Placeholder, awaiting editors |
+| F15 | Morogoro, p. 8 | "equipment's" | "equipment" | Placeholder, awaiting editors |
+| F15 | El Niño headline and text | "El Nino" | "El Niño" | Placeholder, awaiting editors |
 
-Everything else is printed as written in the source, including the spelling variants listed under flags F9–F12 (product names, "Product"/"Products", "Magazine", "Mohamed"/"Mohammed"). To apply the three proposed corrections, change one line in `content/issue-001.js` and run `npm run render`.
+Spelling variants under flags F9–F12 (product names, "Product"/"Products", "Magazine", "Mohamed"/"Mohammed") also print as placeholders until editors confirm them.
 
 ## New copy written by the editors
 These are shown as *New copy* in review mode:
@@ -88,7 +96,6 @@ Placed image resolution in the final issue:
 
 All are sharp on screen. If the issue is ever printed, the photos below 200 ppi will look slightly soft; the Tanga photo should then be reduced to about 137 mm wide.
 
-## Still open (none blocks online publication)
-- **Proposed spelling corrections** (F15): approve or reject.
-- **QR code** (F24): it points to `ndc.go.tz/…/NEWSLETTER-OCT-2026.pdf`. If this redesign replaces that file at the same address, the QR needs no change. Otherwise, update the QR or the hosted file.
-- **Flags kept as printed:** F2 (reporting period), F5 (councils 178 → 149 under an "expands" subhead), F6 (period of the 751,870 litres), F8 (unsourced malaria figures, shown as a quotation with a note), F9–F12 (name variants), F14 (unattributed Nanenane quote).
+## Still open
+- **57 placeholders**, listed by page in `out/editor-placeholders.md`.
+- **QR code** (F24): it points to `ndc.go.tz/…/NEWSLETTER-OCT-2026.pdf`. If the final PDF replaces that file at the same address, the QR needs no change. Otherwise, update the QR or the hosted file.

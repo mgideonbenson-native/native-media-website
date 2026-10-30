@@ -41,7 +41,7 @@
 .df-hero .fig-note { grid-column: 1 / -1; }
 .df-body { grid-column: 1 / -1; margin-top: 6mm; }
 .df-photo { grid-column: 1 / -1; margin-top: 7mm; }
-.df-photo .photo { height: 98mm; }
+.df-photo .photo { height: 88mm; }
 .df-cap { grid-column: 1 / span 7; margin-top: 2mm; }
 .df-body-last { margin-top: 4mm; border-top: .2mm solid var(--rule); padding-top: 3.2mm; }
 

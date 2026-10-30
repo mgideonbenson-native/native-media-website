@@ -188,7 +188,7 @@
   /* 9. Product reference: only what the issue itself says. */
   function products(el, I) {
     el.innerHTML = `<table class="products"><thead><tr><th>Product</th><th>Type</th><th>What this issue says</th><th>Status</th></tr></thead><tbody>${
-      I.articles.products.map(d => `<tr class="${d.projected ? 'projected' : ''}"><td><b>${d.name}</b>${d.variants ? `<small>${d.variants}</small>` : ''}${d.flags ? `<span class="review-only">${window.TBPL.statusChip('reported', d.flags)}</span>` : ''}</td><td>${d.type}</td><td>${d.said}</td><td>${d.status}</td></tr>`).join('')}</tbody></table>`;
+      I.articles.products.map(d => `<tr class="${d.projected ? 'projected' : ''}"><td><b>${window.TBPL.inline(d.name)}</b>${d.variants ? `<small>${d.variants}</small>` : ''}${d.flags ? `<span class="review-only">${window.TBPL.statusChip('reported', d.flags)}</span>` : ''}</td><td>${d.type}</td><td>${d.said}</td><td>${d.status}</td></tr>`).join('')}</tbody></table>`;
   }
 
   window.TBPL_CHARTS = { salesBars, salesSplit, councilDots, regionalMap, locator, process, issueMap, timeline, products };

@@ -75,3 +75,10 @@ body.review .flagged::after { content: attr(data-flag); font: 700 5pt/1 var(--f-
 .review-panel .legend .chip { font-size: 7pt; }
 .sev-critical { color: var(--flag); } .sev-high { color: #B5541E; } .sev-medium { color: #8A6A00; } .sev-low { color: var(--ink-3); }
 @media print { .review-panel { display: none; } }
+
+/* Placeholder for editors' review: prints in the PDF until an editor resolves it */
+.ph { display: inline; font: 600 .78em/1.25 var(--f-sans); font-style: normal; letter-spacing: 0; text-transform: none; text-indent: 0;
+  color: #6B4A00; background: #FFF1B8; box-shadow: inset 0 0 0 .25mm #C99A00; border-radius: .5mm; padding: .1em .35em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.ph b { font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: .82em; margin-right: .45em; color: #8A5A00; }
+.headline .ph, .standfirst .ph { font-size: .5em; vertical-align: .25em; }

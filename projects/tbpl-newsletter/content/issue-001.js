@@ -21,10 +21,12 @@ window.TBPL_ISSUE = {
     volume: '001',
     date: 'October 2026',
     edition: 'First Edition 26/27',
-    // Spelling-only corrections marked [[ID|original=>fix]] are shown only when this is true (awaiting client approval).
-    // Approved corrections (F1 Canada, F13 full stop) are always applied.
+    // Editor-review edition (client instruction, 30 Oct 2026): every flag with an `ask` prints as a placeholder.
+    // Errors are replaced by a placeholder quoting the source text; missing labels get a placeholder in their slot.
+    editorPlaceholders: true,
+    // Corrections marked [[ID|original=>fix]]: approved ones always apply; proposed ones apply only when this is true.
     applyProposedCorrections: false,
-    approvedCorrections: ['F1', 'F13'],
+    approvedCorrections: ['F1'],
     contact: {
       title: 'Managing Director',
       address: ['P.O Box 2669', 'Development House', 'Kivukoni Front, Ohio St', 'Dar es Salaam'],
@@ -37,7 +39,7 @@ window.TBPL_ISSUE = {
     board: {
       chiefEditor: 'Samwel Mziray',
       editor: 'Innocent Msuha',
-      reporters: ['Aisha Mohamed', 'Jackson Kelvin', 'Miriam Chavalla', 'Upendo Kessy', 'Joyce Mgaya'],
+      reporters: ['[[F12|Aisha Mohamed]]', 'Jackson Kelvin', 'Miriam Chavalla', 'Upendo Kessy', 'Joyce Mgaya'],
       originalLayout: 'Kimwaga Ramadhani'
     }
   },
@@ -95,24 +97,24 @@ window.TBPL_ISSUE = {
   flags: {
     F1: { severity: 'critical', page: '2, 11, 12', text: 'Contents and headline say "Denmark Embassy"; the body text names the "Embassy of Canada" three times. Confirm which embassy was visited.',
       resolution: 'Client confirmed Embassy of Canada (30 Oct 2026). Headline and contents corrected; original headline kept in articles.embassy.sourceTitle.' },
-    F2: { severity: 'high', page: 2, text: 'Article says progress was recorded "during the 2026/2027 financial year", but the pesticide sales figure is "by June 2026", which falls in FY 2025/26 if the financial year runs July–June. Confirm the reporting period.' },
+    F2: { kind: 'error', ask: 'Confirm reporting period', severity: 'high', page: 2, text: 'Article says progress was recorded "during the 2026/2027 financial year", but the pesticide sales figure is "by June 2026", which falls in FY 2025/26 if the financial year runs July–June. Confirm the reporting period.' },
     F3: { severity: 'high', page: 4, text: 'The three annual figures (≈0.6 + ≈6.2 + ≈12) total ≈TZS 18.8 bn, which matches domestic sales (18.79) rather than the cumulative total (19.50). Confirm whether the annual series is domestic-only, and supply exact annual values.',
       resolution: 'Exact figures unavailable (client, 30 Oct 2026). Publish as approximate with the source qualifiers, and note that the annual figures do not sum exactly to the total. Do not show growth multiples.' },
-    F4: { severity: 'medium', page: 4, text: 'Domestic (18.79) and export (0.71) sales sum exactly to 19.50, but the period they cover is not stated explicitly. Confirm they are three-year totals.' },
-    F5: { severity: 'high', page: 3, text: 'Subhead says the "distribution network expands across the country", but councils served fell from 178 (2024/25) to 149 (2025/26). Headline and data point in different directions; editor to resolve wording or explain.' },
-    F6: { severity: 'medium', page: 3, text: '751,870 litres "distributed": no period, product mix or relationship to the 13,131 litres sold is given (distribution volume is ~57× sales volume). Clarify scope before visualising alongside sales.' },
+    F4: { kind: 'label', ask: 'Period to be confirmed', severity: 'medium', page: 4, text: 'Domestic (18.79) and export (0.71) sales sum exactly to 19.50, but the period they cover is not stated explicitly. Confirm they are three-year totals.' },
+    F5: { kind: 'error', ask: 'Subhead conflicts with the data (178 → 149 councils)', severity: 'high', page: 3, text: 'Subhead says the "distribution network expands across the country", but councils served fell from 178 (2024/25) to 149 (2025/26). Headline and data point in different directions; editor to resolve wording or explain.' },
+    F6: { kind: 'label', ask: 'Period and scope to be supplied', severity: 'medium', page: 3, text: '751,870 litres "distributed": no period, product mix or relationship to the 13,131 litres sold is given (distribution volume is ~57× sales volume). Clarify scope before visualising alongside sales.' },
     F7: { severity: 'low', page: 4, text: 'Two different country lists: samples sent to Mozambique, Kenya and Malawi; export markets "include" Kenya and Uganda. Not contradictory, but the map must keep the categories distinct. Is the export list complete?' },
-    F8: { severity: 'high', page: 18, text: 'Malaria prevalence 14.3% → 5.5%, Arusha/Njombe <1%: appears only within a quotation, with no years or survey source. Present as a quote, not a chart, unless an official source and survey years are supplied.' },
-    F9: { severity: 'medium', page: '12–14', text: 'Product name variants: "Thurisave-24", "Thurisave" and "Thurisave 24"; "Griselesf" (spelling unverified); "Biolarvicides" capitalised as a product name. Supply the official product-name list.' },
-    F10: { severity: 'low', page: 'multiple', text: 'Company name appears as both "Tanzania Biotech Products Limited" and "Tanzania Biotech Product Limited".' },
-    F11: { severity: 'low', page: '2, 1', text: 'Contents lists "Message from the Chief Editor"; the page is headed "Message from the Editor". The editor\'s letter calls the publication a "Magazine"; the masthead says "Newsletter".' },
-    F12: { severity: 'low', page: '2, 15, 17', text: 'Reporter spelled "Aisha Mohamed" (editorial board) and "Aisha Mohammed" (bylines).' },
-    F13: { severity: 'critical', page: 10, text: 'Liuka Gold Mine article ends mid-sentence ("…strengthening preventive public health") with no closing text. It also has no byline and no date for the visit.',
-      resolution: 'No further text, byline or date exists (client, 30 Oct 2026). The final sentence is grammatically complete, so it is closed with a full stop (logged correction). Published without byline or date.' },
-    F14: { severity: 'medium', page: 8, text: 'Nanenane pull quote ("Empowering young people…") is unattributed.' },
-    F15: { severity: 'low', page: 'multiple', text: 'Typos and style: "Ecological Agricultur" (cover), "commitee" (p3), "equipment\'s" (p7), "Pg.." (cover); mixed UK/US spelling (fertiliser/fertilizer, neighbour/neighbor); "El Nino" vs "El Niño". Agree a house style.' },
-    F16: { severity: 'high', page: 'all', text: 'No photograph has a caption or photographer credit, and people pictured are not identified. A caption and credit sheet is needed before publication; draft captions in this project are marked "to confirm".',
-      resolution: 'No caption sheet exists (client, 30 Oct 2026). Captions are written by the editors from the article context only: place and event, never names or roles of the people pictured. No photo credits are printed.' },
+    F8: { kind: 'label', ask: 'Source and survey years to be supplied', severity: 'high', page: 18, text: 'Malaria prevalence 14.3% → 5.5%, Arusha/Njombe <1%: appears only within a quotation, with no years or survey source. Present as a quote, not a chart, unless an official source and survey years are supplied.' },
+    F9: { kind: 'error', ask: 'Confirm product name', severity: 'medium', page: '12–14', text: 'Product name variants: "Thurisave-24", "Thurisave" and "Thurisave 24"; "Griselesf" (spelling unverified); "Biolarvicides" capitalised as a product name. Supply the official product-name list.' },
+    F10: { kind: 'error', ask: 'Confirm company name', severity: 'low', page: 'multiple', text: 'Company name appears as both "Tanzania Biotech Products Limited" and "Tanzania Biotech Product Limited".' },
+    F11: { kind: 'error', ask: 'Confirm publication name', severity: 'low', page: '2, 1', text: 'Contents lists "Message from the Chief Editor"; the page is headed "Message from the Editor". The editor\'s letter calls the publication a "Magazine"; the masthead says "Newsletter".' },
+    F12: { kind: 'error', ask: 'Confirm spelling of name', severity: 'low', page: '2, 15, 17', text: 'Reporter spelled "Aisha Mohamed" (editorial board) and "Aisha Mohammed" (bylines).' },
+    F13: { kind: 'label', ask: 'Ending to be supplied (source stops here)', severity: 'critical', page: 10, text: 'Liuka Gold Mine article ends mid-sentence ("…strengthening preventive public health") with no closing text. It also has no byline and no date for the visit.',
+      resolution: 'Placeholder for editors (client, 30 Oct 2026): byline, date and ending to be supplied.' },
+    F14: { kind: 'label', ask: 'Attribution to be supplied', severity: 'medium', page: 8, text: 'Nanenane pull quote ("Empowering young people…") is unattributed.' },
+    F15: { kind: 'error', ask: 'Confirm spelling', severity: 'low', page: 'multiple', text: 'Typos and style: "Ecological Agricultur" (cover), "commitee" (p3), "equipment\'s" (p7), "Pg.." (cover); mixed UK/US spelling (fertiliser/fertilizer, neighbour/neighbor); "El Nino" vs "El Niño". Agree a house style.' },
+    F16: { kind: 'label', ask: 'Names of people pictured and photo credit to be supplied', severity: 'high', page: 'all', text: 'No photograph has a caption or photographer credit, and people pictured are not identified. A caption and credit sheet is needed before publication; draft captions in this project are marked "to confirm".',
+      resolution: 'Placeholder for editors (client, 30 Oct 2026). Context captions (place and event) stay; names of people pictured and credits are placeholders.' },
     F17: { severity: 'high', page: 'all', text: 'Embedded photos are 1,000–1,700 px wide (one at 3,271 px). Full-page print needs ~2,500–3,500 px. Supply original camera files.',
       resolution: 'No originals available. Use the images embedded in the PDF (already extracted at full embedded resolution) and size each one to its resolution; see docs/02-design-system.md > Asset rules. Possible source: the original InDesign package from the layout designer.' },
     F18: { severity: 'medium', page: 'all', text: 'Logo is only available as a 345×145 px raster extracted from the PDF. Supply vector master files and brand guidelines (Pantone/CMYK values). Colours in this project are sampled from the artwork.',
@@ -120,9 +122,9 @@ window.TBPL_ISSUE = {
     F19: { severity: 'low', page: '3, 5', text: 'Stray text fragments in the right margin ("P o o", "D J m p"): overset or hidden text frames in the source InDesign file. Check nothing was meant to appear there.' },
     F20: { severity: 'low', page: 'all', text: 'Page background is a pink tint (#FEF7FC), probably unintended.' },
     F21: { severity: 'low', page: '1, 6, 18', text: 'The Chief Editor (Samwel Mziray) is also quoted and pictured as TBPL Marketing Manager (Samwel Paul Mziray). Confirm the preferred name form.' },
-    F22: { severity: 'medium', page: '6–18', text: 'Dates missing for most events (Morogoro handover, Liuka visit, Embassy visit, Njombe visit, Radio One broadcast, Nanenane). Only the Tanga exhibition is dated.',
-      resolution: 'Dates unavailable. Undated events are published without dates; no date fields are printed.' },
-    F23: { severity: 'medium', page: 6, text: 'Morogoro handover: quantities of pumps, boots and Biolarvicides, and the names of the nine councils, are not stated. Cannot be visualised without them.' },
+    F22: { kind: 'label', ask: 'Date to be supplied', severity: 'medium', page: '6–18', text: 'Dates missing for most events (Morogoro handover, Liuka visit, Embassy visit, Njombe visit, Radio One broadcast, Nanenane). Only the Tanga exhibition is dated.',
+      resolution: 'Placeholder for editors (client, 30 Oct 2026) wherever a date belongs.' },
+    F23: { kind: 'label', ask: 'Quantities to be supplied', severity: 'medium', page: 6, text: 'Morogoro handover: quantities of pumps, boots and Biolarvicides, and the names of the nine councils, are not stated. Cannot be visualised without them.' },
     F24: { severity: 'low', page: 1, text: 'Cover QR code resolves to https://ndc.go.tz/wp-content/uploads/2026/10/NEWSLETTER-OCT-2026.pdf. If the redesigned PDF replaces the original, the hosted file or the QR must be updated.' },
     F26: { severity: 'medium', page: '3, 13–14', text: 'Fosforina and Dimargon are "expected to enter the market in early January 2027", while engagement with the regulator (TFRA) is described as "ongoing". Keep the launch framed as projected and confirm regulatory status.' }
   },
@@ -226,6 +228,7 @@ window.TBPL_ISSUE = {
       byline: 'Miriam Chavalla',
       sourcePages: '6–7',
       newKicker: 'Field report · Morogoro Region',
+      handedOver: '[[F9|Biolarvicides]]',
       newStandfirst: 'Pumps, protective boots and Biolarvicides were handed over to nine councils in Morogoro Region to support malaria prevention and control.',
       body: [
         { p: 'Tanzania Biotech Products Limited (TBPL), a subsidiary of the National Development Corporation (NDC), has handed over pumps, protective boots and [[F9|Biolarvicides]] to nine councils in Morogoro Region as part of efforts to strengthen the fight against malaria.' },
@@ -274,7 +277,7 @@ window.TBPL_ISSUE = {
       activities: [
         { step: 'Educate', text: 'Education on the proper use of biological products in environmental management and mosquito control.' },
         { step: 'Inspect', text: 'Inspection of mosquito breeding sites within the Embassy premises.' },
-        { step: 'Introduce', text: 'Information on three products: Thurisave-24, Bactivec and Griselesf.' }
+        { step: 'Introduce', text: 'Information on three products: [[F9|Thurisave-24]], Bactivec and [[F9|Griselesf]].' }
       ],
       body: [
         { p: 'In its continued commitment to promoting biological solutions and creating awareness about the importance of a clean, healthy, and safe environment, [[F10|Tanzania Biotech Product Limited]] (TBPL) conducted an educational visit to the Embassy of Canada.' },
@@ -370,9 +373,9 @@ window.TBPL_ISSUE = {
 
     /* Product reference for the explainer page: only what this issue states about each product. */
     products: [
-      { name: 'Thurisave', variants: 'also “Thurisave-24”, “Thurisave 24”', type: 'Biological crop protection', said: 'Intended for use on maize, vegetables and cashew crops.', status: 'On display, Tanga; introduced at the Embassy of Canada', flags: ['F9'] },
+      { name: '[[F9|Thurisave]]', variants: 'also “Thurisave-24”, “Thurisave 24”', type: 'Biological crop protection', said: 'Intended for use on maize, vegetables and cashew crops.', status: 'On display, Tanga; introduced at the Embassy of Canada', flags: ['F9'] },
       { name: 'Bactivec', type: 'Biological product', said: 'Introduced at the Embassy of Canada; uses not described in this issue.', status: 'Introduced to the Embassy' },
-      { name: 'Griselesf', type: 'Biological product', said: 'Introduced at the Embassy of Canada; uses not described in this issue.', status: 'Introduced to the Embassy', flags: ['F9'] },
+      { name: '[[F9|Griselesf]]', type: 'Biological product', said: 'Introduced at the Embassy of Canada; uses not described in this issue.', status: 'Introduced to the Embassy', flags: ['F9'] },
       { name: 'Fosforina', type: 'Bio-fertiliser', said: 'Trial production with Dimargon: 3,475 litres.', status: 'Expected on the market in early January 2027', projected: true, flags: ['F26'] },
       { name: 'Dimargon', type: 'Bio-fertiliser', said: 'Trial production with Fosforina: 3,475 litres.', status: 'Expected on the market in early January 2027', projected: true, flags: ['F26'] }
     ],

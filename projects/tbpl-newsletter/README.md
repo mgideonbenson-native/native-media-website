@@ -3,13 +3,14 @@
 Redesign of the *Tanzania Biotech Products Limited Newsletter*, Issue 001 (October 2026), as a data-led editorial publication.
 The project is built with HTML, CSS, SVG and JavaScript, and rendered to PDF with Playwright.
 
-**Status: Phases 1–7 complete. The online edition is `out/TBPL-Newsletter-Issue-001-October-2026.pdf` (20 pages). See `docs/03-production-notes.md` for decisions, the corrections log and QA results.**
+**Status: Phases 1–7 complete. The editor-review edition is `out/TBPL-Newsletter-Issue-001-October-2026-editor-review.pdf` (20 pages). Errors and missing labels print as EDITOR placeholders, listed in `out/editor-placeholders.md`. See `docs/03-production-notes.md` for decisions, the corrections log and QA results.**
 
 ## Review
 | What | Where |
 |---|---|
-| **Final online PDF** | `out/TBPL-Newsletter-Issue-001-October-2026.pdf` |
+| **Editor-review PDF** | `out/TBPL-Newsletter-Issue-001-October-2026-editor-review.pdf` |
 | Full issue source (open in a browser) | `issue/issue-001.html` (add `?review` for review mode) |
+| Placeholder checklist for editors | `out/editor-placeholders.md` |
 | Production notes, corrections log, QA | `docs/03-production-notes.md` |
 | Review hub | `prototypes/index.html` |
 | Content audit, statistics register, flags | `docs/01-content-audit.md` |

@@ -7,13 +7,26 @@
 
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   // [[F2|text]] marks source text an editor must review. The lookahead lets flagged text itself end in "]".
+  // Placeholder for editors: a visible tag with the instruction, quoting the source text where there is one.
+  const ph = (id, ask, quoted) => `<span class="ph" data-flag="${id}"><b>Editor</b>${ask}${quoted ? `: “${quoted}”` : ''}</span>`;
   const inline = s => esc(s).replace(/\[\[(F\d+)\|(.*?)\]\](?!\])/g, (_, id, t) => {
     // [[F15|original=>fix]] is a logged correction: approved ones always apply, proposed ones only when switched on.
     const [orig, fix] = t.split('=&gt;');
+    const f = I.flags[id] || {};
+    const approved = (I.meta.approvedCorrections || []).includes(id);
+    if (I.meta.editorPlaceholders && f.ask && !approved) {
+      if (f.kind === 'label') return `${orig}${ph(id, f.ask)}`;            // keep the text, flag the missing label
+      return ph(id, fix !== undefined ? `${f.ask}` : f.ask, fix !== undefined ? `${orig}” → “${fix}` : orig); // replace the error
+    }
     if (fix === undefined) return `<span class="flagged" data-flag="${id}">${t}</span>`;
-    const on = (I.meta.approvedCorrections || []).includes(id) || I.meta.applyProposedCorrections;
+    const on = approved || I.meta.applyProposedCorrections;
     return `<span class="flagged corr" data-flag="${id}" title="Source: ${orig || '(nothing)'}">${on ? fix : orig}</span>`;
   });
+  // Empty label slot: <span data-component="ph" data-flag="F22" data-ask="optional override"></span>
+  function placeholder(el) {
+    const f = I.flags[el.dataset.flag] || {};
+    el.outerHTML = ph(el.dataset.flag, el.dataset.ask || f.ask || 'To be supplied');
+  }
   const fmt = (n, d = 0) => Number(n).toLocaleString('en-GB', { minimumFractionDigits: d, maximumFractionDigits: d });
 
   /* Threaded text frames: every [data-component=body] with the same data-ref is one story, filled in
@@ -103,7 +116,7 @@
   }
 
   function mount() {
-    const C = { body, text, status, ...(window.TBPL_CHARTS || {}) };
+    const C = { body, text, status, ph: placeholder, ...(window.TBPL_CHARTS || {}) };
     // Two passes: everything that takes up space first, then the text that flows around it.
     for (const pass of ['layout', 'flow']) {
       document.querySelectorAll('[data-component]').forEach(el => {
