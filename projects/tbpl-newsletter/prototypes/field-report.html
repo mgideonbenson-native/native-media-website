@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBPL Newsletter: Field report prototype</title>
+<link rel="stylesheet" href="../src/styles/tokens.css">
+<link rel="stylesheet" href="../src/styles/base.css">
+<link rel="stylesheet" href="../src/styles/components.css">
+<style>
+  /* Template 5: photographic field report (spread). Left page: documentary image to the trim edge. */
+  .fr-photo { position: absolute; top: 0; left: 0; right: 0; height: 203mm; }
+  .fr-photo img { object-position: 50% 40%; }
+  .fr-tag { position: absolute; top: 12mm; left: var(--m-outer); background: var(--paper); padding: 2.2mm 3mm; }
+  .fr-tag .kicker { color: var(--green-deep); }
+  .fr-cap { position: absolute; top: 206mm; left: var(--m-outer); right: var(--m-inner); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); }
+  .fr-cap .caption { grid-column: 1 / span 9; }
+  .fr-cap .credit { grid-column: 10 / -1; text-align: right; }
+  .fr-head { position: absolute; top: 222mm; left: var(--m-outer); right: var(--m-inner); bottom: var(--m-bottom); }
+  .fr-head .headline { font-size: 31pt; line-height: 33pt; margin-top: 3.4mm; }
+  .fr-head .standfirst { font-size: 12.2pt; margin-top: 3.4mm; max-width: 150mm; }
+
+  .fr-text { grid-column: 1 / span 8; margin-top: 7mm; height: 236mm; }
+  .fr-rail { grid-column: 9 / -1; margin-top: 7mm; display: flex; flex-direction: column; gap: 6mm; }
+  .fr-rail .map { margin: 1mm -1mm 0; }
+  .fr-rail h4 { margin-bottom: 2.2mm; }
+  .fr-byline { grid-column: 1 / span 8; margin-top: 7mm; }
+</style>
+</head>
+<body>
+<main class="desk">
+  <div class="spread">
+    <!-- LEFT PAGE: photograph + headline -->
+    <section class="page left" data-template="field-report" data-folio="9">
+      <figure class="fr-photo photo bleed">
+        <img src="../src/assets/photos/p09-liuka-mine-assessment.jpg" alt="Three men in hard hats and high-visibility vests stand over a patch of ground in dry woodland. One holds a long-handled dipper containing water; another holds a red-rimmed sieve.">
+      </figure>
+      <div class="fr-tag"><p class="kicker">Field report · Chunya, Mbeya Region</p></div>
+      <div class="fr-cap">
+        <p class="caption" data-status="draft" data-flags="F16,F17" data-component="text" data-ref="articles.liuka.images.0.draftCaption"></p>
+        <p class="credit">Photograph: credit to confirm</p>
+      </div>
+      <div class="fr-head">
+        <div class="rule"></div>
+        <h1 class="headline" data-component="text" data-ref="articles.liuka.title"></h1>
+        <p class="standfirst" data-component="text" data-ref="articles.liuka.newStandfirst" data-status="draft"></p>
+      </div>
+      <footer class="folio"><span><b>9</b></span><span>Field report</span></footer>
+    </section>
+
+    <!-- RIGHT PAGE: text + field notes -->
+    <section class="page right" data-template="field-report" data-folio="10">
+      <div class="live">
+        <header class="runhead"><span>Field report</span><span class="pub">TBPL <i>Newsletter</i> · Issue 001</span></header>
+
+        <div class="fr-text cols-2 balance" data-component="body" data-ref="liuka" data-lead></div>
+
+        <aside class="fr-rail">
+          <div>
+            <h4 class="label-caps">Field notes</h4>
+            <dl class="facts">
+              <div><dt>Site</dt><dd>New Liuka Gold Mine</dd></div>
+              <div><dt>Where</dt><dd>Chunya District, Mbeya Region</dd></div>
+              <div><dt>Team</dt><dd>TBPL specialists</dd></div>
+              <div><dt>Purpose</dt><dd>Identify potential mosquito breeding sites and recommend control measures</dd></div>
+              <div><dt>Output</dt><dd>Technical recommendations tailored to the site (in preparation)</dd></div>
+              <div><dt>Date</dt><dd class="unstated">Not stated in source <span data-status="draft" data-flags="F22"></span></dd></div>
+            </dl>
+          </div>
+
+          <figure>
+            <h4 class="label-caps">Location</h4>
+            <div class="map" data-component="locator" data-place="chunya" data-ref="dar" data-sub="Mbeya Region"></div>
+          </figure>
+
+          <figure>
+            <h4 class="label-caps">How the assessment works</h4>
+            <div data-component="process" data-ref="liuka"></div>
+            <figcaption class="fig-note">Sequence as described in the report. Schematic.</figcaption>
+          </figure>
+        </aside>
+
+        <p class="fr-byline byline review-only">No byline in source <span data-status="draft" data-flags="F13"></span></p>
+      </div>
+      <footer class="folio"><span><b>10</b></span><span>Tanzania Biotech Products Limited · October 2026</span></footer>
+    </section>
+  </div>
+</main>
+<script src="../content/issue-001.js"></script>
+<script src="../src/assets/maps/east-africa.js"></script>
+<script src="../src/js/charts.js"></script>
+<script src="../src/js/components.js"></script>
+</body>
+</html>

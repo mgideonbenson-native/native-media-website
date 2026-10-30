@@ -1,0 +1,70 @@
+/* Page frame, grid and editorial typography. */
+
+@page { size: 210mm 297mm; margin: 0; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { background: #5d636a; color: var(--ink); font-family: var(--f-text); font-size: var(--t-body); line-height: var(--l-body);
+  font-kerning: normal; font-variant-ligatures: common-ligatures; text-rendering: geometricPrecision; }
+img { display: block; max-width: 100%; }
+
+/* Screen: pages float on a neutral desk. Print/PDF: pages butt edge to edge. */
+.desk { display: flex; flex-wrap: wrap; gap: 10mm; justify-content: center; padding: 12mm 6mm; }
+.spread { display: flex; gap: 0; box-shadow: 0 2mm 8mm rgba(0,0,0,.35); }
+.spread .page { box-shadow: none; }
+.page { position: relative; width: var(--page-w); height: var(--page-h); overflow: hidden; background: var(--paper);
+  box-shadow: 0 2mm 8mm rgba(0,0,0,.35); break-after: page; page-break-after: always; }
+.page.white { background: var(--white); }
+@media print {
+  body { background: none; }
+  .desk { display: block; padding: 0; }
+  .spread { display: contents; box-shadow: none; }
+  .page { box-shadow: none; }
+}
+
+/* Live area + 12-column grid. Left pages put the inner margin on the right. */
+.live { position: absolute; top: var(--m-top); bottom: var(--m-bottom); left: var(--m-outer); right: var(--m-inner);
+  display: grid; grid-template-columns: repeat(var(--cols), 1fr); column-gap: var(--gutter); align-content: start; }
+.page.right .live { left: var(--m-inner); right: var(--m-outer); }
+
+/* Folio */
+.folio { position: absolute; bottom: 6.5mm; left: var(--m-outer); right: var(--m-inner); display: flex; justify-content: space-between;
+  font: 500 6.6pt/1 var(--f-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.page.right .folio { left: var(--m-inner); right: var(--m-outer); flex-direction: row-reverse; }
+.folio b { color: var(--ink); font-weight: 700; font-family: var(--f-num); font-size: 9pt; letter-spacing: 0; }
+
+/* Typography */
+.kicker { font: 700 var(--t-kicker)/1.2 var(--f-sans); letter-spacing: .16em; text-transform: uppercase; color: var(--tbpl-blue); display: flex; align-items: center; gap: 2.5mm; }
+.kicker::before { content: ''; width: 6mm; height: 1.4mm; background: var(--tbpl-yellow); flex: none; }
+.kicker.green { color: var(--green-deep); }
+.headline { font-family: var(--f-display); font-weight: 600; font-variation-settings: 'opsz' 96, 'SOFT' 0, 'WONK' 0; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
+.headline.xl { font-size: 33pt; line-height: 35pt; }
+.headline.l  { font-size: 27pt; line-height: 29.5pt; }
+.standfirst { font: 400 var(--t-standfirst)/1.38 var(--f-text); font-variation-settings: 'opsz' 20; color: var(--ink); text-wrap: pretty; }
+.byline { font: 600 7.2pt/1.3 var(--f-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.byline span { color: var(--ink); }
+
+.body { font-variation-settings: 'opsz' 10; hyphens: auto; -webkit-hyphens: auto; text-align: left; orphans: 3; widows: 3; }
+.body p + p { text-indent: 4mm; }
+.body p { text-wrap: pretty; }
+.body h3 { font: 700 var(--t-h3)/1.25 var(--f-sans); color: var(--ink); margin: 3.4mm 0 1.2mm; break-after: avoid; letter-spacing: -.003em; }
+.body h3:first-child { margin-top: 0; }
+.body h3 + p { text-indent: 0; }
+.body .lead::first-letter { font-family: var(--f-display); font-weight: 600; float: left; font-size: 40.5pt; line-height: 31pt; padding: 1.4mm 1.6mm 0 0; color: var(--tbpl-blue); font-variation-settings: 'opsz' 144; }
+.cols-2 { column-count: 2; column-gap: var(--gutter); column-fill: auto; }
+.cols-3 { column-count: 3; column-gap: var(--gutter); column-fill: auto; }
+.cols-2.balance, .cols-3.balance { column-fill: balance; }
+.end-mark::after { content: ''; display: inline-block; width: 1.9mm; height: 1.9mm; background: var(--tbpl-green); margin-left: 1.4mm; vertical-align: baseline; }
+
+.caption { font: 400 var(--t-caption)/1.4 var(--f-sans); color: var(--ink-2); }
+.caption b { color: var(--ink); font-weight: 700; }
+.credit { font: 500 6pt/1.2 var(--f-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+
+.rule { height: 0; border-top: .35mm solid var(--rule-strong); }
+.rule.hair { border-top: .2mm solid var(--rule); }
+
+.photo { position: relative; overflow: hidden; background: #ccc; }
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+.body p.cont { text-indent: 0; }
+/* A text frame that fills whatever height is left in the live area (row sized 1fr by the page) */
+.fill { min-height: 0; align-self: stretch; }

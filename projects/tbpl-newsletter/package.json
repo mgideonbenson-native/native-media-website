@@ -1,0 +1,17 @@
+{
+  "name": "tbpl-newsletter",
+  "private": true,
+  "type": "module",
+  "description": "TBPL Newsletter Issue 001 redesign: editorial design system, prototypes and Playwright render pipeline.",
+  "scripts": {
+    "maps": "node scripts/build-maps.mjs",
+    "render": "node scripts/render.mjs",
+    "qa": "node scripts/render.mjs --qa-only"
+  },
+  "devDependencies": {
+    "d3-geo": "^3.1.1",
+    "playwright": "^1.48.0",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
+  }
+}

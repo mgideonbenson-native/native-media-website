@@ -1,0 +1,69 @@
+/* TBPL Newsletter design tokens: Direction A, "Documentary Ledger".
+   Brand colours are sampled from the Issue 001 source artwork (see content/issue-001.js > brand, flag F18). */
+
+@font-face { font-family: 'Fraunces'; src: url('../assets/fonts/fraunces-latin-full-normal.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: block; }
+@font-face { font-family: 'Fraunces'; src: url('../assets/fonts/fraunces-latin-full-italic.woff2') format('woff2'); font-weight: 100 900; font-style: italic; font-display: block; }
+@font-face { font-family: 'Source Serif 4'; src: url('../assets/fonts/source-serif-4-latin-opsz-normal.woff2') format('woff2'); font-weight: 200 900; font-style: normal; font-display: block; }
+@font-face { font-family: 'Source Serif 4'; src: url('../assets/fonts/source-serif-4-latin-opsz-italic.woff2') format('woff2'); font-weight: 200 900; font-style: italic; font-display: block; }
+@font-face { font-family: 'Schibsted Grotesk'; src: url('../assets/fonts/schibsted-grotesk-latin-wght-normal.woff2') format('woff2'); font-weight: 400 900; font-display: block; }
+/* The Latin subsets above omit U+2248 (≈); these one-glyph subsets (Google Fonts, same OFL faces) supply it. */
+@font-face { font-family: 'Fraunces'; src: url('../assets/fonts/fraunces-approx-sign.woff2') format('woff2'); font-weight: 100 900; unicode-range: U+2248; font-display: block; }
+@font-face { font-family: 'Schibsted Grotesk'; src: url('../assets/fonts/schibsted-grotesk-approx-sign.woff2') format('woff2'); font-weight: 400 900; unicode-range: U+2248; font-display: block; }
+@font-face { font-family: 'Source Serif 4'; src: url('../assets/fonts/source-serif-4-approx-sign.woff2') format('woff2'); font-weight: 200 900; unicode-range: U+2248; font-display: block; }
+@font-face { font-family: 'Inter Tight'; src: url('../assets/fonts/inter-tight-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; font-display: block; }
+
+:root {
+  /* Brand: verified from source artwork */
+  --tbpl-blue: #066AB5;
+  --tbpl-yellow: #FDC902;
+  --tbpl-green: #009236;
+
+  /* Supporting palette: restrained, derived from the brand hues */
+  --blue-deep: #0B3A5F;     /* headlines on dark fields, chart emphasis */
+  --blue-mid: #3C86C4;
+  --blue-tint: #D9E7F2;     /* chart backgrounds, data panels */
+  --green-deep: #0E5C34;    /* biology / science accent */
+  --green-tint: #DCEBDF;
+  --yellow-tint: #FBEBA8;   /* highlight only; never yellow text on paper */
+
+  --paper: #F7F4EE;         /* warm uncoated stock */
+  --paper-2: #EEE8DC;       /* sidebars */
+  --white: #FFFFFF;
+  --ink: #17212B;           /* body text */
+  --ink-2: #49545F;         /* secondary text, captions */
+  --ink-3: #7B848C;         /* folios, metadata */
+  --rule: #CEC6B6;
+  --rule-strong: #17212B;
+
+  /* Data status colours (review layer) */
+  --st-reported: var(--tbpl-blue);
+  --st-approximate: #B7791F;
+  --st-projected: var(--tbpl-green);
+  --st-quoted: #7A4FA0;
+  --st-derived: #5A6570;
+  --flag: #C2362B;
+
+  /* Type families */
+  --f-display: 'Fraunces', Georgia, serif;
+  --f-text: 'Source Serif 4', Georgia, serif;
+  --f-sans: 'Schibsted Grotesk', 'Inter Tight', Arial, sans-serif;
+  --f-num: 'Fraunces', Georgia, serif;
+
+  /* Type scale (print points) */
+  --t-body: 9.4pt;   --l-body: 13.4pt;
+  --t-small: 7.6pt;  --l-small: 10.4pt;
+  --t-caption: 7.2pt;
+  --t-kicker: 7.4pt;
+  --t-standfirst: 13pt;
+  --t-h3: 10.4pt;
+
+  /* Page geometry: A4 trim. The source PDF is A4 + 3 mm bleed (216 × 303 mm). */
+  --page-w: 210mm;
+  --page-h: 297mm;
+  --m-top: 13mm;
+  --m-bottom: 15mm;
+  --m-inner: 16mm;
+  --m-outer: 13mm;
+  --gutter: 4.5mm;
+  --cols: 12;
+}

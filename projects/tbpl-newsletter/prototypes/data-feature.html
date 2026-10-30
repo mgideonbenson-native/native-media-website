@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBPL Newsletter: Data feature prototype</title>
+<link rel="stylesheet" href="../src/styles/tokens.css">
+<link rel="stylesheet" href="../src/styles/base.css">
+<link rel="stylesheet" href="../src/styles/components.css">
+<style>
+  /* Template 3: data & performance feature (spread) */
+  .df-head { grid-column: 1 / span 11; margin-top: 8mm; }
+  .df-head .headline { margin-top: 3.2mm; }
+  .df-stand { grid-column: 1 / span 9; margin-top: 4.4mm; }
+  .df-by { grid-column: 1 / -1; margin-top: 3.6mm; display: flex; gap: 6mm; align-items: baseline; }
+  .df-hero { grid-column: 1 / -1; margin-top: 6mm; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter);
+    border-top: .35mm solid var(--ink); padding-top: 3mm; }
+  .df-hero .intro { grid-column: 1 / span 4; display: flex; flex-direction: column; }
+  .df-hero .intro .big { font-family: var(--f-num); font-weight: 600; font-variation-settings: 'opsz' 144; font-size: 43pt; line-height: .95; letter-spacing: -.03em; margin-top: 4mm; color: var(--tbpl-blue); }
+  .df-hero .intro .big small { display: block; font: 700 7.4pt/1.3 var(--f-sans); letter-spacing: .02em; color: var(--ink); margin-top: 1.4mm; }
+  .df-hero .chart { grid-column: 5 / -1; height: 72mm; }
+  .df-hero .fig-note { grid-column: 1 / -1; }
+  .df-body { grid-column: 1 / -1; margin-top: 6mm; }
+  .df-photo { grid-column: 1 / -1; margin-top: 7mm; }
+  .df-photo .photo { height: 98mm; }
+  .df-cap { grid-column: 1 / span 7; margin-top: 2mm; }
+  .df-body-last { margin-top: 4mm; border-top: .2mm solid var(--rule); padding-top: 3.2mm; }
+
+  .r-top { grid-column: 1 / -1; margin-top: 7mm; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); row-gap: 3.5mm; }
+  .r-stats { grid-column: 1 / span 7; display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: var(--gutter); row-gap: 5mm; align-content: start; }
+  .r-stats .split { grid-column: 1 / -1; }
+  .r-stats .split .chart { height: 21mm; }
+  .r-map { grid-column: 8 / -1; }
+  .r-map .map { margin-top: 1mm; }
+  .r-councils { grid-column: 1 / -1; }
+  .r-councils .chart { height: 24.5mm; }
+</style>
+</head>
+<body>
+<main class="desk">
+  <div class="spread">
+    <!-- PAGE 2 (left): opener -->
+    <section class="page left" data-template="data-feature" data-folio="2">
+      <div class="live" style="grid-template-rows: auto auto auto auto auto 1fr">
+        <header class="runhead"><span class="pub">TBPL <i>Newsletter</i> · Issue 001</span><span>Performance</span></header>
+        <div class="df-head">
+          <p class="kicker">Performance · Report to Parliament</p>
+          <h1 class="headline xl" data-component="text" data-ref="articles.sales.title"></h1>
+        </div>
+        <p class="df-stand standfirst" data-component="text" data-ref="articles.sales.newStandfirst" data-status="draft"></p>
+        <p class="df-by byline">By <span data-component="text" data-ref="articles.sales.byline"></span></p>
+
+        <figure class="df-hero">
+          <div class="intro">
+            <p class="fig-title">Annual sales, three financial years</p>
+            <p class="fig-sub">As presented to the Parliamentary Standing Committee on Industries, Trade, Agriculture and Livestock.</p>
+            <p class="big" data-status="approximate" data-flags="F3">≈19.50<small>TZS billion cumulative sales over the past three financial years</small></p>
+            <div class="legend-row" style="margin-top:auto">
+              <span><i style="background:linear-gradient(var(--blue-deep) 0 0) bottom/100% 62% no-repeat, rgba(11,58,95,.35)"></i>Pale cap: the source gives an approximate value</span>
+            </div>
+          </div>
+          <div class="chart" data-component="salesBars" data-status="approximate" data-flags="F3"></div>
+          <figcaption class="fig-note"><b>Note.</b> Each bar carries the source's own qualifier. The three annual figures sum to ≈TZS 18.8 bn; the reported cumulative total is ≈TZS 19.50 bn. Exact annual values requested from TBPL.</figcaption>
+        </figure>
+
+        <div class="df-body cols-3 fill" data-component="body" data-ref="sales" data-lead></div>
+      </div>
+      <footer class="folio"><span><b>2</b></span><span>Tanzania Biotech Products Limited · October 2026</span></footer>
+    </section>
+
+    <!-- PAGE 3 (right): photograph + running text -->
+    <section class="page right" data-template="data-feature" data-folio="3">
+      <div class="live" style="grid-template-rows: auto auto auto 1fr">
+        <header class="runhead"><span>Performance</span><span class="pub">TBPL <i>Newsletter</i> · Issue 001</span></header>
+        <figure class="df-photo">
+          <div class="photo"><img src="../src/assets/photos/p03-performance-presenter.jpg" alt="A man in a dark suit stands to speak in a meeting room while seated delegates listen."></div>
+        </figure>
+        <p class="df-cap caption" data-status="draft" data-flags="F16"><b>Presentation.</b> <span data-component="text" data-ref="articles.sales.images.0.draftCaption"></span></p>
+        <div class="df-body cols-3 fill" data-component="body" data-ref="sales"></div>
+      </div>
+      <footer class="folio"><span><b>3</b></span><span>Performance</span></footer>
+    </section>
+  </div>
+
+  <!-- PAGE 4 (left): the figures -->
+  <section class="page left" data-template="data-feature" data-folio="4">
+    <div class="live" style="grid-template-rows: auto auto 1fr">
+      <header class="runhead"><span class="pub">TBPL <i>Newsletter</i> · Issue 001</span><span>The figures</span></header>
+      <div class="r-top">
+        <div class="r-stats">
+          <div class="stat">
+            <p class="num">13,131<small>litres</small></p>
+            <p class="lbl"><b>Biological pesticide sales</b> by June 2026 <span data-status="reported" data-flags="F2"></span></p>
+          </div>
+          <div class="stat">
+            <p class="num">131.31<small>TZS m</small></p>
+            <p class="lbl"><b>Value</b> of those biological pesticide sales <span data-status="reported"></span></p>
+          </div>
+          <div class="stat accent">
+            <p class="num">3,475<small>litres</small></p>
+            <p class="lbl"><b>Fosforina and Dimargon</b> bio-fertilisers, produced on a trial basis <span data-status="reported"></span></p>
+          </div>
+          <div class="stat" style="grid-column: 1 / span 2">
+            <p class="num">751,870<small>litres</small></p>
+            <p class="lbl"><b>Biological products distributed.</b> The report does not state the period. <span data-status="reported" data-flags="F6"></span></p>
+          </div>
+          <div class="stat accent">
+            <p class="num" style="font-size:20pt">Jan 2027</p>
+            <p class="lbl"><b>Expected</b> market entry for Fosforina and Dimargon <span data-status="projected" data-flags="F26"></span></p>
+          </div>
+          <figure class="split">
+            <div class="fig-head"><span class="fig-title">Where the ≈TZS 19.50 bn came from</span><span class="fig-sub">Domestic 96%, exports 4% (calculated)</span></div>
+            <div class="chart" data-component="salesSplit" data-status="reported" data-flags="F4"></div>
+          </figure>
+        </div>
+
+        <figure class="r-map">
+          <div class="fig-head"><span class="fig-title">Regional reach</span></div>
+          <div class="legend-row">
+            <span><i class="sw-blue"></i>Tanzania</span><span><i class="sw-green"></i>Export markets</span><span><i class="sw-hatch"></i>Samples sent</span>
+          </div>
+          <div class="map" data-component="regionalMap" data-status="reported" data-flags="F7"></div>
+          <figcaption class="fig-note">Export markets “include” Kenya and Uganda. Product samples were sent to Mozambique, Kenya and Malawi; Kenya appears in both lists (hatched marker).</figcaption>
+        </figure>
+
+        <figure class="r-councils">
+          <div class="fig-head"><span class="fig-title">Councils served, one dot per council</span><span class="fig-sub" data-status="reported" data-flags="F5">Open dots: 29 fewer councils in 2025/26 (calculated)</span></div>
+          <div class="chart" data-component="councilDots" data-per-row="60"></div>
+        </figure>
+      </div>
+      <div class="df-body df-body-last cols-3 fill" data-component="body" data-ref="sales"></div>
+    </div>
+    <footer class="folio"><span><b>4</b></span><span>Tanzania Biotech Products Limited · October 2026</span></footer>
+  </section>
+</main>
+<script src="../content/issue-001.js"></script>
+<script src="../src/assets/maps/east-africa.js"></script>
+<script src="../src/js/charts.js"></script>
+<script src="../src/js/components.js"></script>
+</body>
+</html>

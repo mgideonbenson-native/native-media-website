@@ -1,0 +1,77 @@
+/* Reusable editorial components. */
+
+/* Running head (inside pages; the cover has its own masthead) */
+.runhead { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding-bottom: 2.2mm; border-bottom: .2mm solid var(--rule);
+  font: 600 6.4pt/1 var(--f-sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+.runhead .pub { color: var(--ink); }
+.runhead .pub i { font-style: normal; color: var(--tbpl-blue); }
+
+/* Stat tile: one number, one unit, one label, one source line */
+.stat { border-top: .35mm solid var(--ink); padding-top: 2.2mm; }
+.stat .num { font-family: var(--f-num); font-weight: 600; font-variation-settings: 'opsz' 144; font-size: 25pt; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-feature-settings: 'lnum', 'tnum'; }
+.stat .num small { font-family: var(--f-sans); font-size: 7.6pt; font-weight: 700; letter-spacing: .02em; margin-left: 1mm; color: var(--ink-2); }
+.stat .lbl { font: 500 7.3pt/1.32 var(--f-sans); color: var(--ink-2); margin-top: 1.6mm; }
+.stat .lbl b { color: var(--ink); font-weight: 700; }
+.stat.accent { border-top-color: var(--tbpl-green); }
+.stat.accent .num { color: var(--green-deep); }
+
+/* Figure header used by all charts */
+.fig-head { display: flex; align-items: baseline; justify-content: space-between; gap: 3mm; margin-bottom: 2mm; }
+.fig-title { font: 700 8.4pt/1.2 var(--f-sans); color: var(--ink); }
+.fig-sub { font: 400 6.8pt/1.35 var(--f-sans); color: var(--ink-2); }
+.fig-note { font: 400 6.3pt/1.4 var(--f-sans); color: var(--ink-3); margin-top: 1.6mm; }
+.fig-note b { color: var(--ink-2); }
+.panel { background: var(--white); padding: 4.2mm 4.4mm; }
+.panel.tint { background: var(--paper-2); }
+.label-caps { font: 700 6.6pt/1.2 var(--f-sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+
+/* Legend swatches */
+.legend-row { display: flex; flex-wrap: wrap; gap: 2mm 4mm; font: 500 6.6pt/1.2 var(--f-sans); color: var(--ink-2); }
+.legend-row span { display: inline-flex; align-items: center; gap: 1.4mm; }
+.legend-row i { width: 3.2mm; height: 3.2mm; display: inline-block; }
+.sw-blue { background: var(--tbpl-blue); }
+.sw-green { background: var(--tbpl-green); }
+.sw-hatch { background: repeating-linear-gradient(45deg, var(--yellow-tint) 0 1.1mm, #C99A00 1.1mm 1.5mm); }
+
+/* Process rail */
+.process { list-style: none; position: relative; }
+.process::before { content: ''; position: absolute; left: 3.6mm; top: 3mm; bottom: 5mm; width: .35mm; background: var(--tbpl-green); }
+.process li { position: relative; padding-left: 11mm; margin-bottom: 3.1mm; }
+.process .n { position: absolute; left: 0; top: -.4mm; width: 7.4mm; height: 7.4mm; border-radius: 50%; background: var(--paper); border: .35mm solid var(--tbpl-green);
+  display: grid; place-items: center; font: 700 6.6pt/1 var(--f-sans); color: var(--green-deep); }
+.process li:last-child .n { background: var(--tbpl-green); color: #fff; }
+.process b { font: 700 8.4pt/1.2 var(--f-sans); display: block; color: var(--ink); }
+.process p { font: 400 7.4pt/1.38 var(--f-sans); color: var(--ink-2); margin-top: .6mm; }
+
+/* Fact box */
+.facts { font: 400 7.4pt/1.35 var(--f-sans); }
+.facts div { display: grid; grid-template-columns: 15mm 1fr; gap: 2mm; padding: 1.7mm 0; border-top: .2mm solid var(--rule); }
+.facts dt { font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 6.2pt; color: var(--ink-3); padding-top: .3mm; }
+.facts dd { color: var(--ink); }
+.facts .unstated { color: var(--ink-3); font-style: italic; }
+
+/* ---------- Review layer (only with ?review) ---------- */
+.review-only { display: none; }
+body.review .review-only { display: inline; }
+.chips { display: inline-flex; gap: .8mm; flex-wrap: wrap; vertical-align: middle; margin-left: 1mm; }
+.chip { font: 700 5.4pt/1 var(--f-sans); letter-spacing: .05em; text-transform: uppercase; padding: .7mm 1.1mm; border-radius: .6mm; color: #fff; white-space: nowrap; text-indent: 0; }
+.chip.st-reported { background: var(--st-reported); }
+.chip.st-approximate { background: var(--st-approximate); }
+.chip.st-projected { background: var(--st-projected); }
+.chip.st-quoted { background: var(--st-quoted); }
+.chip.st-derived { background: var(--st-derived); }
+.chip.st-draft { background: var(--ink-3); }
+.chip.flag { background: var(--flag); }
+body.review .flagged { background: rgba(194, 54, 43, .14); box-shadow: inset 0 -.45mm 0 var(--flag); }
+body.review .flagged::after { content: attr(data-flag); font: 700 5pt/1 var(--f-sans); color: #fff; background: var(--flag); padding: .3mm .6mm; border-radius: .5mm; margin-left: .5mm; vertical-align: super; }
+.is-missing, .missing { background: #fdd; color: var(--flag); }
+
+.review-panel { width: 420mm; max-width: 100%; background: #fff; color: var(--ink); padding: 8mm 10mm; font: 400 9pt/1.5 var(--f-sans); box-shadow: 0 2mm 8mm rgba(0,0,0,.35); }
+.review-panel h2 { font: 700 13pt/1.2 var(--f-sans); margin-bottom: 2mm; }
+.review-panel ol { margin: 4mm 0 0 5mm; columns: 2; column-gap: 10mm; }
+.review-panel li { margin-bottom: 3mm; break-inside: avoid; }
+.review-panel em { color: var(--ink-3); font-style: normal; font-size: 8pt; }
+.review-panel .legend { display: flex; gap: 2mm; flex-wrap: wrap; margin-top: 3mm; }
+.review-panel .legend .chip { font-size: 7pt; }
+.sev-critical { color: var(--flag); } .sev-high { color: #B5541E; } .sev-medium { color: #8A6A00; } .sev-low { color: var(--ink-3); }
+@media print { .review-panel { display: none; } }

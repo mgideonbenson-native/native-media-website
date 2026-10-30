@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBPL Newsletter Review</title>
+<link rel="stylesheet" href="../src/styles/tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font: 400 16px/1.5 var(--f-sans); }
+  main { max-width: 1120px; margin: 0 auto; padding: 48px 16px 80px; }
+  .k { font: 700 12px/1 var(--f-sans); letter-spacing: .16em; text-transform: uppercase; color: var(--tbpl-blue); }
+  h1 { font: 600 clamp(34px, 6vw, 56px)/1.02 var(--f-display); font-variation-settings: 'opsz' 144; letter-spacing: -.02em; margin: 12px 0 14px; }
+  p.lede { font: 400 18px/1.5 var(--f-text); max-width: 720px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; margin-top: 36px; }
+  .card { background: #fff; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+  .card img { width: 100%; aspect-ratio: 210/297; object-fit: cover; object-position: top; background: #ddd; }
+  .card.wide img { aspect-ratio: 420/297; }
+  .card div { padding: 14px 16px 18px; }
+  .card b { display: block; font-size: 17px; }
+  .card span { font-size: 14px; color: var(--ink-2); }
+  .links { display: flex; gap: 14px; margin-top: 6px; font-size: 14px; flex-wrap: wrap; }
+  .links a { color: var(--tbpl-blue); }
+  h2 { font: 700 13px/1 var(--f-sans); letter-spacing: .14em; text-transform: uppercase; margin-top: 52px; padding-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
+  ol { margin: 16px 0 0 20px; } li { margin-bottom: 8px; }
+  .sev { font-weight: 700; color: var(--flag); }
+</style>
+</head>
+<body>
+<main>
+  <p class="k">TBPL Newsletter · Issue 001 · Review, Phase 4</p>
+  <h1>Prototype pages for editorial review</h1>
+  <p class="lede">Three prototype templates built in the recommended direction (A, Documentary Ledger) from the verbatim Issue 001 text. Open any page with <strong>review mode</strong> to see flagged text, data-status labels and the editorial questions behind them.</p>
+
+  <section class="grid">
+    <a class="card wide" href="directions.html"><img src="../out/previews/directions-board.png" alt=""><div><b>Three visual directions</b><span>A Documentary Ledger (recommended) · B Laboratory Report · C Signal</span></div></a>
+    <div class="card"><img src="../out/previews/cover-1.png" alt=""><div><b>1 · Cover</b><span>Lead photo, hero numeral, verbatim cover lines</span><p class="links"><a href="cover.html">Open</a><a href="cover.html?review">Review mode</a></p></div></div>
+    <div class="card wide"><img src="../out/previews/data-feature-spread-1.png" alt=""><div><b>3 · Data feature, pp. 2–3</b><span>Sales story: opener with annual-sales chart, photo page</span><p class="links"><a href="data-feature.html">Open</a><a href="data-feature.html?review">Review mode</a></p></div></div>
+    <div class="card"><img src="../out/previews/data-feature-1.png" alt=""><div><b>3 · Data feature, p. 4</b><span>The figures: stat tiles, sales split, regional map, councils unit chart</span></div></div>
+    <div class="card wide"><img src="../out/previews/field-report-spread-1.png" alt=""><div><b>5 · Field report, pp. 9–10</b><span>New Liuka Gold Mine: bleed photo, field notes, locator, process rail</span><p class="links"><a href="field-report.html">Open</a><a href="field-report.html?review">Review mode</a></p></div></div>
+  </section>
+
+  <h2>Decisions needed before full production</h2>
+  <ol>
+    <li>Approve a visual direction (A recommended), or ask for a mix.</li>
+    <li><span class="sev">Critical:</span> is the embassy story about Denmark or Canada? (F1)</li>
+    <li><span class="sev">Critical:</span> supply the missing end of the Liuka Gold Mine article, its byline and its date. (F13)</li>
+    <li>Supply exact annual sales figures and confirm whether they are domestic-only. (F3) Confirm the reporting period. (F2)</li>
+    <li>Rewrite the "distribution network expands" subhead or explain the drop from 178 to 149 councils. (F5)</li>
+    <li>Supply original photo files, a caption and credit sheet, vector logo files and brand colour specifications. (F16–F18)</li>
+    <li>Agree a house style: UK or US spelling, product names, and "Products" vs "Product" Limited. (F9, F10, F15)</li>
+  </ol>
+  <p style="margin-top:16px;font-size:14px;color:var(--ink-2)">Full list: <code>docs/01-content-audit.md</code>, section 4, and the review notes on each prototype.</p>
+</main>
+</body>
+</html>

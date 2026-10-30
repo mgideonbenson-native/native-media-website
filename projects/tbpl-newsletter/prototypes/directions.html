@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBPL Newsletter: Visual directions</title>
+<link rel="stylesheet" href="../src/styles/tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #E9E6DF; color: var(--ink); font-family: var(--f-sans); }
+  .board { width: 1560px; margin: 0 auto; padding: 56px 48px 64px; }
+  .board > header { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: end; border-bottom: 2px solid var(--ink); padding-bottom: 22px; }
+  .board h1 { font: 600 44px/1.05 var(--f-display); font-variation-settings: 'opsz' 144; letter-spacing: -.02em; }
+  .board header p { font: 400 15px/1.5 var(--f-sans); color: var(--ink-2); }
+  .brandrow { display: flex; gap: 28px; align-items: center; margin-top: 22px; font: 500 12px/1.4 var(--f-sans); color: var(--ink-2); }
+  .brandrow span { display: inline-flex; gap: 8px; align-items: center; }
+  .brandrow i { width: 26px; height: 26px; display: inline-block; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 34px; }
+  .dir { background: #fff; padding: 26px 26px 30px; display: flex; flex-direction: column; gap: 18px; }
+  .dir.rec { outline: 3px solid var(--tbpl-blue); }
+  .dir h2 { font: 700 13px/1 var(--f-sans); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: space-between; }
+  .dir h2 b { color: var(--tbpl-blue); }
+  .dir h3 { font: 600 30px/1.05 var(--f-display); font-variation-settings: 'opsz' 96; letter-spacing: -.015em; }
+  .dir .idea { font: 400 14px/1.5 var(--f-text); color: var(--ink); }
+  .sw { display: flex; height: 34px; }
+  .sw i { flex: 1; } .sw i.w2 { flex: 2.4; }
+  .spec { border-top: 1px solid var(--rule); padding-top: 12px; display: grid; gap: 4px; font-size: 12px; color: var(--ink-2); }
+  .spec .d { font-size: 28px; line-height: 1.05; color: var(--ink); }
+  .mini { display: grid; grid-template-columns: 1.35fr 1fr; gap: 14px; align-items: start; }
+  .cover { aspect-ratio: 210 / 297; position: relative; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+  .cover img.ph { position: absolute; width: 100%; object-fit: cover; }
+  .data { aspect-ratio: 210 / 297; position: relative; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.18); padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+  .use { font: 400 13px/1.5 var(--f-sans); color: var(--ink-2); }
+  .use b { color: var(--ink); }
+  .use li { margin-left: 16px; }
+
+  /* A: Documentary Ledger */
+  .a.cover { background: var(--paper); }
+  .a .logo { position: absolute; top: 4.5%; left: 6%; width: 22%; }
+  .a .mast { position: absolute; top: 9.5%; left: 5%; font: 650 40px/.8 var(--f-display); font-variation-settings: 'opsz' 144; letter-spacing: -.04em; color: var(--blue-deep); }
+  .a .bar { position: absolute; top: 19%; left: 6%; right: 6%; border-top: 1.5px solid var(--ink); padding-top: 3px; font: 600 6px/1 var(--f-sans); letter-spacing: .12em; display: flex; justify-content: space-between; }
+  .a .bar b { background: var(--tbpl-yellow); padding: 1px 3px; }
+  .a img.ph { top: 22.5%; height: 44%; object-position: 50% 30%; }
+  .a .hl { position: absolute; top: 70%; left: 6%; width: 58%; font: 600 14px/1.05 var(--f-display); letter-spacing: -.01em; }
+  .a .num { position: absolute; top: 70%; right: 6%; width: 26%; border-left: 1.5px solid var(--ink); padding-left: 6px; font: 600 24px/.9 var(--f-display); color: var(--tbpl-blue); font-variation-settings: 'opsz' 144; }
+  .a .num small { display: block; font: 600 6px/1.2 var(--f-sans); color: var(--ink); margin-top: 3px; }
+  .a.data { background: var(--paper); }
+  .a.data .k { font: 700 6px/1 var(--f-sans); letter-spacing: .14em; color: var(--tbpl-blue); }
+  .a.data .t { font: 600 15px/1 var(--f-display); letter-spacing: -.01em; }
+  .bars { display: flex; align-items: flex-end; gap: 10%; height: 34%; border-bottom: 1.5px solid var(--ink); padding: 0 8%; }
+  .bars i { flex: 1; display: block; position: relative; }
+  .bars i::after { content: attr(data-v); position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font: 600 11px/1 var(--f-display); white-space: nowrap; }
+  .txt { flex: 1; background: repeating-linear-gradient(transparent 0 3px, var(--rule) 3px 4px); opacity: .9; }
+
+  /* B: Laboratory Report */
+  .b.cover { background: #fff; }
+  .b .grid { position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 calc(100%/12 - 1px), rgba(6,106,181,.12) calc(100%/12 - 1px) calc(100%/12)); }
+  .b .top { position: absolute; top: 4%; left: 6%; right: 6%; display: flex; justify-content: space-between; align-items: center; font: 600 6px/1.2 'Inter Tight', sans-serif; letter-spacing: .1em; color: var(--ink-2); }
+  .b .top img { width: 26%; }
+  .b .mast { position: absolute; top: 10%; left: 6%; white-space: nowrap; font: 300 22px/1 'Inter Tight', sans-serif; letter-spacing: -.04em; color: var(--ink); }
+  .b .mast b { font-weight: 700; color: var(--tbpl-blue); }
+  .b .hero { position: absolute; top: 22%; left: 6%; right: 6%; border-top: 1px solid var(--ink); padding-top: 5px; }
+  .b .hero .n { font: 200 54px/.9 'Inter Tight', sans-serif; letter-spacing: -.05em; color: var(--tbpl-blue); }
+  .b .hero .n small { font-size: 14px; font-weight: 600; letter-spacing: 0; color: var(--ink); }
+  .b .hero p { font: 500 8px/1.3 'Inter Tight', sans-serif; width: 60%; margin-top: 4px; }
+  .b img.ph { top: 52%; left: 6%; width: 56%; height: 31%; }
+  .b .side { position: absolute; top: 52%; left: 66%; right: 6%; display: grid; gap: 8px; font: 500 6.5px/1.25 'Inter Tight', sans-serif; }
+  .b .side div { border-top: 1px solid var(--ink); padding-top: 3px; }
+  .b .side b { display: block; font: 300 17px/1 'Inter Tight', sans-serif; color: var(--ink); letter-spacing: -.03em; }
+  .b .foot { position: absolute; bottom: 4%; left: 6%; right: 6%; height: 5%; background: var(--tbpl-blue); }
+  .b.data { background: #fff; }
+  .b.data .t { font: 600 13px/1.05 'Inter Tight', sans-serif; letter-spacing: -.02em; }
+  .b.data .k { font: 600 6px/1 'Inter Tight', sans-serif; letter-spacing: .14em; color: var(--tbpl-blue); }
+  .hbars { display: grid; gap: 6px; }
+  .hbars div { display: grid; grid-template-columns: 30px 1fr; align-items: center; font: 500 6.5px/1 'Inter Tight', sans-serif; }
+  .hbars i { height: 9px; background: var(--tbpl-blue); display: block; }
+  .dots { height: 20%; background: radial-gradient(circle, var(--blue-deep) 1.4px, transparent 1.6px) 0 0/7px 7px; }
+
+  /* C: Signal */
+  .c.cover { background: var(--tbpl-blue); }
+  .c .band { position: absolute; top: 0; left: 0; right: 0; height: 25%; background: var(--blue-deep); }
+  .c .top { position: absolute; top: 4%; left: 6%; right: 6%; display: flex; justify-content: space-between; align-items: center; }
+  .c .top .lg { background: #fff; padding: 3px 5px; width: 30%; } .c .top .lg img { width: 100%; }
+  .c .top span { font: 700 6px/1.2 var(--f-sans); color: #fff; letter-spacing: .12em; }
+  .c .mast { position: absolute; top: 12%; left: 5%; font: 900 28px/.85 var(--f-sans); letter-spacing: -.03em; color: var(--tbpl-yellow); text-transform: uppercase; }
+  .c img.ph { top: 25%; height: 46%; object-position: 50% 30%; }
+  .c .hl { position: absolute; top: 73%; left: 6%; right: 6%; font: 800 11.5px/1.04 var(--f-sans); color: #fff; text-transform: uppercase; letter-spacing: -.01em; }
+  .c .chip { position: absolute; top: 57%; right: 6%; background: var(--tbpl-yellow); color: var(--ink); font: 900 22px/1 var(--f-sans); padding: 6px 8px; }
+  .c .chip small { display: block; font-size: 6px; font-weight: 700; letter-spacing: .1em; }
+  .c .stripe { position: absolute; bottom: 4%; left: 0; right: 0; height: 2.2%; background: linear-gradient(90deg, var(--tbpl-blue), var(--tbpl-green), var(--tbpl-yellow)); }
+  .c.data { background: var(--tbpl-yellow); }
+  .c.data .t { font: 900 15px/.95 var(--f-sans); text-transform: uppercase; color: var(--blue-deep); }
+  .c.data .k { font: 800 6px/1 var(--f-sans); letter-spacing: .14em; color: var(--blue-deep); }
+  .c.data .bars { border-color: var(--blue-deep); margin-top: 16px; height: 30%; }
+  .c.data .bars i { background: var(--blue-deep); }
+  .c.data .bars i::after { font: 900 11px/1 var(--f-sans); color: var(--blue-deep); }
+  .c.data .txt { background: repeating-linear-gradient(transparent 0 3px, rgba(11,58,95,.35) 3px 4px); }
+</style>
+</head>
+<body>
+<main class="desk board">
+  <header>
+    <div>
+      <p style="font:700 12px/1 var(--f-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--tbpl-blue);margin-bottom:12px">TBPL Newsletter · Issue 001 · Phase 2</p>
+      <h1>Three visual directions</h1>
+      <div class="brandrow">
+        <span><i style="background:var(--tbpl-blue)"></i>Blue #066AB5</span>
+        <span><i style="background:var(--tbpl-yellow)"></i>Yellow #FDC902</span>
+        <span><i style="background:var(--tbpl-green)"></i>Green #009236</span>
+        <span>Sampled from Issue 001 artwork; logo used as supplied</span>
+      </div>
+    </div>
+    <p>All three keep the approved TBPL logo and brand colours unchanged. They differ in typography, how much space the colour takes up, and what leads each page: photography, data, or brand colour. Each one is shown as a cover sketch and a data page. Direction A is recommended, and the prototype pages are built in it.</p>
+  </header>
+
+  <section class="cols">
+    <!-- A -->
+    <article class="dir rec">
+      <h2><span>Direction A</span><b>Recommended</b></h2>
+      <h3>Documentary Ledger</h3>
+      <p class="idea">A serious magazine about science and development. Warm uncoated paper, a confident serif masthead, and photographs given room. Brand blue carries authority, yellow marks data, and green marks biology. The pages read like reporting, not promotion.</p>
+      <div class="sw"><i class="w2" style="background:var(--paper)"></i><i class="w2" style="background:var(--blue-deep)"></i><i style="background:var(--tbpl-blue)"></i><i style="background:var(--tbpl-green)"></i><i style="background:var(--tbpl-yellow)"></i><i style="background:var(--ink)"></i></div>
+      <div class="spec">
+        <span class="d" style="font-family:var(--f-display);font-weight:600;font-variation-settings:'opsz' 144">Fraunces 19.50</span>
+        <span>Headlines and numerals: Fraunces (SIL OFL)</span>
+        <span style="font:400 15px/1.3 var(--f-text);color:var(--ink)">Body: Source Serif 4, 9.4/13.4 pt</span>
+        <span style="font:600 12px/1.3 var(--f-sans);color:var(--ink)">Labels, captions, charts: Schibsted Grotesk</span>
+      </div>
+      <div class="mini">
+        <div class="cover a">
+          <img class="logo" src="../src/assets/brand/tbpl-logo-extracted.png" alt="">
+          <div class="mast">Newsletter</div>
+          <div class="bar"><span>ISSUE 001</span><b>FIRST EDITION 26/27</b><span>OCT 2026</span></div>
+          <img class="ph" src="../src/assets/photos/p09-liuka-mine-assessment.jpg" alt="">
+          <div class="hl">TBPL Assesses Mosquito Breeding Sites at New Liuka Gold Mine</div>
+          <div class="num">≈19.5<small>TZS bn sales over three years</small></div>
+        </div>
+        <div class="data a">
+          <span class="k">PERFORMANCE</span><span class="t">Annual sales</span>
+          <div class="bars"><i data-v="≈0.6" style="height:5%;background:var(--blue-deep)"></i><i data-v="≈6.2" style="height:52%;background:var(--blue-deep)"></i><i data-v="≈12" style="height:100%;background:var(--tbpl-blue)"></i></div>
+          <div class="txt"></div>
+        </div>
+      </div>
+      <ul class="use"><li><b>Strength:</b> documentary photography and long reading; the most credible with government and partner readers.</li><li><b>Watch:</b> it depends on good photographs, so original camera files are needed (flag F17).</li></ul>
+    </article>
+
+    <!-- B -->
+    <article class="dir">
+      <h2><span>Direction B</span><span>Data-first</span></h2>
+      <h3 style="font-family:'Inter Tight';font-weight:600;letter-spacing:-.03em">Laboratory Report</h3>
+      <p class="idea">The precision of an annual report. A white page, a visible 12-column grid, hairline rules and one sans family. Large light numerals open each section, and photographs sit in grid cells as evidence. It is the most systematic option and the easiest to keep consistent across future issues.</p>
+      <div class="sw"><i class="w2" style="background:#fff;outline:1px solid var(--rule)"></i><i class="w2" style="background:var(--tbpl-blue)"></i><i style="background:var(--blue-tint)"></i><i style="background:var(--tbpl-green)"></i><i style="background:var(--tbpl-yellow)"></i><i style="background:var(--ink)"></i></div>
+      <div class="spec">
+        <span class="d" style="font-family:'Inter Tight';font-weight:200;letter-spacing:-.04em">Inter Tight 19.50</span>
+        <span>Display, numerals and text: Inter Tight (SIL OFL)</span>
+        <span style="font:400 14px/1.3 'Inter Tight';color:var(--ink)">Body: Inter Tight 9/13.5 pt</span>
+        <span style="font:600 12px/1.3 var(--f-sans);color:var(--ink)">Data labels: Schibsted Grotesk</span>
+      </div>
+      <div class="mini">
+        <div class="cover b">
+          <div class="grid"></div>
+          <div class="top"><img src="../src/assets/brand/tbpl-logo-extracted.png" alt=""><span>ISSUE 001 · OCT 2026</span></div>
+          <div class="mast">TBPL <b>Newsletter</b></div>
+          <div class="hero"><div class="n">≈19.5<small> TZS bn</small></div><p>Cumulative sales over three financial years, as reported to Parliament</p></div>
+          <img class="ph" src="../src/assets/photos/p15-kibaha-laboratory.jpg" alt="">
+          <div class="side"><div><b>13,131 L</b>bio-pesticide sales</div><div><b>9</b>Morogoro councils equipped</div><div><b>3,475 L</b>bio-fertiliser trial</div></div>
+          <div class="foot"></div>
+        </div>
+        <div class="data b">
+          <span class="k">PERFORMANCE</span><span class="t">Annual sales, TZS bn</span>
+          <div class="hbars"><div>23/24<i style="width:5%"></i></div><div>24/25<i style="width:52%"></i></div><div>25/26<i style="width:100%"></i></div></div>
+          <div class="dots"></div>
+          <div class="txt"></div>
+        </div>
+      </div>
+      <ul class="use"><li><b>Strength:</b> the clearest charts, it copes with weak photographs, and it is fastest to produce.</li><li><b>Watch:</b> it can feel cold and corporate, and the field stories lose emotional weight.</li></ul>
+    </article>
+
+    <!-- C -->
+    <article class="dir">
+      <h2><span>Direction C</span><span>Brand-forward</span></h2>
+      <h3 style="font-family:var(--f-sans);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;font-size:26px">Signal</h3>
+      <p class="idea">This direction builds on the energy of Issue 001's blue-and-yellow masthead and makes it more disciplined. Saturated colour fields and a heavy grotesque in capitals give it a poster-like rhythm. It has the strongest shelf presence and continues most clearly from the first issue.</p>
+      <div class="sw"><i class="w2" style="background:var(--tbpl-blue)"></i><i class="w2" style="background:var(--tbpl-yellow)"></i><i style="background:var(--blue-deep)"></i><i style="background:var(--tbpl-green)"></i><i style="background:#fff;outline:1px solid var(--rule)"></i><i style="background:var(--ink)"></i></div>
+      <div class="spec">
+        <span class="d" style="font-family:var(--f-sans);font-weight:900;text-transform:uppercase">Schibsted 19.5</span>
+        <span>Display: Schibsted Grotesk Black (SIL OFL)</span>
+        <span style="font:400 15px/1.3 var(--f-text);color:var(--ink)">Body: Source Serif 4, 9.4/13.4 pt</span>
+        <span style="font:600 12px/1.3 var(--f-sans);color:var(--ink)">Labels: Schibsted Grotesk</span>
+      </div>
+      <div class="mini">
+        <div class="cover c">
+          <div class="band"></div>
+          <div class="top"><div class="lg"><img src="../src/assets/brand/tbpl-logo-extracted.png" alt=""></div><span>ISSUE 001<br>OCT 2026</span></div>
+          <div class="mast">Newsletter</div>
+          <img class="ph" src="../src/assets/photos/p01-morogoro-handover-cover.jpg" alt="">
+          <div class="chip">≈19.5<small>TZS BN · 3 YEARS</small></div>
+          <div class="hl">TBPL Hands Over Malaria Control Equipment to Nine Morogoro Councils</div>
+          <div class="stripe"></div>
+        </div>
+        <div class="data c">
+          <span class="k">PERFORMANCE</span><span class="t">Annual sales</span>
+          <div class="bars"><i data-v="≈0.6" style="height:5%"></i><i data-v="≈6.2" style="height:52%"></i><i data-v="≈12" style="height:100%"></i></div>
+          <div class="txt"></div>
+        </div>
+      </div>
+      <ul class="use"><li><b>Strength:</b> it is instantly recognisable and continues from Issue 001.</li><li><b>Watch:</b> it is loud over 20 pages, and yellow fields limit how much text a page can carry.</li></ul>
+    </article>
+  </section>
+</main>
+<script src="../content/issue-001.js"></script>
+<script src="../src/js/components.js"></script>
+</body>
+</html>

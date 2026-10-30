@@ -1,0 +1,100 @@
+[
+  {
+    "file": "directions.html",
+    "errors": [],
+    "pages": 0,
+    "issues": [],
+    "images": [],
+    "fonts": [
+      "Fraunces normal",
+      "Fraunces italic",
+      "Source Serif 4 normal",
+      "Source Serif 4 italic",
+      "Schibsted Grotesk normal",
+      "Inter Tight normal"
+    ]
+  },
+  {
+    "file": "cover.html",
+    "errors": [],
+    "pages": 1,
+    "issues": [],
+    "images": [
+      {
+        "src": "../src/assets/brand/tbpl-logo-extracted.png",
+        "placed": "30×12.6 mm",
+        "ppi": 292,
+        "ok": true,
+        "verdict": "acceptable"
+      },
+      {
+        "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
+        "placed": "210×129 mm",
+        "ppi": 170,
+        "ok": true,
+        "verdict": "low: replace for print"
+      },
+      {
+        "src": "../src/assets/brand/qr-code-extracted.png",
+        "placed": "13×13 mm",
+        "ppi": 864,
+        "ok": true,
+        "verdict": "print OK"
+      }
+    ],
+    "fonts": [
+      "Fraunces normal",
+      "Fraunces italic",
+      "Source Serif 4 normal",
+      "Source Serif 4 italic",
+      "Schibsted Grotesk normal",
+      "Inter Tight normal"
+    ]
+  },
+  {
+    "file": "data-feature.html",
+    "errors": [],
+    "pages": 3,
+    "issues": [],
+    "images": [
+      {
+        "src": "../src/assets/photos/p03-performance-presenter.jpg",
+        "placed": "181×98 mm",
+        "ppi": 219,
+        "ok": true,
+        "verdict": "acceptable"
+      }
+    ],
+    "fonts": [
+      "Fraunces normal",
+      "Fraunces italic",
+      "Source Serif 4 normal",
+      "Source Serif 4 italic",
+      "Schibsted Grotesk normal",
+      "Inter Tight normal"
+    ]
+  },
+  {
+    "file": "field-report.html",
+    "errors": [],
+    "pages": 2,
+    "issues": [],
+    "images": [
+      {
+        "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
+        "placed": "210×203 mm",
+        "ppi": 170,
+        "ok": true,
+        "verdict": "low: replace for print"
+      }
+    ],
+    "fonts": [
+      "Fraunces normal",
+      "Fraunces italic",
+      "Source Serif 4 normal",
+      "Source Serif 4 italic",
+      "Schibsted Grotesk normal",
+      "Inter Tight normal"
+    ]
+  }
+]
