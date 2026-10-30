@@ -1,23 +1,8 @@
 [
   {
-    "file": "directions.html",
+    "file": "issue/issue-001.html",
     "errors": [],
-    "pages": 0,
-    "issues": [],
-    "images": [],
-    "fonts": [
-      "Fraunces normal",
-      "Fraunces italic",
-      "Source Serif 4 normal",
-      "Source Serif 4 italic",
-      "Schibsted Grotesk normal",
-      "Inter Tight normal"
-    ]
-  },
-  {
-    "file": "cover.html",
-    "errors": [],
-    "pages": 1,
+    "pages": 20,
     "issues": [],
     "images": [
       {
@@ -40,52 +25,90 @@
         "ppi": 864,
         "ok": true,
         "verdict": "excellent"
-      }
-    ],
-    "fonts": [
-      "Fraunces normal",
-      "Fraunces italic",
-      "Source Serif 4 normal",
-      "Source Serif 4 italic",
-      "Schibsted Grotesk normal",
-      "Inter Tight normal"
-    ]
-  },
-  {
-    "file": "data-feature.html",
-    "errors": [],
-    "pages": 3,
-    "issues": [],
-    "images": [
+      },
+      {
+        "src": "../src/assets/photos/p01-editor-portrait.jpg",
+        "placed": "44×42.1 mm",
+        "ppi": 222,
+        "ok": true,
+        "verdict": "print OK"
+      },
       {
         "src": "../src/assets/photos/p03-performance-presenter.jpg",
         "placed": "181×98 mm",
         "ppi": 219,
         "ok": true,
         "verdict": "print OK"
-      }
-    ],
-    "fonts": [
-      "Fraunces normal",
-      "Fraunces italic",
-      "Source Serif 4 normal",
-      "Source Serif 4 italic",
-      "Schibsted Grotesk normal",
-      "Inter Tight normal"
-    ]
-  },
-  {
-    "file": "field-report.html",
-    "errors": [],
-    "pages": 2,
-    "issues": [],
-    "images": [
+      },
+      {
+        "src": "../src/assets/photos/p06-morogoro-handover.jpg",
+        "placed": "181×124 mm",
+        "ppi": 212,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/photos/p07-morogoro-handover-group.jpg",
+        "placed": "119.2×74 mm",
+        "ppi": 175,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p08-nanenane-dodoma.jpg",
+        "placed": "181×92 mm",
+        "ppi": 185,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
       {
         "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
         "placed": "210×203 mm",
         "ppi": 170,
         "ok": true,
         "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p11-embassy-visit.jpg",
+        "placed": "103.7×84 mm",
+        "ppi": 198,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p13-world-food-day-tanga.jpg",
+        "placed": "181×96 mm",
+        "ppi": 151,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p15-kibaha-laboratory.jpg",
+        "placed": "210×203 mm",
+        "ppi": 274,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/photos/p17-radio-one-broadcast.jpg",
+        "placed": "181×104 mm",
+        "ppi": 308,
+        "ok": true,
+        "verdict": "excellent"
+      },
+      {
+        "src": "../src/assets/brand/tbpl-logo-extracted.png",
+        "placed": "30×12.6 mm",
+        "ppi": 292,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/brand/qr-code-extracted.png",
+        "placed": "24×24 mm",
+        "ppi": 468,
+        "ok": true,
+        "verdict": "excellent"
       }
     ],
     "fonts": [

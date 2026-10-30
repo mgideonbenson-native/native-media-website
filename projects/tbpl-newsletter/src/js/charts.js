@@ -125,7 +125,7 @@
   function locator(el, I) {
     const M = window.TBPL_MAPS.tanzania;
     const r = el.getBoundingClientRect();
-    const key = el.dataset.place, ref = (el.dataset.ref || 'dar').split(',');
+    const key = el.dataset.place, ref = (el.dataset.ref ?? 'dar').split(',').filter(Boolean);
     el.innerHTML = `<svg xmlns="${NS}" viewBox="0 0 ${M.width} ${M.height}" width="${r.width}" height="${r.width * M.height / M.width}" role="img"></svg>`;
     const s = el.firstChild;
     M.countries.forEach(c => add(s, 'path', { d: c.d, fill: c.name === 'Tanzania' ? css('--paper-2') : 'none', stroke: c.name === 'Tanzania' ? css('--ink') : css('--rule'), 'stroke-width': c.name === 'Tanzania' ? 2 : 1.2, 'stroke-linejoin': 'round' }));
@@ -134,20 +134,63 @@
       T(s, p.x - 14, p.y + 7, p.name, { size: 20, anchor: 'end', weight: 600, fill: css('--ink-2') }); });
     const p = M.places[key];
     s.setAttribute('aria-label', `Indicative location of ${p.name}, Tanzania`);
+    const o = el.dataset.from && M.places[el.dataset.from];
+    if (o) {
+      // journey from the origin: a gentle arc, dashed, with the origin labelled
+      const mx = (o.x + p.x) / 2 - 30, my = Math.min(o.y, p.y) - 150;
+      add(s, 'path', { d: `M${o.x} ${o.y} Q${mx} ${my} ${p.x} ${p.y}`, fill: 'none', stroke: css('--tbpl-blue'), 'stroke-width': 4, 'stroke-dasharray': '10 8' });
+      add(s, 'circle', { cx: o.x, cy: o.y, r: 9, fill: '#fff', stroke: css('--tbpl-blue'), 'stroke-width': 4 });
+      T(s, o.x - 16, o.y + 30, o.name.toUpperCase(), { size: 21, weight: 800, anchor: 'end', fill: css('--tbpl-blue'), ls: 1.2 });
+      T(s, o.x - 16, o.y + 54, el.dataset.fromSub || '', { size: 17, anchor: 'end', fill: css('--ink-2') });
+    }
     add(s, 'circle', { cx: p.x, cy: p.y, r: 38, fill: css('--tbpl-yellow'), opacity: 0.45 });
     add(s, 'circle', { cx: p.x, cy: p.y, r: 11, fill: css('--tbpl-green'), stroke: '#fff', 'stroke-width': 3 });
-    T(s, p.x + 48, p.y - 4, p.name.toUpperCase(), { size: 27, weight: 800, ls: 1.5 });
-    T(s, p.x + 48, p.y + 26, el.dataset.sub || '', { size: 19, weight: 500, fill: css('--ink-2') });
+    // label beside the marker, or set below-left of it when the marker sits on the coast (data-label-side="left")
+    const left = el.dataset.labelSide === 'left', lx = left ? p.x - 20 : p.x + 48, ly = left ? p.y + 62 : p.y - 4, an = left ? 'end' : 'start';
+    T(s, lx, ly, p.name.toUpperCase(), { size: 27, weight: 800, ls: 1.5, anchor: an });
+    T(s, lx, ly + 28, el.dataset.sub || '', { size: 19, weight: 500, fill: css('--ink-2'), anchor: an });
     T(s, M.width - 10, M.height - 12, 'Location indicative', { size: 16, anchor: 'end', fill: css('--ink-3') });
     const tz = M.countries.find(c => c.name === 'Tanzania');
-    T(s, tz.cx + 30, tz.cy - 30, 'TANZANIA', { size: 22, weight: 700, anchor: 'middle', fill: css('--ink-3'), ls: 4 });
+    if (!o) T(s, tz.cx + 30, tz.cy - 30, 'TANZANIA', { size: 22, weight: 700, anchor: 'middle', fill: css('--ink-3'), ls: 4 });
   }
 
   /* 6. Process: numbered steps on a single rail (vertical). */
   function process(el, I) {
-    const steps = I.articles[el.dataset.ref].process;
-    el.innerHTML = `<ol class="process">${steps.map((d, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${d.step}</b><p>${d.text}</p></li>`).join('')}</ol>`;
+    const steps = I.articles[el.dataset.ref][el.dataset.key || 'process'];
+    el.innerHTML = `<ol class="process${el.dataset.variant ? ' ' + el.dataset.variant : ''}">${steps.map((d, i) => `<li${d.intervene ? ' class="hit"' : ''}><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${window.TBPL.inline(d.step)}</b><p>${window.TBPL.inline(d.text)}</p></li>`).join('')}</ol>`;
   }
 
-  window.TBPL_CHARTS = { salesBars, salesSplit, councilDots, regionalMap, locator, process };
+  /* 7. Where the issue's stories happened: numbered pins linking to pages. */
+  function issueMap(el, I) {
+    const M = window.TBPL_MAPS.tanzania;
+    const r = el.getBoundingClientRect();
+    el.innerHTML = `<svg xmlns="${NS}" viewBox="0 0 ${M.width} ${M.height}" width="${r.width}" height="${r.width * M.height / M.width}" role="img" aria-label="Map of Tanzania showing where this issue's stories took place"></svg>`;
+    const s = el.firstChild;
+    M.countries.forEach(c => add(s, 'path', { d: c.d, fill: c.name === 'Tanzania' ? css('--white') : 'none', stroke: c.name === 'Tanzania' ? css('--ink') : css('--rule'), 'stroke-width': c.name === 'Tanzania' ? 2 : 1.2, 'stroke-linejoin': 'round' }));
+    I.storyMap.forEach(d => {
+      const p = M.places[d.place], px = p.x + (d.ox || 0), py = p.y + (d.oy || 0);
+      const a = add(s, 'a', { href: '#p' + d.page });
+      if (d.ox || d.oy) add(a, 'line', { x1: p.x, y1: p.y, x2: px, y2: py, stroke: css('--ink'), 'stroke-width': 1.5 });
+      add(a, 'circle', { cx: p.x, cy: p.y, r: 4.5, fill: css('--ink') });
+      add(a, 'circle', { cx: px, cy: py, r: 17, fill: css('--tbpl-blue'), stroke: '#fff', 'stroke-width': 3 });
+      T(a, px, py + 6.5, String(d.page), { size: 14, weight: 800, anchor: 'middle', fill: '#fff' });
+      const left = d.side === 'left';
+      T(a, px + (left ? -24 : 24), py + 7, p.name, { size: 21, weight: 700, anchor: left ? 'end' : 'start' });
+    });
+  }
+
+  /* 8. Milestones on a horizontal line; projected steps drawn hollow. */
+  function timeline(el, I) {
+    const items = I.articles[el.dataset.ref];
+    el.innerHTML = `<ol class="timeline">${items.map(d => `<li class="${d.projected ? 'projected' : ''}"><span class="dot"></span><b>${d.when}</b><p>${d.what}</p>${d.projected ? '<em>Expected</em>' : ''}</li>`).join('')}</ol>`;
+  }
+
+  /* 9. Product reference: only what the issue itself says. */
+  function products(el, I) {
+    el.innerHTML = `<table class="products"><thead><tr><th>Product</th><th>Type</th><th>What this issue says</th><th>Status</th></tr></thead><tbody>${
+      I.articles.products.map(d => `<tr class="${d.projected ? 'projected' : ''}"><td><b>${d.name}</b>${d.variants ? `<small>${d.variants}</small>` : ''}${d.flags ? `<span class="review-only">${window.TBPL.statusChip('reported', d.flags)}</span>` : ''}</td><td>${d.type}</td><td>${d.said}</td><td>${d.status}</td></tr>`).join('')}</tbody></table>`;
+  }
+
+  window.TBPL_CHARTS = { salesBars, salesSplit, councilDots, regionalMap, locator, process, issueMap, timeline, products };
 })();
+

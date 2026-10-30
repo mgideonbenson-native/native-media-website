@@ -2,11 +2,12 @@
   "name": "tbpl-newsletter",
   "private": true,
   "type": "module",
-  "description": "TBPL Newsletter Issue 001 redesign: editorial design system, prototypes and Playwright render pipeline.",
+  "description": "TBPL Newsletter Issue 001 redesign: editorial design system, prototypes, full issue and Playwright render pipeline.",
   "scripts": {
     "maps": "node scripts/build-maps.mjs",
     "render": "node scripts/render.mjs",
-    "qa": "node scripts/render.mjs --qa-only"
+    "qa": "node scripts/render.mjs --qa-only",
+    "verify": "node scripts/verify-text.mjs"
   },
   "devDependencies": {
     "d3-geo": "^3.1.1",

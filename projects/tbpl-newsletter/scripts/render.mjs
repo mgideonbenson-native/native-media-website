@@ -13,9 +13,13 @@ const args = process.argv.slice(2);
 const qaOnly = args.includes('--qa-only');
 const filter = args.find(a => !a.startsWith('--'));
 const ORDER = ['directions', 'cover', 'data-feature', 'field-report'];
-const files = readdirSync(path.join(root, 'prototypes')).filter(f => f.endsWith('.html') && f !== 'index.html')
-  .filter(f => !filter || f.includes(filter))
-  .sort((a, b) => ORDER.indexOf(a.replace('.html', '')) - ORDER.indexOf(b.replace('.html', '')));
+// Prototypes (Phase 3) and the full issue (Phase 5). Paths are relative to the project root.
+const files = [
+  ...readdirSync(path.join(root, 'prototypes')).filter(f => f.endsWith('.html') && f !== 'index.html')
+    .sort((a, b) => ORDER.indexOf(a.replace('.html', '')) - ORDER.indexOf(b.replace('.html', ''))).map(f => 'prototypes/' + f),
+  ...readdirSync(path.join(root, 'issue')).filter(f => f.endsWith('.html')).map(f => 'issue/' + f)
+].filter(f => !filter || f.includes(filter));
+const ISSUE_PDF = 'TBPL-Newsletter-Issue-001-October-2026.pdf';
 const outDir = path.join(root, 'out');
 mkdirSync(path.join(outDir, 'previews'), { recursive: true });
 
@@ -26,15 +30,16 @@ catch { browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chro
 const report = [];
 const pdfs = [];
 for (const f of files) {
-  const name = f.replace('.html', '');
+  const name = path.basename(f, '.html');
+  const isIssue = f.startsWith('issue/');
   for (const mode of qaOnly ? [''] : ['', '?review']) {
-    const ctx = await browser.newContext({ viewport: { width: 1800, height: 1400 }, deviceScaleFactor: 2.5 });
+    const ctx = await browser.newContext({ viewport: { width: 1800, height: 1400 }, deviceScaleFactor: f.startsWith('issue/') ? 1.6 : 2.5 });
     const page = await ctx.newPage();
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
     page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errors.push(m.text()); });
     page.on('requestfailed', r => errors.push('failed request: ' + r.url()));
-    await page.goto(pathToFileURL(path.join(root, 'prototypes', f)).href + mode);
+    await page.goto(pathToFileURL(path.join(root, f)).href + mode);
     await page.waitForSelector('body[data-mounted="true"]', { timeout: 15000 }).catch(() => errors.push('components never mounted'));
     await page.waitForLoadState('networkidle');
 
@@ -46,6 +51,8 @@ for (const f of files) {
         pages.forEach((pg, i) => {
           const pr = pg.getBoundingClientRect();
           const label = `page ${pg.dataset.folio || i + 1}`;
+          // screen geometry must equal print geometry, or text flowed on screen will not fit the PDF page
+          if (Math.abs(mm(pr.width) - 210) > 0.5 || Math.abs(mm(pr.height) - 297) > 0.5) issues.push(`${label}: page is ${mm(pr.width)}×${mm(pr.height)} mm, not 210×297`);
           // text that does not fit its frame (multi-column overflow spills sideways)
           pg.querySelectorAll('.body, [data-fit]').forEach(el => {
             if (el.scrollWidth > el.clientWidth + 2 || el.scrollHeight > el.clientHeight + 2)
@@ -66,6 +73,9 @@ for (const f of files) {
             if (el.textContent.trim() && fs < 6.0 && !el.closest('.review-only')) issues.push(`${label}: text below 6 pt (${fs.toFixed(1)} pt): "${el.textContent.trim().slice(0, 40)}"`);
           });
         });
+        // structure: nothing may sit outside a page (a stray tag would push content off the page in the PDF)
+        document.querySelectorAll('.spread > :not(.page), .desk > :not(.page):not(.spread):not(.review-panel):not(header):not(section)').forEach(el =>
+          issues.push(`content outside any page: <${el.tagName.toLowerCase()} class="${el.className}">`));
         // image resolution at placed size (object-fit: cover crops, so use the limiting axis)
         const images = [...document.querySelectorAll('.page img')].map(img => {
           const r = img.getBoundingClientRect();
@@ -82,7 +92,19 @@ for (const f of files) {
       report.push({ file: f, errors, ...qa });
     }
 
-    if (!qaOnly) {
+    if (!qaOnly && isIssue) {
+      // every page as its own preview; the PDF is the online edition (bookmarks from headings, tagged, live links)
+      const dir = path.join(outDir, 'issue-previews' + (mode ? '-review' : ''));
+      mkdirSync(dir, { recursive: true });
+      const pages = await page.$$('.page');
+      // JPEG previews keep the repository light; the PDF is the deliverable
+      const shot = { type: 'jpeg', quality: 82 };
+      for (let i = 0; i < pages.length; i++) await pages[i].screenshot({ ...shot, path: path.join(dir, `page-${String(i + 1).padStart(2, '0')}.jpg`) });
+      if (!mode) for (const [i, s] of (await page.$$('.spread')).entries()) await s.screenshot({ ...shot, path: path.join(dir, `spread-${String(i + 1).padStart(2, '0')}.jpg`) });
+      if (mode) { const p = await page.$('.review-panel'); if (p) await p.screenshot({ path: path.join(dir, 'review-notes.png') }); }
+      else await page.pdf({ path: path.join(outDir, ISSUE_PDF), preferCSSPageSize: true, printBackground: true, outline: true, tagged: true });
+    }
+    if (!qaOnly && !isIssue) {
       const suffix = mode ? '-review' : '';
       const spreads = await page.$$('.spread');
       const singles = await page.$$('.desk > .page');

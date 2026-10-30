@@ -3,11 +3,17 @@
 (function () {
   const I = window.TBPL_ISSUE;
   const REVIEW = /[?&]review\b/.test(location.search);
-  const STATUS_LABEL = { reported: 'Reported', approximate: 'Approximate', projected: 'Projected', quoted: 'Quoted, unsourced', derived: 'Derived by editors', draft: 'New copy · to confirm' };
+  const STATUS_LABEL = { reported: 'Reported', approximate: 'Approximate', projected: 'Projected', quoted: 'Quoted, unsourced', derived: 'Derived by editors', draft: 'New copy' };
 
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   // [[F2|text]] marks source text an editor must review. The lookahead lets flagged text itself end in "]".
-  const inline = s => esc(s).replace(/\[\[(F\d+)\|(.*?)\]\](?!\])/g, (_, id, t) => `<span class="flagged" data-flag="${id}">${t}</span>`);
+  const inline = s => esc(s).replace(/\[\[(F\d+)\|(.*?)\]\](?!\])/g, (_, id, t) => {
+    // [[F15|original=>fix]] is a logged correction: approved ones always apply, proposed ones only when switched on.
+    const [orig, fix] = t.split('=&gt;');
+    if (fix === undefined) return `<span class="flagged" data-flag="${id}">${t}</span>`;
+    const on = (I.meta.approvedCorrections || []).includes(id) || I.meta.applyProposedCorrections;
+    return `<span class="flagged corr" data-flag="${id}" title="Source: ${orig || '(nothing)'}">${on ? fix : orig}</span>`;
+  });
   const fmt = (n, d = 0) => Number(n).toLocaleString('en-GB', { minimumFractionDigits: d, maximumFractionDigits: d });
 
   /* Threaded text frames: every [data-component=body] with the same data-ref is one story, filled in
@@ -98,12 +104,16 @@
 
   function mount() {
     const C = { body, text, status, ...(window.TBPL_CHARTS || {}) };
-    document.querySelectorAll('[data-component]').forEach(el => {
-      el.dataset.component.split(' ').forEach(name => {
-        if (!C[name]) { console.warn('Unknown component', name); return; }
-        C[name](el, I);
+    // Two passes: everything that takes up space first, then the text that flows around it.
+    for (const pass of ['layout', 'flow']) {
+      document.querySelectorAll('[data-component]').forEach(el => {
+        el.dataset.component.split(' ').forEach(name => {
+          if ((name === 'body') !== (pass === 'flow')) return;
+          if (!C[name]) { console.warn('Unknown component', name); return; }
+          C[name](el, I);
+        });
       });
-    });
+    }
     if (REVIEW) { document.body.classList.add('review'); document.querySelectorAll('[data-status]').forEach(status); reviewPanel(); }
     document.body.dataset.mounted = 'true';
   }

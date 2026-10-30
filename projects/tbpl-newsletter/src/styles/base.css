@@ -12,7 +12,7 @@ img { display: block; max-width: 100%; }
 .desk { display: flex; flex-wrap: wrap; gap: 10mm; justify-content: center; padding: 12mm 6mm; }
 .spread { display: flex; gap: 0; box-shadow: 0 2mm 8mm rgba(0,0,0,.35); }
 .spread .page { box-shadow: none; }
-.page { position: relative; width: var(--page-w); height: var(--page-h); overflow: hidden; background: var(--paper);
+.page { position: relative; flex: none; width: var(--page-w); height: var(--page-h); overflow: hidden; background: var(--paper);
   box-shadow: 0 2mm 8mm rgba(0,0,0,.35); break-after: page; page-break-after: always; }
 .page.white { background: var(--white); }
 @media print {
