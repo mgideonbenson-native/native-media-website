@@ -53,3 +53,23 @@ The minimum printed size is 6 pt (folios and credits); QA fails anything smaller
 - New copy (kickers, standfirsts, captions) lives in `new*` / `draft*` fields and shows as *Draft* in review mode.
 - Captions never identify people the source does not identify. Every draft caption ends "to confirm".
 - Cover lines are verbatim source headlines. Page numbers refer to the original folios until final pagination.
+
+## Asset rules (decided 30 Oct 2026: no originals, no vectors, no exact annual figures)
+The photos are the images embedded in the source PDF, extracted at full embedded resolution. Screenshots would hold fewer pixels, not more. Every placement is sized to the image:
+
+| Photo | Pixels | Max width at 200 ppi (target) | Max at 150 ppi (floor) | Allowed uses |
+|---|---|---|---|---|
+| Kibaha laboratory | 3271 | 415 mm | 554 mm | Anything, including a full-bleed spread |
+| Radio One broadcast | 2194 | 279 mm | 372 mm | Full-bleed page |
+| Morogoro handover (×2) | ~1680 | 212 mm | 282 mm | Full page width; full-bleed page acceptable |
+| Performance presenter | 1558 | 198 mm | 264 mm | Page width |
+| Liuka mine | 1404 | 178 mm | 238 mm | Full-bleed acceptable (≈170 ppi) |
+| Nanenane, Dodoma | 1319 | 168 mm | 223 mm | Up to page width |
+| Tanga, Embassy, Morogoro group | ~1050 | ~135 mm | ~180 mm | Two-thirds width at most |
+| Audience thumbnails | ~320 | 40 mm | 54 mm | Small strip only, or omit |
+| Editor portrait | 385 | 49 mm | 65 mm | Small portrait only |
+
+- QA (`npm run render`) fails any image placed below **150 ppi** and reports anything below 200 ppi.
+- Photos are not AI-upscaled or retouched beyond neutral exposure and colour correction. Upscaling invents detail, which a documentary publication should not do.
+- **Logo:** use the extracted raster as supplied. Do not redraw, trace or recolour it. Keep it 30 mm wide or less (about 290 ppi) on a light background.
+- **Annual sales:** publish as approximate with the source's qualifiers. Show no growth multiples or year-on-year percentages.

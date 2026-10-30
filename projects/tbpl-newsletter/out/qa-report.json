@@ -25,21 +25,21 @@
         "placed": "30×12.6 mm",
         "ppi": 292,
         "ok": true,
-        "verdict": "acceptable"
+        "verdict": "print OK"
       },
       {
         "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
         "placed": "210×129 mm",
         "ppi": 170,
         "ok": true,
-        "verdict": "low: replace for print"
+        "verdict": "acceptable: digital fine, soft in print"
       },
       {
         "src": "../src/assets/brand/qr-code-extracted.png",
         "placed": "13×13 mm",
         "ppi": 864,
         "ok": true,
-        "verdict": "print OK"
+        "verdict": "excellent"
       }
     ],
     "fonts": [
@@ -62,7 +62,7 @@
         "placed": "181×98 mm",
         "ppi": 219,
         "ok": true,
-        "verdict": "acceptable"
+        "verdict": "print OK"
       }
     ],
     "fonts": [
@@ -85,7 +85,7 @@
         "placed": "210×203 mm",
         "ppi": 170,
         "ok": true,
-        "verdict": "low: replace for print"
+        "verdict": "acceptable: digital fine, soft in print"
       }
     ],
     "fonts": [

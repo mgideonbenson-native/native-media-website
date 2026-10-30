@@ -72,9 +72,10 @@ for (const f of files) {
           const scale = Math.max(r.width / img.naturalWidth, r.height / img.naturalHeight);
           const ppi = Math.round(96 / scale);
           return { src: img.getAttribute('src'), placed: `${mm(r.width)}×${mm(r.height)} mm`, ppi, ok: img.complete && img.naturalWidth > 0,
-            verdict: ppi >= 300 ? 'print OK' : ppi >= 200 ? 'acceptable' : ppi >= 150 ? 'low: replace for print' : 'too low for print' };
+            verdict: ppi >= 300 ? 'excellent' : ppi >= 200 ? 'print OK' : ppi >= 150 ? 'acceptable: digital fine, soft in print' : 'FAIL: below 150 ppi floor' };
         });
         images.filter(i => !i.ok).forEach(i => issues.push('image failed to load: ' + i.src));
+        images.filter(i => i.ok && i.ppi < 150).forEach(i => issues.push(`image below 150 ppi floor: ${i.src} (${i.ppi} ppi at ${i.placed})`));
         const fonts = [...document.fonts].filter(f => f.status === 'loaded').map(f => `${f.family} ${f.style}`);
         return { pages: pages.length, issues, images, fonts: [...new Set(fonts)] };
       });

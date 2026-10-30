@@ -92,7 +92,7 @@
     panel.className = 'review-panel';
     panel.innerHTML = `<h2>Editorial review: flags on these pages</h2><p>Highlighted text and chips mark figures or wording that need an editor's decision. Source text is reproduced verbatim; nothing has been silently corrected.</p>` +
       `<dl class="legend">${Object.entries(STATUS_LABEL).map(([k, v]) => `<div><dt><span class="chip st-${k}">${v}</span></dt></div>`).join('')}</dl>` +
-      `<ol>${list.map(id => `<li><b class="sev-${I.flags[id].severity}">${id} · ${I.flags[id].severity}</b> <em>source p. ${I.flags[id].page}</em><br>${esc(I.flags[id].text)}</li>`).join('')}</ol>`;
+      `<ol>${list.map(id => `<li><b class="sev-${I.flags[id].severity}">${id} · ${I.flags[id].severity}</b> <em>source p. ${I.flags[id].page}</em><br>${esc(I.flags[id].text)}${I.flags[id].resolution ? `<br><b>Decision:</b> ${esc(I.flags[id].resolution)}` : ''}</li>`).join('')}</ol>`;
     document.querySelector('.desk').appendChild(panel);
   }
 
