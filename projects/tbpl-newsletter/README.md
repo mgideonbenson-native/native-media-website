@@ -3,12 +3,14 @@
 Redesign of the *Tanzania Biotech Products Limited Newsletter*, Issue 001 (October 2026), as a data-led editorial publication.
 The project is built with HTML, CSS, SVG and JavaScript, and rendered to PDF with Playwright.
 
-**Status: Phases 1–7 complete. The editor-review edition is `out/TBPL-Newsletter-Issue-001-October-2026-editor-review.pdf` (20 pages). Errors and missing labels print as EDITOR placeholders, listed in `out/editor-placeholders.md`. See `docs/03-production-notes.md` for decisions, the corrections log and QA results.**
+**Status: Phases 1–7 complete. Two editor-review versions for the client to choose from: Option A (`out/TBPL-Newsletter-Issue-001-October-2026-option-A-documentary-editor-review.pdf`) and Option B (`out/TBPL-Newsletter-Issue-001-October-2026-option-B-signal-editor-review.pdf`), 20 pages each. Errors and missing labels print as EDITOR placeholders, listed in `out/editor-placeholders.md`. See `docs/03-production-notes.md` for decisions, the corrections log and QA results.**
 
 ## Review
 | What | Where |
 |---|---|
-| **Editor-review PDF** | `out/TBPL-Newsletter-Issue-001-October-2026-editor-review.pdf` |
+| **Option A, Documentary Ledger (recommended)** | `out/TBPL-Newsletter-Issue-001-October-2026-option-A-documentary-editor-review.pdf` |
+| **Option B, Signal (brand-forward)** | `out/TBPL-Newsletter-Issue-001-October-2026-option-B-signal-editor-review.pdf`; same pages in a brand-forward theme (`?theme=signal`) |
+| Side-by-side comparison for the client | `out/options-comparison.jpg` |
 | Full issue source (open in a browser) | `issue/issue-001.html` (add `?review` for review mode) |
 | Placeholder checklist for editors | `out/editor-placeholders.md` |
 | Production notes, corrections log, QA | `docs/03-production-notes.md` |
@@ -35,7 +37,7 @@ The pages also open directly from disk (no server). Fonts are bundled, so render
 ## Structure
 ```
 content/issue-001.js     all text, statistics (with status), flags; the single source of truth
-src/styles/              tokens.css · base.css (page, grid, type) · components.css
+src/styles/              tokens.css · base.css (page, grid, type) · components.css · templates.css · theme-signal.css (Option B)
 src/js/components.js     text binding, threaded body frames, review layer
 src/js/charts.js         SVG data graphics
 src/assets/              photos and brand assets extracted from the source PDF, fonts (OFL), map paths

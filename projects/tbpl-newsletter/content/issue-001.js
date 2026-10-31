@@ -26,7 +26,7 @@ window.TBPL_ISSUE = {
     editorPlaceholders: true,
     // Corrections marked [[ID|original=>fix]]: approved ones always apply; proposed ones apply only when this is true.
     applyProposedCorrections: false,
-    approvedCorrections: ['F1'],
+    approvedCorrections: ['F1', 'F27'],
     contact: {
       title: 'Managing Director',
       address: ['P.O Box 2669', 'Development House', 'Kivukoni Front, Ohio St', 'Dar es Salaam'],
@@ -112,7 +112,7 @@ window.TBPL_ISSUE = {
     F13: { kind: 'label', ask: 'Ending to be supplied (source stops here)', severity: 'critical', page: 10, text: 'Liuka Gold Mine article ends mid-sentence ("…strengthening preventive public health") with no closing text. It also has no byline and no date for the visit.',
       resolution: 'Placeholder for editors (client, 30 Oct 2026): byline, date and ending to be supplied.' },
     F14: { kind: 'label', ask: 'Attribution to be supplied', severity: 'medium', page: 8, text: 'Nanenane pull quote ("Empowering young people…") is unattributed.' },
-    F15: { kind: 'error', ask: 'Confirm spelling', severity: 'low', page: 'multiple', text: 'Typos and style: "Ecological Agricultur" (cover), "commitee" (p3), "equipment\'s" (p7), "Pg.." (cover); mixed UK/US spelling (fertiliser/fertilizer, neighbour/neighbor); "El Nino" vs "El Niño". Agree a house style.' },
+    F15: { kind: 'error', ask: 'Confirm spelling', severity: 'low', page: 'multiple', text: 'Typos and style: "Ecological Agricultur" (cover), "commitee" (p3), "equipment\'s" (p7), "Pg.." (cover); mixed UK/US spelling (fertiliser/fertilizer, neighbour/neighbor). Agree a house style. ("El Nino" is handled under F27.)' },
     F16: { kind: 'label', ask: 'Names of people pictured and photo credit to be supplied', severity: 'high', page: 'all', text: 'No photograph has a caption or photographer credit, and people pictured are not identified. A caption and credit sheet is needed before publication; draft captions in this project are marked "to confirm".',
       resolution: 'Placeholder for editors (client, 30 Oct 2026). Context captions (place and event) stay; names of people pictured and credits are placeholders.' },
     F17: { severity: 'high', page: 'all', text: 'Embedded photos are 1,000–1,700 px wide (one at 3,271 px). Full-page print needs ~2,500–3,500 px. Supply original camera files.',
@@ -126,6 +126,8 @@ window.TBPL_ISSUE = {
       resolution: 'Placeholder for editors (client, 30 Oct 2026) wherever a date belongs.' },
     F23: { kind: 'label', ask: 'Quantities to be supplied', severity: 'medium', page: 6, text: 'Morogoro handover: quantities of pumps, boots and Biolarvicides, and the names of the nine councils, are not stated. Cannot be visualised without them.' },
     F24: { severity: 'low', page: 1, text: 'Cover QR code resolves to https://ndc.go.tz/wp-content/uploads/2026/10/NEWSLETTER-OCT-2026.pdf. If the redesigned PDF replaces the original, the hosted file or the QR must be updated.' },
+    F27: { severity: 'low', page: '1, 2, 17–18', text: 'Source spells "El Nino" without the tilde.',
+      resolution: 'Client confirmed "El Niño" (31 Oct 2026). Applied everywhere as an approved correction.' },
     F26: { severity: 'medium', page: '3, 13–14', text: 'Fosforina and Dimargon are "expected to enter the market in early January 2027", while engagement with the regulator (TFRA) is described as "ongoing". Keep the launch framed as projected and confirm regulatory status.' }
   },
 
@@ -344,7 +346,7 @@ window.TBPL_ISSUE = {
     },
 
     elnino: {
-      title: 'NDC Through TBPL Strengthens Malaria Control Efforts Ahead of Expected [[F15|El Nino=>El Niño]]',
+      title: 'NDC Through TBPL Strengthens Malaria Control Efforts Ahead of Expected [[F27|El Nino=>El Niño]]',
       byline: '[[F12|Aisha Mohammed]]',
       sourcePages: '17–18',
       newKicker: 'Explainer · Malaria control',
@@ -352,14 +354,14 @@ window.TBPL_ISSUE = {
       quote: { text: 'We believe that by continuing to effectively use these interventions, Tanzania can make further progress towards the national goal and the World Health Organization’s global target of eliminating malaria by 2030. National malaria prevalence has declined from 14.3 per cent to 5.5 per cent, while Arusha and Njombe have recorded prevalence levels below one per cent, alongside similar progress in Zanzibar.', who: 'Samwel Paul Mziray', role: 'Marketing Manager, TBPL' },
       // Chain of cause and effect, each link stated in the article.
       chain: [
-        { step: 'Heavy rainfall', text: 'Expected El Nino-related rainfall.' },
+        { step: 'Heavy rainfall', text: 'Expected [[F27|El Nino=>El Niño]]-related rainfall.' },
         { step: 'Stagnant water', text: 'Increased rainfall can lead to the accumulation of stagnant water.' },
         { step: 'Breeding sites', text: 'Creating favourable breeding conditions; breeding sites can increase in rainy periods.' },
         { step: 'Larvae', text: 'TBPL’s approach targets mosquito larvae at breeding sites…', intervene: true },
         { step: 'Adult mosquitoes', text: '…before they develop into adult mosquitoes capable of transmitting malaria.' }
       ],
       body: [
-        { p: 'The National Development Corporation (NDC), through its subsidiary Tanzania Biotech Products Limited (TBPL), is strengthening public awareness of sustainable malaria control measures ahead of expected [[F15|El Nino=>El Niño]]-related rainfall. The initiative highlights the importance of early prevention and environmentally friendly interventions in reducing mosquito populations and mitigating the risk of malaria transmission.' },
+        { p: 'The National Development Corporation (NDC), through its subsidiary Tanzania Biotech Products Limited (TBPL), is strengthening public awareness of sustainable malaria control measures ahead of expected [[F27|El Nino=>El Niño]]-related rainfall. The initiative highlights the importance of early prevention and environmentally friendly interventions in reducing mosquito populations and mitigating the risk of malaria transmission.' },
         { p: 'Increased rainfall can lead to the accumulation of stagnant water, creating favourable breeding conditions for mosquitoes. Early intervention, proper environmental management and community participation are therefore essential in preventing mosquito breeding and reducing the potential spread of malaria, particularly during periods of heavy rainfall.' },
         { p: 'These efforts were highlighted during a live broadcast of Radio One’s Kumepambazuka programme from NDC Headquarters in Dar es Salaam, where TBPL showcased its contribution to public health through biotechnology-based solutions. The programme provided an opportunity to educate the public on preventive measures and the role of locally developed biological products in supporting the country’s malaria control efforts.' },
         { p: 'Speaking during the broadcast, Mr. Samwel Paul Mziray, TBPL Marketing Manager, expressed optimism about Tanzania’s progress in reducing malaria prevalence. He emphasized that sustained use of effective interventions and continued public awareness are important in advancing national and global efforts towards malaria elimination by 2030.' },
@@ -409,6 +411,6 @@ window.TBPL_ISSUE = {
     { page: 11, title: 'TBPL Takes Biological Solutions to the Denmark Embassy: Promoting a Healthier and Safer Environment', byline: 'Joyce Mgaya', template: 'field', flags: ['F1'] },
     { page: 13, title: 'TBPL Showcases Agricultural Biotechnology Innovations at World Food Day Exhibition In Tanga', byline: 'Joyce Mgaya', template: 'explainer' },
     { page: 15, title: 'Njombe Regional Councillors Visit TBPL in Kibaha to Learn About Biological Products', byline: 'Aisha Mohammed', template: 'field' },
-    { page: 17, title: 'NDC Through TBPL Strengthens Malaria Control Efforts Ahead of Expected El Nino', byline: 'Aisha Mohammed', template: 'explainer' }
+    { page: 17, title: 'NDC Through TBPL Strengthens Malaria Control Efforts Ahead of Expected El Niño', byline: 'Aisha Mohammed', template: 'explainer' }
   ]
 };

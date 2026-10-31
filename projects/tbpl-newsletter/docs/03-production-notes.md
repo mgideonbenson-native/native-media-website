@@ -1,6 +1,12 @@
 # Phases 5–7: Production notes, TBPL Newsletter Issue 001
 
-**Output:** `out/TBPL-Newsletter-Issue-001-October-2026-editor-review.pdf`. This is the **editor-review edition**: anything with an error or a missing label prints as a yellow **EDITOR** placeholder (client instruction, 30 October 2026). The checklist of all placeholders, by page, is in `out/editor-placeholders.md`.
+**Output:** `out/TBPL-Newsletter-Issue-001-October-2026-option-A-documentary-editor-review.pdf`. This is the **editor-review edition**: anything with an error or a missing label prints as a yellow **EDITOR** placeholder (client instruction, 30 October 2026). The checklist of all placeholders, by page, is in `out/editor-placeholders.md`.
+
+## Two versions for the client
+- **Option A, Documentary Ledger (recommended):** `out/TBPL-Newsletter-Issue-001-October-2026-option-A-documentary-editor-review.pdf`. Warm paper, serif headlines, photography-led.
+- **Option B, Signal (brand-forward):** `out/TBPL-Newsletter-Issue-001-October-2026-option-B-signal-editor-review.pdf`. White paper, TBPL blue page bands, yellow labels and quote panels, heavy sans-serif headlines, and a blue-and-yellow masthead that continues from the original Issue 001.
+- Both use the same content, pagination, charts and placeholders, and pass the same checks. B is a theme over A (`src/styles/theme-signal.css`, loaded with `?theme=signal`), so any content fix applies to both.
+- Side-by-side sheet: `out/options-comparison.jpg`.
 
 ## Placeholder rule
 - **Errors** (contradictions, misspellings, inconsistent names) are *replaced* by a placeholder that quotes the source text. Examples: the "2026/2027 financial year" versus "by June 2026" conflict, the "Distribution network expands" subhead (councils fell from 178 to 149), product-name variants, "Product"/"Products" Limited, "Magazine", "Mohamed"/"Mohammed", and three misspellings.
@@ -21,7 +27,7 @@ The issue itself is: 20 pages, A4, RGB, about 5.9 MB, tagged for accessibility, 
 | Photo captions (F16) | No caption sheet exists | Context caption (place and event) plus a placeholder for names and photo credit |
 | Originals and vectors (F17, F18) | Unavailable | Extracted assets used within the size rules; logo used as supplied, never redrawn |
 | Output | Online PDF | 150 ppi floor; RGB; links and bookmarks |
-| Errors and missing labels | Placeholders for editors' review | 57 placeholders on 19 pages; see `out/editor-placeholders.md` |
+| Errors and missing labels | Placeholders for editors' review | 53 placeholders on 19 pages; see `out/editor-placeholders.md` |
 
 ## Corrections log
 Corrections are marked in the content file as `[[ID|original=>fix]]`. Approved corrections always apply. Proposed ones apply only when `meta.applyProposedCorrections` is set to `true`. Review mode shows every correction.
@@ -32,7 +38,7 @@ Corrections are marked in the content file as `[[ID|original=>fix]]`. Approved c
 | F13 | Liuka, last sentence | "…strengthening preventive public health" | Placeholder: ending to be supplied | Awaiting editors |
 | F15 | Performance, p. 5 | "commitee" | "committee" | Placeholder, awaiting editors |
 | F15 | Morogoro, p. 8 | "equipment's" | "equipment" | Placeholder, awaiting editors |
-| F15 | El Niño headline and text | "El Nino" | "El Niño" | Placeholder, awaiting editors |
+| F27 | El Niño headline and text | "El Nino" | "El Niño" | **Approved, applied** (client, 31 Oct 2026) |
 
 Spelling variants under flags F9–F12 (product names, "Product"/"Products", "Magazine", "Mohamed"/"Mohammed") also print as placeholders until editors confirm them.
 
@@ -97,5 +103,5 @@ Placed image resolution in the final issue:
 All are sharp on screen. If the issue is ever printed, the photos below 200 ppi will look slightly soft; the Tanga photo should then be reduced to about 137 mm wide.
 
 ## Still open
-- **57 placeholders**, listed by page in `out/editor-placeholders.md`.
+- **53 placeholders**, listed by page in `out/editor-placeholders.md`.
 - **QR code** (F24): it points to `ndc.go.tz/…/NEWSLETTER-OCT-2026.pdf`. If the final PDF replaces that file at the same address, the QR needs no change. Otherwise, update the QR or the hosted file.

@@ -19,7 +19,9 @@ const files = [
     .sort((a, b) => ORDER.indexOf(a.replace('.html', '')) - ORDER.indexOf(b.replace('.html', ''))).map(f => 'prototypes/' + f),
   ...readdirSync(path.join(root, 'issue')).filter(f => f.endsWith('.html')).map(f => 'issue/' + f)
 ].filter(f => !filter || f.includes(filter));
-const ISSUE_PDF = 'TBPL-Newsletter-Issue-001-October-2026-editor-review.pdf';
+// The issue renders in two versions for the client to choose from; both share content, layout and QA.
+const VERSIONS = { '': 'option-A-documentary', signal: 'option-B-signal' };
+const issuePdf = theme => `TBPL-Newsletter-Issue-001-October-2026-${VERSIONS[theme]}-editor-review.pdf`;
 const outDir = path.join(root, 'out');
 mkdirSync(path.join(outDir, 'previews'), { recursive: true });
 
@@ -32,14 +34,15 @@ const pdfs = [];
 for (const f of files) {
   const name = path.basename(f, '.html');
   const isIssue = f.startsWith('issue/');
-  for (const mode of qaOnly ? [''] : ['', '?review']) {
+  for (const theme of isIssue ? Object.keys(VERSIONS) : ['']) for (const mode of qaOnly ? [''] : ['', '?review']) {
+    const query = [theme && 'theme=' + theme, mode && 'review'].filter(Boolean).join('&');
     const ctx = await browser.newContext({ viewport: { width: 1800, height: 1400 }, deviceScaleFactor: f.startsWith('issue/') ? 1.6 : 2.5 });
     const page = await ctx.newPage();
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
     page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errors.push(m.text()); });
     page.on('requestfailed', r => errors.push('failed request: ' + r.url()));
-    await page.goto(pathToFileURL(path.join(root, f)).href + mode);
+    await page.goto(pathToFileURL(path.join(root, f)).href + (query ? '?' + query : ''));
     await page.waitForSelector('body[data-mounted="true"]', { timeout: 15000 }).catch(() => errors.push('components never mounted'));
     await page.waitForLoadState('networkidle');
 
@@ -94,12 +97,12 @@ for (const f of files) {
         });
         return { pages: pages.length, issues, images, placeholders, fonts: [...new Set(fonts)] };
       });
-      report.push({ file: f, errors, ...qa });
+      report.push({ file: f + (theme ? ` [theme: ${theme}]` : ''), errors, ...qa });
     }
 
     if (!qaOnly && isIssue) {
       // every page as its own preview; the PDF is the online edition (bookmarks from headings, tagged, live links)
-      const dir = path.join(outDir, 'issue-previews' + (mode ? '-review' : ''));
+      const dir = path.join(outDir, 'issue-previews' + (theme ? '-' + theme : '') + (mode ? '-review' : ''));
       mkdirSync(dir, { recursive: true });
       const pages = await page.$$('.page');
       // JPEG previews keep the repository light; the PDF is the deliverable
@@ -107,7 +110,7 @@ for (const f of files) {
       for (let i = 0; i < pages.length; i++) await pages[i].screenshot({ ...shot, path: path.join(dir, `page-${String(i + 1).padStart(2, '0')}.jpg`) });
       if (!mode) for (const [i, s] of (await page.$$('.spread')).entries()) await s.screenshot({ ...shot, path: path.join(dir, `spread-${String(i + 1).padStart(2, '0')}.jpg`) });
       if (mode) { const p = await page.$('.review-panel'); if (p) await p.screenshot({ path: path.join(dir, 'review-notes.png') }); }
-      else await page.pdf({ path: path.join(outDir, ISSUE_PDF), preferCSSPageSize: true, printBackground: true, outline: true, tagged: true });
+      else await page.pdf({ path: path.join(outDir, issuePdf(theme)), preferCSSPageSize: true, printBackground: true, outline: true, tagged: true });
     }
     if (!qaOnly && !isIssue) {
       const suffix = mode ? '-review' : '';

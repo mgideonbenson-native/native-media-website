@@ -47,7 +47,10 @@
       add(s, 'line', { x1: x, x2: x + bw, y1: yv, y2: yv, stroke: fill, 'stroke-width': 1, 'stroke-dasharray': '2 1.6' });
       // value: big numeral set above the bar
       const g = add(s, 'g', {});
-      T(g, x + bw / 2, yv - pt(3), '≈' + d.value, { size: d.value >= 10 ? 22 : 19, anchor: 'middle', family: css('--f-num'), weight: 600, fill: css('--ink'), var: "'opsz' 144" });
+      const lbl = T(g, x + bw / 2, yv - pt(3), '', { size: d.value >= 10 ? 22 : 19, anchor: 'middle', family: css('--f-num'), weight: 600, fill: css('--ink'), var: "'opsz' 144" });
+      // the approximate sign is set in the sans: the display face draws it as a hairline at this size
+      add(lbl, 'tspan', { 'font-family': css('--f-sans'), 'font-weight': 700, 'font-size': pt(d.value >= 10 ? 17 : 15), dy: 0 }, '≈');
+      add(lbl, 'tspan', {}, String(d.value));
       T(s, x + bw / 2, base + pt(11), d.period, { size: 7.6, anchor: 'middle', weight: 700 });
       T(s, x + bw / 2, base + pt(20), d.qualifier, { size: 7.4, anchor: 'middle', fill: css('--ink-2'), attrs: { 'font-style': 'italic' }, family: css('--f-text') });
     });

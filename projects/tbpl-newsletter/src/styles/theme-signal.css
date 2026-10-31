@@ -1,0 +1,81 @@
+/* Version B, "Signal": brand-forward theme over the same pages, content and grid.
+   TBPL blue and yellow lead; heavy grotesque display type; white paper. Loaded with ?theme=signal. */
+
+:root {
+  --paper: #FFFFFF;
+  --paper-2: #EAF2FA;
+  --rule: #C9D6E3;
+  --f-display: 'Schibsted Grotesk', 'Inter Tight', Arial, sans-serif;
+  --f-num: 'Schibsted Grotesk', 'Inter Tight', Arial, sans-serif;
+}
+
+/* Display type: heavy grotesque in deep blue */
+.headline { font-family: var(--f-display); font-weight: 800; letter-spacing: -.025em; color: var(--blue-deep); font-variation-settings: normal; }
+.headline.xl { font-size: 29pt; line-height: 31pt; }
+.headline.l { font-size: 24pt; line-height: 26.5pt; }
+.op-split .op-head .headline { font-size: 17pt; line-height: 19.5pt; }
+.fr-head .headline { font-size: 27pt; line-height: 29.5pt; }
+
+/* Kickers become solid yellow labels */
+.kicker { display: inline-flex; background: var(--tbpl-yellow); color: var(--ink); padding: 1.3mm 2.2mm 1.1mm; letter-spacing: .14em; }
+.kicker::before { display: none; }
+.kicker.green { color: var(--ink); background: var(--tbpl-yellow); }
+
+/* Running head: a blue band across the top of every page */
+.runhead { background: var(--tbpl-blue); color: #DCE9F4; border-bottom: 0; margin-top: -13mm; padding-top: 7.5mm; padding-bottom: 2.8mm; }
+.page.left .runhead { margin-left: -13mm; margin-right: -16mm; padding-left: 13mm; padding-right: 16mm; }
+.page.right .runhead { margin-left: -16mm; margin-right: -13mm; padding-left: 16mm; padding-right: 13mm; }
+.runhead .pub { color: #fff; }
+.runhead .pub i { color: var(--tbpl-yellow); }
+
+/* Folios and drop caps in brand blue */
+.folio b { font-family: var(--f-sans); font-weight: 800; color: var(--tbpl-blue); }
+.body .lead::first-letter { font-family: var(--f-sans); font-weight: 900; color: var(--tbpl-blue); font-size: 38pt; line-height: 30pt; }
+.body h3 { color: var(--tbpl-blue); }
+
+/* Numbers */
+.stat { border-top-color: var(--tbpl-blue); }
+.stat .num { font-weight: 800; letter-spacing: -.03em; color: var(--blue-deep); font-size: 23pt; }
+.bignum .n, .df-hero .intro .big, .cv-num .big { font-weight: 900; letter-spacing: -.04em; }
+.toc .pg { font-weight: 900; color: var(--tbpl-blue); }
+.toc .t { font-family: var(--f-sans); font-weight: 700; font-size: 9.6pt; }
+
+/* Pull quotes: yellow panels */
+.pq { background: var(--tbpl-yellow); border-top: 0; padding: 4mm 4.4mm; }
+.pq blockquote { font-family: var(--f-sans); font-style: normal; font-weight: 700; color: var(--blue-deep); font-size: 12pt; line-height: 1.32; }
+.pq blockquote::before { color: var(--blue-deep); }
+.pq.big blockquote { font-size: 15pt; }
+
+/* Panels and explainer accents */
+.panel.tint, .about-note { background: var(--paper-2); }
+.crops span { font-family: var(--f-sans); font-weight: 800; }
+.products td b { font-family: var(--f-sans); font-weight: 800; font-size: 9.6pt; }
+
+/* ---------- Cover: blue masthead band with yellow title, as in Issue 001 ---------- */
+#p1::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 59mm; background: var(--tbpl-blue); }
+#p1 .cv-logo { background: #fff; padding: 1.6mm 2.2mm; box-sizing: content-box; width: 27mm; border-radius: .6mm; }
+#p1 .cv-org { color: #fff; }
+#p1 .cv-org span { color: var(--tbpl-yellow); }
+#p1 .cv-mast { font-family: var(--f-sans); font-weight: 900; text-transform: uppercase; color: var(--tbpl-yellow); font-size: 80pt; line-height: .9; letter-spacing: -.02em; top: 27mm; }
+#p1 .cv-issue { top: 59mm; left: 0; right: 0; padding: 2.2mm 13mm; background: var(--blue-deep); color: #fff; border-top: 0; }
+#p1 .cv-issue .tag { color: var(--ink); }
+#p1 .cv-photo { top: 66.5mm; height: 130.5mm; }
+#p1 .cv-num { border-left-color: var(--tbpl-yellow); border-left-width: 1.4mm; }
+#p1 .cv-lines { border-top: .6mm solid var(--tbpl-blue); }
+#p1 .cv-lines p { font-weight: 700; }
+
+/* Back cover: deep blue field keeps the Issue 001 gradient as a stripe */
+#p20 .bc-band { background: var(--tbpl-blue); }
+#p20 .bc-band::after { top: auto; height: 6mm; bottom: 0; background: linear-gradient(90deg, var(--tbpl-blue), var(--tbpl-green), var(--tbpl-yellow)); mask-image: none; -webkit-mask-image: none; }
+#p20 .bc-line { font-family: var(--f-sans); font-weight: 900; text-transform: uppercase; font-size: 36pt; line-height: 1; color: var(--tbpl-yellow); }
+
+/* Field-report photo pages: kicker label sits on the photo */
+.fr-tag { background: transparent; padding: 0; }
+/* The Nanenane quote is long: smaller type in its panel */
+#p9 .pq blockquote { font-size: 9.6pt !important; line-height: 1.34; }
+/* Grotesque numerals run wider than the serif ones: size them to their columns */
+#p1 .cv-mast { font-size: 70pt; top: 29mm; }
+.r-stats .stat .num { font-size: 19pt; }
+.r-stats .stat .num[style] { font-size: 16pt !important; }
+.stat .num { white-space: nowrap; font-feature-settings: normal; }
+.r-stats .stat .num small { margin-left: .6mm; }

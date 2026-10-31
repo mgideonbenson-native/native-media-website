@@ -134,7 +134,14 @@
   window.TBPL = { mount, inline, esc, fmt, statusChip, REVIEW };
   // Text flow measures glyphs, so every face must be loaded before mounting (fonts.ready alone only covers faces already in use).
   const FACES = ['600 20pt Fraunces', 'italic 400 20pt Fraunces', '400 9pt "Source Serif 4"', 'italic 400 9pt "Source Serif 4"', '700 9pt "Source Serif 4"',
-    '400 9pt "Schibsted Grotesk"', '700 9pt "Schibsted Grotesk"', '400 9pt "Inter Tight"'];
+    '400 9pt "Schibsted Grotesk"', '700 9pt "Schibsted Grotesk"', '800 9pt "Schibsted Grotesk"', '900 9pt "Schibsted Grotesk"', '400 9pt "Inter Tight"'];
   const APPROX = '\u2248'; // load sample includes ≈ so its unicode-range subset is fetched too
-  Promise.all(FACES.map(f => document.fonts.load(f, 'a' + APPROX))).then(() => document.fonts.ready).then(mount);
+  // Optional visual theme (?theme=signal): its stylesheet must load before any text is measured.
+  const THEME = (location.search.match(/[?&]theme=([a-z-]+)/) || [])[1];
+  const themeReady = !THEME ? Promise.resolve() : new Promise(done => {
+    document.documentElement.dataset.theme = THEME;
+    const l = Object.assign(document.createElement('link'), { rel: 'stylesheet', href: `../src/styles/theme-${THEME}.css`, onload: done, onerror: done });
+    document.head.appendChild(l);
+  });
+  themeReady.then(() => Promise.all(FACES.map(f => document.fonts.load(f, 'a' + APPROX)))).then(() => document.fonts.ready).then(mount);
 })();

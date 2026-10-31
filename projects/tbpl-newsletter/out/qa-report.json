@@ -1,139 +1,5 @@
 [
   {
-    "file": "prototypes/directions.html",
-    "errors": [],
-    "pages": 0,
-    "issues": [],
-    "images": [],
-    "placeholders": [],
-    "fonts": [
-      "Fraunces normal",
-      "Fraunces italic",
-      "Source Serif 4 normal",
-      "Source Serif 4 italic",
-      "Schibsted Grotesk normal",
-      "Inter Tight normal"
-    ]
-  },
-  {
-    "file": "prototypes/cover.html",
-    "errors": [],
-    "pages": 1,
-    "issues": [],
-    "images": [
-      {
-        "src": "../src/assets/brand/tbpl-logo-extracted.png",
-        "placed": "30×12.6 mm",
-        "ppi": 292,
-        "ok": true,
-        "verdict": "print OK"
-      },
-      {
-        "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
-        "placed": "210×129 mm",
-        "ppi": 170,
-        "ok": true,
-        "verdict": "acceptable: digital fine, soft in print"
-      },
-      {
-        "src": "../src/assets/brand/qr-code-extracted.png",
-        "placed": "13×13 mm",
-        "ppi": 864,
-        "ok": true,
-        "verdict": "excellent"
-      }
-    ],
-    "placeholders": [],
-    "fonts": [
-      "Fraunces normal",
-      "Fraunces italic",
-      "Source Serif 4 normal",
-      "Source Serif 4 italic",
-      "Schibsted Grotesk normal",
-      "Inter Tight normal"
-    ]
-  },
-  {
-    "file": "prototypes/data-feature.html",
-    "errors": [],
-    "pages": 3,
-    "issues": [],
-    "images": [
-      {
-        "src": "../src/assets/photos/p03-performance-presenter.jpg",
-        "placed": "181×88 mm",
-        "ppi": 219,
-        "ok": true,
-        "verdict": "print OK"
-      }
-    ],
-    "placeholders": [
-      {
-        "page": "2",
-        "flag": "F2",
-        "text": "Confirm reporting period: “2026/2027 financial year”"
-      },
-      {
-        "page": "2",
-        "flag": "F2",
-        "text": "Confirm reporting period: “by June 2026”"
-      },
-      {
-        "page": "3",
-        "flag": "F15",
-        "text": "Confirm spelling: “commitee” → “committee”"
-      },
-      {
-        "page": "3",
-        "flag": "F5",
-        "text": "Subhead conflicts with the data (178 → 149 councils): “Distribution network expands across the country”"
-      },
-      {
-        "page": "3",
-        "flag": "F6",
-        "text": "Period and scope to be supplied"
-      }
-    ],
-    "fonts": [
-      "Fraunces normal",
-      "Fraunces italic",
-      "Source Serif 4 normal",
-      "Source Serif 4 italic",
-      "Schibsted Grotesk normal",
-      "Inter Tight normal"
-    ]
-  },
-  {
-    "file": "prototypes/field-report.html",
-    "errors": [],
-    "pages": 2,
-    "issues": [],
-    "images": [
-      {
-        "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
-        "placed": "210×203 mm",
-        "ppi": 170,
-        "ok": true,
-        "verdict": "acceptable: digital fine, soft in print"
-      }
-    ],
-    "placeholders": [
-      {
-        "page": "10",
-        "flag": "F13",
-        "text": "Ending to be supplied (source stops here)"
-      }
-    ],
-    "fonts": [
-      "Fraunces normal",
-      "Fraunces italic",
-      "Source Serif 4 normal",
-      "Source Serif 4 italic",
-      "Schibsted Grotesk normal",
-      "Inter Tight normal"
-    ]
-  },
-  {
     "file": "issue/issue-001.html",
     "errors": [],
     "pages": 20,
@@ -252,19 +118,9 @@
         "text": "Photo credit to be supplied"
       },
       {
-        "page": "1",
-        "flag": "F15",
-        "text": "Confirm spelling: “El Nino” → “El Niño”"
-      },
-      {
         "page": "2",
         "flag": "F12",
         "text": "Confirm spelling of name: “Aisha Mohammed”"
-      },
-      {
-        "page": "2",
-        "flag": "F15",
-        "text": "Confirm spelling: “El Nino” → “El Niño”"
       },
       {
         "page": "2",
@@ -503,8 +359,391 @@
       },
       {
         "page": "18",
+        "flag": "F12",
+        "text": "Confirm spelling of name: “Aisha Mohammed”"
+      },
+      {
+        "page": "18",
+        "flag": "F22",
+        "text": "Date to be supplied"
+      },
+      {
+        "page": "19",
+        "flag": "F8",
+        "text": "Source and survey years to be supplied"
+      },
+      {
+        "page": "19",
+        "flag": "F8",
+        "text": "Source and survey years to be supplied"
+      }
+    ],
+    "fonts": [
+      "Fraunces normal",
+      "Fraunces italic",
+      "Source Serif 4 normal",
+      "Source Serif 4 italic",
+      "Schibsted Grotesk normal",
+      "Inter Tight normal"
+    ]
+  },
+  {
+    "file": "issue/issue-001.html [theme: signal]",
+    "errors": [],
+    "pages": 20,
+    "issues": [],
+    "images": [
+      {
+        "src": "../src/assets/brand/tbpl-logo-extracted.png",
+        "placed": "31.4×14.5 mm",
+        "ppi": 253,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
+        "placed": "210×130.5 mm",
+        "ppi": 170,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/brand/qr-code-extracted.png",
+        "placed": "13×13 mm",
+        "ppi": 864,
+        "ok": true,
+        "verdict": "excellent"
+      },
+      {
+        "src": "../src/assets/photos/p01-editor-portrait.jpg",
+        "placed": "44×42.1 mm",
+        "ppi": 222,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/photos/p03-performance-presenter.jpg",
+        "placed": "181×88 mm",
+        "ppi": 219,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/photos/p06-morogoro-handover.jpg",
+        "placed": "181×124 mm",
+        "ppi": 212,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/photos/p07-morogoro-handover-group.jpg",
+        "placed": "119.2×74 mm",
+        "ppi": 175,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p08-nanenane-dodoma.jpg",
+        "placed": "181×92 mm",
+        "ppi": 185,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p09-liuka-mine-assessment.jpg",
+        "placed": "210×203 mm",
+        "ppi": 170,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p11-embassy-visit.jpg",
+        "placed": "103.7×84 mm",
+        "ppi": 198,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p13-world-food-day-tanga.jpg",
+        "placed": "181×96 mm",
+        "ppi": 151,
+        "ok": true,
+        "verdict": "acceptable: digital fine, soft in print"
+      },
+      {
+        "src": "../src/assets/photos/p15-kibaha-laboratory.jpg",
+        "placed": "210×203 mm",
+        "ppi": 274,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/photos/p17-radio-one-broadcast.jpg",
+        "placed": "181×104 mm",
+        "ppi": 308,
+        "ok": true,
+        "verdict": "excellent"
+      },
+      {
+        "src": "../src/assets/brand/tbpl-logo-extracted.png",
+        "placed": "30×12.6 mm",
+        "ppi": 292,
+        "ok": true,
+        "verdict": "print OK"
+      },
+      {
+        "src": "../src/assets/brand/qr-code-extracted.png",
+        "placed": "24×24 mm",
+        "ppi": 468,
+        "ok": true,
+        "verdict": "excellent"
+      }
+    ],
+    "placeholders": [
+      {
+        "page": "1",
+        "flag": "F16",
+        "text": "Photo credit to be supplied"
+      },
+      {
+        "page": "2",
+        "flag": "F12",
+        "text": "Confirm spelling of name: “Aisha Mohammed”"
+      },
+      {
+        "page": "2",
+        "flag": "F12",
+        "text": "Confirm spelling of name: “Aisha Mohammed”"
+      },
+      {
+        "page": "2",
+        "flag": "F12",
+        "text": "Confirm spelling of name: “Aisha Mohamed”"
+      },
+      {
+        "page": "3",
+        "flag": "F11",
+        "text": "Confirm heading: contents says “Message from the Chief Editor”"
+      },
+      {
+        "page": "3",
+        "flag": "F10",
+        "text": "Confirm company name: “Tanzania Biotech Product Limited”"
+      },
+      {
+        "page": "3",
+        "flag": "F11",
+        "text": "Confirm publication name: “Magazine”"
+      },
+      {
+        "page": "3",
+        "flag": "F10",
+        "text": "Confirm company name: “Tanzania Biotech Product Limited”"
+      },
+      {
+        "page": "4",
+        "flag": "F22",
+        "text": "Date to be supplied"
+      },
+      {
+        "page": "4",
+        "flag": "F2",
+        "text": "Confirm reporting period: “2026/2027 financial year”"
+      },
+      {
+        "page": "4",
+        "flag": "F2",
+        "text": "Confirm reporting period: “by June 2026”"
+      },
+      {
+        "page": "5",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "5",
         "flag": "F15",
-        "text": "Confirm spelling: “El Nino” → “El Niño”"
+        "text": "Confirm spelling: “commitee” → “committee”"
+      },
+      {
+        "page": "5",
+        "flag": "F5",
+        "text": "Subhead conflicts with the data (178 → 149 councils): “Distribution network expands across the country”"
+      },
+      {
+        "page": "5",
+        "flag": "F6",
+        "text": "Period and scope to be supplied"
+      },
+      {
+        "page": "6",
+        "flag": "F6",
+        "text": "Period and scope to be supplied"
+      },
+      {
+        "page": "6",
+        "flag": "F4",
+        "text": "Period to be confirmed"
+      },
+      {
+        "page": "7",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "7",
+        "flag": "F22",
+        "text": "Date to be supplied"
+      },
+      {
+        "page": "7",
+        "flag": "F9",
+        "text": "Confirm product name: “Biolarvicides”"
+      },
+      {
+        "page": "8",
+        "flag": "F9",
+        "text": "Confirm product name: “Biolarvicides”"
+      },
+      {
+        "page": "8",
+        "flag": "F23",
+        "text": "Quantities to be supplied"
+      },
+      {
+        "page": "8",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "8",
+        "flag": "F15",
+        "text": "Confirm spelling: “equipment’s” → “equipment”"
+      },
+      {
+        "page": "9",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "9",
+        "flag": "F22",
+        "text": "Date to be supplied"
+      },
+      {
+        "page": "9",
+        "flag": "F14",
+        "text": "Attribution to be supplied"
+      },
+      {
+        "page": "10",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "11",
+        "flag": "F13",
+        "text": "Ending to be supplied (source stops here)"
+      },
+      {
+        "page": "11",
+        "flag": "F22",
+        "text": "Date to be supplied"
+      },
+      {
+        "page": "11",
+        "flag": "F13",
+        "text": "Byline to be supplied"
+      },
+      {
+        "page": "12",
+        "flag": "F22",
+        "text": "Date to be supplied"
+      },
+      {
+        "page": "12",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "12",
+        "flag": "F10",
+        "text": "Confirm company name: “Tanzania Biotech Product Limited”"
+      },
+      {
+        "page": "12",
+        "flag": "F9",
+        "text": "Confirm product name: “Thurisave-24”"
+      },
+      {
+        "page": "12",
+        "flag": "F9",
+        "text": "Confirm product name: “Griselesf”"
+      },
+      {
+        "page": "12",
+        "flag": "F9",
+        "text": "Confirm product name: “Thurisave-24”"
+      },
+      {
+        "page": "12",
+        "flag": "F9",
+        "text": "Confirm product name: “Griselesf”"
+      },
+      {
+        "page": "13",
+        "flag": "F10",
+        "text": "Confirm company name: “Tanzania Biotech Product Limited”"
+      },
+      {
+        "page": "13",
+        "flag": "F9",
+        "text": "Confirm product name: “Thurisave”"
+      },
+      {
+        "page": "13",
+        "flag": "F9",
+        "text": "Confirm product name: “Griselesf”"
+      },
+      {
+        "page": "14",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "14",
+        "flag": "F9",
+        "text": "Confirm product name: “Thurisave”"
+      },
+      {
+        "page": "15",
+        "flag": "F9",
+        "text": "Confirm product name: “Thurisave 24”"
+      },
+      {
+        "page": "16",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
+      },
+      {
+        "page": "17",
+        "flag": "F10",
+        "text": "Confirm company name: “Tanzania Biotech Product Limited”"
+      },
+      {
+        "page": "17",
+        "flag": "F22",
+        "text": "Date to be supplied"
+      },
+      {
+        "page": "17",
+        "flag": "F12",
+        "text": "Confirm spelling of name: “Aisha Mohammed”"
+      },
+      {
+        "page": "18",
+        "flag": "F16",
+        "text": "Names of people pictured and photo credit to be supplied"
       },
       {
         "page": "18",
@@ -515,11 +754,6 @@
         "page": "18",
         "flag": "F22",
         "text": "Date to be supplied"
-      },
-      {
-        "page": "18",
-        "flag": "F15",
-        "text": "Confirm spelling: “El Nino” → “El Niño”"
       },
       {
         "page": "19",
