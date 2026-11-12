@@ -1,0 +1,277 @@
+---
+/**
+ * "Making jobs work": an interactive reading of the World Bank's Tanzania Economic Update, September 2026.
+ * Every figure is taken from the report; the page number is given under each chart.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import cover from '../../assets/publications/world-bank-tanzania-economic-update-2026.jpg';
+
+const reportUrl = 'https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099092526091537649';
+// Table 1.1, p. 24. 2026–2028 are World Bank projections.
+const eco = {
+  years: [2023, 2024, 2025, 2026, 2027, 2028],
+  proj: [false, false, false, true, true, true],
+  metrics: {
+    gdp: { label: 'Real GDP growth', max: 8, step: 2, v: [5.1, 5.5, 5.9, 6.1, 6.4, 6.5] },
+    cpi: { label: 'Inflation', max: 6, step: 2, v: [3.8, 3.1, 3.4, 4.1, 3.9, 4.0] },
+    debt: { label: 'Public debt, % of GDP', max: 60, step: 20, v: [45.0, 49.9, 48.5, 47.4, 46.2, 44.8] },
+  },
+};
+// Employment status, p. 26.
+const groups = [
+  { label: 'Work for themselves', n: 75, colour: 'var(--brand)' },
+  { label: 'Work in a family business', n: 17, colour: 'var(--paper)' },
+  { label: 'Have an employer', n: 8, colour: '#5fa8d3' },
+];
+const cells = groups.flatMap((g, gi) => Array.from({ length: g.n }, () => gi));
+---
+<BaseLayout title="Making jobs work: Tanzania Economic Update | Native Media" description="The World Bank’s September 2026 Tanzania Economic Update in five interactive chapters: strong growth, high employment, and the challenge of creating better jobs.">
+  <PageHero eyebrow="Creative Data · Interactive report" title="Tanzania has jobs. It needs better ones."
+    lede="The World Bank’s September 2026 Tanzania Economic Update, in five short chapters. Tap the charts to explore the numbers."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Creative Data', href: '/creative-data' }, { label: 'Making jobs work' }]}>
+    <a class="btn" href={reportUrl} target="_blank" rel="noopener noreferrer">Read the full report <span aria-hidden="true">↗</span></a>
+    <nav class="toc" aria-label="Chapters"><a href="#c1">1 · The economy</a><a href="#c2">2 · The jobs paradox</a><a href="#c3">3 · The pressure</a><a href="#c4">4 · What holds it back</a><a href="#c5">5 · What would help</a></nav>
+  </PageHero>
+
+  <div class="tz" data-tz>
+    <section class="section theme-dark" id="c1" aria-labelledby="h1">
+      <div class="wrap grid-cover">
+        <div>
+          <div class="section-head"><p class="eyebrow">Chapter 1 · The economy</p><h2 id="h1">Growth is strong, and expected to rise.</h2>
+            <p class="lede">The economy grew 5.9% in 2025, helped by government spending around the October elections. The World Bank expects 6.1% in 2026 and 6.5% by 2028.</p></div>
+          <div class="panel">
+            <div class="tabs" role="group" aria-label="Choose an indicator">
+              <button type="button" class="tab" aria-pressed="true" data-m="gdp">GDP growth</button>
+              <button type="button" class="tab" aria-pressed="false" data-m="cpi">Inflation</button>
+              <button type="button" class="tab" aria-pressed="false" data-m="debt">Public debt</button>
+            </div>
+            <div class="readout" aria-live="polite"><strong data-ro-v>5.9%</strong><span data-ro-l>Real GDP growth, 2025</span></div>
+            <svg data-eco viewBox="0 0 640 260" width="100%" role="group" aria-label="Bar chart by year, 2023 to 2028. Choose a bar to read its value."></svg>
+            <script type="application/json" data-eco-data set:html={JSON.stringify(eco)}></script>
+            <div class="key"><span><i style="background:var(--brand)"></i>Actual</span><span><i style="background:#7a4a2c"></i>World Bank projection (*)</span><span>Tap a bar to read its value</span></div>
+            <p class="src">Source: World Bank, Tanzania Economic Update, September 2026, Table 1.1 (p. 24).</p>
+          </div>
+        </div>
+        <a class="cover" href={reportUrl} target="_blank" rel="noopener noreferrer" aria-label="Read the full report (opens the World Bank site)">
+          <Image src={cover} alt="Cover of the World Bank Tanzania Economic Update, September 2026: Making Jobs Work" widths={[240, 400, 560]} sizes="15rem" />
+        </a>
+      </div>
+    </section>
+
+    <section class="section theme-charcoal" id="c2" aria-labelledby="h2">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Chapter 2 · The jobs paradox</p><h2 id="h2">Almost everyone works. Few earn much.</h2>
+          <p class="lede">Tanzania doesn’t have a jobs shortage. It has a jobs quality challenge.</p></div>
+        <div class="big2">
+          <div class="stat"><strong>68.7%</strong><span>of working-age Tanzanians had a job in 2024</span><small>One of the highest rates in the world</small></div>
+          <div class="stat"><strong>TZS 1,005</strong><span>median pay per hour</span><small>About US$0.40</small></div>
+        </div>
+        <div class="panel">
+          <h3 class="h3">If 100 Tanzanian workers stood in a room</h3>
+          <div class="wgrid">
+            <div class="waffle" data-waffle role="img" aria-label="100 squares, one per worker: 75 work for themselves, 17 work in a family business, 8 have an employer">
+              {cells.map((g) => <i data-g={g}></i>)}
+            </div>
+            <div class="wkey" role="group" aria-label="Highlight a group">
+              {groups.map((g, i) => <button type="button" class="wbtn" aria-pressed={i === 0 ? 'true' : 'false'} data-g={i} style={`--c:${g.colour}`}><em></em>{g.label}<b>{g.n}</b></button>)}
+              <p class="src">Informal work rose from about 93% (2020) to about 95% (2024). Agriculture employs 54% of workers.</p>
+            </div>
+          </div>
+          <p class="src">Source: World Bank, Tanzania Economic Update, September 2026, p. 26 (from the NBS Integrated Labour Force Survey 2024).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section theme-dark" id="c3" aria-labelledby="h3">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Chapter 3 · The pressure</p><h2 id="h3">Every year, five join for every one who leaves.</h2>
+          <p class="lede">Around 2 million Tanzanians reach working age each year, while about 400,000 leave it. Formal jobs are not growing fast enough to absorb them.</p></div>
+        <div class="panel">
+          <div class="flow" data-flow>
+            <div class="flow__row"><div><span>Reach working age each year</span><b>~2,000,000</b></div><div class="flow__bar"><i style="--w:100%"></i></div></div>
+            <div class="flow__row"><div><span>Leave working age each year</span><b>~400,000</b></div><div class="flow__bar out"><i style="--w:20%"></i></div></div>
+          </div>
+          <p class="gap">About 1.6 million more people of working age, every year.</p>
+          <p class="src">Source: World Bank, Tanzania Economic Update, September 2026, p. 26. The 1.6 million is the difference between the two figures.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section theme-charcoal" id="c4" aria-labelledby="h4">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Chapter 4 · What holds it back</p><h2 id="h4">Two sides of the same problem.</h2>
+          <p class="lede">Workers are not yet ready for better jobs, and firms are not yet creating enough of them.</p></div>
+        <div class="sides">
+          <div class="panel">
+            <h3 class="h3">The workers</h3><p class="muted small">Supply side</p>
+            <ul class="facts">
+              <li><b>4.5</b><span>years of real learning, on average, once school quality is taken into account</span></li>
+              <li><b>0.7%</b><span>of GDP spent on social assistance, less than half the Sub-Saharan Africa average</span></li>
+              <li><b>54%</b><span>of workers are in agriculture</span></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3 class="h3">The firms</h3><p class="muted small">Demand side</p>
+            <ul class="facts">
+              <li><b>1 in 3</b><span>firms can’t get the credit they need</span></li>
+              <li><b>58%</b><span>of large firms say access to land is a major barrier</span></li>
+              <li><b>11%</b><span>the average firm invests just 11% of what it did a decade ago</span></li>
+            </ul>
+            <div class="cmp">
+              <p class="src">Share of formal firms that are young</p>
+              <div class="hi"><span>Tanzania</span><u><i style="--w:12%"></i></u><b>12%</b></div>
+              <div><span>Rwanda</span><u><i style="--w:38%"></i></u><b>38%</b></div>
+            </div>
+          </div>
+        </div>
+        <p class="src">Source: World Bank, Tanzania Economic Update, September 2026, Executive Summary (pp. 1–2).</p>
+      </div>
+    </section>
+
+    <section class="section theme-dark" id="c5" aria-labelledby="h5">
+      <div class="wrap">
+        <div class="section-head"><p class="eyebrow">Chapter 5 · What would help</p><h2 id="h5">Two policy pillars.</h2></div>
+        <div class="pillars">
+          <div class="pillar"><small>Pillar 1</small><h3 class="h3">Grow the base of quality jobs</h3>
+            <ul><li>Lower barriers to starting, closing and investing in firms</li><li>Improve access to land</li><li>Stronger insolvency rules</li><li>Unlock long-term finance</li></ul></div>
+          <div class="pillar"><small>Pillar 2</small><h3 class="h3">Build the workforce for them</h3>
+            <ul><li>Social protection that helps people move up</li><li>Put the least-ready workers first</li><li>Design for women as standard</li><li>Labour market information and recognised skills</li></ul></div>
+        </div>
+        <div class="about">
+          <p class="eyebrow">About this report</p>
+          <p class="muted">World Bank. 2026. Tanzania Economic Update, September 2026. Special Theme: Making Jobs Work. © World Bank. Featured by Native Media with credit. Every figure on this page is taken from the report; page numbers are given under each chart.</p>
+          <p><a class="btn" href={reportUrl} target="_blank" rel="noopener noreferrer">Read the full report <span aria-hidden="true">↗</span></a> <a class="btn btn--ghost" href="/research-and-publications/reports">More reports</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <CtaBand title="Make your research visible." text="Tell us what you need to show and who needs to see it." href="/contact/creative-data" label="Creative Data inquiry" />
+</BaseLayout>
+
+<style>
+  .toc { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem; }
+  .toc a { font-family: var(--font-display); font-weight: 600; font-size: 0.82rem; color: var(--paper); text-decoration: none; border: 1px solid var(--line-dark); padding: 0.55rem 0.75rem; }
+  .toc a:hover { border-color: var(--brand); }
+  .tz .section-head { margin-bottom: 1.6rem; }
+  .grid-cover { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 900px) { .grid-cover { grid-template-columns: 1fr 15rem; } }
+  .cover { display: block; max-width: 15rem; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6); }
+  .cover :global(img) { display: block; width: 100%; height: auto; }
+  .panel { background: var(--charcoal); border: 1px solid var(--line-dark); padding: 1.3rem; display: grid; gap: 1rem; min-width: 0; }
+  .theme-charcoal .panel { background: var(--black); }
+  .h3 { font-size: var(--step-1); font-weight: 800; }
+  .src { font-size: 0.78rem; color: var(--gray); margin: 0; }
+  .small { font-size: 0.88rem; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tab { appearance: none; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; padding: 0.6rem 0.8rem; background: transparent; color: var(--paper); border: 1px solid var(--line-dark); }
+  .tab[aria-pressed='true'] { background: var(--brand); border-color: var(--brand); color: var(--black); }
+  .readout { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 1rem; min-height: 3.2rem; }
+  .readout strong { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 7vw, 3rem); line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .readout span { color: var(--gray); }
+  .key { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; font-size: 0.82rem; color: var(--gray); }
+  .key i { display: inline-block; width: 0.8rem; height: 0.8rem; margin-right: 0.4rem; vertical-align: -1px; }
+
+  .big2 { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); margin-bottom: 1rem; }
+  .stat { background: var(--black); border: 1px solid var(--line-dark); padding: 1.3rem; display: grid; gap: 0.4rem; align-content: start; }
+  .stat strong { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 8vw, 3.8rem); line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .stat span { font-weight: 600; } .stat small { color: var(--gray); font-size: 0.85rem; }
+  .wgrid { display: grid; gap: 1.4rem; } @media (min-width: 760px) { .wgrid { grid-template-columns: 1.3fr 1fr; align-items: center; } }
+  .waffle { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; max-width: 34rem; }
+  .waffle i { aspect-ratio: 1; background: rgba(245, 245, 240, 0.16); transition: background 0.25s; }
+  .waffle i[data-g='0'] { background: var(--brand); } .waffle i[data-g='1'] { background: var(--paper); } .waffle i[data-g='2'] { background: #5fa8d3; }
+  .wkey { display: grid; gap: 0.4rem; }
+  .wbtn { appearance: none; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.6rem; background: transparent; color: var(--paper); border: 1px solid var(--line-dark); padding: 0.6rem 0.8rem; font: inherit; font-size: 0.92rem; }
+  .wbtn em { width: 0.9rem; height: 0.9rem; flex: none; background: var(--c); }
+  .wbtn b { margin-left: auto; font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+  .wbtn[aria-pressed='true'] { border-color: var(--brand); background: rgba(237, 125, 62, 0.18); }
+
+  .flow { display: grid; gap: 0.9rem; }
+  .flow__row { display: grid; gap: 0.35rem; }
+  .flow__row > div:first-child { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.92rem; }
+  .flow__row b { font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+  .flow__bar { height: 2.2rem; background: var(--charcoal-2); }
+  .flow__bar i { display: block; height: 100%; background: var(--brand); width: var(--w); transform-origin: left; transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .flow__bar.out i { background: var(--gray); }
+  [data-tz].is-js .flow:not(.in) .flow__bar i { transform: scaleX(0); }
+  .gap { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; line-height: 1.2; margin: 0; }
+
+  .sides, .pillars { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); margin-bottom: 1rem; }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .facts li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.8rem; align-items: baseline; border-top: 1px solid var(--line-dark); padding-top: 0.7rem; }
+  .facts b { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .facts span { font-size: 0.95rem; }
+  .cmp { display: grid; gap: 0.5rem; }
+  .cmp div { display: grid; grid-template-columns: 5rem 1fr 3rem; gap: 0.6rem; align-items: center; font-size: 0.9rem; }
+  .cmp u { display: block; height: 1rem; background: var(--charcoal-2); text-decoration: none; }
+  .cmp u i { display: block; height: 100%; width: var(--w); background: var(--paper); }
+  .cmp .hi u i { background: var(--brand); }
+  .cmp b { text-align: right; font-family: var(--font-display); }
+  .pillar { background: var(--charcoal); border: 1px solid var(--line-dark); border-top: 3px solid var(--brand); padding: 1.3rem; display: grid; gap: 0.7rem; align-content: start; }
+  .pillar small { font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .pillar ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; color: var(--gray); font-size: 0.95rem; }
+  .about { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line-dark); display: grid; gap: 1rem; max-width: 46rem; }
+  @media (prefers-reduced-motion: reduce) { .flow__bar i, .waffle i { transition: none; } [data-tz].is-js .flow:not(.in) .flow__bar i { transform: none; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-tz]');
+  if (root) {
+    root.classList.add('is-js');
+
+    // Chapter 1: economy chart
+    const data = JSON.parse(root.querySelector('[data-eco-data]')!.textContent || '{}');
+    const svg = root.querySelector<SVGSVGElement>('[data-eco]')!;
+    const rv = root.querySelector<HTMLElement>('[data-ro-v]')!;
+    const rl = root.querySelector<HTMLElement>('[data-ro-l]')!;
+    const NS = 'http://www.w3.org/2000/svg';
+    const L = 48, R = 630, T = 22, B = 226, bw = (R - L) / data.years.length;
+    let cur = 'gdp', sel = 2;
+    const el = (n: string, a: Record<string, string | number>) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, String(a[k])); return e; };
+    const draw = () => {
+      const m = data.metrics[cur];
+      svg.replaceChildren();
+      for (let t = 0; t <= m.max; t += m.step) {
+        const y = B - (t / m.max) * (B - T);
+        svg.appendChild(el('line', { x1: L, x2: R, y1: y, y2: y, stroke: 'rgba(245,245,240,.12)' }));
+        const tx = el('text', { x: L - 8, y: y + 4, 'text-anchor': 'end', 'font-size': 12, fill: '#9a9a94' }); tx.textContent = `${t}%`; svg.appendChild(tx);
+      }
+      data.years.forEach((yr: number, i: number) => {
+        const x = L + i * bw + bw * 0.18, w = bw * 0.64, h = (m.v[i] / m.max) * (B - T), y = B - h, p = data.proj[i];
+        const g = el('g', { tabindex: 0, role: 'button', 'aria-label': `${m.v[i]}% ${yr}${p ? '* (projection)' : ''}`, style: 'cursor:pointer' });
+        const r = el('rect', { x, y, width: w, height: h, fill: p ? '#7a4a2c' : '#ed7d3e', stroke: i === sel ? '#f5f5f0' : 'none', 'stroke-width': 2 });
+        const v = el('text', { x: x + w / 2, y: y - 6, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 700, fill: '#f5f5f0', 'aria-hidden': 'true' }); v.textContent = `${m.v[i]}%`;
+        const lb = el('text', { x: x + w / 2, y: B + 20, 'text-anchor': 'middle', 'font-size': 13, fill: '#9a9a94', 'aria-hidden': 'true' }); lb.textContent = `${yr}${p ? '*' : ''}`;
+        g.append(r, v, lb);
+        const pick = () => { sel = i; update(); };
+        g.addEventListener('click', pick);
+        g.addEventListener('keydown', (e) => { const k = (e as KeyboardEvent).key; if (k === 'Enter' || k === ' ') { e.preventDefault(); pick(); } });
+        svg.appendChild(g);
+      });
+    };
+    const update = () => { const m = data.metrics[cur]; rv.textContent = `${m.v[sel]}%`; rl.textContent = `${m.label}, ${data.years[sel]}${data.proj[sel] ? ' (projection)' : ''}`; draw(); };
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.tab')];
+    tabs.forEach((b) => b.addEventListener('click', () => { tabs.forEach((x) => x.setAttribute('aria-pressed', String(x === b))); cur = b.dataset.m!; update(); }));
+    update();
+
+    // Chapter 2: 100 workers
+    const cells = [...root.querySelectorAll<HTMLElement>('[data-waffle] i')];
+    const btns = [...root.querySelectorAll<HTMLButtonElement>('.wbtn')];
+    // Without scripting every group shows in its own colour; with it, only the chosen group is lit.
+    const paint = (g: number) => cells.forEach((c) => { c.style.background = c.dataset.g === String(g) ? '' : 'rgba(245, 245, 240, 0.16)'; });
+    btns.forEach((b) => b.addEventListener('click', () => { btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b))); paint(Number(b.dataset.g)); }));
+    paint(0);
+
+    // Chapter 3: bars grow in when seen
+    const flow = root.querySelector<HTMLElement>('[data-flow]');
+    if (flow) {
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { flow.classList.add('in'); io.disconnect(); } }), { threshold: 0.4 });
+        io.observe(flow);
+      } else flow.classList.add('in');
+    }
+  }
+</script>
