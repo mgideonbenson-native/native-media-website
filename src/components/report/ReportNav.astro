@@ -1,0 +1,69 @@
+---
+/**
+ * Report navigation: a numbered rail on wide screens, a "Contents" drawer on smaller ones,
+ * plus back-to-top, share and download. Section state comes from the page script (data-rp-*).
+ */
+interface Props { sections: { id: string; label: string }[]; pdf: string; pdfName: string }
+const { sections, pdf, pdfName } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<nav class="rail" aria-label="Report sections" data-rp-rail>
+  <ol>
+    {sections.map((s, i) => <li><a href={`#${s.id}`} data-rp-link={s.id}><span class="rail__n">{pad(i + 1)}</span><span class="rail__l">{s.label}</span></a></li>)}
+  </ol>
+  <button type="button" class="rail__top" data-rp-top aria-label="Back to top"><span aria-hidden="true">↑</span></button>
+</nav>
+
+<div class="dock" data-rp-dock>
+  <button type="button" class="dock__btn" data-rp-open aria-haspopup="dialog"><span aria-hidden="true">☰</span> Contents <span class="dock__pos" data-rp-pos>01/{pad(sections.length)}</span></button>
+  <button type="button" class="dock__top" data-rp-top aria-label="Back to top"><span aria-hidden="true">↑</span></button>
+</div>
+
+<dialog class="drawer" data-rp-drawer aria-label="Report contents">
+  <div class="drawer__head"><p class="eyebrow">Contents</p><button type="button" class="drawer__x" data-rp-close aria-label="Close contents">✕</button></div>
+  <ol class="drawer__list">
+    {sections.map((s, i) => <li><a href={`#${s.id}`} data-rp-link={s.id} data-rp-close><span>{pad(i + 1)}</span>{s.label}</a></li>)}
+  </ol>
+  <div class="drawer__actions">
+    <button type="button" class="btn btn--ghost" data-rp-share>Share this report</button>
+    <a class="btn btn--ghost" href={pdf} download={pdfName}>Download the original (PDF)</a>
+    <p class="drawer__msg" data-rp-share-msg role="status" aria-live="polite"></p>
+  </div>
+</dialog>
+
+<style>
+  .rail { display: none; }
+  @media (min-width: 75rem) {
+    .rail { display: grid; gap: 0.8rem; position: fixed; left: 0.9rem; top: 50%; transform: translateY(-50%); z-index: 40; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    :global(.rp-past-hero) .rail { opacity: 1; pointer-events: auto; }
+    .rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
+    .rail a { position: relative; display: flex; align-items: center; text-decoration: none; color: var(--gray); }
+    .rail__n { display: grid; place-items: center; width: 2.2rem; height: 2rem; font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; font-variant-numeric: tabular-nums; border-left: 2px solid var(--line-dark); }
+    .rail__l { position: absolute; left: 2.6rem; white-space: nowrap; padding: 0.3rem 0.6rem; background: var(--paper); color: var(--black); font-size: 0.8rem; font-weight: 600; opacity: 0; transform: translateX(-4px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+    .rail a:hover .rail__l, .rail a:focus-visible .rail__l { opacity: 1; transform: none; }
+    .rail a:hover, .rail a:focus-visible { color: var(--paper); }
+    .rail a[aria-current='true'] { color: var(--brand); }
+    .rail a[aria-current='true'] .rail__n { border-left-color: var(--brand); }
+    .rail__top { appearance: none; cursor: pointer; width: 2.2rem; height: 2.2rem; border: 1px solid var(--line-dark); background: var(--charcoal); color: var(--paper); font-size: 1rem; }
+    .rail__top:hover { border-color: var(--brand); }
+  }
+  .dock { position: fixed; left: max(1rem, env(safe-area-inset-left)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 89; display: flex; gap: 0.4rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  :global(.rp-past-hero) .dock { opacity: 1; pointer-events: auto; }
+  @media (min-width: 75rem) { .dock { display: none; } }
+  .dock__btn, .dock__top { appearance: none; cursor: pointer; min-height: 3rem; border: 1px solid var(--line-dark); background: rgba(21, 21, 21, 0.96); color: var(--paper); font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; box-shadow: 0 8px 22px -8px rgba(0, 0, 0, 0.6); }
+  .dock__btn { padding: 0 1rem; display: inline-flex; gap: 0.5rem; align-items: center; }
+  .dock__pos { color: var(--brand); font-variant-numeric: tabular-nums; }
+  .dock__top { width: 3rem; font-size: 1.1rem; }
+  .drawer { border: 0; padding: 0; margin: 0; max-width: none; max-height: none; width: min(24rem, 100%); height: 100%; inset: 0 auto 0 0; background: var(--charcoal); color: var(--paper); }
+  .drawer::backdrop { background: rgba(0, 0, 0, 0.6); }
+  .drawer[open] { display: grid; grid-template-rows: auto 1fr auto; }
+  .drawer__head { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.2rem 0.6rem; padding-top: max(1.2rem, env(safe-area-inset-top)); }
+  .drawer__x { appearance: none; cursor: pointer; width: 2.75rem; height: 2.75rem; background: transparent; border: 1px solid var(--line-dark); color: var(--paper); font-size: 1rem; }
+  .drawer__list { list-style: none; margin: 0; padding: 0 1.2rem; overflow-y: auto; display: grid; align-content: start; }
+  .drawer__list a { display: flex; gap: 0.9rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line-dark); text-decoration: none; color: var(--paper); font-family: var(--font-display); font-weight: 700; }
+  .drawer__list a span { color: var(--gray); font-variant-numeric: tabular-nums; width: 1.6rem; }
+  .drawer__list a[aria-current='true'], .drawer__list a[aria-current='true'] span { color: var(--brand); }
+  .drawer__actions { display: grid; gap: 0.6rem; padding: 1.2rem; padding-bottom: max(1.2rem, env(safe-area-inset-bottom)); }
+  .drawer__actions .btn { justify-content: center; }
+  .drawer__msg { margin: 0; font-size: 0.85rem; color: var(--gray); min-height: 1.2em; }
+</style>

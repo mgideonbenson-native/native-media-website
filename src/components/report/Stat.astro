@@ -1,0 +1,18 @@
+---
+/** A large figure that counts up when it scrolls into view. The final value is in the HTML, so it reads correctly without scripting. */
+interface Props { value: number; decimals?: number; prefix?: string; suffix?: string; label: string; source: string; status?: string }
+const { value, decimals = 0, prefix = '', suffix = '', label, source, status } = Astro.props;
+const text = `${prefix}${value.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${suffix}`;
+---
+<div class="stat">
+  <strong class="stat__n" data-count={value} data-decimals={decimals} data-prefix={prefix} data-suffix={suffix}>{text}</strong>
+  <span class="stat__l">{label}</span>
+  <small class="stat__s">{status && <em>{status} · </em>}{source}</small>
+</div>
+<style>
+  .stat { display: grid; gap: 0.45rem; align-content: start; padding-top: 1rem; border-top: 2px solid var(--brand); min-width: 0; }
+  .stat__n { font-family: var(--font-display); font-weight: 800; font-stretch: 80%; font-size: clamp(2.6rem, 7vw, 4.4rem); line-height: 0.95; letter-spacing: -0.02em; color: var(--paper); font-variant-numeric: tabular-nums; }
+  .stat__l { font-weight: 600; line-height: 1.35; max-width: 22rem; }
+  .stat__s { font-size: 0.76rem; color: var(--gray); }
+  .stat__s em { font-style: normal; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand); }
+</style>

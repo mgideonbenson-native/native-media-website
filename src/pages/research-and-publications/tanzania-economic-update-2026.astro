@@ -1,0 +1,836 @@
+---
+/**
+ * Interactive edition of the World Bank's Tanzania Economic Update, September 2026 (Special Theme: Making Jobs Work).
+ * Every figure comes from data/tz-economic-update-2026.json, which records the page and exact wording in the report.
+ * Check the figures against the PDF with: node scripts/verify-tz-economic-update.mjs <path-to-pdf>
+ * Text marked "Native Media perspective" is editorial interpretation, not a World Bank finding.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChartFrame from '../../components/report/ChartFrame.astro';
+import Bars from '../../components/report/Bars.astro';
+import LineChart from '../../components/report/LineChart.astro';
+import Stat from '../../components/report/Stat.astro';
+import ReportNav from '../../components/report/ReportNav.astro';
+import cover from '../../assets/publications/world-bank-tanzania-economic-update-2026.jpg';
+import data from '../../../data/tz-economic-update-2026.json';
+
+const { meta, facts: F, table_1_1: T } = data as any;
+const src = (...ids: string[]) => `World Bank, Tanzania Economic Update, Sept 2026, p. ${[...new Set(ids.map((id) => F[id].page))].join(', ')}`;
+const srcT = `World Bank, Tanzania Economic Update, Sept 2026, Table 1.1, p. ${T.page}`;
+const pdfName = 'World-Bank-Tanzania-Economic-Update-September-2026.pdf';
+const sections = [
+  { id: 'opening', label: 'The opening' },
+  { id: 'economy', label: 'The economic picture' },
+  { id: 'jobs', label: 'The jobs challenge' },
+  { id: 'two-sides', label: 'Two sides of the challenge' },
+  { id: 'firms', label: 'Why firms struggle' },
+  { id: 'pillars', label: 'Two policy pillars' },
+  { id: 'outlook', label: 'The outlook' },
+  { id: 'takeaways', label: 'Key takeaways' },
+  { id: 'report', label: 'The original report' },
+];
+const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
+
+// Chapter 3: 100 squares, one picture per step. Rounded shares are labelled as rounded in the step text.
+const waffle = Array.from({ length: 100 }, (_, i) => ({
+  s1: i < 69 ? 'on' : 'off',
+  s2: i < 75 ? 'a' : i < 92 ? 'b' : 'c',
+  s3: i < 54 ? 'on' : 'off',
+  s4: i < 95 ? 'on' : 'off',
+  s5: i < 2 ? 'on' : 'off',
+}));
+const steps = [
+  { n: 1, big: 'About 69 in 100', text: 'working-age Tanzanians have a job. The employment-to-population ratio is 68.7%, among the highest in the world, up from 65.8% in 2020.', src: src('emp_ratio'), key: [['on', 'In work']] },
+  { n: 2, big: '75 · 17 · 8', text: 'Of every 100 workers, 75 work for themselves, 17 help in a family business and only 8 are employees with an employer.', src: src('status_split'), key: [['a', 'Own-account'], ['b', 'Family business'], ['c', 'Employees']] },
+  { n: 3, big: '54 in 100', text: 'workers are in agriculture. Its share has fallen 6 percentage points since 2020, but it is still the biggest employer by far.', src: src('agri_share'), key: [['on', 'Agriculture']] },
+  { n: 4, big: 'About 95 in 100', text: 'jobs are informal, up from about 93 in 2020. The working-age population is growing faster than the formal job base.', src: src('informality'), key: [['on', 'Informal']] },
+  { n: 5, big: 'About 2 in 100', text: 'jobs are high-quality: decent pay, a written contract, social security and job security. That is about 550,000 out of 26 million jobs, and only about 120,000 of them are in the private sector.', src: src('hq_jobs'), key: [['on', 'High-quality']] },
+];
+
+// Chapter 4: the report's Opportunity–Readiness framework (Figure 2.1, p. 32; shares pp. 32–33).
+const quads = [
+  { id: 'q1', code: 'Q1', name: 'Expand productive employment', share: 'Over half', ready: 'Low readiness', opp: 'Low opportunity', who: 'Rural informal workers, NEET youth, agricultural smallholders, subsistence self-employed.', priority: 'Graduation programmes, cash and productive assets, foundational skills, second-chance education, social protection reform.', note: 'Most Tanzanians today', fact: 'q1' },
+  { id: 'q2', code: 'Q2', name: 'Unlock talent', share: '15%', ready: 'High readiness', opp: 'Low opportunity', who: 'Skilled workers in thin markets, urban self-employed, informal artisans with credential gaps, workers with outdated skills.', priority: 'Enterprise support, transport subsidies for rural–urban mobility, reskilling, recognition of prior learning, market linkages, seed capital.', note: '', fact: 'q2' },
+  { id: 'q3', code: 'Q3', name: 'Bridge the gaps', share: '18%', ready: 'Low readiness', opp: 'High opportunity', who: 'Formal job seekers, skilled urban youth, secondary school graduates, recent TVET and university graduates.', priority: 'Employer-driven training, TVET, recognition of prior learning, wage subsidies, job matching, apprenticeships.', note: '', fact: 'q3' },
+  { id: 'q4', code: 'Q4', name: 'Connect to jobs', share: '15%', ready: 'High readiness', opp: 'High opportunity', who: 'Skilled graduates with networks, formal workers near the threshold, about 4 million formally employed workers.', priority: 'Job-matching platforms, skills certification, advanced and digital skills, career services, in-work mobility support.', note: 'Where quality jobs are', fact: 'q4' },
+];
+
+// Chapter 6: the report's recommendations, condensed (pp. 47–49).
+const pillars = [
+  { id: 'p1', n: 'Pillar 1', title: 'Expand the quality job base', lede: 'Make it easier for firms to start, grow, invest, reorganise or close.', groups: [
+    { n: 1, t: 'Encourage firm entry', items: ['Link the digital systems of BRELA, TRA, local governments and regulators to end duplicate reporting.', 'Review unnecessary restrictions and costs on foreign firm registration and investment.', 'Publish fee schedules every year with notice of changes, and fund regulators from the budget rather than fees.', 'Support micro-enterprises with tiered licensing, Kiswahili digital registration and business support.'] },
+    { n: 2, t: 'Strengthen the insolvency framework', items: ['Protect creditors’ rights and enable viable firms to reorganise.', 'Train judges in insolvency and regulate insolvency administrators.', 'Create simpler, faster procedures for small enterprises.', 'Add cross-border insolvency provisions.'] },
+    { n: 3, t: 'Unlock long-term finance', items: ['Enact and implement the secured transactions law so more assets, such as receivables, count as collateral.', 'Bring utility and mobile money payment data into credit reporting. Mobile money reaches over 94% of Tanzanians.', 'Build on capital market reforms: lower listing barriers, blended finance, leasing and factoring.'] },
+    { n: 4, t: 'Give firms access to investable land', items: ['Keep improving the e-Ardhi digital land records so firms can check ownership and encumbrances.', 'Hold land officers accountable with performance indicators, tracking and automatic escalation of delayed requests.'] },
+  ] },
+  { id: 'p2', n: 'Pillar 2', title: 'Build the quality workforce pipeline', lede: 'Help workers become ready for better jobs and find them.', groups: [
+    { n: 5, t: 'Redesign social protection as a mobility enabler', items: ['Add income replacement within PSSN III for people in training, and pilot keeping transfers for those who enter wage jobs.', 'Make benefits portable across jobs and places.'] },
+    { n: 6, t: 'Prioritise the least-ready workers (Q1)', items: ['Move training into communities, in modular and part-time formats, instead of programmes people must leave work to attend.', 'Offer graduation-style packages: income support, foundational skills, productive assets and coaching.', 'Encourage secondary school completion and second-chance routes, especially for girls.'] },
+    { n: 7, t: 'Make gender-responsive design the standard', items: ['Require childcare and flexible arrangements in every programme.', 'Treat the care economy as a source of jobs, not only a constraint.', 'Set participation targets for women across labour market programmes.'] },
+    { n: 8, t: 'Build a labour market information system with real reach', items: ['Digitise the Public Employment Service and reward placements; launch a mobile national jobs portal in Kiswahili.', 'Hold employer recruitment events in secondary towns.', 'Use the system to read real-time labour demand and shape training.'] },
+    { n: 9, t: 'Build an employer-trusted recognition of prior learning system', items: ['Open at least three regional NACTVET assessment hubs outside Dar es Salaam.', 'Issue credentials as portable digital certificates.', 'Co-design credentials with employer associations from the start.'] },
+  ] },
+];
+
+// Chapter 7: the report's downside risks (pp. 9, 23–24).
+const risks = [
+  { id: 'r-external', t: 'External shocks', short: 'The war in the Middle East', text: 'Middle East transit hubs are the usual connecting routes for tourists from Europe and Asia, and Gulf ports supply and transship goods for Tanzania. Prolonged disruption could hit tourism and transport exports and widen the current account deficit, possibly towards levels last seen in 2022. Gold exports give a partial hedge.' },
+  { id: 'r-fiscal', t: 'Fiscal discipline', short: 'Spending pressure and arrears', text: 'Election-related spending and a larger payroll showed that the risk of arrears and weak cash management is real. The report names revenue efficiency and cash management as priorities.' },
+  { id: 'r-reform', t: 'Reform momentum', short: 'Keeping reforms on track', text: 'A loss of reform momentum, from political pressure or implementation limits, would weigh on private sector confidence and could undermine the growth path. The outlook relies on reforms under MKUMBI II, the second blueprint for investment climate reform.' },
+  { id: 'r-climate', t: 'Climate vulnerability', short: 'Drought, floods and heat', text: 'Climate shocks remain a downside risk, especially for farm output and the most exposed households. Drought is the largest climate risk to Tanzanians, followed by floods and heatwaves.' },
+];
+---
+<BaseLayout title="Tanzania Economic Update 2026: Making Jobs Work, interactive | Native Media"
+  description="An interactive edition of the World Bank’s September 2026 Tanzania Economic Update. Explore growth, inflation, debt and trade, and why Tanzania faces a jobs quality challenge rather than a jobs shortage."
+  image="/reports/og-tanzania-economic-update-2026.png"
+  jsonLd={{ '@context': 'https://schema.org', '@type': 'Article', headline: 'Tanzania is working. But are the jobs working?', about: meta.title, author: { '@type': 'Organization', name: 'Native Media' }, isBasedOn: { '@type': 'Report', name: meta.title, publisher: { '@type': 'Organization', name: 'World Bank' }, url: meta.url, datePublished: '2026-09' } }}>
+
+  <div class="rp" data-rp>
+    <ReportNav sections={sections} pdf={meta.pdf} pdfName={pdfName} />
+
+    <!-- 01 OPENING -->
+    <section class="op" id="opening" aria-labelledby="op-t" data-rp-section>
+      <canvas class="op__topo" data-topo aria-hidden="true"></canvas>
+      <div class="op__grain" aria-hidden="true"></div>
+      <div class="wrap op__inner">
+        <nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/">Home</a></li><li><a href="/research-and-publications">Research &amp; Publications</a></li><li><span aria-current="page">Tanzania Economic Update 2026</span></li></ol></nav>
+        <div class="op__grid">
+          <div class="op__text">
+            <p class="eyebrow">Interactive report · World Bank · September 2026</p>
+            <h1 id="op-t" class="op__h" tabindex="-1"><span>Tanzania is working.</span> <span>But are the <em>jobs</em> working?</span></h1>
+            <p class="op__sub">Making Jobs Work: understanding Tanzania’s economic performance and the challenge of creating better jobs.</p>
+            <p class="op__intro">The World Bank’s twice-yearly Tanzania Economic Update reviews the economy and takes on one special theme. This September 2026 edition asks why strong growth has not produced enough good jobs. Native Media has turned it into an interactive edition. Every number comes from the report, with its page.</p>
+          </div>
+          <a class="op__cover" href="#report" aria-label="About the original report">
+            <Image src={cover} alt="Cover of the World Bank Tanzania Economic Update, September 2026: Making Jobs Work" widths={[260, 420, 560]} sizes="(min-width: 64rem) 17rem, 12rem" loading="eager" />
+          </a>
+        </div>
+        <div class="op__stats">
+          <Stat value={68.7} decimals={1} suffix="%" label="Employment-to-population ratio: more than two in three working-age Tanzanians had a job" source={`2024 · ${src('emp_ratio')}`} />
+          <Stat value={54} suffix="%" label="of the workforce is employed in agriculture" source={`2024 · ${src('agri_share')}`} />
+          <Stat value={1005} prefix="TZS " label="Median hourly pay, including profits and in-kind income (about US$0.40)" source={`2024 · ${src('median_pay')}`} />
+        </div>
+        <div class="op__actions">
+          <a class="btn" href="#economy">Explore the report <span aria-hidden="true">↓</span></a>
+          <button type="button" class="btn btn--ghost" data-rp-share>Share <span aria-hidden="true">↗</span></button>
+          <a class="btn btn--ghost" href={meta.pdf} download={pdfName}>Download the original (PDF, 5 MB)</a>
+          <p class="share-msg" data-rp-share-msg role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 ECONOMY -->
+    <section class="sec theme-dark" id="economy" aria-labelledby="ec-t" data-rp-section>
+      <div class="wrap">
+        <header class="sec__head"><span class="sec__n" aria-hidden="true">{num('economy')}</span><div><p class="eyebrow">Tanzania’s economic picture</p><h2 id="ec-t">Strong growth, steady prices, rising external pressure.</h2>
+          <p class="lede">Growth reached 5.9% in 2025, helped by government spending around the October elections. Inflation stayed inside the target band. Higher fuel and freight costs widened the current account deficit.</p></div></header>
+
+        <div class="tabs" data-tabs>
+          <div class="tabs__list" role="tablist" aria-label="Economic indicators">
+            <button type="button" role="tab" id="t-gdp" aria-controls="p-gdp" data-tab="gdp">A · Growth</button>
+            <button type="button" role="tab" id="t-sec" aria-controls="p-sec" data-tab="sec">B · Sectors</button>
+            <button type="button" role="tab" id="t-inf" aria-controls="p-inf" data-tab="inf">C · Inflation &amp; rates</button>
+            <button type="button" role="tab" id="t-fis" aria-controls="p-fis" data-tab="fis">D · Budget &amp; debt</button>
+            <button type="button" role="tab" id="t-ext" aria-controls="p-ext" data-tab="ext">E · Trade</button>
+          </div>
+
+          <div role="tabpanel" id="p-gdp" aria-labelledby="t-gdp" data-panel="gdp" class="panel">
+            <div class="panel__grid">
+              <ChartFrame title="Growth is set to rise to 6.5%" explain="Real GDP growth, calendar years. 2026–2028 are World Bank baseline projections. Tap a point for its value." unit="% annual change" period="2023–2028" source={srcT}>
+                <LineChart years={T.years} series={[{ label: 'Real GDP growth', values: T.rows.gdp.values }]} projectedFrom={2026} yMin={4} yMax={7} step={1} label="Real GDP growth 2023 to 2028, with 2026 to 2028 projected" />
+              </ChartFrame>
+              <div class="facts">
+                <div class="fact"><b>6.0%</b><span>growth in the first quarter of 2026</span><small>Q1 2026 · {src('gdp_q1_2026')}. Measured on the rebased national accounts (base year 2019), which break the series, so it is not shown on the annual line.</small></div>
+                <div class="fact"><b>Over ⅔</b><span>of 2025 growth came from government spending, against an average of 45% in 2021–2024</span><small>2025 · {src('gov_share')}</small></div>
+                <div class="fact"><b>5.7%</b><span>average annual growth over two decades, driven more by adding resources than by productivity</span><small>{src('gdp_20y')}</small></div>
+              </div>
+            </div>
+            <details class="explain"><summary>What does this mean?</summary><p>Tanzania’s growth is high by regional standards and is expected to rise further as private investment picks up. But 2025’s boost came largely from public spending ahead of the elections, which the World Bank expects to unwind. Poverty has barely moved: the share of people below the $4.20-a-day line is estimated at 69.8%, against 70% in 2018 ({src('poverty_now')}).</p></details>
+          </div>
+
+          <div role="tabpanel" id="p-sec" aria-labelledby="t-sec" data-panel="sec" class="panel">
+            <div class="panel__grid">
+              <ChartFrame title="Industry and services led growth in 2025" explain="Real growth by sector in 2025, as described in the report’s text. Almost half of real growth came from services." unit="% real growth" period="2025" source={src('sec_services')}
+                note="The report’s Table 1.1 (p. 24) gives different 2025 sector rates: agriculture 3.6%, industry 7.8%, services 5.8%. The report does not explain the difference. We show the figures from the text and list the table’s figures here so neither is hidden.">
+                <Bars label="Real growth by sector, 2025" max={8} items={[
+                  { label: 'Industry', value: F.sec_industry.value, tip: 'Industry grew 6.8% in 2025, with strong construction and mining' },
+                  { label: 'Services', value: F.sec_services.value, tip: 'Services grew 6.7% in 2025, led by finance, transport and trade' },
+                  { label: 'Agriculture', value: F.sec_agri.value, tip: 'Agriculture grew 4.1% in 2025, helped by supportive weather' },
+                ]} />
+              </ChartFrame>
+              <ChartFrame title="The baseline table, sector by sector" explain="The World Bank’s model baseline from Table 1.1. 2026–2028 are projections." unit="% annual change" period="2023–2028" source={srcT}>
+                <LineChart years={T.years} projectedFrom={2026} yMin={2} yMax={9} step={1} label="Sector growth 2023 to 2028 from Table 1.1"
+                  series={[{ label: 'Industry', values: T.rows.industry.values, tone: 'brand' }, { label: 'Services', values: T.rows.services.values, tone: 'paper' }, { label: 'Agriculture', values: T.rows.agriculture.values, tone: 'gray' }]} />
+              </ChartFrame>
+            </div>
+            <details class="explain"><summary>What does this mean?</summary><p>High food and mineral prices raised mining’s and agriculture’s share of output in money terms, but their real output was held back. Mature gold mines cannot easily produce more, and new projects only start in or after 2027. Fertiliser subsidies mainly reach richer farmers ({src('sec_agri')}).</p></details>
+          </div>
+
+          <div role="tabpanel" id="p-inf" aria-labelledby="t-inf" data-panel="inf" class="panel">
+            <div class="panel__grid">
+              <ChartFrame title="Inflation has stayed inside the 3–5% target band" explain="Annual average consumer price inflation. The shaded band is the Bank of Tanzania’s medium-term target. 2026–2028 are projections." unit="% annual average" period="2023–2028" source={`${srcT}; target band p. ${F.infl_band.page}`}>
+                <LineChart years={T.years} series={[{ label: 'Inflation', values: T.rows.inflation.values }]} projectedFrom={2026} yMin={2} yMax={6} step={1} band={{ from: 3, to: 5, label: 'Target band 3–5%' }} label="Inflation 2023 to 2028 against the 3 to 5 percent target band" />
+              </ChartFrame>
+              <div class="facts">
+                <div class="fact"><b>4.2%</b><span>headline inflation, year-on-year, with core inflation at 3.9%</span><small>July 2026 · monthly reading, not comparable with the annual averages in the chart · {src('infl_jul26')}</small></div>
+                <div class="fact"><b>6.25%</b><span>Central Bank Rate after a 50 basis point rise in July 2026, to contain second-round effects of higher energy, fertiliser and transport costs</span><small>{src('cbr')}</small></div>
+                <div class="fact"><b>28.1%</b><span>private sector credit growth, a multi-year high, with bad loans at 2.5%, below the 5% threshold</span><small>June 2026 · {src('credit')}</small></div>
+              </div>
+            </div>
+            <details class="explain"><summary>What does this mean?</summary><p>The Bank of Tanzania now steers interest rates rather than money supply. That framework has kept inflation in the target band even as diesel pump prices rose about 60% between the start of the war in the Middle East and June 2026 ({src('diesel')}).</p></details>
+          </div>
+
+          <div role="tabpanel" id="p-fis" aria-labelledby="t-fis" data-panel="fis" class="panel">
+            <div class="panel__grid">
+              <ChartFrame title="Taxes beat the budget; non-tax revenue fell short" explain="Collections and spending against the budget in the first eleven months of FY26. Tap a bar for detail." unit="% above (+) or below (−) target" period="First 11 months of FY26" source={src('rev_target', 'spend_target')}>
+                <Bars label="Revenue and spending against budget targets" min={-15} max={12} items={[
+                  { label: 'Tax revenue', value: F.tax_target.value },
+                  { label: 'Domestic revenue (all)', value: F.rev_target.value, tip: 'Domestic revenue exceeded target by about 4.2%' },
+                  { label: 'Non-tax revenue', value: F.nontax_target.value, tone: 'peer' },
+                  { label: 'Total spending', value: F.spend_target.value, tone: 'muted', tip: 'Total spending was 5% below estimate, mainly lower development spending' },
+                ]} />
+              </ChartFrame>
+              <ChartFrame title="Public debt: 49% of GDP" explain="End-June 2026 public debt stood at 49% of GDP. The line shows the baseline table, which uses calendar years and projects a gradual decline." unit="% of GDP" period="2023–2028 (calendar years)" source={`${src('debt_jun26')}; ${srcT}`} note="49% is a fiscal-year figure (end-June 2026). The table’s 48.5% is calendar 2025. The two are for different periods and are not directly comparable.">
+                <LineChart years={T.years} series={[{ label: 'Public debt', values: T.rows.debt.values }]} projectedFrom={2026} yMin={40} yMax={52} step={4} label="Public debt as a share of GDP 2023 to 2028" />
+              </ChartFrame>
+            </div>
+            <details class="explain"><summary>What does this mean?</summary><p>The risk of debt distress remains moderate ({src('debt_risk')}). But borrowing has become less concessional, with non-concessional external loans now close to one-fifth of public debt, which raises refinancing and interest rate risks ({src('nonconcessional')}).</p></details>
+          </div>
+
+          <div role="tabpanel" id="p-ext" aria-labelledby="t-ext" data-panel="ext" class="panel">
+            <div class="panel__grid">
+              <ChartFrame title="Exports grew fast, imports grew faster" explain="Year-on-year growth in FY26 (year ending June 2026). Goods exports are an estimate. Tap a bar for the dollar values." unit="% change" period="FY26 (year ending June 2026)" source={src('goods_exports')}>
+                <Bars label="Trade growth in FY26" max={22} items={[
+                  { label: 'Goods exports', value: F.goods_exports.value, status: 'estimate', tip: 'Goods exports up an estimated 19.2%, helped by gold prices and manufactured goods' },
+                  { label: 'Imports (goods & services)', value: F.imports.value, tone: 'peer', tip: 'Imports up 18.1% to US$20.8 billion' },
+                  { label: 'Service exports', value: F.service_exports.value, tip: 'Service exports up 14.4% to US$8.1 billion' },
+                  { label: 'Tourist arrivals', value: F.tourists.value, tone: 'muted' },
+                ]} />
+              </ChartFrame>
+              <ChartFrame title="The current account deficit widened" explain="Deficit as a share of GDP. The two figures cover different periods: calendar 2025 and the fiscal year ending June 2026." unit="% of GDP" period="2025 and FY26" source={src('cad_fy26')}>
+                <Bars label="Current account deficit" max={3} items={[
+                  { label: '2025', value: F.cad_2025.value, tone: 'peer', tip: 'US$2.0 billion, 2.2% of GDP, in 2025' },
+                  { label: 'Year to June 2026', value: F.cad_fy26.value, tip: 'US$2.3 billion, 2.5% of GDP, in the year ending June 2026' },
+                ]} />
+              </ChartFrame>
+            </div>
+            <details class="explain"><summary>What does this mean?</summary><p>Higher prices for oil, fertiliser and shipping linked to the war in the Middle East outweighed strong exports and high gold prices. Aid is also shrinking: official development assistance has halved as a share of GDP since 2010, and less of it now comes as grants ({src('oda_halved', 'oda_grants')}).</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 JOBS -->
+    <section class="sec theme-charcoal" id="jobs" aria-labelledby="jb-t" data-rp-section>
+      <div class="wrap">
+        <header class="sec__head"><span class="sec__n" aria-hidden="true">{num('jobs')}</span><div><p class="eyebrow">The jobs challenge</p><h2 id="jb-t">Tanzania does not face a jobs shortage. It faces a jobs quality challenge.</h2>
+          <p class="lede">Having a job and having a good job are not the same thing. Scroll through what 100 squares can show.</p></div></header>
+
+        <div class="scrolly" data-scrolly>
+          <div class="scrolly__stick">
+            <div class="waffle" data-waffle data-state="1" role="img" aria-label="100 squares that change with each step of the story">
+              {waffle.map((c) => <i data-s1={c.s1} data-s2={c.s2} data-s3={c.s3} data-s4={c.s4} data-s5={c.s5}></i>)}
+            </div>
+            <p class="scrolly__cap" data-scrolly-cap aria-hidden="true">Step 1 of 5</p>
+          </div>
+          <ol class="scrolly__steps">
+            {steps.map((s) => (
+              <li class="step" data-step={s.n}>
+                <p class="step__big">{s.big}</p>
+                <p>{s.text}</p>
+                <p class="step__key" aria-hidden="true">{s.key.map(([k, l]) => <span><i class={`k-${s.n}-${k}`}></i>{l}</span>)}</p>
+                <small>{s.src}{s.n === 1 || s.n === 4 || s.n === 5 ? ' · Squares are rounded to whole numbers.' : ''}</small>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="quality">
+          <h3 class="h3">What makes a job “high-quality”?</h3>
+          <p class="muted">The report uses four tests. A job must meet all four ({src('decent_pay')}).</p>
+          <ul class="crit">
+            <li><b>Decent pay</b><span>More than TZS 3,830 an hour, about US$1.50: enough to lift an average household above the US$4.20-a-day poverty line on one income.</span></li>
+            <li><b>A written contract</b><span>Minimum legal protection.</span></li>
+            <li><b>Social security</b><span>Membership of a contributory scheme such as NSSF or PSSSF.</span></li>
+            <li><b>Job security</b><span>Confidence of still having the job next month.</span></li>
+          </ul>
+        </div>
+
+        <div class="grid2">
+          <ChartFrame title="The pay gap to a quality job" explain="Median hourly pay against the report’s high-pay benchmark and its decent-pay threshold. Tap a bar." unit="TZS per hour" period="2024" source={src('median_pay', 'decent_pay')}>
+            <Bars label="Hourly pay benchmarks" suffix="" max={4000} items={[
+              { label: 'Median pay', value: 1005, display: 'TZS 1,005', tip: 'Median hourly pay: TZS 1,005, about US$0.40' },
+              { label: '1.5× median (high pay)', value: 1507, display: 'TZS 1,507', tone: 'peer' },
+              { label: 'Decent-pay threshold', value: 3830, display: 'TZS 3,830', tone: 'muted', tip: 'Decent pay: above TZS 3,830 an hour, about US$1.50' },
+            ]} />
+          </ChartFrame>
+          <ChartFrame title="Women and young people are left behind" explain="Share of the working-age population, of all workers, and of high-quality jobs." unit="% share" period="2024" source={src('women_share')}>
+            <div class="pair">
+              <p class="pair__h">Women</p>
+              <Bars label="Women's shares" max={70} items={[
+                { label: 'Working-age population', value: 51, tone: 'peer' }, { label: 'All workers', value: 46, tone: 'peer' }, { label: 'High-quality jobs', value: 32 },
+              ]} />
+              <p class="pair__h">Youth (15–35)</p>
+              <Bars label="Young people's shares" max={70} items={[
+                { label: 'Working-age population', value: 63, tone: 'peer' }, { label: 'All workers', value: 46, tone: 'peer' }, { label: 'High-quality jobs', value: 34 },
+              ]} />
+            </div>
+          </ChartFrame>
+        </div>
+
+        <div class="grid3">
+          <div class="card"><p class="card__k">Readiness</p><b class="card__n">4.5 years</b><p>of real learning for the average adult once school quality is counted, below SSA and lower-middle-income peers. Only about 40% of secondary-age children are enrolled.</p><small>{src('las')}</small></div>
+          <div class="card"><p class="card__k">Skills</p><b class="card__n">83%</b><p>of advertised jobs need skills that the current pool of applicants often lacks, while most hiring happens through personal networks.</p><small>{src('skills_gap')}, citing TICGL 2025</small></div>
+          <div class="card"><p class="card__k">Women</p><b class="card__n">14% vs 4%</b><p>of time spent on unpaid care work by women and men. Women-led microenterprises are 46% less productive, because of the sectors they work in and less access to capital, not skills.</p><small>{src('care')}</small></div>
+        </div>
+
+        <div class="grid2">
+          <ChartFrame title="Social assistance is less than half the regional level" explain="Spending on all social assistance programmes. Without protection, shocks push households to pull children from school or sell productive assets." unit="% of GDP" period="Latest available" source={src('sa_spend')}>
+            <Bars label="Social assistance spending" max={2} items={[{ label: 'Tanzania', value: 0.7 }, { label: 'SSA and LMIC averages', value: 1.6, tone: 'peer' }]} />
+          </ChartFrame>
+          <ChartFrame title="Five people reach working age for every one who leaves" explain="Each year, about 2 million Tanzanians reach working age while about 400,000 leave it, half through retirement and half through early death." unit="people per year" period="Each year (projection-based)" source={src('working_age')}>
+            <Bars label="People entering and leaving working age each year" suffix="" max={2000000} items={[
+              { label: 'Reach working age', value: 2000000, display: '~2 million' },
+              { label: 'Leave working age', value: 400000, display: '~400,000', tone: 'peer' },
+            ]} />
+          </ChartFrame>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 TWO SIDES -->
+    <section class="sec theme-dark" id="two-sides" aria-labelledby="ts-t" data-rp-section>
+      <div class="wrap">
+        <header class="sec__head"><span class="sec__n" aria-hidden="true">{num('two-sides')}</span><div><p class="eyebrow">The two sides of the jobs challenge</p><h2 id="ts-t">Workers are not ready. Firms are not growing. Each holds the other back.</h2>
+          <p class="lede">The report looks at both sides of the labour market at once: the people looking for better jobs, and the firms that could offer them.</p></div></header>
+
+        <div class="tabs" data-tabs>
+          <div class="tabs__list" role="tablist" aria-label="Choose a side">
+            <button type="button" role="tab" id="t-wf" aria-controls="p-wf" data-tab="wf">A · The workforce</button>
+            <button type="button" role="tab" id="t-ps" aria-controls="p-ps" data-tab="ps">B · The private sector</button>
+            <button type="button" role="tab" id="t-lk" aria-controls="p-lk" data-tab="lk">How they connect</button>
+          </div>
+
+          <div role="tabpanel" id="p-wf" aria-labelledby="t-wf" data-panel="wf" class="panel">
+            <p class="muted panel__intro">The report sorts the labour force by two things: how ready people are for formal work, and how much opportunity exists where they live. Choose a group to see who is in it and what would help. ({src('q1', 'q2')}, Figure 2.1)</p>
+            <div class="quad" data-tabs>
+              <div class="quad__map" role="tablist" aria-label="Opportunity and readiness groups">
+                <span class="quad__ax quad__ax--y" aria-hidden="true">Opportunity ↑</span>
+                <span class="quad__ax quad__ax--x" aria-hidden="true">Readiness →</span>
+                {[quads[2], quads[3], quads[0], quads[1]].map((q) => (
+                  <button type="button" role="tab" id={`t-${q.id}`} aria-controls={`p-${q.id}`} data-tab={q.id} data-default={q.id === 'q1' ? '' : undefined} class={`quad__cell quad__cell--${q.id}`}>
+                    <span class="quad__code">{q.code}</span><strong>{q.share}</strong><span>{q.name}</span>{q.note && <em>{q.note}</em>}
+                  </button>
+                ))}
+              </div>
+              <div class="quad__detail">
+                {quads.map((q) => (
+                  <div role="tabpanel" id={`p-${q.id}`} aria-labelledby={`t-${q.id}`} data-panel={q.id} class="quad__panel">
+                    <p class="eyebrow">{q.code} · {q.ready} · {q.opp}</p>
+                    <h3 class="h3">{q.name}: {q.share} of the labour force</h3>
+                    <p><b>Who:</b> {q.who}</p>
+                    <p><b>What would help:</b> {q.priority}</p>
+                    <small>{src(q.fact)}</small>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <ul class="cons">
+              <li><b>Low readiness</b><span>Most workers entered work young, with little schooling and few foundational skills.</span></li>
+              <li><b>Limited opportunity</b><span>Formal jobs are scarce outside major towns, and information about vacancies travels through personal networks.</span></li>
+              <li><b>Social protection gaps</b><span>PSSN III will reach only 13% of households below the poverty line, and transfers are too small to cover the cost of moving to a better job.</span></li>
+              <li><b>Gender barriers</b><span>Care work, early marriage and limited mobility keep women in the lowest-productivity work. About one-third of girls marry before 18.</span></li>
+              <li><b>Programmes that miss people</b><span>Most training requires people to stop working to attend, which shuts out those who can least afford it. Impact evidence outside PSSN is thin.</span></li>
+            </ul>
+            <p class="srcline">{src('pssn', 'early_marriage', 'leave_to_learn')}</p>
+          </div>
+
+          <div role="tabpanel" id="p-ps" aria-labelledby="t-ps" data-panel="ps" class="panel">
+            <p class="muted panel__intro">Most of Tanzania’s 219,371 registered establishments are micro firms: only 12.2% employ five or more people. Formal firms with five or more workers are the ones best placed to create quality jobs, and they face these constraints. ({src('establishments')}; Section 05 has the comparisons.)</p>
+            <ul class="cons cons--firms">
+              <li><b>Low productivity</b><span>Sales per worker are about 49% below the SSA average in services and 70% below in manufacturing.</span></li>
+              <li><b>Few new firms</b><span>Only 12% of formal firms are young, against 38% in Rwanda and 26% in Ghana.</span></li>
+              <li><b>Falling investment</b><span>The average firm invests 11% of what it did a decade ago.</span></li>
+              <li><b>Finance</b><span>One in three firms is fully or partially credit constrained (SSA average 22%).</span></li>
+              <li><b>Land</b><span>58% of large firms call land access a major or very severe constraint (SSA average 20%).</span></li>
+              <li><b>Technology</b><span>4% of manufacturers license foreign technology and 34% of firms have a website, against 11% and 42% in SSA.</span></li>
+              <li><b>Innovation</b><span>7% of firms spend on R&amp;D (SSA 13%), and 14% introduced a new product recently (SSA 25%).</span></li>
+            </ul>
+            <p class="srcline">{src('prod_gap', 'young_firms', 'invest_11', 'credit_constrained', 'innov_tz')}</p>
+          </div>
+
+          <div role="tabpanel" id="p-lk" aria-labelledby="t-lk" data-panel="lk" class="panel">
+            <div class="loop">
+              <svg viewBox="0 0 560 300" width="100%" role="img" aria-labelledby="loop-t loop-d" class="loop__svg">
+                <title id="loop-t">A reinforcing loop between workers and firms</title>
+                <desc id="loop-d">A better-prepared workforce makes firms more productive. More productive firms create more high-quality jobs, which draw workers into better work.</desc>
+                <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ed7d3e" /></marker></defs>
+                <path d="M170,95 C240,30 320,30 390,95" class="loop__arc" marker-end="url(#arr)" />
+                <path d="M390,205 C320,270 240,270 170,205" class="loop__arc" marker-end="url(#arr)" />
+                <g class="loop__node"><circle cx="110" cy="150" r="82" /><text x="110" y="142" text-anchor="middle">Workforce</text><text x="110" y="164" text-anchor="middle">readiness</text></g>
+                <g class="loop__node"><circle cx="450" cy="150" r="82" /><text x="450" y="142" text-anchor="middle">Productive</text><text x="450" y="164" text-anchor="middle">firms</text></g>
+                <text x="280" y="34" text-anchor="middle" class="loop__lab">makes firms more productive</text>
+                <text x="280" y="290" text-anchor="middle" class="loop__lab">creates more high-quality jobs</text>
+              </svg>
+              <div class="loop__text">
+                <blockquote>“More productive firms create more high-quality jobs, and a better-prepared workforce makes firms more productive.”</blockquote>
+                <p>Skills shape whether firms invest and expand in the first place. Workers with lower secondary education earn 22–30% more in formal private jobs than those with only primary schooling. Entrepreneurs with basic education are nearly twice as likely to hire paid workers.</p>
+                <p class="label-interp">Native Media illustration of a relationship the report describes (pp. {F.edu_premium.page}, 46). It is a diagram, not a measured World Bank index.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 FIRMS -->
+    <section class="sec theme-charcoal" id="firms" aria-labelledby="fm-t" data-rp-section>
+      <div class="wrap">
+        <header class="sec__head"><span class="sec__n" aria-hidden="true">{num('firms')}</span><div><p class="eyebrow">Why businesses struggle to create quality jobs</p><h2 id="fm-t">Too few new firms, too little investment, and a long tail of laggards.</h2>
+          <p class="lede">From the World Bank Enterprise Survey of formal firms with five or more employees (2013 and 2023). Choose a finding.</p></div></header>
+
+        <div class="tabs" data-tabs>
+          <div class="tabs__list" role="tablist" aria-label="Firm findings">
+            <button type="button" role="tab" id="t-f1" aria-controls="p-f1" data-tab="f1">Productivity</button>
+            <button type="button" role="tab" id="t-f2" aria-controls="p-f2" data-tab="f2">New firms</button>
+            <button type="button" role="tab" id="t-f3" aria-controls="p-f3" data-tab="f3">Investment</button>
+            <button type="button" role="tab" id="t-f4" aria-controls="p-f4" data-tab="f4">Finance</button>
+            <button type="button" role="tab" id="t-f5" aria-controls="p-f5" data-tab="f5">Land</button>
+            <button type="button" role="tab" id="t-f6" aria-controls="p-f6" data-tab="f6">Technology</button>
+            <button type="button" role="tab" id="t-f7" aria-controls="p-f7" data-tab="f7">Leaders &amp; laggards</button>
+          </div>
+
+          <div role="tabpanel" id="p-f1" aria-labelledby="t-f1" data-panel="f1" class="panel panel--firm">
+            <ChartFrame title="Tanzanian firms produce far less per worker" explain="Sales per worker compared with the Sub-Saharan Africa average." unit="% difference from SSA average" period="WBES, various years" source={src('prod_gap')}>
+              <Bars label="Labour productivity gap with SSA" min={-80} max={0} items={[{ label: 'Services', value: -49 }, { label: 'Manufacturing', value: -70 }]} />
+            </ChartFrame>
+            <div class="means"><p class="means__k">What it means</p><p>Firms that produce less per worker cannot pay higher wages and stay profitable. Raising productivity is the precondition for better-paid jobs.</p></div>
+          </div>
+
+          <div role="tabpanel" id="p-f2" aria-labelledby="t-f2" data-panel="f2" class="panel panel--firm">
+            <ChartFrame title="Few young firms enter the market" explain="Share of formal firms that began operating after 2018." unit="% of formal firms" period="2023" source={src('young_firms')}>
+              <Bars label="Share of formal firms that are young" max={40} items={[{ label: 'Tanzania', value: 12 }, { label: 'Ghana', value: 26, tone: 'peer' }, { label: 'Rwanda', value: 38, tone: 'peer' }]} />
+            </ChartFrame>
+            <ChartFrame title="Entry rules are strong on paper; exit rules are weak" explain="World Bank B-Ready 2025 scores out of 100. Business entry is in the top 20% globally; business insolvency is in the bottom 20%." unit="score out of 100" period="2025" source={src('bready_entry', 'insolvency')}>
+              <Bars label="B-Ready scores" suffix="" max={100} items={[{ label: 'Business entry', value: 72, display: '72' }, { label: 'Business insolvency', value: 30, display: '30', tone: 'peer' }]} />
+            </ChartFrame>
+            <div class="means"><p class="means__k">What it means</p><p>New firms bring new ideas and jobs, but 32% of firms started without registering (25% in 2013), and registering a foreign firm costs 59% of income per person. Weak insolvency rules keep non-viable “zombie” firms alive and make it harder to save viable ones ({src('unregistered', 'foreign_reg')}).</p></div>
+          </div>
+
+          <div role="tabpanel" id="p-f3" aria-labelledby="t-f3" data-panel="f3" class="panel panel--firm">
+            <ChartFrame title="Fewer firms invest, and they invest less" explain="Share of firms buying fixed assets, and the average amount invested (in 2009 US dollars)." unit="% of firms; US$ (2009)" period="2013 vs 2023" source={src('invest_share')}>
+              <Bars label="Share of firms that invested" max={50} items={[{ label: 'Firms investing, 2013', value: 40, tone: 'peer' }, { label: 'Firms investing, 2023', value: 22 }]} />
+              <div class="spacer"></div>
+              <Bars label="Average investment per firm" suffix="" max={120000} items={[{ label: 'Average investment, 2013', value: 116000, display: '$116k', tone: 'peer' }, { label: 'Average investment, 2023', value: 24000, display: '$24k' }]} />
+            </ChartFrame>
+            <div class="means"><p class="means__k">What it means</p><p>The average firm now invests just 11% of what it did a decade ago, behind nearly all peers. Less investment means less new equipment, less technology and fewer jobs. National accounts show rising investment overall, driven by construction and public projects ({src('invest_11')}).</p></div>
+          </div>
+
+          <div role="tabpanel" id="p-f4" aria-labelledby="t-f4" data-panel="f4" class="panel panel--firm">
+            <ChartFrame title="One in three firms cannot get the credit it needs" explain="Firms fully or partially credit constrained, and firms that finance investment through banks." unit="% of firms" period="2023" source={src('credit_constrained', 'bank_finance')}>
+              <Bars label="Credit constrained firms" max={40} items={[{ label: 'Credit constrained: Tanzania', value: 33.3, display: '1 in 3' }, { label: 'Credit constrained: SSA average', value: 22, tone: 'peer' }]} />
+              <div class="spacer"></div>
+              <Bars label="Firms financing investment through banks" max={40} items={[{ label: 'Bank-financed: Tanzania', value: 14 }, { label: 'Rwanda', value: 25, tone: 'peer' }, { label: 'Côte d’Ivoire', value: 38, tone: 'peer' }]} />
+            </ChartFrame>
+            <div class="means"><p class="means__k">What it means</p><p>Banks mostly lend short-term for trade and working capital. Long-term money for machines, buildings and new products is scarce and expensive, and capital markets are still small.</p></div>
+          </div>
+
+          <div role="tabpanel" id="p-f5" aria-labelledby="t-f5" data-panel="f5" class="panel panel--firm">
+            <ChartFrame title="Land is a major barrier for large firms" explain="Large firms that call access to land a major or very severe constraint." unit="% of large firms" period="2023" source={src('land')}>
+              <Bars label="Land as a constraint" max={60} items={[{ label: 'Tanzania', value: 58 }, { label: 'SSA average', value: 20, tone: 'peer' }]} />
+            </ChartFrame>
+            <div class="means"><p class="means__k">What it means</p><p>Unclear title, hard-to-find land records and slow permits make firms unsure that what they build will be protected, so they hold back long-term investment.</p></div>
+          </div>
+
+          <div role="tabpanel" id="p-f6" aria-labelledby="t-f6" data-panel="f6" class="panel panel--firm">
+            <ChartFrame title="Firms adopt and invent less than their peers" explain="Share of firms reporting each activity: Tanzania against the average of Sub-Saharan economies (Table 2.2)." unit="% of firms" period="WBES, various years" source={src('innov_tz')}>
+              <Bars label="Technology and innovation, Tanzania vs SSA" max={45} items={[
+                { label: 'Has a website · Tanzania', value: 34.3 }, { label: 'Has a website · SSA', value: 42.4, tone: 'peer' },
+                { label: 'New product · Tanzania', value: 14.1 }, { label: 'New product · SSA', value: 24.6, tone: 'peer' },
+                { label: 'New process · Tanzania', value: 9.5 }, { label: 'New process · SSA', value: 14.8, tone: 'peer' },
+                { label: 'Spends on R&D · Tanzania', value: 7.3 }, { label: 'Spends on R&D · SSA', value: 13.3, tone: 'peer' },
+                { label: 'Licenses foreign tech · Tanzania', value: 4.1 }, { label: 'Licenses foreign tech · SSA', value: 11, tone: 'peer' },
+              ]} />
+            </ChartFrame>
+            <div class="means"><p class="means__k">What it means</p><p>Firms are selling increasingly outdated products. Only 20% offer formal training, and the share of skilled manufacturing workers fell from 85% in 2013 to 78% ({src('skilled')}).</p></div>
+          </div>
+
+          <div role="tabpanel" id="p-f7" aria-labelledby="t-f7" data-panel="f7" class="panel panel--firm">
+            <ChartFrame title="The best firms are 32 times more productive than the worst" explain="Productivity of the top 10% of firms divided by the bottom 10%. A wide gap signals that resources are stuck in low-productivity firms." unit="times" period="2023" source={src('spread')}>
+              <Bars label="Productivity spread" suffix="×" max={35} items={[{ label: 'Tanzania', value: 32 }, { label: 'Aspirational peers', value: 17, tone: 'peer' }]} />
+            </ChartFrame>
+            <div class="means"><p class="means__k">What it means</p><p>The most productive “frontier” firms pay about four times higher wages, but they hold only 18% of jobs. Most formal jobs are in the other firms, so helping them grow, invest and catch up is the key to more quality jobs ({src('frontier', 'frontier_wages')}).</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 PILLARS -->
+    <section class="sec theme-dark" id="pillars" aria-labelledby="pl-t" data-rp-section>
+      <div class="wrap">
+        <header class="sec__head"><span class="sec__n" aria-hidden="true">{num('pillars')}</span><div><p class="eyebrow">The two policy pillars</p><h2 id="pl-t">Expand the quality job base. Build the workforce to fill it.</h2>
+          <p class="lede">These are the World Bank’s recommendations. They are proposals, not policies already in place. The report says they align with Vision 2050 and can help prioritise MKUMBI II.</p></div></header>
+        <div class="pillars">
+          {pillars.map((p) => (
+            <article class={`pillar pillar--${p.id}`}>
+              <p class="pillar__n">{p.n}</p>
+              <h3 class="pillar__t">{p.title}</h3>
+              <p class="muted">{p.lede}</p>
+              <div class="pillar__groups">
+                {p.groups.map((g) => (
+                  <details class="rec">
+                    <summary><span class="rec__n">{g.n}</span>{g.t}</summary>
+                    <ul>{g.items.map((it) => <li>{it}</li>)}</ul>
+                  </details>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+        <p class="srcline">Condensed from the report’s recommendations, pp. 47–49. Open each item for detail.</p>
+      </div>
+    </section>
+
+    <!-- 07 OUTLOOK -->
+    <section class="sec theme-charcoal" id="outlook" aria-labelledby="ol-t" data-rp-section>
+      <div class="wrap">
+        <header class="sec__head"><span class="sec__n" aria-hidden="true">{num('outlook')}</span><div><p class="eyebrow">The economic outlook</p><h2 id="ol-t">Faster growth ahead, with risks tilted to the downside.</h2>
+          <p class="lede">The World Bank expects private investment, exports and industry to drive growth as the election spending fades. All figures below are projections.</p></div></header>
+        <div class="stats6">
+          <Stat value={6.1} decimals={1} suffix="%" label="GDP growth" source={src('gdp_2026')} status="2026 projection" />
+          <Stat value={6.5} decimals={1} suffix="%" label="GDP growth" source={src('gdp_medium')} status="Medium-term projection" />
+          <Stat value={3.1} decimals={1} suffix="%" label="Fiscal deficit, % of GDP" source={src('deficit_2026')} status="2026 projection" />
+          <Stat value={4.1} decimals={1} suffix="%" label="Inflation" source={src('infl_2026')} status="2026 projection" />
+          <Stat value={6.8} decimals={1} suffix="%" label="Real export growth" source={src('exports_2026')} status="2026 projection" />
+          <Stat value={7.8} decimals={1} suffix="%" label="Industry growth" source={src('industry_2026')} status="2026 projection" />
+        </div>
+        <div class="grid2">
+          <ChartFrame title="Revenue is projected to keep rising" explain="Government revenue as a share of GDP. The fiscal framework also assumes the tax-to-GDP ratio rises from 13% to 16% over the medium term." unit="% of GDP" period="2023–2028" source={`${srcT}; ${src('tax_gdp')}`}>
+            <LineChart years={T.years} series={[{ label: 'Revenue', values: T.rows.revenue.values }]} projectedFrom={2026} yMin={14} yMax={18} step={1} label="Revenue as a share of GDP 2023 to 2028" />
+          </ChartFrame>
+          <div class="hc">
+            <p class="eyebrow">The most consequential choice</p>
+            <p class="hc__q">“Over the medium term, the most consequential policy choice is the sustained prioritization of human capital spending.”</p>
+            <p class="muted">The World Bank names human capital as the public spending most likely to sustain growth, create jobs and reduce poverty ({src('human_capital')}).</p>
+          </div>
+        </div>
+
+        <h3 class="h3 risk__h">Explore the risks</h3>
+        <div class="tabs risk" data-tabs>
+          <div class="tabs__list" role="tablist" aria-label="Downside risks">
+            {risks.map((r) => <button type="button" role="tab" id={`t-${r.id}`} aria-controls={`p-${r.id}`} data-tab={r.id}>{r.t}</button>)}
+          </div>
+          {risks.map((r) => (
+            <div role="tabpanel" id={`p-${r.id}`} aria-labelledby={`t-${r.id}`} data-panel={r.id} class="panel">
+              <div class="panel__grid">
+                <div class="risk__text"><p class="eyebrow">{r.short}</p><p>{r.text}</p><small>{r.id === 'r-climate' ? src('climate_drought') : src('risks', 'human_capital')}</small></div>
+                {r.id === 'r-external' && (
+                  <ChartFrame title="Exports exposed to travel and shipping disruption" explain="Share of Tanzania’s exports from tourism and from transport services." unit="% of exports" period="Current" source={src('tourism_exports')}>
+                    <Bars label="Export exposure" max={30} items={[{ label: 'Tourism receipts', value: 24, display: '~24%' }, { label: 'Transport services', value: 15 }]} />
+                  </ChartFrame>
+                )}
+                {r.id === 'r-climate' && (
+                  <ChartFrame title="People exposed and vulnerable to climate hazards" explain="New World Bank research cited in the report (Brunckhorst et al. 2025). Places that are both exposed and least able to cope cluster in a diagonal belt through the centre of the country." unit="people" period="2025 research" source={src('climate_drought', 'climate_belt')}>
+                    <Bars label="People exposed and vulnerable" suffix="" max={5000000} items={[
+                      { label: 'Drought', value: 5000000, display: '5 million' }, { label: 'Flooding', value: 700000, display: '700,000' },
+                      { label: 'Heatwaves', value: 600000, display: '600,000' }, { label: 'Several at once', value: 400000, display: '400,000', tone: 'peer' },
+                    ]} />
+                  </ChartFrame>
+                )}
+                {r.id === 'r-fiscal' && (
+                  <ChartFrame title="The fiscal deficit is projected to narrow" explain="Fiscal balance as a share of GDP; negative values are deficits." unit="% of GDP" period="2023–2028" source={srcT}>
+                    <LineChart years={T.years} series={[{ label: 'Fiscal balance', values: T.rows.fiscal.values }]} projectedFrom={2026} yMin={-4} yMax={0} step={1} label="Fiscal balance 2023 to 2028" />
+                  </ChartFrame>
+                )}
+                {r.id === 'r-reform' && (
+                  <div class="facts">
+                    <div class="fact"><b>14%</b><span>of senior managers’ time goes on regulatory compliance, up from 2% in 2013 and above the regional 8%</span><small>{src('mgmt_time')}</small></div>
+                    <div class="fact"><b>~2%</b><span>of GDP: foreign direct investment, flat since 2016</span><small>{src('fdi')}</small></div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 TAKEAWAYS -->
+    <section class="sec theme-dark" id="takeaways" aria-labelledby="tk-t" data-rp-section>
+      <div class="wrap">
+        <header class="sec__head"><span class="sec__n" aria-hidden="true">{num('takeaways')}</span><div><p class="eyebrow">Key takeaways</p><h2 id="tk-t">Growth is not the problem. Turning it into good jobs is.</h2></div></header>
+        <div class="tk">
+          <div>
+            <p class="tag-wb">What the World Bank finds</p>
+            <ol class="tk__list">
+              <li>The economy grew 5.9% in 2025 and is projected to grow 6.1% in 2026 and 6.5% over the medium term.</li>
+              <li>Almost everyone works, but about 95% of jobs are informal and only about 550,000 of 26 million jobs are high-quality.</li>
+              <li>Workers lack readiness and opportunity: over half are in the low-readiness, low-opportunity group.</li>
+              <li>Firms lack productivity and dynamism: few new firms, falling investment, scarce long-term finance and land.</li>
+              <li>Two pillars respond: expand the quality job base, and build the quality workforce pipeline.</li>
+            </ol>
+            <p class="srcline">{src('jobs_quality', 'wb_pillars')}; pp. 23–49</p>
+          </div>
+          <div>
+            <p class="tag-nm">Native Media perspective</p>
+            <p class="muted tk__intro">Our reading of what the report means for different readers. This is editorial interpretation, not World Bank analysis. Every fact it rests on is from the report.</p>
+            <div class="persp">
+              <details class="rec"><summary>Policymakers</summary><p>The report’s headline is that the jobs count is the wrong scoreboard. Counting high-quality jobs, about 550,000 today, would track what matters. Several of the firm-side fixes, such as joined-up registration systems, insolvency rules and land records, cost relatively little public money. And the report calls sustained human capital spending the most consequential choice.</p></details>
+              <details class="rec"><summary>Investors and businesses</summary><p>The constraints are the ones firms already feel: credit (one firm in three), land (58% of large firms) and compliance time (14% of senior managers’ time). The reforms worth watching are the secured transactions law, credit data from mobile money and utilities, e-Ardhi land records and capital market changes. The report also calls labour-intensive exports such as manufactured and horticultural goods an underused opportunity.</p></details>
+              <details class="rec"><summary>Young people and workers</summary><p>About 2 million people reach working age each year, so competition for good jobs will grow. The report’s evidence favours finishing secondary school: lower secondary earns 22–30% more in formal private jobs. TVET adds up to 51% for those with formal contracts. Proposed recognition of prior learning would let skilled informal workers prove what they can do.</p></details>
+              <details class="rec"><summary>Development partners</summary><p>Programmes are small, fragmented and skewed towards urban, better-prepared workers. Most require people to stop working to attend, and outside PSSN there is little impact evidence. With aid halved as a share of GDP since 2010 and fewer grants, in our view that argues for programmes that are better coordinated, properly evaluated and designed to reach rural and informal workers.</p></details>
+            </div>
+            <p class="srcline">{src('hq_jobs', 'limited_spending', 'mgmt_time', 'tvet_gain', 'evidence_thin', 'oda_halved', 'labour_exports')}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 ORIGINAL REPORT -->
+    <section class="sec theme-charcoal" id="report" aria-labelledby="or-t" data-rp-section>
+      <div class="wrap or">
+        <a class="or__cover" href={meta.url} target="_blank" rel="noopener noreferrer" aria-label="Open the original report on the World Bank website (new tab)">
+          <Image src={cover} alt="" widths={[260, 420]} sizes="14rem" loading="lazy" />
+        </a>
+        <div class="or__text">
+          <span class="sec__n sec__n--sm" aria-hidden="true">{num('report')}</span>
+          <p class="eyebrow">The original report</p>
+          <h2 id="or-t">Tanzania Economic Update, September 2026</h2>
+          <p class="or__sub">Special Theme: Making Jobs Work · World Bank · Published September 2026, using information current as of August 2026.</p>
+          <div class="cite">
+            <p class="cite__k">Cite as</p>
+            <p class="cite__t" data-cite>{meta.citation}</p>
+            <button type="button" class="btn btn--ghost btn--sm" data-copy-cite>Copy citation</button>
+            <span class="cite__msg" data-copy-msg role="status" aria-live="polite"></span>
+          </div>
+          <div class="or__actions">
+            <a class="btn" href={meta.url} target="_blank" rel="noopener noreferrer">Read on the World Bank website <span aria-hidden="true">↗</span></a>
+            <a class="btn btn--ghost" href={meta.pdf} download={pdfName}>Download the original PDF (5 MB)</a>
+            <button type="button" class="btn btn--ghost" data-rp-share>Share this page</button>
+            <p class="share-msg" data-rp-share-msg role="status" aria-live="polite"></p>
+          </div>
+          <div class="rights">
+            <p><b>Copyright and permissions.</b> © 2026 The World Bank. Some rights reserved. “{meta.rights}” (p. {meta.rights_page}). Queries on rights should go to World Bank Publications.</p>
+            <p><b>About this edition.</b> Native Media built this interactive edition to make the report easier to explore. It is not a World Bank product. The World Bank report is the authoritative source. Figures are taken from it with page references and checked against the PDF. Text marked “Native Media perspective” is our own interpretation.</p>
+          </div>
+          <p><a class="arrow-link" href="/research-and-publications/reports">More reports we feature <span aria-hidden="true">→</span></a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  import '../../scripts/tz-report';
+</script>
+
+<style>
+  /* ---------- shared ---------- */
+  /* Panels use display:grid, which would otherwise override the hidden attribute. */
+  :global([data-rp] [hidden]) { display: none !important; }
+  .rp { --rp-cond: 78%; }
+  .rp h2 { font-weight: 800; font-stretch: var(--rp-cond); font-size: clamp(2.2rem, 5.2vw, 4rem); line-height: 0.98; letter-spacing: -0.015em; text-wrap: balance; max-width: 22ch; }
+  .h3 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.1; margin: 0; }
+  .muted { color: var(--gray); }
+  .srcline { margin: 1rem 0 0; font-size: 0.76rem; color: var(--gray); }
+  .sec { padding-block: clamp(4rem, 8vw, 7rem); border-top: 1px solid var(--line-dark); }
+  .sec__head { display: grid; grid-template-columns: auto 1fr; gap: 1rem clamp(1rem, 3vw, 2.5rem); align-items: start; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .sec__head > div { display: grid; gap: 1rem; }
+  .sec__n { font-family: var(--font-display); font-weight: 800; font-stretch: 75%; font-size: clamp(3rem, 8vw, 6.5rem); line-height: 0.8; color: transparent; -webkit-text-stroke: 1.5px var(--brand); font-variant-numeric: tabular-nums; }
+  .sec__n--sm { font-size: 3.2rem; }
+  @media (max-width: 40rem) { .sec__head { grid-template-columns: 1fr; } .sec__n { font-size: 3rem; } }
+  .grid2 { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); margin-top: 1.4rem; align-items: start; }
+  .grid3 { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); margin-top: 1.4rem; }
+  .spacer { height: 1.2rem; }
+  .explain { margin-top: 1.2rem; border-top: 1px solid var(--line-dark); padding-top: 0.9rem; max-width: 52rem; }
+  .explain summary, .rec summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; list-style: none; display: flex; align-items: center; gap: 0.7rem; min-height: 2.75rem; }
+  .explain summary::-webkit-details-marker, .rec summary::-webkit-details-marker { display: none; }
+  .explain summary::before, .rec summary::after { content: '+'; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 1px solid var(--brand); color: var(--brand); font-weight: 400; flex: none; }
+  .explain[open] summary::before, .rec[open] summary::after { content: '−'; }
+  .explain p { color: var(--gray); margin: 0.4rem 0 0; }
+
+  /* ---------- opening ---------- */
+  .op { position: relative; overflow: hidden; background: var(--black); padding: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem)) 0 clamp(3rem, 6vw, 5rem); isolation: isolate; }
+  .op__topo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.9; }
+  .op__grain { position: absolute; inset: 0; z-index: -1; opacity: 0.08; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .op::after { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60rem 30rem at 85% 10%, rgba(237, 125, 62, 0.16), transparent 60%), linear-gradient(to bottom, transparent 60%, var(--black)); pointer-events: none; }
+  .op__inner { display: grid; gap: clamp(1.8rem, 4vw, 2.8rem); }
+  .crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; font-size: 0.85rem; color: var(--gray); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.4rem; opacity: 0.6; }
+  .crumbs a { text-decoration: none; } .crumbs a:hover { color: var(--brand); } .crumbs [aria-current] { color: var(--paper); }
+  .op__grid { display: grid; gap: 2rem; align-items: center; }
+  @media (min-width: 64rem) { .op__grid { grid-template-columns: 1fr 17rem; } }
+  .op__text { display: grid; gap: 1.2rem; }
+  .op__h { margin: 0; font-weight: 800; font-stretch: 72%; text-transform: uppercase; font-size: clamp(3rem, 10.5vw, 8.4rem); line-height: 0.86; letter-spacing: -0.01em; }
+  .op__h span { display: block; }
+  .op__h span + span { color: var(--gray); }
+  .op__h em { font-style: normal; color: var(--brand); }
+  .op__sub { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: var(--step-2); line-height: 1.2; max-width: 40rem; }
+  .op__intro { margin: 0; color: var(--gray); max-width: 44rem; font-size: 1.05rem; }
+  .op__cover { display: block; width: 12rem; transform: rotate(2.5deg); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.9); transition: transform 0.4s var(--ease); }
+  .op__cover:hover { transform: rotate(0); }
+  .op__cover :global(img) { display: block; width: 100%; height: auto; }
+  @media (min-width: 64rem) { .op__cover { width: 17rem; justify-self: end; } }
+  .op__stats { display: grid; gap: 1.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .op__actions, .or__actions { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+  .share-msg { margin: 0; flex-basis: 100%; font-size: 0.85rem; color: var(--gray); min-height: 1.2em; }
+
+  /* ---------- tabs ---------- */
+  .tabs__list { display: none; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.4rem; }
+  .tabs.is-ready > .tabs__list { display: flex; }
+  .tabs__list button { appearance: none; cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; padding: 0.75rem 1rem; min-height: 2.9rem; background: transparent; color: var(--paper); border: 1px solid var(--line-dark); }
+  .tabs__list button:hover { border-color: var(--brand); }
+  .tabs__list button[aria-selected='true'] { background: var(--brand); border-color: var(--brand); color: var(--black); }
+  .panel + .panel { margin-top: 2.5rem; }
+  .tabs.is-ready > .panel + .panel { margin-top: 0; }
+  .panel__grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); align-items: start; }
+  .panel__intro { max-width: 52rem; margin: 0 0 1.2rem; }
+  .facts { display: grid; gap: 1rem; }
+  .fact { display: grid; gap: 0.3rem; padding: 1rem 0 0; border-top: 1px solid var(--line-dark); }
+  .fact b { font-family: var(--font-display); font-weight: 800; font-stretch: 80%; font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .fact span { font-weight: 600; }
+  .fact small { color: var(--gray); font-size: 0.78rem; }
+  .panel--firm { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); align-items: start; }
+  .means { padding: 1.3rem; border-left: 3px solid var(--brand); background: rgba(237, 125, 62, 0.06); }
+  .means__k { margin: 0 0 0.4rem; font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .means p:last-child { margin: 0; }
+
+  /* ---------- scrollytelling ---------- */
+  .scrolly { display: grid; gap: 2rem; position: relative; }
+  @media (min-width: 56rem) { .scrolly { grid-template-columns: minmax(18rem, 1fr) minmax(18rem, 30rem); gap: 4rem; } }
+  .scrolly__stick { position: sticky; top: calc(var(--header-h) + 1rem); align-self: start; z-index: 2; background: var(--charcoal); padding: 0.6rem 0; }
+  @media (min-width: 56rem) { .scrolly__stick { top: calc(var(--header-h) + 3rem); padding: 0; } }
+  .waffle { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; max-width: 26rem; margin-inline: auto; }
+  @media (max-width: 55.99rem) { .waffle { max-width: 15rem; gap: 3px; } }
+  .waffle i { aspect-ratio: 1; background: rgba(245, 245, 240, 0.12); transition: background 0.45s var(--ease), box-shadow 0.45s var(--ease); transition-delay: calc(var(--d, 0) * 1ms); }
+  .waffle[data-state='1'] i[data-s1='on'], .waffle[data-state='3'] i[data-s3='on'], .waffle[data-state='4'] i[data-s4='on'] { background: var(--brand); }
+  .waffle[data-state='5'] i[data-s5='on'] { background: var(--brand); box-shadow: 0 0 0 2px var(--paper); }
+  .waffle[data-state='2'] i[data-s2='a'] { background: var(--brand); }
+  .waffle[data-state='2'] i[data-s2='b'] { background: var(--paper); }
+  .waffle[data-state='2'] i[data-s2='c'] { background: #5fa8d3; }
+  .scrolly__cap { text-align: center; margin: 0.6rem 0 0; font-size: 0.78rem; color: var(--gray); font-variant-numeric: tabular-nums; }
+  .scrolly__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  :global(.js) .scrolly__steps { gap: 0; }
+  .step { padding: 1.4rem; background: var(--black); border: 1px solid var(--line-dark); display: grid; gap: 0.6rem; transition: border-color 0.3s, opacity 0.3s; }
+  :global(.js) .step { margin-bottom: 55vh; color: var(--gray); }
+  :global(.js) .step:not(.is-active) .step__big { color: #a3a39c; }
+  :global(.js) .step:last-child { margin-bottom: 20vh; }
+  :global(.js) .step.is-active { color: var(--paper); border-color: var(--brand); }
+  .step p { margin: 0; }
+  .step__big { font-family: var(--font-display); font-weight: 800; font-stretch: 80%; font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1; color: var(--brand); }
+  .step__key { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; font-size: 0.82rem; color: var(--gray); }
+  .step__key i { display: inline-block; width: 0.8rem; height: 0.8rem; margin-right: 0.35rem; vertical-align: -1px; background: var(--brand); }
+  .step__key i.k-2-b { background: var(--paper); } .step__key i.k-2-c { background: #5fa8d3; }
+  .step small { color: var(--gray); font-size: 0.76rem; }
+
+  .quality { margin-top: clamp(3rem, 6vw, 5rem); display: grid; gap: 0.6rem; }
+  .crit { list-style: none; margin: 0.8rem 0 0; padding: 0; display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); background: var(--line-dark); border: 1px solid var(--line-dark); }
+  .crit li { background: var(--charcoal); padding: 1.2rem; display: grid; gap: 0.4rem; align-content: start; }
+  .crit b { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--brand); }
+  .crit span { font-size: 0.92rem; color: var(--gray); }
+  .pair { display: grid; gap: 0.6rem; }
+  .pair__h { margin: 0.4rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+  .card { padding: 1.3rem; background: var(--black); border: 1px solid var(--line-dark); display: grid; gap: 0.5rem; align-content: start; }
+  .card__k { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .card__n { font-family: var(--font-display); font-weight: 800; font-stretch: 80%; font-size: 2.4rem; line-height: 1; }
+  .card p:not(.card__k) { margin: 0; font-size: 0.95rem; }
+  .card small { color: var(--gray); font-size: 0.76rem; }
+
+  /* ---------- two sides ---------- */
+  .quad { display: grid; gap: 1.4rem; grid-template-columns: 1fr; margin-bottom: 2rem; }
+  @media (min-width: 56rem) { .quad { grid-template-columns: minmax(20rem, 28rem) 1fr; align-items: start; } }
+  .quad .tabs__list, .quad__map { display: grid !important; grid-template-columns: 1fr 1fr; gap: 4px; position: relative; padding: 0 0 1.6rem 1.6rem; margin: 0; }
+  .quad__ax { position: absolute; font-size: 0.72rem; color: var(--gray); letter-spacing: 0.08em; text-transform: uppercase; }
+  .quad__ax--y { left: 0; top: 50%; transform: rotate(-90deg) translateX(50%); transform-origin: left top; white-space: nowrap; }
+  .quad__ax--x { right: 0; bottom: 0; }
+  .quad__cell { appearance: none; cursor: pointer; text-align: left; aspect-ratio: 1 / 0.9; padding: 0.9rem; display: grid; align-content: start; gap: 0.25rem; background: var(--charcoal); border: 1px solid var(--line-dark); color: var(--paper); font: inherit; font-size: 0.85rem; min-width: 0; }
+  .quad__cell strong { font-family: var(--font-display); font-weight: 800; font-stretch: 80%; font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1; }
+  .quad__cell em { font-style: normal; font-size: 0.72rem; color: var(--brand); text-transform: uppercase; letter-spacing: 0.06em; }
+  .quad__code { font-family: var(--font-display); font-weight: 700; font-size: 0.75rem; color: var(--gray); }
+  .quad__cell--q1 { background: rgba(237, 125, 62, 0.14); }
+  .quad__cell:hover { border-color: var(--brand); }
+  .quad__cell[aria-selected='true'] { background: var(--brand); border-color: var(--brand); color: var(--black); }
+  .quad__cell[aria-selected='true'] em, .quad__cell[aria-selected='true'] .quad__code { color: var(--black); }
+  .quad__panel { display: grid; gap: 0.7rem; padding: 1.3rem; background: var(--charcoal); border: 1px solid var(--line-dark); }
+  .quad__panel + .quad__panel { margin-top: 1rem; }
+  .quad.is-ready .quad__panel + .quad__panel { margin-top: 0; }
+  .quad__panel p { margin: 0; } .quad__panel small { color: var(--gray); font-size: 0.76rem; }
+  .cons { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); background: var(--line-dark); border: 1px solid var(--line-dark); }
+  .cons li { background: var(--black); padding: 1.1rem; display: grid; gap: 0.35rem; align-content: start; }
+  .cons b { font-family: var(--font-display); font-weight: 800; color: var(--brand); }
+  .cons span { font-size: 0.93rem; }
+  .loop { display: grid; gap: 1.5rem; align-items: center; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+  .loop__svg text { font-family: var(--font-display); font-weight: 800; font-size: 19px; fill: var(--paper); }
+  .loop__node circle { fill: var(--charcoal); stroke: var(--line-dark); stroke-width: 1.5; }
+  .loop__arc { fill: none; stroke: var(--brand); stroke-width: 3; stroke-dasharray: 8 7; }
+  :global(.js) .loop__arc { animation: rp-flow 1.6s linear infinite; }
+  .loop__svg .loop__lab { font-family: var(--font-body); font-weight: 600; font-size: 15px; fill: var(--brand); }
+  .loop__text { display: grid; gap: 1rem; }
+  .loop__text blockquote { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.2; }
+  .loop__text p { margin: 0; color: var(--gray); }
+  .label-interp { font-size: 0.8rem; border-left: 2px solid var(--brand); padding-left: 0.7rem; }
+  @keyframes rp-flow { to { stroke-dashoffset: -30; } }
+
+  /* ---------- pillars ---------- */
+  .pillars { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); align-items: start; }
+  .pillar { padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid var(--line-dark); display: grid; gap: 0.8rem; }
+  .pillar--p1 { background: linear-gradient(160deg, rgba(237, 125, 62, 0.14), transparent 55%), var(--charcoal); border-top: 4px solid var(--brand); }
+  .pillar--p2 { background: var(--charcoal); border-top: 4px solid var(--paper); }
+  .pillar__n { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); }
+  .pillar--p2 .pillar__n { color: var(--paper); }
+  .pillar__t { margin: 0; font-family: var(--font-display); font-weight: 800; font-stretch: 80%; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1; }
+  .pillar .muted { margin: 0; }
+  .pillar__groups { display: grid; margin-top: 0.4rem; }
+  .rec { border-top: 1px solid var(--line-dark); }
+  .rec summary { justify-content: space-between; padding: 0.6rem 0; }
+  .rec__n { font-family: var(--font-display); font-weight: 800; color: var(--brand); width: 1.5rem; flex: none; }
+  .rec summary { justify-content: flex-start; } .rec summary::after { margin-left: auto; }
+  .rec ul { margin: 0 0 1rem; padding-left: 2.2rem; display: grid; gap: 0.45rem; color: var(--gray); font-size: 0.95rem; }
+  .rec p { margin: 0 0 1rem; color: var(--gray); }
+
+  /* ---------- outlook ---------- */
+  .stats6 { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+  .stats6 :global(.stat__n) { font-size: clamp(2.2rem, 5vw, 3.2rem); }
+  .hc { padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid var(--brand); display: grid; gap: 1rem; align-content: start; }
+  .hc__q { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.2; }
+  .hc .muted { margin: 0; }
+  .risk__h { margin: clamp(2.5rem, 5vw, 4rem) 0 1rem; }
+  .risk__text { display: grid; gap: 0.8rem; align-content: start; }
+  .risk__text p { margin: 0; } .risk__text small { color: var(--gray); font-size: 0.76rem; }
+
+  /* ---------- takeaways ---------- */
+  .tk { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); align-items: start; }
+  .tag-wb, .tag-nm { display: inline-block; margin: 0 0 1rem; padding: 0.35rem 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .tag-wb { background: var(--paper); color: var(--black); }
+  .tag-nm { background: var(--brand); color: var(--black); }
+  .tk__list { margin: 0; padding: 0; list-style: none; counter-reset: tk; display: grid; gap: 0; }
+  .tk__list li { counter-increment: tk; display: grid; grid-template-columns: 2.6rem 1fr; gap: 0.6rem; padding: 1rem 0; border-top: 1px solid var(--line-dark); font-size: 1.05rem; }
+  .tk__list li::before { content: counter(tk, decimal-leading-zero); font-family: var(--font-display); font-weight: 800; color: var(--brand); }
+  .tk__intro { margin: 0 0 0.6rem; font-size: 0.92rem; }
+  .persp { display: grid; }
+  .persp .rec summary { font-size: 1.1rem; }
+
+  /* ---------- original report ---------- */
+  .or { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 52rem) { .or { grid-template-columns: 14rem 1fr; gap: 3rem; } }
+  .or__cover { display: block; width: 11rem; box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.9); }
+  @media (min-width: 52rem) { .or__cover { width: 14rem; } }
+  .or__cover :global(img) { display: block; width: 100%; height: auto; }
+  .or__text { display: grid; gap: 1.1rem; max-width: 50rem; }
+  .or__text h2 { max-width: 20ch; }
+  .or__sub { margin: 0; color: var(--gray); font-size: 1.05rem; }
+  .cite { display: grid; gap: 0.6rem; justify-items: start; padding: 1.2rem; background: var(--black); border: 1px solid var(--line-dark); }
+  .cite__k { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+  .cite__t { margin: 0; font-size: 1rem; }
+  .cite__msg { font-size: 0.85rem; color: var(--gray); min-height: 1.2em; }
+  .btn--sm { padding: 0.6rem 0.9rem; font-size: 0.85rem; }
+  .rights { display: grid; gap: 0.7rem; font-size: 0.88rem; color: var(--gray); border-top: 1px solid var(--line-dark); padding-top: 1rem; }
+  .rights p { margin: 0; } .rights b { color: var(--paper); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .waffle i { transition: none; }
+    :global(.js) .loop__arc { animation: none; }
+    .op__cover { transition: none; }
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+/**
+ * The frame every report chart sits in: a headline, a one-line explanation, then the chart,
+ * then units, period and source. Tooltips for anything inside with data-tip appear in .rp-tip.
+ */
+interface Props { title: string; explain?: string; unit?: string; period: string; source: string; note?: string; id?: string }
+const { title, explain, unit, period, source, note, id } = Astro.props;
+---
+<figure class="frame" data-frame id={id}>
+  <figcaption class="frame__head">
+    <h3 class="frame__title">{title}</h3>
+    {explain && <p class="frame__explain">{explain}</p>}
+  </figcaption>
+  <div class="frame__body"><slot /></div>
+  <p class="frame__meta">
+    {unit && <span><b>Unit</b> {unit}</span>}
+    <span><b>Period</b> {period}</span>
+    <span><b>Source</b> {source}</span>
+  </p>
+  {note && <p class="frame__note">{note}</p>}
+  <div class="rp-tip" role="status" aria-live="polite" hidden></div>
+</figure>
+<style>
+  .frame { position: relative; margin: 0; display: grid; gap: 1rem; padding: clamp(1rem, 3vw, 1.6rem); background: var(--black); border: 1px solid var(--line-dark); min-width: 0; }
+  :global(.theme-dark) .frame { background: var(--charcoal); }
+  .frame__head { display: grid; gap: 0.35rem; }
+  .frame__title { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; }
+  .frame__explain { margin: 0; color: var(--gray); font-size: 0.95rem; max-width: 46rem; }
+  .frame__body { min-width: 0; }
+  .frame__meta { margin: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem; font-size: 0.76rem; color: var(--gray); border-top: 1px solid var(--line-dark); padding-top: 0.7rem; }
+  .frame__meta b { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.66rem; color: var(--paper); margin-right: 0.3rem; }
+  .frame__note { margin: 0; font-size: 0.8rem; color: var(--gray); border-left: 2px solid var(--brand); padding-left: 0.7rem; }
+  .rp-tip { position: absolute; z-index: 5; pointer-events: none; max-width: 16rem; padding: 0.55rem 0.7rem; background: var(--paper); color: var(--black); font-size: 0.82rem; line-height: 1.35; box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.7); }
+</style>

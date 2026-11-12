@@ -1,6 +1,6 @@
 // Leadership page content: Benson Mambosho. Client names are deliberately replaced by industries.
 // Dates are decimal years (2025.5 = mid 2025) so the career map can be drawn to scale.
-export interface Skill { id: string; n: string; d: string; lv: number; top?: boolean }
+export interface Skill { id: string; n: string; d: string; lv: number; top?: boolean | number }
 export interface Role { id: string; l: number; r: number; s: number; e: number; now?: number; org: string; t: string; dt: string; sk: string[]; tags?: string[]; c: string; w: string; h: string }
 export const MAP_START = 2015.67;
 export const MAP_END = 2026.85;

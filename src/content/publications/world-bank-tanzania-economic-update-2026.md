@@ -6,7 +6,7 @@ kind: report
 url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099092526091537649"
 summary: "The World Bank's twice-yearly review of Tanzania's economy. Growth reached 5.9% in 2025 and is projected at 6.1% in 2026. The special theme, Making Jobs Work, finds that Tanzania does not face a jobs shortage but a jobs quality challenge, and sets out two policy pillars to create better jobs."
 featured: true
-snapshot: "/creative-data/tanzania-making-jobs-work"
+snapshot: "/research-and-publications/tanzania-economic-update-2026"
 cover: "../../assets/publications/world-bank-tanzania-economic-update-2026.jpg"
 coverAlt: "Cover of the World Bank Tanzania Economic Update, September 2026: Making Jobs Work"
 finding:

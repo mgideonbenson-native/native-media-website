@@ -1,0 +1,80 @@
+---
+/**
+ * A time-series line chart drawn as SVG at build time. Years from projectedFrom onwards are
+ * drawn dashed and labelled as projections. Every point is focusable and has a tooltip.
+ */
+interface Series { label: string; values: number[]; tone?: 'brand' | 'paper' | 'gray' }
+interface Props { years: number[]; series: Series[]; projectedFrom?: number; yMin: number; yMax: number; step: number; suffix?: string; band?: { from: number; to: number; label: string }; label: string; showValues?: boolean }
+const { years, series, projectedFrom, yMin, yMax, step, suffix = '%', band, label } = Astro.props;
+const showValues = Astro.props.showValues ?? series.length === 1;
+const W = 640, H = 290, L = 46, R = series.length > 1 ? 96 : 24, T = 22, B = 246;
+const x = (i: number) => L + (i * (W - L - R)) / (years.length - 1);
+const y = (v: number) => B - ((v - yMin) / (yMax - yMin)) * (B - T);
+const ticks: number[] = [];
+for (let t = yMin; t <= yMax + 1e-9; t += step) ticks.push(Math.round(t * 100) / 100);
+const pIdx = projectedFrom ? years.indexOf(projectedFrom) : -1;
+const path = (vals: number[], from: number, to: number) => vals.slice(from, to + 1).map((v, k) => `${k ? 'L' : 'M'}${x(from + k).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+const fmt = (v: number) => `${v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}${suffix}`;
+---
+<div class="lc">
+  <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="group" aria-label={label}>
+    {band && (
+      <g class="lc__band" aria-hidden="true">
+        <rect x={L} y={y(band.to)} width={W - L - R} height={y(band.from) - y(band.to)} />
+        <text x={L + 8} y={y(band.to) + 15}>{band.label}</text>
+      </g>
+    )}
+    {pIdx > 0 && (
+      <g class="lc__proj" aria-hidden="true">
+        <rect x={x(pIdx) - (x(1) - x(0)) / 2} y={T - 14} width={W - R - (x(pIdx) - (x(1) - x(0)) / 2)} height={B - T + 14} />
+        <text x={x(pIdx) - (x(1) - x(0)) / 2 + 6} y={T - 3}>Projection</text>
+      </g>
+    )}
+    <g class="lc__grid" aria-hidden="true">
+      {ticks.map((t) => <><line x1={L} x2={W - R} y1={y(t)} y2={y(t)} class:list={{ zero: t === 0 }} /><text x={L - 8} y={y(t) + 4} text-anchor="end">{t}{suffix}</text></>)}
+      {years.map((yr, i) => <text x={x(i)} y={B + 22} text-anchor="middle">{yr}</text>)}
+    </g>
+    {series.map((s) => (
+      <g class:list={['lc__s', `lc__s--${s.tone ?? 'brand'}`]}>
+        <path d={path(s.values, 0, pIdx > 0 ? pIdx - 1 : years.length - 1)} class="lc__line" aria-hidden="true" />
+        {pIdx > 0 && <path d={path(s.values, pIdx - 1, years.length - 1)} class="lc__line lc__line--proj" aria-hidden="true" />}
+        {s.values.map((v, i) => {
+          const tip = `${s.label}, ${years[i]}${pIdx >= 0 && i >= pIdx ? ' (projection)' : ''}: ${fmt(v)}`;
+          return (
+            <g class="lc__pt" tabindex="0" role="img" data-tip={tip} aria-label={tip}>
+              <circle cx={x(i)} cy={y(v)} r="14" class="lc__hit" />
+              <circle cx={x(i)} cy={y(v)} r="4.5" class:list={['lc__dot', { proj: pIdx >= 0 && i >= pIdx }]} />
+              {showValues && <text x={x(i)} y={y(v) - 11} text-anchor="middle" class="lc__val" aria-hidden="true">{fmt(v)}</text>}
+            </g>
+          );
+        })}
+        {series.length > 1 && <text x={W - R + 8} y={y(s.values[s.values.length - 1]) + 4} class="lc__end" aria-hidden="true">{s.label}</text>}
+      </g>
+    ))}
+  </svg>
+</div>
+<style>
+  .lc { overflow-x: auto; }
+  .lc svg { display: block; min-width: 30rem; }
+  .lc text { font-family: var(--font-body); font-size: 12px; fill: var(--gray); }
+  .lc__grid line { stroke: rgba(245, 245, 240, 0.1); }
+  .lc__grid line.zero { stroke: rgba(245, 245, 240, 0.45); }
+  .lc__band rect { fill: rgba(237, 125, 62, 0.12); }
+  .lc__band text { fill: var(--brand); font-weight: 600; }
+  .lc__proj rect { fill: rgba(245, 245, 240, 0.035); }
+  .lc__proj text { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .lc__line { fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+  .lc__line--proj { stroke-dasharray: 6 6; }
+  .lc__s--brand .lc__line { stroke: var(--brand); } .lc__s--brand .lc__dot { fill: var(--brand); }
+  .lc__s--paper .lc__line { stroke: var(--paper); } .lc__s--paper .lc__dot { fill: var(--paper); }
+  .lc__s--gray .lc__line { stroke: #8f8f88; } .lc__s--gray .lc__dot { fill: #8f8f88; }
+  .lc__dot { stroke: var(--black); stroke-width: 2; }
+  .lc__dot.proj { fill: var(--black) !important; stroke: currentColor; }
+  .lc__s--brand .lc__dot.proj { stroke: var(--brand); } .lc__s--paper .lc__dot.proj { stroke: var(--paper); } .lc__s--gray .lc__dot.proj { stroke: #8f8f88; }
+  .lc__hit { fill: transparent; }
+  .lc__pt { cursor: pointer; outline: none; }
+  .lc__pt:hover .lc__dot, .lc__pt:focus-visible .lc__dot { r: 7; }
+  .lc__pt:focus-visible .lc__hit { stroke: var(--brand); stroke-width: 2; }
+  .lc__val { fill: var(--paper) !important; font-weight: 700; font-size: 12.5px !important; }
+  .lc__end { fill: var(--paper) !important; font-weight: 600; }
+</style>

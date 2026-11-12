@@ -1,0 +1,1305 @@
+{
+ "meta": {
+  "title": "Tanzania Economic Update, September 2026. Special Theme: Making Jobs Work",
+  "publisher": "World Bank",
+  "published": "September 2026",
+  "information_current_as_of": "August 2026",
+  "citation": "World Bank. 2026. Tanzania Economic Update, September 2026. Special Theme: Making Jobs Work. © World Bank.",
+  "rights": "The material in this work is subject to copyright. Because The World Bank encourages dissemination of its knowledge, this work may be reproduced, in whole or in part, for noncommercial purposes as long as full attribution to this work is given.",
+  "rights_quote": "this work may be reproduced, in whole or in part, for noncommercial purposes as long as full attribution to this work is given",
+  "rights_page": "b",
+  "rights_pdf_page": 2,
+  "url": "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099092526091537649",
+  "pdf": "/reports/world-bank-tanzania-economic-update-sept-2026.pdf",
+  "page_numbering": "page is the number printed on the report page; pdf_page is the page in the PDF file (printed page + 6 for the main text).",
+  "extracted_with": "pdftotext -raw, page by page. Every quote is checked against the PDF by scripts/verify-tz-economic-update.mjs."
+ },
+ "facts": {
+  "gdp_2025": {
+   "display": "5.9%",
+   "label": "Real GDP growth",
+   "period": "2025",
+   "status": "actual",
+   "page": "4",
+   "pdf_page": 10,
+   "quote": "Economic growth in Tanzania accelerated to 5.9 percent in 2025",
+   "value": 5.9,
+   "unit": "%"
+  },
+  "gdp_q1_2026": {
+   "display": "6.0%",
+   "label": "Real GDP growth, first quarter",
+   "period": "Q1 2026",
+   "status": "actual",
+   "page": "4",
+   "pdf_page": 10,
+   "quote": "and 6.0 percent in Q1",
+   "value": 6.0,
+   "unit": "%",
+   "note": "Based on the rebased national accounts (base year 2019), which break the data series (Box 1, p. 5)."
+  },
+  "gdp_rebased": {
+   "display": "2015 → 2019",
+   "label": "National accounts rebased",
+   "period": "June 2026",
+   "status": "actual",
+   "page": "5",
+   "pdf_page": 11,
+   "quote": "updating the GDP base year from 2015 to 2019"
+  },
+  "gdp_2026": {
+   "display": "6.1%",
+   "label": "Projected real GDP growth",
+   "period": "2026",
+   "status": "projection",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "projected to strengthen to 6.1% in 2026",
+   "value": 6.1,
+   "unit": "%"
+  },
+  "gdp_medium": {
+   "display": "6.5%",
+   "label": "Projected real GDP growth, medium term",
+   "period": "Medium term",
+   "status": "projection",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "and 6.5% over the medium term",
+   "value": 6.5,
+   "unit": "%"
+  },
+  "gdp_20y": {
+   "display": "5.7%",
+   "label": "Average annual growth",
+   "period": "Last two decades",
+   "status": "actual",
+   "page": "27",
+   "pdf_page": 33,
+   "quote": "grown by an annual average of 5.7 percent over the last two decades",
+   "value": 5.7,
+   "unit": "%"
+  },
+  "gov_share": {
+   "display": "Over two-thirds",
+   "label": "Share of 2025 growth driven by government spending",
+   "period": "2025",
+   "status": "actual",
+   "page": "4",
+   "pdf_page": 10,
+   "quote": "over two-thirds of economic growth was on the back of government spending"
+  },
+  "services_half": {
+   "display": "Almost half",
+   "label": "Share of 2025 real growth from services",
+   "period": "2025",
+   "status": "actual",
+   "page": "4",
+   "pdf_page": 10,
+   "quote": "Almost half of the real growth in 2025 came from services"
+  },
+  "sec_services": {
+   "display": "6.7%",
+   "label": "Services growth",
+   "period": "2025",
+   "status": "actual",
+   "page": "4",
+   "pdf_page": 10,
+   "quote": "the service sector, already the largest sector, expanded by 6.7 percent",
+   "value": 6.7,
+   "unit": "%"
+  },
+  "sec_industry": {
+   "display": "6.8%",
+   "label": "Industry growth",
+   "period": "2025",
+   "status": "actual",
+   "page": "4",
+   "pdf_page": 10,
+   "quote": "Growth in industry was 6.8 percent",
+   "value": 6.8,
+   "unit": "%"
+  },
+  "sec_agri": {
+   "display": "4.1%",
+   "label": "Agriculture growth",
+   "period": "2025",
+   "status": "actual",
+   "page": "4",
+   "pdf_page": 10,
+   "quote": "Agriculture expanded by 4.1 percent",
+   "value": 4.1,
+   "unit": "%"
+  },
+  "unemployment": {
+   "display": "6.1%",
+   "label": "Unemployment (World Bank estimate)",
+   "period": "2025",
+   "status": "estimate",
+   "page": "7",
+   "pdf_page": 13,
+   "quote": "unemployment in 2025 at 6.1 percent, down from 8.7 percent in 2020",
+   "value": 6.1,
+   "unit": "%"
+  },
+  "poverty": {
+   "display": "69.8%",
+   "label": "Share living below the $4.20/day poverty line (estimate)",
+   "period": "2026",
+   "status": "estimate",
+   "page": "8",
+   "pdf_page": 14,
+   "quote": "fallen marginally from 70 percent in 2018",
+   "value": 69.8,
+   "unit": "%",
+   "note": "Down from 70% in 2018, the most recent official year."
+  },
+  "poverty_now": {
+   "display": "69.8%",
+   "label": "Poverty rate this year",
+   "period": "2026",
+   "status": "estimate",
+   "page": "8",
+   "pdf_page": 14,
+   "quote": "to 69.8 percent this year",
+   "value": 69.8,
+   "unit": "%"
+  },
+  "food_insecure": {
+   "display": "About 1 million",
+   "label": "People facing acute food insecurity",
+   "period": "2026",
+   "status": "estimate",
+   "page": "5",
+   "pdf_page": 11,
+   "quote": "about 1 million people (10 percent of the analyzed population) are currently facing acute food insecurity"
+  },
+  "infl_band": {
+   "display": "3–5%",
+   "label": "Bank of Tanzania medium-term inflation target band",
+   "period": "Target",
+   "status": "target",
+   "page": "10",
+   "pdf_page": 16,
+   "quote": "medium-term target band of 3–5 percent"
+  },
+  "infl_jul26": {
+   "display": "4.2%",
+   "label": "Headline inflation, year-on-year",
+   "period": "July 2026",
+   "status": "actual",
+   "page": "10",
+   "pdf_page": 16,
+   "quote": "Headline inflation rose to 4.2 percent year-on-year in July 2026",
+   "value": 4.2,
+   "unit": "%"
+  },
+  "core_jul26": {
+   "display": "3.9%",
+   "label": "Core inflation, year-on-year",
+   "period": "July 2026",
+   "status": "actual",
+   "page": "10",
+   "pdf_page": 16,
+   "quote": "core inflation increased to 3.9 percent",
+   "value": 3.9,
+   "unit": "%"
+  },
+  "cbr": {
+   "display": "6.25%",
+   "label": "Central Bank Rate",
+   "period": "July 2026",
+   "status": "actual",
+   "page": "10",
+   "pdf_page": 16,
+   "quote": "raised the CBR by 50 basis points to 6.25 percent",
+   "value": 6.25,
+   "unit": "%"
+  },
+  "diesel": {
+   "display": "About 60%",
+   "label": "Rise in domestic diesel pump prices",
+   "period": "Start of the war to June 2026",
+   "status": "actual",
+   "page": "10",
+   "pdf_page": 16,
+   "quote": "Domestic diesel pump prices increased by about 60 percent"
+  },
+  "credit": {
+   "display": "28.1%",
+   "label": "Private sector credit growth, year-on-year",
+   "period": "June 2026",
+   "status": "actual",
+   "page": "12",
+   "pdf_page": 18,
+   "quote": "Private sector credit growth accelerated to 28.1 percent year-on-year in June 2026",
+   "value": 28.1,
+   "unit": "%"
+  },
+  "npl": {
+   "display": "2.5%",
+   "label": "Non-performing loans (5% prudential threshold)",
+   "period": "2026",
+   "status": "actual",
+   "page": "12",
+   "pdf_page": 18,
+   "quote": "non-performing loans at 2.5 percent",
+   "value": 2.5,
+   "unit": "%"
+  },
+  "rev_target": {
+   "display": "+4.2%",
+   "label": "Domestic revenue against target",
+   "period": "First 11 months of FY26",
+   "status": "actual",
+   "page": "14",
+   "pdf_page": 20,
+   "quote": "exceeded the target by about 4.2 percent in the first eleven months of FY26",
+   "value": 4.2,
+   "unit": "%"
+  },
+  "tax_target": {
+   "display": "+9.1%",
+   "label": "Tax revenue against target",
+   "period": "First 11 months of FY26",
+   "status": "actual",
+   "page": "14",
+   "pdf_page": 20,
+   "quote": "consistently exceeded targets during the first eleven months of FY26 by 9.1 percent",
+   "value": 9.1,
+   "unit": "%"
+  },
+  "nontax_target": {
+   "display": "−12.1%",
+   "label": "Non-tax revenue against target",
+   "period": "First 11 months of FY26",
+   "status": "actual",
+   "page": "14",
+   "pdf_page": 20,
+   "quote": "non-tax revenues underperformed by 12.1 percent",
+   "value": -12.1,
+   "unit": "%"
+  },
+  "spend_target": {
+   "display": "−5%",
+   "label": "Total spending against estimate",
+   "period": "First 11 months of FY26",
+   "status": "actual",
+   "page": "15",
+   "pdf_page": 21,
+   "quote": "total spending fell short of the estimate by 5 percent",
+   "value": -5,
+   "unit": "%"
+  },
+  "debt_jun26": {
+   "display": "49%",
+   "label": "Public debt, % of GDP",
+   "period": "End-June 2026",
+   "status": "actual",
+   "page": "15",
+   "pdf_page": 21,
+   "quote": "stood at 49 percent of GDP at end-June 2026",
+   "value": 49,
+   "unit": "%"
+  },
+  "debt_risk": {
+   "display": "Moderate",
+   "label": "Risk of debt distress",
+   "period": "June 2025 joint World Bank–IMF analysis",
+   "status": "actual",
+   "page": "17",
+   "pdf_page": 23,
+   "quote": "The risk of debt distress remains moderate"
+  },
+  "cad_fy26": {
+   "display": "2.5%",
+   "label": "Current account deficit, % of GDP (US$2.3 billion)",
+   "period": "Year ending June 2026",
+   "status": "actual",
+   "page": "18",
+   "pdf_page": 24,
+   "quote": "widened to US$2.3 billion, or 2.5 percent of GDP, in the year ending June 2026",
+   "value": 2.5,
+   "unit": "%"
+  },
+  "cad_2025": {
+   "display": "2.2%",
+   "label": "Current account deficit, % of GDP (US$2.0 billion)",
+   "period": "2025",
+   "status": "actual",
+   "page": "18",
+   "pdf_page": 24,
+   "quote": "from US$2.0 billion, or 2.2 percent of GDP, in 2025",
+   "value": 2.2,
+   "unit": "%"
+  },
+  "goods_exports": {
+   "display": "+19.2%",
+   "label": "Goods exports growth (estimate)",
+   "period": "FY26",
+   "status": "estimate",
+   "page": "18",
+   "pdf_page": 24,
+   "quote": "Goods exports are estimated to have increased by 19.2 percent in FY26",
+   "value": 19.2,
+   "unit": "%"
+  },
+  "service_exports": {
+   "display": "+14.4%",
+   "label": "Service exports growth, to US$8.1 billion",
+   "period": "FY26",
+   "status": "actual",
+   "page": "18",
+   "pdf_page": 24,
+   "quote": "Service exports also increased by 14.4 percent to US$8.1 billion",
+   "value": 14.4,
+   "unit": "%"
+  },
+  "imports": {
+   "display": "+18.1%",
+   "label": "Imports of goods and services growth, to US$20.8 billion",
+   "period": "FY2026",
+   "status": "actual",
+   "page": "18",
+   "pdf_page": 24,
+   "quote": "Imports of goods and services increased by 18.1 percent to US$20.8 billion in FY2026",
+   "value": 18.1,
+   "unit": "%"
+  },
+  "tourists": {
+   "display": "+4.5%",
+   "label": "International tourist arrivals",
+   "period": "FY26",
+   "status": "actual",
+   "page": "18",
+   "pdf_page": 24,
+   "quote": "4.5 percent rise in international tourist arrivals",
+   "value": 4.5,
+   "unit": "%"
+  },
+  "emp_ratio": {
+   "display": "68.7%",
+   "label": "Employment-to-population ratio",
+   "period": "2024",
+   "status": "actual",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "employment-to-population ratio of 68.7% is among the highest in the world",
+   "value": 68.7,
+   "unit": "%"
+  },
+  "emp_ratio_2020": {
+   "display": "65.8%",
+   "label": "Employment-to-population ratio",
+   "period": "2020",
+   "status": "actual",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "compared to 65.8% in 2020",
+   "value": 65.8,
+   "unit": "%"
+  },
+  "labor_force": {
+   "display": "27.3 million",
+   "label": "Labour force (12.8 million women, 14.5 million men)",
+   "period": "2024",
+   "status": "actual",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "labor force consists of 27.3 million people"
+  },
+  "median_pay": {
+   "display": "TZS 1,005",
+   "label": "Median hourly pay, including profits and in-kind income (about US$0.40)",
+   "period": "2024",
+   "status": "actual",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "the median hourly pay, including profits and in-kind income, is just TZS 1,005",
+   "value": 1005,
+   "unit": "TZS"
+  },
+  "status_split": {
+   "display": "75 / 17 / 8",
+   "label": "Own-account workers / contributing family workers / employees, % of workers",
+   "period": "2024",
+   "status": "actual",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "own-account workers (75%) or contributing family workers (17%), with employees accounting for just 8 percent"
+  },
+  "agri_share": {
+   "display": "54%",
+   "label": "Share of workers employed in agriculture",
+   "period": "2024",
+   "status": "actual",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "it remains the dominant sector, employing 54% of workers",
+   "value": 54,
+   "unit": "%"
+  },
+  "informality": {
+   "display": "~95%",
+   "label": "Informality",
+   "period": "2024 (up from ~93% in 2020)",
+   "status": "actual",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "informality has deepened from approximately 93% in 2020 to around 95% in 2024",
+   "value": 95,
+   "unit": "%"
+  },
+  "working_age": {
+   "display": "~2 million in, ~400,000 out",
+   "label": "People reaching and leaving working age each year",
+   "period": "Each year",
+   "status": "estimate",
+   "page": "26",
+   "pdf_page": 32,
+   "quote": "approximately 2 million Tanzanians reach working age while only around 400,000 leave it"
+  },
+  "hq_jobs": {
+   "display": "~550,000",
+   "label": "High-quality jobs, out of 26 million total jobs",
+   "period": "2024",
+   "status": "estimate",
+   "page": "29",
+   "pdf_page": 35,
+   "quote": "Out of Tanzania’s 26 million total jobs, we find evidence of only about 550,000 high-quality jobs",
+   "value": 550000
+  },
+  "hq_private": {
+   "display": "~120,000",
+   "label": "High-quality jobs in the private sector",
+   "period": "2024",
+   "status": "estimate",
+   "page": "29",
+   "pdf_page": 35,
+   "quote": "Only about 120,000 of these jobs are in the private sector",
+   "value": 120000
+  },
+  "decent_pay": {
+   "display": "TZS 3,830",
+   "label": "Hourly wage the report uses as \"decent pay\" (about US$1.50)",
+   "period": "2024",
+   "status": "actual",
+   "page": "28",
+   "pdf_page": 34,
+   "quote": "an hourly wage above TZS 3,830",
+   "value": 3830,
+   "unit": "TZS"
+  },
+  "women_share": {
+   "display": "51 / 46 / 32%",
+   "label": "Women: share of working-age population / of workers / of high-quality jobs",
+   "period": "2024",
+   "status": "actual",
+   "page": "29",
+   "pdf_page": 35,
+   "quote": "Women constitute 51% of the working-age population, and 46% of all represented workers. Yet, they represent only 32%"
+  },
+  "youth_share": {
+   "display": "63 / 46 / 34%",
+   "label": "Youth (15–35): share of working-age population / of workers / of high-quality jobs",
+   "period": "2024",
+   "status": "actual",
+   "page": "29",
+   "pdf_page": 35,
+   "quote": "constitute about 63% of the working age population, 46% of all workers, but only 34%"
+  },
+  "hq_tax": {
+   "display": "96% vs 7%",
+   "label": "Holders of high-quality jobs vs regular jobs who pay income tax",
+   "period": "2024",
+   "status": "actual",
+   "page": "30",
+   "pdf_page": 36,
+   "quote": "96% of holders pay income taxes, compared to just 7% of regular job holders"
+  },
+  "high_ready": {
+   "display": "~15%",
+   "label": "Workers with high readiness and opportunity",
+   "period": "2024",
+   "status": "actual",
+   "page": "27",
+   "pdf_page": 33,
+   "quote": "only about 15% of Tanzanian workers have high readiness"
+  },
+  "q1": {
+   "display": "Over half",
+   "label": "Labour force with low readiness and low opportunity (Q1)",
+   "period": "Current",
+   "status": "actual",
+   "page": "32",
+   "pdf_page": 38,
+   "quote": "Most Tanzanians in the labor force — over half — face the dual constraints of low readiness and limited market opportunities"
+  },
+  "q2": {
+   "display": "15%",
+   "label": "Labour force with capability but no credentials or connections (Q2)",
+   "period": "Current",
+   "status": "actual",
+   "page": "33",
+   "pdf_page": 39,
+   "quote": "A further 15% of the labor force has demonstrated capability",
+   "value": 15,
+   "unit": "%"
+  },
+  "q3": {
+   "display": "18%",
+   "label": "Labour force in high-opportunity places but not ready (Q3)",
+   "period": "Current",
+   "status": "actual",
+   "page": "33",
+   "pdf_page": 39,
+   "quote": "About 18% of the labor force operates in high-opportunity environments",
+   "value": 18,
+   "unit": "%"
+  },
+  "q4": {
+   "display": "15%",
+   "label": "Labour force with high readiness and high opportunity (Q4)",
+   "period": "Current",
+   "status": "actual",
+   "page": "33",
+   "pdf_page": 39,
+   "quote": "The 15% of the labor force in Quadrant 4",
+   "value": 15,
+   "unit": "%"
+  },
+  "las": {
+   "display": "4.5 years",
+   "label": "Learning-adjusted schooling, average adult 25+",
+   "period": "Current",
+   "status": "actual",
+   "page": "32",
+   "pdf_page": 38,
+   "quote": "approximately 4.5 years of learning-adjusted schooling",
+   "value": 4.5,
+   "unit": "years"
+  },
+  "secondary": {
+   "display": "~40%",
+   "label": "Secondary school-aged children enrolled",
+   "period": "Current",
+   "status": "actual",
+   "page": "32",
+   "pdf_page": 38,
+   "quote": "only around 40% of secondary school-aged children enrolled",
+   "value": 40,
+   "unit": "%"
+  },
+  "care": {
+   "display": "14% vs 4%",
+   "label": "Share of time on unpaid care work, women vs men",
+   "period": "UNDP 2017, cited",
+   "status": "actual",
+   "page": "33",
+   "pdf_page": 39,
+   "quote": "Women spend about 14% of their time on unpaid care work, compared to about 4% for men"
+  },
+  "women_micro": {
+   "display": "46%",
+   "label": "How much less productive women-led microenterprises are",
+   "period": "World Bank 2022, cited",
+   "status": "actual",
+   "page": "33",
+   "pdf_page": 39,
+   "quote": "46% less productive than those run by men",
+   "value": 46,
+   "unit": "%"
+  },
+  "skills_gap": {
+   "display": "83%",
+   "label": "Advertised positions requiring skills applicants often lack",
+   "period": "TICGL 2025, cited",
+   "status": "actual",
+   "page": "33",
+   "pdf_page": 39,
+   "quote": "Around 83% of advertised positions in Tanzania require skills that the current pool of applicants often lacks",
+   "value": 83,
+   "unit": "%"
+  },
+  "sa_spend": {
+   "display": "0.7% vs 1.6%",
+   "label": "Social assistance spending, % of GDP: Tanzania vs SSA and LMIC averages",
+   "period": "Current",
+   "status": "actual",
+   "page": "35",
+   "pdf_page": 41,
+   "quote": "Social assistance spending across all programs amounts to 0.7% of GDP, compared to SSA and LMIC averages of 1.6%"
+  },
+  "pssn": {
+   "display": "13%",
+   "label": "Share of households below the poverty line PSSN III will cover",
+   "period": "PSSN III",
+   "status": "projection",
+   "page": "35",
+   "pdf_page": 41,
+   "quote": "will cover only 13% of households below the national poverty line",
+   "value": 13,
+   "unit": "%"
+  },
+  "inspectors": {
+   "display": "<5%",
+   "label": "Formal firms reached by labour inspectors each year",
+   "period": "Current",
+   "status": "actual",
+   "page": "38",
+   "pdf_page": 44,
+   "quote": "labor inspectors reach less than 5% of formal firms annually"
+  },
+  "prod_gap": {
+   "display": "−49% / −70%",
+   "label": "Labour productivity vs SSA average: services / manufacturing",
+   "period": "WBES, various years",
+   "status": "actual",
+   "page": "40",
+   "pdf_page": 46,
+   "quote": "approximately 49 percent lower in services and 70 percent lower in manufacturing than the SSA average"
+  },
+  "young_firms": {
+   "display": "12% vs 38%",
+   "label": "Formal firms that are young (began after 2018): Tanzania vs Rwanda (Ghana 26%)",
+   "period": "2023",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "only 12% of formal firms were young firms"
+  },
+  "young_peers": {
+   "display": "38% / 26%",
+   "label": "Young formal firms: Rwanda / Ghana",
+   "period": "2023",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "far fewer than Rwanda’s 38% or Ghana’s 26%"
+  },
+  "young_prod": {
+   "display": "20%",
+   "label": "Young formal firms with above-median productivity (about twice that among peers)",
+   "period": "2023",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "only 20% have above-median productivity"
+  },
+  "unregistered": {
+   "display": "32%",
+   "label": "Firms that started operating without registration (25% in 2013)",
+   "period": "2023",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "32% of firms reported starting operations without registration up from 25% in 2013"
+  },
+  "fdi": {
+   "display": "~2% of GDP",
+   "label": "Foreign direct investment",
+   "period": "Since 2016",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "FDI in Tanzania has hovered around 2% of GDP since 2016"
+  },
+  "bready_entry": {
+   "display": "72 / 100",
+   "label": "B-Ready score for business entry (top 20% globally)",
+   "period": "2025",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "72 out of 100"
+  },
+  "foreign_reg": {
+   "display": "59%",
+   "label": "Cost of registering a foreign firm, % of gross national income per capita",
+   "period": "2025",
+   "status": "actual",
+   "page": "42",
+   "pdf_page": 48,
+   "quote": "59% of gross national income per capita",
+   "value": 59,
+   "unit": "%"
+  },
+  "mgmt_time": {
+   "display": "14%",
+   "label": "Senior management time spent on regulatory compliance (2% in 2013; regional average 8%)",
+   "period": "2023",
+   "status": "actual",
+   "page": "42",
+   "pdf_page": 48,
+   "quote": "almost 14% of senior management’s time on regulatory compliance",
+   "value": 14,
+   "unit": "%"
+  },
+  "insolvency": {
+   "display": "30 / 100",
+   "label": "B-Ready score for business insolvency (bottom 20% globally)",
+   "period": "2025",
+   "status": "actual",
+   "page": "42",
+   "pdf_page": 48,
+   "quote": "With 30 points out of 100"
+  },
+  "invest_share": {
+   "display": "40% → 22%",
+   "label": "Firms that invested",
+   "period": "2013 → 2023",
+   "status": "actual",
+   "page": "43",
+   "pdf_page": 49,
+   "quote": "fell from 40% in 2013 to 22% in 2023"
+  },
+  "invest_avg": {
+   "display": "US$116,000 → US$24,000",
+   "label": "Average investment per firm (2009 US$)",
+   "period": "2013 → 2023",
+   "status": "actual",
+   "page": "43",
+   "pdf_page": 49,
+   "quote": "dropped from US$116,000 to US$24,000"
+  },
+  "invest_11": {
+   "display": "11%",
+   "label": "What the average firm invests now, compared with a decade ago",
+   "period": "2023 vs 2013",
+   "status": "actual",
+   "page": "43",
+   "pdf_page": 49,
+   "quote": "the average firm now invests just 11% of what it did a decade ago",
+   "value": 11,
+   "unit": "%"
+  },
+  "innov_tz": {
+   "display": "4.1 / 7.3 / 34.3 / 9.5 / 14.1",
+   "label": "Tanzania: licensed foreign tech / R&D / website / process innovation / new product, %",
+   "period": "WBES, various years",
+   "status": "actual",
+   "page": "44",
+   "pdf_page": 50,
+   "quote": "Tanzania 4.1 7.3 34.3 9.5 14.1"
+  },
+  "innov_ssa": {
+   "display": "11 / 13.3 / 42.4 / 14.8 / 24.6",
+   "label": "Sub-Saharan economies: same measures, %",
+   "period": "WBES, various years",
+   "status": "actual",
+   "page": "44",
+   "pdf_page": 50,
+   "quote": "economies 11 13.3 42.4 14.8 24.6"
+  },
+  "credit_constrained": {
+   "display": "1 in 3 vs 22%",
+   "label": "Firms fully or partially credit constrained: Tanzania vs SSA average",
+   "period": "2023",
+   "status": "actual",
+   "page": "44",
+   "pdf_page": 50,
+   "quote": "One out of three companies in Tanzania reports being fully or partially credit constrained (the average in SSA economies is 22%)"
+  },
+  "bank_finance": {
+   "display": "14% vs 38% / 25%",
+   "label": "Firms financing investment through banks: Tanzania vs Côte d’Ivoire / Rwanda",
+   "period": "2023",
+   "status": "actual",
+   "page": "44",
+   "pdf_page": 50,
+   "quote": "Only 14% of firms finance investments through banks, compared with 38% in Côte d’Ivoire and 25% in Rwanda"
+  },
+  "land": {
+   "display": "58% vs 20%",
+   "label": "Large firms citing land access as a major constraint: Tanzania vs SSA average",
+   "period": "2023",
+   "status": "actual",
+   "page": "44",
+   "pdf_page": 50,
+   "quote": "58% of large firms in Tanzania reported access to land to be a major or very severe constraint to operation compared to an average of 20% in SSA economies"
+  },
+  "skilled": {
+   "display": "78%",
+   "label": "Skilled share of manufacturing workers (85% in 2013)",
+   "period": "2023",
+   "status": "actual",
+   "page": "44",
+   "pdf_page": 50,
+   "quote": "While 78% of workers in Tanzania’s manufacturing sector can be described as skilled",
+   "value": 78,
+   "unit": "%"
+  },
+  "training": {
+   "display": "20%",
+   "label": "Firms offering formal training",
+   "period": "2023",
+   "status": "actual",
+   "page": "44",
+   "pdf_page": 50,
+   "quote": "With 20% of firms offering formal training to their workers",
+   "value": 20,
+   "unit": "%"
+  },
+  "spread": {
+   "display": "32× vs 17×",
+   "label": "Productivity of top 10% vs bottom 10% firms: Tanzania vs aspirational peers",
+   "period": "2023",
+   "status": "actual",
+   "page": "45",
+   "pdf_page": 51,
+   "quote": "about 32 times more productive than those in the bottom 10% - compared to a gap of about 17 times among aspirational peers"
+  },
+  "frontier": {
+   "display": "18%",
+   "label": "Share of jobs in frontier (top 10% most productive) firms",
+   "period": "2023",
+   "status": "actual",
+   "page": "45",
+   "pdf_page": 51,
+   "quote": "In 2023 they accounted for only 18% of jobs",
+   "value": 18,
+   "unit": "%"
+  },
+  "frontier_sales": {
+   "display": "97% → ~75%",
+   "label": "Frontier firms’ share of sales",
+   "period": "2013 → 2023",
+   "status": "actual",
+   "page": "45",
+   "pdf_page": 51,
+   "quote": "they accounted for 97% of sales in 2013"
+  },
+  "frontier_wages": {
+   "display": "4×",
+   "label": "Frontier firms’ average wages vs other firms",
+   "period": "2023",
+   "status": "actual",
+   "page": "45",
+   "pdf_page": 51,
+   "quote": "They also pay, on average, four times higher wages"
+  },
+  "exports_2026": {
+   "display": "6.8%",
+   "label": "Real export growth",
+   "period": "2026",
+   "status": "projection",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "Real export growth is expected to rebound strongly to 6.8% in 2026",
+   "value": 6.8,
+   "unit": "%"
+  },
+  "industry_2026": {
+   "display": "7.8%",
+   "label": "Industry growth",
+   "period": "2026",
+   "status": "projection",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "Industry is projected to sustain strong growth of 7.8%",
+   "value": 7.8,
+   "unit": "%"
+  },
+  "infl_2026": {
+   "display": "4.1%",
+   "label": "Inflation",
+   "period": "2026",
+   "status": "projection",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "reflected in 4.1 percent inflation expected in 2026",
+   "value": 4.1,
+   "unit": "%"
+  },
+  "deficit_2026": {
+   "display": "3.1%",
+   "label": "Fiscal deficit, % of GDP",
+   "period": "2026",
+   "status": "projection",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "The fiscal deficit will narrow to 3.1% of GDP",
+   "value": 3.1,
+   "unit": "%"
+  },
+  "tax_gdp": {
+   "display": "13% → 16%",
+   "label": "Tax-to-GDP ratio the fiscal framework assumes",
+   "period": "Medium term",
+   "status": "target",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "raising the tax-to-GDP ratio from 13% to 16% over the medium term"
+  },
+  "tourism_exports": {
+   "display": "~24%",
+   "label": "Tourism receipts, share of exports",
+   "period": "Current",
+   "status": "actual",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "which account for around 24% of Tanzania’s exports",
+   "value": 24,
+   "unit": "%"
+  },
+  "transport_exports": {
+   "display": "15%",
+   "label": "Transport service exports, share of exports",
+   "period": "Current",
+   "status": "actual",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "transport service exports which account for 15% of exports",
+   "value": 15,
+   "unit": "%"
+  },
+  "risks": {
+   "display": "Downside",
+   "label": "Balance of risks",
+   "period": "2026 outlook",
+   "status": "actual",
+   "page": "23",
+   "pdf_page": 29,
+   "quote": "The balance of risks is tilted to the downside, with domestic reform capacity, fiscal discipline, and external shocks as the key concerns"
+  },
+  "human_capital": {
+   "display": "Human capital",
+   "label": "Most consequential medium-term policy choice",
+   "period": "Medium term",
+   "status": "actual",
+   "page": "24",
+   "pdf_page": 30,
+   "quote": "the most consequential policy choice is the sustained prioritization of human capital spending"
+  },
+  "climate_drought": {
+   "display": "5 million",
+   "label": "People exposed and vulnerable to significant drought",
+   "period": "Brunckhorst et al. 2025, cited",
+   "status": "estimate",
+   "page": "9",
+   "pdf_page": 15,
+   "quote": "5 million Tanzanians are exposed and vulnerable to a significant drought",
+   "value": 5000000
+  },
+  "climate_flood": {
+   "display": "700,000",
+   "label": "People exposed and vulnerable to flooding",
+   "period": "Brunckhorst et al. 2025, cited",
+   "status": "estimate",
+   "page": "9",
+   "pdf_page": 15,
+   "quote": "700,000 Tanzanians are exposed and vulnerable to flooding",
+   "value": 700000
+  },
+  "climate_heat": {
+   "display": "600,000",
+   "label": "People exposed and vulnerable to heatwaves",
+   "period": "Brunckhorst et al. 2025, cited",
+   "status": "estimate",
+   "page": "9",
+   "pdf_page": 15,
+   "quote": "600,000 are exposed and vulnerable to heatwaves",
+   "value": 600000
+  },
+  "climate_multi": {
+   "display": "400,000",
+   "label": "People exposed and vulnerable to multiple risks at once",
+   "period": "Brunckhorst et al. 2025, cited",
+   "status": "estimate",
+   "page": "9",
+   "pdf_page": 15,
+   "quote": "A further 400,000 are exposed and vulnerable to multiple risks at the same time",
+   "value": 400000
+  },
+  "edu_premium": {
+   "display": "22–30%",
+   "label": "Extra pay in formal private jobs for workers with lower secondary vs primary education",
+   "period": "ILFS 2020–21",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "Workers with lower secondary education earn 22%–30% more in formal private sector jobs than those with only primary education"
+  },
+  "tvet_gain": {
+   "display": "Up to 51%",
+   "label": "Earnings gain from TVET for workers with formal wage contracts",
+   "period": "ILFS 2020–21",
+   "status": "actual",
+   "page": "41",
+   "pdf_page": 47,
+   "quote": "TVET generates earnings gains of up to 51% for workers with formal wage contracts"
+  },
+  "oda_halved": {
+   "display": "Halved",
+   "label": "Official development assistance as a share of GDP since 2010",
+   "period": "2010 → 2025",
+   "status": "actual",
+   "page": "18",
+   "pdf_page": 24,
+   "quote": "ODA has halved as a share of GDP since 2010"
+  },
+  "oda_grants": {
+   "display": "~65% → <40%",
+   "label": "Share of ODA provided as grants",
+   "period": "2010 → now",
+   "status": "actual",
+   "page": "19",
+   "pdf_page": 25,
+   "quote": "while about 65 percent of ODA was provided as grants in 2010, less than 40 percent is now grant-financed"
+  },
+  "labour_exports": {
+   "display": "Underused",
+   "label": "Labour-intensive exports (manufactured and horticultural goods)",
+   "period": "Recent years",
+   "status": "actual",
+   "page": "19",
+   "pdf_page": 25,
+   "quote": "This represents an underutilized opportunity for Tanzania"
+  },
+  "mobile_money": {
+   "display": "Over 94%",
+   "label": "Tanzanians reached by mobile money",
+   "period": "Current",
+   "status": "actual",
+   "page": "48",
+   "pdf_page": 54,
+   "quote": "Mobile money now reaches over 94% of Tanzanians"
+  },
+  "generational": {
+   "display": "Next five years",
+   "label": "When the institutions that decide the jobs trajectory get built",
+   "period": "Outlook",
+   "status": "actual",
+   "page": "49",
+   "pdf_page": 55,
+   "quote": "the institutions built in the next five years will determine whether that trajectory bends upward"
+  },
+  "evidence_thin": {
+   "display": "Thin",
+   "label": "Impact evidence for labour programmes outside PSSN",
+   "period": "Current",
+   "status": "actual",
+   "page": "38",
+   "pdf_page": 44,
+   "quote": "the evidence base outside PSSN is thin"
+  },
+  "leave_to_learn": {
+   "display": "Leave-to-learn",
+   "label": "How most training programmes are designed (excludes Q1 and Q2 workers)",
+   "period": "Current",
+   "status": "actual",
+   "page": "38",
+   "pdf_page": 44,
+   "quote": "most are designed on a leave-to-learn model"
+  },
+  "wb_pillars": {
+   "display": "Two pillars",
+   "label": "The report’s policy framework",
+   "period": "2026",
+   "status": "actual",
+   "page": "2",
+   "pdf_page": 8,
+   "quote": "Two policy pillars address these interlocking constraints"
+  },
+  "jobs_quality": {
+   "display": "Quality, not quantity",
+   "label": "The report’s central finding",
+   "period": "2024",
+   "status": "actual",
+   "page": "1",
+   "pdf_page": 7,
+   "quote": "Tanzania does not face a jobs shortage, it faces a jobs quality challenge"
+  },
+  "high_pay": {
+   "display": "TZS 1,507",
+   "label": "1.5 times the median wage, a benchmark for high pay",
+   "period": "2024",
+   "status": "actual",
+   "page": "28",
+   "pdf_page": 34,
+   "quote": "1.5 times the median wage (TZS 1,507 per hour, a benchmark for high pay)",
+   "value": 1507,
+   "unit": "TZS"
+  },
+  "establishments": {
+   "display": "219,371",
+   "label": "Establishments in the 2023/24 Statistical Business Register (12.2% employ five or more)",
+   "period": "2023/24",
+   "status": "actual",
+   "page": "27",
+   "pdf_page": 33,
+   "quote": "enumerated 219,371 establishments in Tanzania"
+  },
+  "five_plus": {
+   "display": "12.2%",
+   "label": "Firms employing five or more workers",
+   "period": "2023/24",
+   "status": "actual",
+   "page": "27",
+   "pdf_page": 33,
+   "quote": "with only 12.2% of firms employing five or more workers"
+  },
+  "early_marriage": {
+   "display": "About one-third",
+   "label": "Girls who marry before age 18 (UNICEF 2022, cited)",
+   "period": "2022",
+   "status": "actual",
+   "page": "38",
+   "pdf_page": 44,
+   "quote": "About one-third of girls marry before age 18"
+  },
+  "nonconcessional": {
+   "display": "Close to one-fifth",
+   "label": "Non-concessional external borrowing, share of public debt",
+   "period": "FY26",
+   "status": "actual",
+   "page": "15",
+   "pdf_page": 21,
+   "quote": "accounting for close to one-fifth of total public debt"
+  },
+  "limited_spending": {
+   "display": "Limited public spending",
+   "label": "Business environment fixes could yield gains with limited public spending",
+   "period": "Current",
+   "status": "actual",
+   "page": "40",
+   "pdf_page": 46,
+   "quote": "could yield substantial gains with relatively limited public spending"
+  },
+  "climate_belt": {
+   "display": "Diagonal belt",
+   "label": "Where exposed and least able to cope cluster",
+   "period": "Brunckhorst et al. 2025, cited",
+   "status": "actual",
+   "page": "9",
+   "pdf_page": 15,
+   "quote": "cluster in a diagonal belt through the center of the country"
+  }
+ },
+ "table_1_1": {
+  "title": "Table 1.1: Recent History and Macroeconomic Baseline Projections",
+  "page": "24",
+  "pdf_page": 30,
+  "source": "World Bank MFMOD",
+  "years": [
+   2023,
+   2024,
+   2025,
+   2026,
+   2027,
+   2028
+  ],
+  "projected_from": 2026,
+  "note": "2026–2028 are World Bank baseline projections. Annual % change unless stated. Calendar years.",
+  "rows": {
+   "gdp": {
+    "label": "Real GDP growth",
+    "values": [
+     5.1,
+     5.5,
+     5.9,
+     6.1,
+     6.4,
+     6.5
+    ],
+    "quote": "Real GDP Growth, at constant market prices 5.1 5.5 5.9 6.1 6.4 6.5"
+   },
+   "agriculture": {
+    "label": "Agriculture",
+    "values": [
+     3.6,
+     3.9,
+     3.6,
+     2.9,
+     3.9,
+     3.5
+    ],
+    "quote": "Agriculture 3.6 3.9 3.6 2.9 3.9 3.5"
+   },
+   "industry": {
+    "label": "Industry",
+    "values": [
+     4.8,
+     5.4,
+     7.8,
+     7.8,
+     7.9,
+     8.0
+    ],
+    "quote": "Industry 4.8 5.4 7.8 7.8 7.9 8.0"
+   },
+   "services": {
+    "label": "Services",
+    "values": [
+     6.2,
+     6.8,
+     5.8,
+     6.9,
+     6.8,
+     7.1
+    ],
+    "quote": "Services 6.2 6.8 5.8 6.9 6.8 7.1"
+   },
+   "inflation": {
+    "label": "Inflation (CPI)",
+    "values": [
+     3.8,
+     3.1,
+     3.4,
+     4.1,
+     3.9,
+     4.0
+    ],
+    "quote": "Inflation (Consumer Price Index) 3.8 3.1 3.4 4.1 3.9 4.0"
+   },
+   "fiscal": {
+    "label": "Fiscal balance, % of GDP",
+    "values": [
+     -3.7,
+     -2.7,
+     -3.4,
+     -3.1,
+     -2.8,
+     -2.6
+    ],
+    "quote": "Fiscal Balance (% of GDP) -3.7 -2.7 -3.4 -3.1 -2.8 -2.6"
+   },
+   "revenue": {
+    "label": "Revenues, % of GDP",
+    "values": [
+     14.9,
+     16.1,
+     16.8,
+     17.1,
+     17.3,
+     17.4
+    ],
+    "quote": "Revenues (% of GDP) 14.9 16.1 16.8 17.1 17.3 17.4"
+   },
+   "debt": {
+    "label": "Public debt, % of GDP",
+    "values": [
+     45.0,
+     49.9,
+     48.5,
+     47.4,
+     46.2,
+     44.8
+    ],
+    "quote": "Debt (% of GDP) 45.0 49.9 48.5 47.4 46.2 44.8"
+   },
+   "gdp_usd": {
+    "label": "Nominal GDP, US$ billions",
+    "values": [
+     78.1,
+     79.2,
+     90.1,
+     96.4,
+     103.3,
+     113.0
+    ],
+    "quote": "GDP nominal in US$ (billions) 78.1 79.2 90.1 96.4 103.3 113.0"
+   }
+  }
+ }
+}

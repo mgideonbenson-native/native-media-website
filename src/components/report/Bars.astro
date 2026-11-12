@@ -1,0 +1,49 @@
+---
+/**
+ * Horizontal bars drawn to one scale, with labels and values in text so they stay readable on a phone.
+ * Handles negative values (bars grow left of a zero line). Each row is focusable and shows a tooltip.
+ */
+interface Item { label: string; value: number; display?: string; tone?: 'tz' | 'peer' | 'muted'; status?: 'estimate' | 'projection'; tip?: string }
+interface Props { items: Item[]; max?: number; min?: number; suffix?: string; label: string }
+const { items, suffix = '%', label } = Astro.props;
+const max = Astro.props.max ?? Math.max(0, ...items.map((i) => i.value));
+const min = Astro.props.min ?? Math.min(0, ...items.map((i) => i.value));
+const span = max - min || 1;
+const zero = ((0 - min) / span) * 100;
+const fmt = (i: Item) => i.display ?? `${i.value > 0 && min < 0 ? '+' : ''}${i.value.toLocaleString('en-US')}${suffix}`;
+---
+<ul class="bars" aria-label={label} data-reveal>
+  {items.map((i) => {
+    const w = (Math.abs(i.value) / span) * 100;
+    const left = i.value >= 0 ? zero : zero - w;
+    const text = `${i.label}: ${fmt(i)}${i.status ? ` (${i.status})` : ''}`;
+    return (
+      <li class:list={['bar', `bar--${i.tone ?? 'tz'}`, i.status && `bar--${i.status}`]} tabindex="0" data-tip={i.tip ?? text} aria-label={i.tip ?? text}>
+        <span class="bar__label" aria-hidden="true">{i.label}{i.status && <em> {i.status}</em>}</span>
+        <span class="bar__track" aria-hidden="true">
+          {min < 0 && <span class="bar__zero" style={`left:${zero}%`}></span>}
+          <i style={`left:${left}%;width:${Math.max(w, 0.6)}%`}></i>
+        </span>
+        <b class="bar__value" aria-hidden="true">{fmt(i)}</b>
+      </li>
+    );
+  })}
+</ul>
+<style>
+  .bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .bar { display: grid; grid-template-columns: minmax(6rem, 34%) 1fr 4.6rem; gap: 0.75rem; align-items: center; font-size: 0.92rem; padding: 0.15rem 0; cursor: default; }
+  .bar:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+  .bar__label { line-height: 1.25; }
+  .bar__label em { font-style: normal; font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; }
+  .bar__track { position: relative; height: 1.25rem; background: rgba(245, 245, 240, 0.07); }
+  .bar__track i { position: absolute; top: 0; bottom: 0; background: var(--brand); transform-origin: left; transition: transform 0.9s var(--ease, ease); }
+  .bar__zero { position: absolute; top: -0.2rem; bottom: -0.2rem; width: 1px; background: var(--paper); opacity: 0.6; }
+  .bar--peer .bar__track i { background: var(--paper); }
+  .bar--muted .bar__track i { background: #6b6b65; }
+  .bar--estimate .bar__track i, .bar--projection .bar__track i { background: repeating-linear-gradient(135deg, var(--brand) 0 5px, #8a4a22 5px 9px); }
+  .bar:hover .bar__track i, .bar:focus-visible .bar__track i { filter: brightness(1.15); }
+  .bar__value { text-align: right; font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; }
+  :global(.js) [data-reveal]:not(.in) .bar__track i { transform: scaleX(0); }
+  @media (max-width: 30rem) { .bar { grid-template-columns: 1fr 4.2rem; } .bar__label { grid-column: 1 / -1; } .bar__track { grid-column: 1; } }
+  @media (prefers-reduced-motion: reduce) { .bar__track i { transition: none; } :global(.js) [data-reveal]:not(.in) .bar__track i { transform: none; } }
+</style>

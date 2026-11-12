@@ -67,3 +67,9 @@
   from = "/about/partnerships"
   to = "/about"
   status = 301
+
+# The short Tanzania Economic Update page grew into the full interactive report in Research & Publications.
+[[redirects]]
+  from = "/creative-data/tanzania-making-jobs-work"
+  to = "/research-and-publications/tanzania-economic-update-2026"
+  status = 301
