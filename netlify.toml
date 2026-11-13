@@ -73,3 +73,9 @@
   from = "/creative-data/tanzania-making-jobs-work"
   to = "/research-and-publications/tanzania-economic-update-2026"
   status = 301
+
+# The PwC Africa Entertainment & Media Outlook page was taken down. Send old links to the reports list.
+[[redirects]]
+  from = "/research-and-publications/africa-entertainment-media-outlook-2026"
+  to = "/research-and-publications/reports"
+  status = 301
