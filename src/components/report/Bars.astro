@@ -3,14 +3,15 @@
  * Horizontal bars drawn to one scale, with labels and values in text so they stay readable on a phone.
  * Handles negative values (bars grow left of a zero line). Each row is focusable and shows a tooltip.
  */
-interface Item { label: string; value: number; display?: string; tone?: 'tz' | 'peer' | 'muted'; status?: 'estimate' | 'projection'; tip?: string }
-interface Props { items: Item[]; max?: number; min?: number; suffix?: string; label: string }
-const { items, suffix = '%', label } = Astro.props;
+interface Item { label: string; value: number; display?: string; tone?: 'tz' | 'peer' | 'muted'; status?: 'estimate' | 'projection' | 'forecast'; tip?: string }
+interface Props { items: Item[]; max?: number; min?: number; suffix?: string; label: string; decimals?: number }
+const { items, suffix = '%', label, decimals } = Astro.props;
 const max = Astro.props.max ?? Math.max(0, ...items.map((i) => i.value));
 const min = Astro.props.min ?? Math.min(0, ...items.map((i) => i.value));
 const span = max - min || 1;
 const zero = ((0 - min) / span) * 100;
-const fmt = (i: Item) => i.display ?? `${i.value > 0 && min < 0 ? '+' : ''}${i.value.toLocaleString('en-US')}${suffix}`;
+const num = (v: number) => (decimals === undefined ? v.toLocaleString('en-US') : v.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }));
+const fmt = (i: Item) => i.display ?? `${i.value > 0 && min < 0 ? '+' : ''}${num(i.value)}${suffix}`;
 ---
 <ul class="bars" aria-label={label} data-reveal>
   {items.map((i) => {
@@ -40,7 +41,7 @@ const fmt = (i: Item) => i.display ?? `${i.value > 0 && min < 0 ? '+' : ''}${i.v
   .bar__zero { position: absolute; top: -0.2rem; bottom: -0.2rem; width: 1px; background: var(--paper); opacity: 0.6; }
   .bar--peer .bar__track i { background: var(--paper); }
   .bar--muted .bar__track i { background: #6b6b65; }
-  .bar--estimate .bar__track i, .bar--projection .bar__track i { background: repeating-linear-gradient(135deg, var(--brand) 0 5px, #8a4a22 5px 9px); }
+  .bar--estimate .bar__track i, .bar--projection .bar__track i, .bar--forecast .bar__track i { background: repeating-linear-gradient(135deg, var(--brand) 0 5px, #8a4a22 5px 9px); }
   .bar:hover .bar__track i, .bar:focus-visible .bar__track i { filter: brightness(1.15); }
   .bar__value { text-align: right; font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; }
   :global(.js) [data-reveal]:not(.in) .bar__track i { transform: scaleX(0); }

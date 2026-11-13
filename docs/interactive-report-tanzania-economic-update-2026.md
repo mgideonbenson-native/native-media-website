@@ -7,7 +7,7 @@ Live page: `/research-and-publications/tanzania-economic-update-2026`
 - `data/tz-economic-update-2026.json` holds every figure on the page. Each one records the value, the period, whether it is actual, estimated, projected or a target, the printed page, the PDF page, and the report's exact wording.
 - `src/pages/research-and-publications/tanzania-economic-update-2026.astro` is the page, with its nine sections.
 - `src/components/report/` holds the reusable parts: `ChartFrame` (title, explanation, unit, period, source, tooltip), `Bars`, `LineChart`, `Stat` and `ReportNav` (section rail, mobile contents drawer, back to top, share, download).
-- `src/scripts/tz-report.ts` holds the interactions: tabs, tooltips, count-up numbers, the scrolling 100-square story, section tracking, share and copy citation, and the opening background.
+- `src/scripts/report-page.ts` (shared by all interactive reports) holds the interactions: tabs, tooltips, count-up numbers, the scrolling 100-square story, section tracking, share and copy citation, and the opening background.
 - `public/reports/` holds the original PDF (for the download button) and the social sharing image.
 
 ## Checking the figures

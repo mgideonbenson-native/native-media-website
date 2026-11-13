@@ -1,5 +1,6 @@
 /**
- * Interactions for the interactive Tanzania Economic Update page.
+ * Interactions shared by the interactive report pages (Research & Publications).
+ * The page's root element carries data-rp, and optionally data-share-text for the share message.
  * Everything here enhances content that is already in the HTML, so the page reads fully without it.
  */
 const root = document.querySelector<HTMLElement>('[data-rp]');
@@ -129,7 +130,7 @@ if (root) {
   }
   root.querySelectorAll('[data-rp-top]').forEach((b) => b.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
-    (document.querySelector('#op-t') as HTMLElement | null)?.focus?.();
+    root.querySelector<HTMLElement>('h1')?.focus?.({ preventScroll: true });
   }));
   const drawer = root.querySelector<HTMLDialogElement>('[data-rp-drawer]');
   const opener = root.querySelector<HTMLButtonElement>('[data-rp-open]');
@@ -148,7 +149,7 @@ if (root) {
   const copy = async (text: string) => { try { await navigator.clipboard.writeText(text); return true; } catch { return false; } };
   root.querySelectorAll('[data-rp-share]').forEach((btn) => btn.addEventListener('click', async () => {
     const url = location.href.split('#')[0];
-    const data = { title: document.title, text: 'Tanzania is working. But are the jobs working? An interactive edition of the World Bank’s Tanzania Economic Update.', url };
+    const data = { title: document.title, text: root.dataset.shareText || document.title, url };
     if (navigator.share) {
       try { await navigator.share(data); return; } catch (err) { if ((err as DOMException)?.name === 'AbortError') return; }
     }

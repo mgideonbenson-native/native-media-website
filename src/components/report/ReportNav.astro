@@ -3,8 +3,10 @@
  * Report navigation: a numbered rail on wide screens, a "Contents" drawer on smaller ones,
  * plus back-to-top, share and download. Section state comes from the page script (data-rp-*).
  */
-interface Props { sections: { id: string; label: string }[]; pdf: string; pdfName: string }
-const { sections, pdf, pdfName } = Astro.props;
+interface Props { sections: { id: string; label: string }[]; pdf: string; pdfName: string; pdfLabel?: string }
+const { sections, pdf, pdfName, pdfLabel = 'Download the original (PDF)' } = Astro.props;
+// A PDF on another site opens in a new tab; one we host downloads.
+const external = /^https?:/.test(pdf);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 <nav class="rail" aria-label="Report sections" data-rp-rail>
@@ -26,7 +28,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   </ol>
   <div class="drawer__actions">
     <button type="button" class="btn btn--ghost" data-rp-share>Share this report</button>
-    <a class="btn btn--ghost" href={pdf} download={pdfName}>Download the original (PDF)</a>
+    {external ? <a class="btn btn--ghost" href={pdf} target="_blank" rel="noopener noreferrer">{pdfLabel} <span aria-hidden="true">↗</span></a> : <a class="btn btn--ghost" href={pdf} download={pdfName}>{pdfLabel}</a>}
     <p class="drawer__msg" data-rp-share-msg role="status" aria-live="polite"></p>
   </div>
 </dialog>

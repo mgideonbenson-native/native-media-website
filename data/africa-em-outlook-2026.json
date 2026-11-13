@@ -1,0 +1,1309 @@
+{
+ "meta": {
+  "title": "Africa Entertainment and Media Outlook 2026–2030: Digital growth, human connection",
+  "publisher": "PwC Africa",
+  "published": "October 2026",
+  "citation": "PwC Africa Entertainment and Media Outlook 2026–2030",
+  "rights": "No part of this publication may be excerpted, reproduced, stored in a retrieval system, or distributed or transmitted in any form or by any means without the prior written permission of PwC. © 2026 PwC. All rights reserved.",
+  "url": "https://www.pwc.co.za/en/assets/pdf/africa-entertainment-media-outlook-2026.pdf",
+  "years": [
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026,
+   2027,
+   2028,
+   2029,
+   2030
+  ],
+  "forecast_from": 2026,
+  "periods": "2021–2024 historical; 2025 base year; 2026–2030 PwC forecasts. CAGR is 2025–2030.",
+  "page_numbering": "page = printed page number, which equals the PDF page in this report."
+ },
+ "facts": {
+  "global_em": {
+   "display": "US$3.5tn → US$4.2tn",
+   "label": "Global E&M revenue (3.4% CAGR)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "3",
+   "pdf_page": 3,
+   "quote": "global E&M revenue is forecast to increase from US$3.5tn in 2025 to US$4.2tn in 2030"
+  },
+  "global_cagr": {
+   "display": "3.4%",
+   "label": "Global E&M revenue CAGR",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "3",
+   "pdf_page": 3,
+   "quote": "representing a 3.4% compound annual growth rate"
+  },
+  "global_ads": {
+   "display": "US$1tn → US$1.4tn",
+   "label": "Global advertising revenue",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "3",
+   "pdf_page": 3,
+   "quote": "Advertising, having broken the US$1tn barrier in 2025, is forecast to grow to US$1.4tn by 2030"
+  },
+  "global_scope": {
+   "display": "12 segments, 53 territories",
+   "label": "Coverage of PwC’s Global Outlook",
+   "period": "2026–2030",
+   "status": "actual",
+   "page": "3",
+   "pdf_page": 3,
+   "quote": "charts E&M growth in 12 segments across 53 territories"
+  },
+  "sa_total": {
+   "display": "R301.8bn → R352.4bn",
+   "label": "South Africa E&M revenue (3.2% CAGR)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "6",
+   "pdf_page": 6,
+   "quote": "projected to expand from R301.8bn in 2025 to R352.4bn by 2030"
+  },
+  "ke_total": {
+   "display": "US$4.7bn → US$6.0bn",
+   "label": "Kenya E&M revenue (5.0% CAGR)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "9",
+   "pdf_page": 9,
+   "quote": "forecast to grow from US$4.7bn in 2025 to US$6.0bn in 2030"
+  },
+  "ng_total": {
+   "display": "US$3.8bn → US$5.3bn",
+   "label": "Nigeria E&M revenue (6.9% CAGR), fastest of the three",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "11",
+   "pdf_page": 11,
+   "quote": "forecast to expand from US$3.8bn in 2025 to US$5.3bn in 2030, representing a CAGR of 6.9%"
+  },
+  "sa_local70": {
+   "display": "70%",
+   "label": "Local artists’ share of South Africa’s ten most-streamed artists",
+   "period": "2025",
+   "status": "actual",
+   "page": "7",
+   "pdf_page": 7,
+   "quote": "local artists accounting for 70% of the ten most-streamed artists in 2025"
+  },
+  "sa_music": {
+   "display": "R8.0bn → R10.6bn",
+   "label": "South Africa music, radio and podcasts (5.7% CAGR)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "7",
+   "pdf_page": 7,
+   "quote": "Music, radio, and podcasts are forecast to grow from R8.0bn to R10.6bn at a 5.7% CAGR"
+  },
+  "sa_tv_decline": {
+   "display": "R34.7bn → R28.8bn",
+   "label": "South Africa traditional TV revenue",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "7",
+   "pdf_page": 7,
+   "quote": "television revenue declining from R34.7bn to R28.8bn"
+  },
+  "ke_conn_share": {
+   "display": "More than three-quarters",
+   "label": "Connectivity share of Kenya’s E&M revenue",
+   "period": "Current",
+   "status": "actual",
+   "page": "9",
+   "pdf_page": 9,
+   "quote": "accounting for more than three-quarters of total industry revenue"
+  },
+  "ke_ads_fastest": {
+   "display": "14.0%",
+   "label": "Kenya internet advertising CAGR, fastest globally, just ahead of India",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "9",
+   "pdf_page": 9,
+   "quote": "Kenya is the fastest-growing internet advertising market globally, just ahead of India"
+  },
+  "ke_ott": {
+   "display": "15.9%",
+   "label": "Kenya OTT video CAGR (US$15m → US$31m)",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "10",
+   "pdf_page": 10,
+   "quote": "OTT video records the strongest segment growth at a 15.9% CAGR, increasing from US$15m to US$31m"
+  },
+  "ng_ott_fastest": {
+   "display": "20.4%",
+   "label": "Nigeria OTT video CAGR, fastest OTT market globally",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "11",
+   "pdf_page": 11,
+   "quote": "Nigeria is the fastest-growing OTT market globally"
+  },
+  "ng_gaming": {
+   "display": "US$286m → US$431m",
+   "label": "Nigeria gaming (8.5% CAGR), approaching internet advertising by 2030",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "11",
+   "pdf_page": 11,
+   "quote": "Gaming expands from US$286m to US$431m (CAGR: 8.5%)"
+  },
+  "ng_cinema": {
+   "display": "US$10m → US$29m",
+   "label": "Nigeria cinema, the strongest growth of any category (22.8% CAGR)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "12",
+   "pdf_page": 12,
+   "quote": "Cinema records the strongest growth of any category, increasing from US$10m to US$29m"
+  },
+  "nollywood": {
+   "display": "Almost 50%",
+   "label": "Local films’ share of Nigeria’s box office",
+   "period": "2025",
+   "status": "actual",
+   "page": "12",
+   "pdf_page": 12,
+   "quote": "local films represented almost 50% of Nigeria’s total box office revenue in 2025"
+  },
+  "ng_music": {
+   "display": "US$316m → US$438m",
+   "label": "Nigeria music, radio and podcasts (6.7% CAGR)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "12",
+   "pdf_page": 12,
+   "quote": "forecast to grow from US$316m in 2025 to US$438m in 2030 (6.7% CAGR)"
+  },
+  "conn_share": {
+   "display": "60% / 75% / 66%",
+   "label": "Connectivity share of total E&M revenue in 2030: South Africa / Kenya / Nigeria",
+   "period": "2030",
+   "status": "forecast",
+   "page": "13",
+   "pdf_page": 13,
+   "quote": "Connectivity’s share of total E&M revenue (2030) | 60%",
+   "note": "The report shows the three shares as figures on a chart; the market each belongs to is read from the chart and matches the country tables."
+  },
+  "g5": {
+   "display": "86.8% / 51.6% / 35.3%",
+   "label": "5G penetration in 2030: South Africa / Kenya / Nigeria",
+   "period": "2030",
+   "status": "forecast",
+   "page": "14",
+   "pdf_page": 14,
+   "quote": "5G penetration is forecast to reach 86.8% in South Africa, 51.6% in Kenya, and 35.3% in Nigeria"
+  },
+  "g3": {
+   "display": "6.2% / 3.1% / 4.8%",
+   "label": "3G and older, share of subscriptions in 2030: South Africa / Kenya / Nigeria",
+   "period": "2030",
+   "status": "forecast",
+   "page": "14",
+   "pdf_page": 14,
+   "quote": "3G and older technologies fall to 6.2%, 3.1%, and 4.8% of subscriptions respectively"
+  },
+  "video_data": {
+   "display": "79.4%",
+   "label": "Video’s share of South Africa’s total data consumption",
+   "period": "2025",
+   "status": "actual",
+   "page": "14",
+   "pdf_page": 14,
+   "quote": "Video already accounts for 79.4% of the country’s total data consumption"
+  },
+  "fixed_faster": {
+   "display": "Fixed > mobile",
+   "label": "Fixed broadband is growing faster than mobile across Africa",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "14",
+   "pdf_page": 14,
+   "quote": "fixed broadband services are growing faster than mobile services"
+  },
+  "ke_video_ads": {
+   "display": "18.2%",
+   "label": "Kenya video internet advertising CAGR; overtakes other display in 2027",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "16",
+   "pdf_page": 16,
+   "quote": "Video internet advertising is forecast to grow at a CAGR of 18.2%"
+  },
+  "ng_retail_search": {
+   "display": "17.2%",
+   "label": "Nigeria retail paid search CAGR; overtakes traditional paid search by 2028",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "16",
+   "pdf_page": 16,
+   "quote": "Forecast to grow at a CAGR of 17.2%, retail paid search is expected to overtake traditional paid search by 2028"
+  },
+  "sa_ctv": {
+   "display": "Connected TV",
+   "label": "South Africa: connected TV to play a bigger role in internet advertising by 2030",
+   "period": "2030",
+   "status": "forecast",
+   "page": "16",
+   "pdf_page": 16,
+   "quote": "Connected TV is expected to play a more prominent role in internet advertising by 2030"
+  },
+  "ke_ads_double": {
+   "display": "US$313m → US$603m",
+   "label": "Kenya internet advertising almost doubles",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "16",
+   "pdf_page": 16,
+   "quote": "almost doubling from US$313m to US$603m"
+  },
+  "ott_tv_table": {
+   "display": "7.6% vs −3.7% · 15.9% vs 2.6% · 20.4% vs 1.8%",
+   "label": "OTT vs traditional TV CAGR: South Africa · Kenya · Nigeria",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "19",
+   "pdf_page": 19,
+   "quote": "7.6% vs -3.7% 32%"
+  },
+  "ott_ratio": {
+   "display": "32% / 8.2% / 27.8%",
+   "label": "OTT revenue as a share of traditional TV revenue by 2030: South Africa / Kenya / Nigeria",
+   "period": "2030",
+   "status": "forecast",
+   "page": "19",
+   "pdf_page": 19,
+   "quote": "20.4% vs 1.8% 27.8%"
+  },
+  "sa_tv_3x": {
+   "display": "More than 3×",
+   "label": "South Africa traditional TV vs OTT revenue in 2030",
+   "period": "2030",
+   "status": "forecast",
+   "page": "19",
+   "pdf_page": 19,
+   "quote": "forecast to remain more than three times larger than OTT in 2030"
+  },
+  "sa_ott_subs": {
+   "display": "6.0m → 5.8m",
+   "label": "South Africa OTT subscriptions",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "21",
+   "pdf_page": 21,
+   "quote": "OTT subscriptions are forecast to decline slightly from 6.0m in 2025 to 5.8m in 2030"
+  },
+  "ott_per_hh": {
+   "display": "0.30 vs 0.86",
+   "label": "OTT subscriptions per household: South Africa vs global",
+   "period": "2030",
+   "status": "forecast",
+   "page": "21",
+   "pdf_page": 21,
+   "quote": "0.30 OTT subscriptions per household, compared with 0.86 globally"
+  },
+  "avod": {
+   "display": "US$19m → US$52m",
+   "label": "South Africa advertising-funded video on demand (AVOD), 22.4% CAGR",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "21",
+   "pdf_page": 21,
+   "quote": "increasing from US$19m (R345m) in 2025 to US$52m (R950m) by 2030, at a CAGR of 22.4%"
+  },
+  "avod_share": {
+   "display": "~5% → >10%",
+   "label": "AVOD share of South Africa OTT video revenue",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "21",
+   "pdf_page": 21,
+   "quote": "AVOD’s share of OTT video revenue rises from approximately 5% in 2025 to more than 10% by 2030"
+  },
+  "smart_tv": {
+   "display": "52.4% → 56.8%",
+   "label": "South Africa smart-TV household penetration (global average 38.8%)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "21",
+   "pdf_page": 21,
+   "quote": "penetration rises from 52.4% to 56.8%"
+  },
+  "ott_subs_ke_ng": {
+   "display": "~528,000 / 1.6m",
+   "label": "OTT subscriptions by 2030: Kenya / Nigeria",
+   "period": "2030",
+   "status": "forecast",
+   "page": "21",
+   "pdf_page": 21,
+   "quote": "OTT subscriptions are forecast to reach approximately 528,000 in Kenya and 1.6m in Nigeria"
+  },
+  "arpu": {
+   "display": "US$76 / 54 / 42 vs >100",
+   "label": "Average OTT revenue per subscription in 2030: South Africa / Kenya / Nigeria vs global",
+   "period": "2030",
+   "status": "forecast",
+   "page": "22",
+   "pdf_page": 22,
+   "quote": "South Africa US$76 Kenya US$54 Nigeria US$42 Global average >US$100"
+  },
+  "global_games": {
+   "display": "US$256.1bn → US$306.3bn",
+   "label": "Global video game revenue (3.6% CAGR)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "23",
+   "pdf_page": 23,
+   "quote": "Video game revenue worldwide is forecast to increase from US$256.1bn in 2025 to US$306.3bn in 2030, representing a CAGR of 3.6%"
+  },
+  "games_three": {
+   "display": "4.3% / 5.8% / 8.5%",
+   "label": "Video games CAGR: South Africa / Kenya / Nigeria",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "23",
+   "pdf_page": 23,
+   "quote": "4.3% CAGR 5.8% CAGR 8.5% CAGR"
+  },
+  "sa_games": {
+   "display": "US$564m → US$694m",
+   "label": "South Africa video games revenue (R10.2bn → R12.6bn)",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "23",
+   "pdf_page": 23,
+   "quote": "US $564m (R10.2bn) US $694m (R12.6bn)",
+   "note": "The gaming chart (p. 23) shows video games only; the South Africa table (p. 8) includes esports (US$567m → US$698m, 4.2%)."
+  },
+  "ng_casual": {
+   "display": "77%",
+   "label": "Social/casual games’ share of Nigeria’s gaming revenue",
+   "period": "2025",
+   "status": "actual",
+   "page": "24",
+   "pdf_page": 24,
+   "quote": "Social/casual gaming3 revenues represented 77% of the gaming segment in Nigeria in 2025"
+  },
+  "esports": {
+   "display": "Negligible",
+   "label": "Esports revenue in all three markets",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "23",
+   "pdf_page": 23,
+   "quote": "Esports revenue remains negligible in all three markets"
+  },
+  "inapp": {
+   "display": "Faster",
+   "label": "In-app advertising grows faster than app-based consumer spending in all three markets",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "24",
+   "pdf_page": 24,
+   "quote": "in-app advertising is forecast to grow faster through to 2030"
+  },
+  "live_music": {
+   "display": "5.7% vs 2.1%",
+   "label": "South Africa live music CAGR vs global (as shown in the report’s callout)",
+   "period": "2025–2030",
+   "status": "forecast",
+   "page": "25",
+   "pdf_page": 25,
+   "quote": "projected CAGR for South Africa’s live music market, compared with 2.1% globally",
+   "note": "The callout labels 5.7% as live music; the text on the same page gives 5.7% for music, radio and podcasts."
+  },
+  "cinema3": {
+   "display": "US$42m→59m · 5m→8m · 10m→29m",
+   "label": "Cinema revenue: South Africa · Kenya · Nigeria",
+   "period": "2025 → 2030",
+   "status": "forecast",
+   "page": "26",
+   "pdf_page": 26,
+   "quote": "Revenue is forecast to increase from US$42m (R757m) to US$59m (R1.1bn) in South Africa, from US$5m to US$8m in Kenya, and from US$10m to US$29m in Nigeria"
+  },
+  "datacentre": {
+   "display": "US$255bn",
+   "label": "Cumulative data centre investment projected across Africa through 2050 (PwC Global Data Centre Outlook)",
+   "period": "To 2050",
+   "status": "forecast",
+   "page": "27",
+   "pdf_page": 27,
+   "quote": "projects US$255bn in cumulative data centre investment across Africa through 2050"
+  },
+  "audience_owner": {
+   "display": "Owning the audience",
+   "label": "What decides the next phase of growth",
+   "period": "2026–2030",
+   "status": "actual",
+   "page": "27",
+   "pdf_page": 27,
+   "quote": "The next phase of E&M growth will increasingly be determined by who owns and understands the audience relationship"
+  },
+  "convergence": {
+   "display": "Convergence",
+   "label": "The report’s conclusion",
+   "period": "2026–2030",
+   "status": "actual",
+   "page": "30",
+   "pdf_page": 30,
+   "quote": "It is a story of convergence"
+  },
+  "double_count": {
+   "display": "Totals do not add up exactly",
+   "label": "Country totals exclude double-counting within internet advertising",
+   "period": "Tables",
+   "status": "actual",
+   "page": "8",
+   "pdf_page": 8,
+   "quote": "The overall E&M total does not reconcile exactly to the sum of the individual categories due to the elimination of double-counting"
+  },
+  "permission": {
+   "display": "Permission to cite",
+   "label": "Reproduction requires PwC’s prior written permission",
+   "period": "—",
+   "status": "actual",
+   "page": "32",
+   "pdf_page": 32,
+   "quote": "without the prior written permission of PwC"
+  },
+  "cite_as": {
+   "display": "Citation",
+   "label": "How PwC asks to be cited",
+   "period": "—",
+   "status": "actual",
+   "page": "32",
+   "pdf_page": 32,
+   "quote": "Please cite the Outlook as follows: “PwC Africa Entertainment and Media Outlook 2026–2030”"
+  }
+ },
+ "tipping_points": [
+  {
+   "year": 2025,
+   "market": "South Africa",
+   "text": "Internet advertising overtakes traditional TV",
+   "quote": "Internet advertising Traditional TV",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2025,
+   "market": "Nigeria",
+   "text": "Internet advertising plus gaming overtake traditional TV",
+   "quote": "Internet advertising + gaming Traditional TV",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2026,
+   "market": "Global",
+   "text": "Streaming (SVoD + TVoD) overtakes TV subscription revenue",
+   "quote": "SVoD + TVoD revenue TV subscription revenue",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2026,
+   "market": "Kenya",
+   "text": "Internet advertising plus gaming overtake traditional TV",
+   "quote": "Kenya Internet advertising + gaming Traditional TV",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2027,
+   "market": "Global",
+   "text": "Advertising overtakes consumer spending; 5G subscriptions overtake 4G",
+   "quote": "Advertising Consumer spend 5G subscriptions 4G subscriptions",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2028,
+   "market": "Global",
+   "text": "Digital out-of-home overtakes physical out-of-home",
+   "quote": "Digital OOH Physical OOH",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2028,
+   "market": "South Africa",
+   "text": "Consumer magazine digital advertising overtakes print advertising",
+   "quote": "Consumer magazine digital advertising print advertising",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2028,
+   "market": "Nigeria",
+   "text": "Retail paid search overtakes traditional paid search",
+   "quote": "Retail paid search Traditional paid search",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2029,
+   "market": "Global",
+   "text": "Internet advertising exceeds US$1tn",
+   "quote": "Internet advertising exceeds US $1tn",
+   "page": "4",
+   "pdf_page": 4
+  },
+  {
+   "year": 2030,
+   "market": "South Africa",
+   "text": "Recorded music overtakes radio",
+   "quote": "Recorded music Radio",
+   "page": "4",
+   "pdf_page": 4
+  }
+ ],
+ "countries": {
+  "sa": {
+   "label": "South Africa",
+   "unit": "US$ millions",
+   "page": "8",
+   "pdf_page": 8,
+   "total": {
+    "values": [
+     13828,
+     14246,
+     14863,
+     16157,
+     16632,
+     17077,
+     17666,
+     18258,
+     18832,
+     19422
+    ],
+    "cagr": 3.2,
+    "quote": "Entertainment and Media in South Africa2 13,828 14,246 14,863 16,157 16,632 17,077 17,666 18,258 18,832 19,422 3.2%"
+   },
+   "segments": {
+    "Business-to-business": {
+     "values": [
+      405,
+      477,
+      521,
+      555,
+      581,
+      598,
+      610,
+      618,
+      623,
+      627
+     ],
+     "cagr": 1.6,
+     "quote": "Business-to-business 405 477 521 555 581 598 610 618 623 627 1.6%"
+    },
+    "Cinema": {
+     "values": [
+      26,
+      50,
+      43,
+      40,
+      42,
+      45,
+      50,
+      53,
+      56,
+      59
+     ],
+     "cagr": 7.1,
+     "quote": "Cinema 26 50 43 40 42 45 50 53 56 59 7.1%"
+    },
+    "Internet advertising": {
+     "values": [
+      1111,
+      1321,
+      1699,
+      1927,
+      2134,
+      2350,
+      2556,
+      2751,
+      2921,
+      3071
+     ],
+     "cagr": 7.6,
+     "quote": "Internet advertising 1,111 1,321 1,699 1,927 2,134 2,350 2,556 2,751 2,921 3,071 7.6%"
+    },
+    "Connectivity": {
+     "values": [
+      8519,
+      8563,
+      8696,
+      9730,
+      10116,
+      10383,
+      10763,
+      11136,
+      11497,
+      11880
+     ],
+     "cagr": 3.3,
+     "quote": "Connectivity 8,519 8,563 8,696 9,730 10,116 10,383 10,763 11,136 11,497 11,880 3.3%"
+    },
+    "Music, radio & podcasts": {
+     "values": [
+      253,
+      305,
+      357,
+      415,
+      443,
+      471,
+      505,
+      531,
+      558,
+      585
+     ],
+     "cagr": 5.7,
+     "quote": "Music, radio, and podcasts 253 305 357 415 443 471 505 531 558 585 5.7%"
+    },
+    "Newspapers, magazines & books": {
+     "values": [
+      499,
+      474,
+      450,
+      438,
+      429,
+      422,
+      416,
+      413,
+      410,
+      408
+     ],
+     "cagr": -1.0,
+     "quote": "Newspaper, consumer magazine, and books 499 474 450 438 429 422 416 413 410 408 -1.0%"
+    },
+    "OTT video": {
+     "values": [
+      172,
+      226,
+      278,
+      295,
+      352,
+      364,
+      405,
+      441,
+      478,
+      508
+     ],
+     "cagr": 7.6,
+     "quote": "OTT video 172 226 278 295 352 364 405 441 478 508 7.6%"
+    },
+    "Out-of-home advertising": {
+     "values": [
+      143,
+      152,
+      165,
+      174,
+      181,
+      187,
+      193,
+      199,
+      205,
+      211
+     ],
+     "cagr": 3.1,
+     "quote": "Out-of-home advertising 143 152 165 174 181 187 193 199 205 211 3.1%"
+    },
+    "Traditional TV": {
+     "values": [
+      2413,
+      2356,
+      2258,
+      2153,
+      1915,
+      1809,
+      1721,
+      1660,
+      1616,
+      1587
+     ],
+     "cagr": -3.7,
+     "quote": "Traditional TV 2,413 2,356 2,258 2,153 1,915 1,809 1,721 1,660 1,616 1,587 -3.7%"
+    },
+    "Video games & esports": {
+     "values": [
+      362,
+      407,
+      498,
+      541,
+      567,
+      588,
+      606,
+      632,
+      665,
+      698
+     ],
+     "cagr": 4.2,
+     "quote": "Video games and esports 362 407 498 541 567 588 606 632 665 698 4.2%"
+    }
+   }
+  },
+  "ke": {
+   "label": "Kenya",
+   "unit": "US$ millions",
+   "page": "10",
+   "pdf_page": 10,
+   "total": {
+    "values": [
+     3372,
+     3660,
+     3910,
+     4207,
+     4680,
+     5119,
+     5388,
+     5577,
+     5782,
+     5984
+    ],
+    "cagr": 5.0,
+    "quote": "Entertainment and Media in Kenya2 3,372 3,660 3,910 4,207 4,680 5,119 5,388 5,577 5,782 5,984 5.0%"
+   },
+   "segments": {
+    "Business-to-business": {
+     "values": [
+      11,
+      13,
+      14,
+      14,
+      15,
+      15,
+      15,
+      16,
+      16,
+      16
+     ],
+     "cagr": 0.9,
+     "quote": "Business-to-business 11 13 14 14 15 15 15 16 16 16 0.9%"
+    },
+    "Cinema": {
+     "values": [
+      3,
+      4,
+      5,
+      5,
+      5,
+      6,
+      6,
+      7,
+      7,
+      8
+     ],
+     "cagr": 7.0,
+     "quote": "Cinema 3 4 5 5 5 6 6 7 7 8 7.0%"
+    },
+    "Internet advertising": {
+     "values": [
+      97,
+      134,
+      193,
+      253,
+      313,
+      375,
+      437,
+      495,
+      549,
+      603
+     ],
+     "cagr": 14.0,
+     "quote": "Internet advertising 97 134 193 253 313 375 437 495 549 603 14.0%"
+    },
+    "Connectivity": {
+     "values": [
+      2609,
+      2748,
+      2987,
+      3233,
+      3651,
+      4002,
+      4141,
+      4275,
+      4408,
+      4544
+     ],
+     "cagr": 4.5,
+     "quote": "Connectivity 2,609 2,748 2,987 3,233 3,651 4,002 4,141 4,275 4,408 4,544 4.5%"
+    },
+    "Music, radio & podcasts": {
+     "values": [
+      104,
+      148,
+      107,
+      89,
+      86,
+      87,
+      134,
+      108,
+      102,
+      92
+     ],
+     "cagr": 1.4,
+     "quote": "Music, radio, and podcasts 104 148 107 89 86 87 134 108 102 92 1.4%"
+    },
+    "Newspapers, magazines & books": {
+     "values": [
+      129,
+      134,
+      138,
+      141,
+      144,
+      148,
+      152,
+      156,
+      161,
+      165
+     ],
+     "cagr": 2.7,
+     "quote": "Newspaper, consumer magazine, and books 129 134 138 141 144 148 152 156 161 165 2.7%"
+    },
+    "OTT video": {
+     "values": [
+      4,
+      5,
+      6,
+      10,
+      15,
+      19,
+      23,
+      27,
+      29,
+      31
+     ],
+     "cagr": 15.9,
+     "quote": "OTT video 4 5 6 10 15 19 23 27 29 31 15.9%"
+    },
+    "Out-of-home advertising": {
+     "values": [
+      23,
+      27,
+      30,
+      32,
+      34,
+      35,
+      37,
+      38,
+      40,
+      41
+     ],
+     "cagr": 4.1,
+     "quote": "Out-of-home advertising 23 27 30 32 34 35 37 38 40 41 4.1%"
+    },
+    "Traditional TV": {
+     "values": [
+      349,
+      394,
+      359,
+      349,
+      332,
+      344,
+      352,
+      362,
+      371,
+      378
+     ],
+     "cagr": 2.6,
+     "quote": "Traditional TV 349 394 359 349 332 344 352 362 371 378 2.6%"
+    },
+    "Video games & esports": {
+     "values": [
+      54,
+      65,
+      85,
+      96,
+      101,
+      107,
+      112,
+      118,
+      126,
+      133
+     ],
+     "cagr": 5.8,
+     "quote": "Video games and esports 54 65 85 96 101 107 112 118 126 133 5.8%"
+    }
+   }
+  },
+  "ng": {
+   "label": "Nigeria",
+   "unit": "US$ millions",
+   "page": "12",
+   "pdf_page": 12,
+   "total": {
+    "values": [
+     2658,
+     3077,
+     3738,
+     3838,
+     3775,
+     4204,
+     4514,
+     4759,
+     5000,
+     5282
+    ],
+    "cagr": 6.9,
+    "quote": "Entertainment and Media in Nigeria2 2,658 3,077 3,738 3,838 3,775 4,204 4,514 4,759 5,000 5,282 6.9%"
+   },
+   "segments": {
+    "Business-to-business": {
+     "values": [
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ],
+     "cagr": 0.8,
+     "quote": "Business-to-business 3 3 3 3 4 4 4 4 4 4 0.8%"
+    },
+    "Cinema": {
+     "values": [
+      13,
+      19,
+      20,
+      8,
+      10,
+      15,
+      18,
+      22,
+      26,
+      29
+     ],
+     "cagr": 22.8,
+     "quote": "Cinema 13 19 20 8 10 15 18 22 26 29 22.8%"
+    },
+    "Internet advertising": {
+     "values": [
+      127,
+      161,
+      207,
+      234,
+      279,
+      324,
+      363,
+      393,
+      418,
+      439
+     ],
+     "cagr": 9.5,
+     "quote": "Internet advertising 127 161 207 234 279 324 363 393 418 439 9.5%"
+    },
+    "Connectivity": {
+     "values": [
+      1990,
+      2312,
+      2791,
+      2641,
+      2483,
+      2719,
+      2923,
+      3118,
+      3307,
+      3525
+     ],
+     "cagr": 7.3,
+     "quote": "Connectivity 1,990 2,312 2,791 2,641 2,483 2,719 2,923 3,118 3,307 3,525 7.3%"
+    },
+    "Music, radio & podcasts": {
+     "values": [
+      172,
+      181,
+      277,
+      297,
+      316,
+      416,
+      460,
+      434,
+      414,
+      438
+     ],
+     "cagr": 6.7,
+     "quote": "Music, radio, and podcasts 172 181 277 297 316 416 460 434 414 438 6.7%"
+    },
+    "Newspapers, magazines & books": {
+     "values": [
+      110,
+      113,
+      113,
+      91,
+      87,
+      87,
+      89,
+      90,
+      92,
+      94
+     ],
+     "cagr": 1.5,
+     "quote": "Newspaper, consumer magazine, and books 110 113 113 91 87 87 89 90 92 94 1.5%"
+    },
+    "OTT video": {
+     "values": [
+      9,
+      12,
+      16,
+      22,
+      31,
+      42,
+      51,
+      62,
+      71,
+      78
+     ],
+     "cagr": 20.4,
+     "quote": "OTT video 9 12 16 22 31 42 51 62 71 78 20.4%"
+    },
+    "Out-of-home advertising": {
+     "values": [
+      30,
+      35,
+      38,
+      41,
+      43,
+      44,
+      46,
+      47,
+      49,
+      50
+     ],
+     "cagr": 3.0,
+     "quote": "Out-of-home advertising 30 35 38 41 43 44 46 47 49 50 3.0%"
+    },
+    "Traditional TV": {
+     "values": [
+      163,
+      196,
+      225,
+      263,
+      257,
+      278,
+      282,
+      289,
+      288,
+      281
+     ],
+     "cagr": 1.8,
+     "quote": "Traditional TV 163 196 225 263 257 278 282 289 288 281 1.8%"
+    },
+    "Video games & esports": {
+     "values": [
+      45,
+      50,
+      57,
+      251,
+      286,
+      307,
+      324,
+      358,
+      405,
+      431
+     ],
+     "cagr": 8.5,
+     "quote": "Video games and esports 45 50 57 251 286 307 324 358 405 431 8.5%"
+    }
+   }
+  },
+  "sa_zar": {
+   "label": "South Africa (rand)",
+   "unit": "R millions",
+   "page": "8",
+   "pdf_page": 8,
+   "total": {
+    "values": [
+     250888,
+     258472,
+     269667,
+     293156,
+     301775,
+     309849,
+     320542,
+     331266,
+     341693,
+     352397
+    ],
+    "cagr": 3.2,
+    "quote": "Entertainment and Media in South Africa2 250,888 258,472 269,667 293,156 301,775 309,849 320,542 331,266 341,693 352,397 3.2%"
+   },
+   "segments": {
+    "Business-to-business": {
+     "values": [
+      7346,
+      8662,
+      9453,
+      10072,
+      10539,
+      10855,
+      11069,
+      11218,
+      11297,
+      11382
+     ],
+     "cagr": 1.6,
+     "quote": "Business-to-business 7,346 8,662 9,453 10,072 10,539 10,855 11,069 11,218 11,297 11,382 1.6%"
+    },
+    "Cinema": {
+     "values": [
+      468,
+      900,
+      785,
+      733,
+      757,
+      817,
+      908,
+      953,
+      1017,
+      1067
+     ],
+     "cagr": 7.1,
+     "quote": "Cinema 468 900 785 733 757 817 908 953 1,017 1,067 7.1%"
+    },
+    "Internet advertising": {
+     "values": [
+      20153,
+      23974,
+      30821,
+      34958,
+      38713,
+      42647,
+      46377,
+      49921,
+      52997,
+      55718
+     ],
+     "cagr": 7.6,
+     "quote": "Internet advertising 20,153 23,974 30,821 34,958 38,713 42,647 46,377 49,921 52,997 55,718 7.6%"
+    },
+    "Connectivity": {
+     "values": [
+      154565,
+      155364,
+      157779,
+      176550,
+      183552,
+      188398,
+      195283,
+      202058,
+      208603,
+      215559
+     ],
+     "cagr": 3.3,
+     "quote": "Connectivity 154,565 155,364 157,779 176,550 183,552 188,398 195,283 202,058 208,603 215,559 3.3%"
+    },
+    "Music, radio & podcasts": {
+     "values": [
+      4599,
+      5531,
+      6477,
+      7528,
+      8035,
+      8552,
+      9160,
+      9640,
+      10122,
+      10609
+     ],
+     "cagr": 5.7,
+     "quote": "Music, radio, and podcasts 4,599 5,531 6,477 7,528 8,035 8,552 9,160 9,640 10,122 10,609 5.7%"
+    },
+    "Newspapers, magazines & books": {
+     "values": [
+      9049,
+      8597,
+      8169,
+      7951,
+      7780,
+      7649,
+      7553,
+      7487,
+      7445,
+      7399
+     ],
+     "cagr": -1.0,
+     "quote": "Newspaper, consumer magazine, and books 9,049 8,597 8,169 7,951 7,780 7,649 7,553 7,487 7,445 7,399 -1.0%"
+    },
+    "OTT video": {
+     "values": [
+      3127,
+      4095,
+      5036,
+      5354,
+      6382,
+      6605,
+      7341,
+      8005,
+      8675,
+      9213
+     ],
+     "cagr": 7.6,
+     "quote": "OTT video 3,127 4,095 5,036 5,354 6,382 6,605 7,341 8,005 8,675 9,213 7.6%"
+    },
+    "Out-of-home advertising": {
+     "values": [
+      2587,
+      2756,
+      2991,
+      3151,
+      3282,
+      3400,
+      3509,
+      3616,
+      3720,
+      3825
+     ],
+     "cagr": 3.1,
+     "quote": "Out-of-home advertising 2,587 2,756 2,991 3,151 3,282 3,400 3,509 3,616 3,720 3,825 3.1%"
+    },
+    "Traditional TV": {
+     "values": [
+      43778,
+      42756,
+      40976,
+      39064,
+      34742,
+      32831,
+      31228,
+      30117,
+      29325,
+      28798
+     ],
+     "cagr": -3.7,
+     "quote": "Traditional TV 43,778 42,756 40,976 39,064 34,742 32,831 31,228 30,117 29,325 28,798 -3.7%"
+    },
+    "Video games & esports": {
+     "values": [
+      6559,
+      7390,
+      9038,
+      9817,
+      10293,
+      10668,
+      10996,
+      11465,
+      12071,
+      12671
+     ],
+     "cagr": 4.2,
+     "quote": "Video games and esports 6,559 7,390 9,038 9,817 10,293 10,668 10,996 11,465 12,071 12,671 4.2%"
+    }
+   }
+  }
+ }
+}

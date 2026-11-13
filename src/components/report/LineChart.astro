@@ -4,8 +4,9 @@
  * drawn dashed and labelled as projections. Every point is focusable and has a tooltip.
  */
 interface Series { label: string; values: number[]; tone?: 'brand' | 'paper' | 'gray' }
-interface Props { years: number[]; series: Series[]; projectedFrom?: number; yMin: number; yMax: number; step: number; suffix?: string; band?: { from: number; to: number; label: string }; label: string; showValues?: boolean }
-const { years, series, projectedFrom, yMin, yMax, step, suffix = '%', band, label } = Astro.props;
+interface Props { years: number[]; series: Series[]; projectedFrom?: number; yMin: number; yMax: number; step: number; suffix?: string; prefix?: string; decimals?: number; band?: { from: number; to: number; label: string }; label: string; projLabel?: string; showValues?: boolean }
+const projLabel = Astro.props.projLabel ?? 'Projection';
+const { years, series, projectedFrom, yMin, yMax, step, suffix = '%', prefix = '', decimals = 1, band, label } = Astro.props;
 const showValues = Astro.props.showValues ?? series.length === 1;
 const W = 640, H = 290, L = 46, R = series.length > 1 ? 96 : 24, T = 22, B = 246;
 const x = (i: number) => L + (i * (W - L - R)) / (years.length - 1);
@@ -13,8 +14,13 @@ const y = (v: number) => B - ((v - yMin) / (yMax - yMin)) * (B - T);
 const ticks: number[] = [];
 for (let t = yMin; t <= yMax + 1e-9; t += step) ticks.push(Math.round(t * 100) / 100);
 const pIdx = projectedFrom ? years.indexOf(projectedFrom) : -1;
+// End-of-line labels: keep at least 15px apart so close series stay readable.
+const endY = series.map((s) => y(s.values[s.values.length - 1]) + 4);
+const order = endY.map((_, i) => i).sort((a, b) => endY[a] - endY[b]);
+for (let k = 1; k < order.length; k++) { const a = order[k - 1], b = order[k]; if (endY[b] - endY[a] < 15) endY[b] = endY[a] + 15; }
 const path = (vals: number[], from: number, to: number) => vals.slice(from, to + 1).map((v, k) => `${k ? 'L' : 'M'}${x(from + k).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
-const fmt = (v: number) => `${v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}${suffix}`;
+const fmt = (v: number) => `${prefix}${v.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: Math.max(decimals, 2) })}${suffix}`;
+const tick = (t: number) => `${prefix}${t.toLocaleString('en-US')}${suffix}`;
 ---
 <div class="lc">
   <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="group" aria-label={label}>
@@ -25,21 +31,21 @@ const fmt = (v: number) => `${v.toLocaleString('en-US', { minimumFractionDigits:
       </g>
     )}
     {pIdx > 0 && (
-      <g class="lc__proj" aria-hidden="true">
+      <g class="lc__proj" aria-hidden="true" data-label={projLabel}>
         <rect x={x(pIdx) - (x(1) - x(0)) / 2} y={T - 14} width={W - R - (x(pIdx) - (x(1) - x(0)) / 2)} height={B - T + 14} />
-        <text x={x(pIdx) - (x(1) - x(0)) / 2 + 6} y={T - 3}>Projection</text>
+        <text x={x(pIdx) - (x(1) - x(0)) / 2 + 6} y={T - 3}>{projLabel}</text>
       </g>
     )}
     <g class="lc__grid" aria-hidden="true">
-      {ticks.map((t) => <><line x1={L} x2={W - R} y1={y(t)} y2={y(t)} class:list={{ zero: t === 0 }} /><text x={L - 8} y={y(t) + 4} text-anchor="end">{t}{suffix}</text></>)}
+      {ticks.map((t) => <><line x1={L} x2={W - R} y1={y(t)} y2={y(t)} class:list={{ zero: t === 0 }} /><text x={L - 8} y={y(t) + 4} text-anchor="end">{tick(t)}</text></>)}
       {years.map((yr, i) => <text x={x(i)} y={B + 22} text-anchor="middle">{yr}</text>)}
     </g>
-    {series.map((s) => (
+    {series.map((s, si) => (
       <g class:list={['lc__s', `lc__s--${s.tone ?? 'brand'}`]}>
         <path d={path(s.values, 0, pIdx > 0 ? pIdx - 1 : years.length - 1)} class="lc__line" aria-hidden="true" />
         {pIdx > 0 && <path d={path(s.values, pIdx - 1, years.length - 1)} class="lc__line lc__line--proj" aria-hidden="true" />}
         {s.values.map((v, i) => {
-          const tip = `${s.label}, ${years[i]}${pIdx >= 0 && i >= pIdx ? ' (projection)' : ''}: ${fmt(v)}`;
+          const tip = `${s.label}, ${years[i]}${pIdx >= 0 && i >= pIdx ? ` (${projLabel.toLowerCase()})` : ''}: ${fmt(v)}`;
           return (
             <g class="lc__pt" tabindex="0" role="img" data-tip={tip} aria-label={tip}>
               <circle cx={x(i)} cy={y(v)} r="14" class="lc__hit" />
@@ -48,7 +54,7 @@ const fmt = (v: number) => `${v.toLocaleString('en-US', { minimumFractionDigits:
             </g>
           );
         })}
-        {series.length > 1 && <text x={W - R + 8} y={y(s.values[s.values.length - 1]) + 4} class="lc__end" aria-hidden="true">{s.label}</text>}
+        {series.length > 1 && <text x={W - R + 8} y={endY[si]} class="lc__end" aria-hidden="true">{s.label}</text>}
       </g>
     ))}
   </svg>

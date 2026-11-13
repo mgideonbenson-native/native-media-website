@@ -86,7 +86,7 @@ const risks = [
   image="/reports/og-tanzania-economic-update-2026.png"
   jsonLd={{ '@context': 'https://schema.org', '@type': 'Article', headline: 'Tanzania is working. But are the jobs working?', about: meta.title, author: { '@type': 'Organization', name: 'Native Media' }, isBasedOn: { '@type': 'Report', name: meta.title, publisher: { '@type': 'Organization', name: 'World Bank' }, url: meta.url, datePublished: '2026-09' } }}>
 
-  <div class="rp" data-rp>
+  <div class="rp" data-rp data-share-text="Tanzania is working. But are the jobs working? An interactive edition of the World Bank’s Tanzania Economic Update.">
     <ReportNav sections={sections} pdf={meta.pdf} pdfName={pdfName} />
 
     <!-- 01 OPENING -->
@@ -622,7 +622,7 @@ const risks = [
 </BaseLayout>
 
 <script>
-  import '../../scripts/tz-report';
+  import '../../scripts/report-page';
 </script>
 
 <style>
