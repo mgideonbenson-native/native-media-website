@@ -16,6 +16,10 @@ import ec1 from '../assets/cases/ecooking-unveiling.jpg';
 import ec2 from '../assets/cases/ecooking-exhibition.jpg';
 import ec3 from '../assets/cases/ecooking-stalls.jpg';
 import ec4 from '../assets/cases/ecooking-team.jpg';
+import hla1 from '../assets/cases/hortilogistica-launch-hall.jpg';
+import hla2 from '../assets/cases/hortilogistica-cold-room.jpg';
+import hla3 from '../assets/cases/hortilogistica-launch-podium.jpg';
+import hla4 from '../assets/cases/hortilogistica-pavilion.jpg';
 
 export type Item = { title: string; text: string };
 export type Section = {
@@ -37,6 +41,62 @@ export type CaseStudy = {
 };
 
 export const caseStudies: CaseStudy[] = [
+  {
+    slug: 'hortilogistica-africa-2026',
+    title: 'Tanzania at HortiLogistica Africa 2026',
+    sector: 'Agriculture · Trade promotion · Development communications',
+    headline: 'From an exhibition pavilion to a national story: “From Farm to the World”',
+    summary: 'Contracted by Ubunix Company Ltd, Native Media led the narrative work behind Tanzania’s presence at HortiLogistica Africa 2026, helping turn a trade fair pavilion into a national story that buyers and investors could believe: Tanzania is ready to trade and ready to invest, from the farm to the world.',
+    cover: hla1, coverAlt: 'Delegates at the official launch of HortiLogistica Africa 2026 in Arusha',
+    facts: [['Contracting partner', 'Ubunix Company Ltd'], ['Brand client', 'Cereals and Other Produce Regulatory Authority (COPRA), Ministry of Agriculture'], ['Platform', 'HortiLogistica Africa 2026'], ['Sector', 'Agriculture • horticulture • trade and investment promotion'], ['Role', 'Narrative strategy • message architecture • press materials • media positioning • coverage monitoring and reporting'], ['Project period', '7–13 November 2026 · Arusha and Kilimanjaro, Tanzania']],
+    sections: [
+      { id: 'context', title: 'Context and framing', items: [
+        { title: 'The ask', text: 'COPRA, working under the Ministry of Agriculture, needed Tanzania’s participation at the first HortiLogistica Africa to be more than a stand among exhibitors from over 40 countries. With a limited budget, the communication had to work hard: clear messages, the right media and a story that would outlive the five days of the fair.' },
+        { title: 'Strategic objective', text: 'Position Tanzania as a credible source of horticultural produce and an attractive place to invest, by linking the country’s production, trade facilitation, logistics and market access into one simple, repeatable story.' },
+        { title: 'Local intelligence', text: 'International buyers have long asked the same questions about Tanzanian perishables: can they reach market fresh, is power reliable, and do goods move fast enough? At the same time, the national conversation was moving towards Dira 2050 and its ambition to make agriculture a driver of a one trillion US dollar economy. The narrative had to answer the outside doubts and connect to that national direction, without overclaiming.' }],
+        callout: { label: 'Core insight', title: 'For perishable exports, buyers do not only judge the produce.', text: 'They judge whether the country behind it can deliver, fresh and on time, every time. That turned the assignment from exhibition publicity into a credibility story about Tanzania itself.' } },
+      { id: 'approach', title: 'Our approach', paragraphs: ['Native Media treated the fair as a week-long news agenda rather than a single launch moment, with one message carried consistently from the first day to the follow-up coverage.'], numbered: true, items: [
+        { title: 'Message architecture', text: 'One line, “From Farm to the World”, backed by three proof points: production at scale, logistics that keep produce fresh, and open markets. Every press material, interview brief and caption was built on that structure.' },
+        { title: 'A day-by-day news agenda', text: 'Day 1 put the new cold-chain facility at Kilimanjaro International Airport on air before the doors opened. Day 2 followed the Minister for Agriculture through the exhibition. Day 3 carried the Vice President’s launch. Follow-up angles kept the story running after the fair.' },
+        { title: 'Media positioning by house', text: 'Each TV, radio and online outlet received a brief matched to its audience and format, so that national broadcasters, business pages and digital channels told the same story in their own way.' },
+        { title: 'Measurement from day one', text: 'Coverage was tracked daily, so the team could see what was landing and adjust the angles for the next day.' }] },
+      { id: 'delivered', title: 'What we delivered', items: [
+        { title: 'Narrative strategy and positioning', text: 'The core message, positioning statements and the case for Tanzania’s readiness to trade and invest.' },
+        { title: 'Press materials', text: 'Press releases, media fact sheets and talking points grounded in official sector data.' },
+        { title: 'Media positioning briefs', text: 'Day-by-day guidance for each media house, starting with the Day 1 cold-chain visit.' },
+        { title: 'Post-launch communication', text: 'Follow-up releases built on the Vice President’s remarks and new sector figures, framed around Dira 2050.' },
+        { title: 'Daily coverage monitoring', text: 'A live log of TV, radio, online and social coverage.' },
+        { title: 'Performance reporting', text: 'A coverage report with share of voice, message analysis and an estimated advertising value.' }] },
+      { id: 'message', title: 'The narrative', callout: { label: 'Positioning', text: 'Tanzania is ready to trade and ready to invest. The production is there, the cold chain is at the airport, and the markets are opening. The story moved the conversation from “Tanzania exhibited at a fair” to “Tanzania is building the chain that carries its produce to the world”, and gave space to the Vice President’s call to revive Arusha’s flower farms.' } },
+      { id: 'results', title: 'Earned media performance', paragraphs: ['In one week, the story ran across every major channel: national television and radio, online news, video and social media, with pick-up beyond Tanzania.'],
+        stats: [{ value: '121', label: 'Media pieces in one week' }, { value: '56', label: 'Media houses, channels and pages' }, { value: '44.7 min', label: 'TV news airtime' }, { value: 'TZS 104.9M', label: 'Estimated AVE' }],
+        items: [
+          { title: 'Broadcast', text: 'All six major TV houses carried the story (TBC, ITV, Star TV, TVE, Clouds TV and Channel Ten), with TBC live on launch day. Ten radio stations took it to listeners across the country.' },
+          { title: 'Online news', text: '45 articles across 18 titles, including Daily News, The Citizen and Mwananchi, with AllAfrica syndication and Kenya’s Floriculture magazine carrying the story beyond Tanzania.' },
+          { title: 'Video and livestreams', text: '13 videos and livestreams passed 6,500 views, led by Millard Ayo.' },
+          { title: 'Social media', text: '30 posts from media houses, the Vice President’s office and industry, with the leading post drawing over 1,400 likes.' }] },
+      { id: 'penetration', title: 'Message penetration', paragraphs: ['Quality mattered as much as volume. The story did not stop at attendance: it carried export figures, the readiness of the cold chain, investment opportunities and the flower revival, which is what buyers and investors look for.'], items: [
+        { title: 'The core message travelled', text: '65% of all pieces framed Tanzania as ready for global markets.' },
+        { title: 'Officials carried it in their own words', text: 'Government speakers described the goal as taking produce “from the farm to foreign markets”, the same idea at the heart of the narrative.' },
+        { title: 'Government led the story', text: 'Government voices, from the Regional Commissioner to the Vice President, led 91% of coverage, giving the message authority.' },
+        { title: 'The tone held', text: 'No negative stories were recorded. Every piece was positive or constructive.' }] },
+      { id: 'impact', title: 'Strategic impact', paragraphs: ['In one week, Tanzania’s presence at HortiLogistica Africa 2026 became a national story with a clear message, carried by every major broadcaster and picked up by regional trade press. The coverage connected a trade fair to Tanzania’s wider development direction under Dira 2050, and gave buyers and investors a simple answer to an old question: yes, Tanzania can deliver.'],
+        note: { label: 'Note on media values', text: 'The advertising value equivalent (AVE) is an estimate based on indicative 2026 market rates, not station rate cards, and includes sister-radio relays of top-tier TV stories as reported by the client. AVE and coverage counts show the space the story earned. They are not direct measures of reach, understanding or behaviour.' } },
+      { id: 'why', title: 'Why Native Media', paragraphs: ['Native Media combines narrative strategy with work on the ground. We understand how government institutions, media houses and development priorities fit together in Tanzania, and we build stories that hold up in all three. At HortiLogistica, that meant one clear message, planned day by day and measured from the first hour.'] },
+      { id: 'capabilities', title: 'Capabilities demonstrated', items: [
+        { title: 'Development narrative', text: 'Linking a sector event to national priorities such as Dira 2050.' },
+        { title: 'Message architecture', text: 'One line and three proof points, used consistently across every channel.' },
+        { title: 'Media positioning', text: 'Tailored briefs for national TV, radio, online and digital media.' },
+        { title: 'News agenda planning', text: 'A story for each day, starting before the official opening.' },
+        { title: 'Public sector communication', text: 'Working alongside government institutions with accuracy and care.' },
+        { title: 'Measurement and reporting', text: 'Daily monitoring, share of voice, message analysis and advertising value.' }] },
+      { id: 'learning', title: 'Strategic learning', callout: { label: 'Infrastructure builds capacity. Narrative builds trust.', text: 'A cold room proves a country can deliver. A clear story makes buyers and investors believe it.' } },
+      { id: 'field', title: 'From the field', gallery: [
+        { img: hla2, alt: 'Officials and media inside the new cold-chain facility at Kilimanjaro International Airport' },
+        { img: hla3, alt: 'A speaker at the podium during the official launch of HortiLogistica Africa 2026' },
+        { img: hla4, alt: 'The Tanzania pavilion, branded “Tanzania: From our farms to the world”' }] },
+    ],
+  },
   {
     slug: 'dira-2050',
     title: 'DIRA 2050',
