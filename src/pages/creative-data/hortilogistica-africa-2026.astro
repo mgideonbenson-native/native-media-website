@@ -1,0 +1,157 @@
+---
+/**
+ * Client creative work for Tanzania at HortiLogistica Africa 2026: the infographic film and the touchscreen
+ * value-chain guide shown at the pavilion. Content lives in src/data/motion.ts (hortilogistica2026).
+ * The film is self-hosted (public/media/motion). The interactive is Ubunix's own site, embedded in a sandboxed
+ * iframe (allowed in netlify.toml frame-src), with a link to open it full screen.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { hortilogistica2026 as m } from '../../data/motion';
+
+const mmss = (t: number) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'From Tanzania’s farms to the world: an infographic film for HortiLogistica Africa 2026',
+  description: m.dek,
+  thumbnailUrl: [new URL(m.video.poster, 'https://nativemedia.co.tz').href],
+  uploadDate: m.date,
+  duration: m.duration,
+  contentUrl: new URL(m.video.hd, 'https://nativemedia.co.tz').href,
+};
+---
+<BaseLayout title="From Tanzania’s farms to the world: HortiLogistica Africa 2026 | Native Media" description={m.dek} image={m.video.og} jsonLd={jsonLd}>
+  <PageHero eyebrow="Creative Data · Client work" title={m.title} lede={m.dek}
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Creative Data', href: '/creative-data' }, { label: 'HortiLogistica Africa 2026' }]}>
+    <div class="hero-actions">
+      <a class="btn" href="#film">Watch the film <span aria-hidden="true">↓</span></a>
+      <a class="btn btn--ghost" href="#interactive">Explore the interactive</a>
+    </div>
+    <p class="hero-meta"><span class="tag tag--brand">{m.credit}</span></p>
+  </PageHero>
+
+  <section class="section theme-dark film" id="film" aria-labelledby="film-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">The film · {m.runtimeLabel}</p><h2 id="film-t">From farm to the world, step by step.</h2>
+        <p class="lede">The film follows produce from Tanzania’s growing zones through registration, cold chain, export approvals and shipping to global markets.</p></div>
+      <figure class="player">
+        <video controls playsinline preload="metadata" poster={m.video.poster} data-video data-duration={m.seconds}
+          aria-describedby="film-scenes-t" width="1920" height="1080">
+          <source src={m.video.hd} type="video/mp4" media="(min-width: 900px)" />
+          <source src={m.video.sd} type="video/mp4" />
+          <p>Your browser cannot play this video. <a href={m.video.sd}>Download it (MP4)</a>.</p>
+        </video>
+        <figcaption class="player__cap">
+          <span>From Tanzania’s farms to the world · HortiLogistica Africa 2026</span>
+          <span>With sound · on-screen text in English</span>
+        </figcaption>
+      </figure>
+
+      <p class="chapters-t" id="film-scenes-t">Jump to a scene</p>
+      <ol class="chapters" aria-labelledby="film-scenes-t" data-chapters>
+        {m.chapters.map((c) => (
+          <li><button type="button" class="chap" data-t={c.t} aria-label={`Play from ${mmss(c.t)}: ${c.label}`}>
+            <span class="chap__t">{mmss(c.t)}</span><span class="chap__l">{c.label}</span>
+            <span class="chap__bar" aria-hidden="true"></span>
+          </button></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section theme-charcoal" id="interactive" aria-labelledby="int-t">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">The interactive</p><h2 id="int-t">Explore six value chains.</h2>
+        <p class="lede">A touchscreen guide made for Tanzania at HortiLogistica Africa 2026. Choose avocado, cocoa, grapes, mango, pineapple or spices to see key facts, where each crop is grown, its journey from farm to market and the openings for investors.</p></div>
+      <div class="embed">
+        <iframe src={m.interactive.url} title={`Interactive: ${m.interactive.title}`} loading="lazy"
+          sandbox="allow-scripts allow-same-origin" referrerpolicy="strict-origin-when-cross-origin"
+          width="1920" height="1080"></iframe>
+      </div>
+      <div class="embed__foot">
+        <p class="muted">Built for a large touchscreen. On a phone, it is easier to use full screen.</p>
+        <a class="btn" href={m.interactive.url} target="_blank" rel="noopener noreferrer">Open full screen <span aria-hidden="true">↗</span><span class="sr-only"> (opens {m.interactive.host} in a new tab)</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-dark" id="credits" aria-labelledby="cr-t">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow">Credits</p>
+        <h2 class="h2" id="cr-t">Our role.</h2>
+        <p class="lede">Native Media facilitated this creative and interactive data as part of its work on Tanzania’s presence at HortiLogistica Africa 2026, 7–13 November 2026, in Arusha and Kilimanjaro.</p>
+        <p class="muted">{m.credit}. The interactive is hosted by Ubunix at {m.interactive.host}.</p>
+      </div>
+      <article class="card cs-card">
+        <p class="tag">Case study</p>
+        <h3><a href={m.caseStudy}>Tanzania at HortiLogistica Africa 2026</a></h3>
+        <p>How one message, “From Farm to the World”, carried Tanzania’s story through a week of national and regional coverage.</p>
+        <a class="arrow-link" href={m.caseStudy} aria-label="Read the HortiLogistica Africa 2026 case study">Read the case study <span aria-hidden="true">→</span></a>
+      </article>
+    </div>
+  </section>
+
+  <CtaBand title="Make your story visible." text="We turn data and research into films and interactives people can see and use." href="/contact/creative-data" label="Creative Data inquiry" />
+</BaseLayout>
+
+<script>
+  // Scene buttons seek the film and show which scene is playing. Without JS the list is still a readable outline.
+  const video = document.querySelector<HTMLVideoElement>('[data-video]');
+  const chaps = [...document.querySelectorAll<HTMLButtonElement>('[data-chapters] [data-t]')];
+  if (video && chaps.length) {
+    const end = Number(video.dataset.duration) || 100;
+    const times = chaps.map((b) => Number(b.dataset.t));
+    const seek = (t: number) => {
+      const go = () => { video.currentTime = t; video.play().catch(() => {}); };
+      if (video.readyState >= 1) go();
+      else { video.addEventListener('loadedmetadata', go, { once: true }); video.load(); }
+    };
+    chaps.forEach((b) => b.addEventListener('click', () => {
+      seek(Number(b.dataset.t) + 0.05);
+      video.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    }));
+    const mark = () => {
+      const t = video.currentTime;
+      let k = 0; times.forEach((x, i) => { if (t >= x) k = i; });
+      chaps.forEach((b, i) => {
+        b.toggleAttribute('aria-current', i === k && t > 0);
+        const a = times[i], z = times[i + 1] ?? end;
+        b.style.setProperty('--p', String(Math.max(0, Math.min(1, (t - a) / (z - a)))));
+      });
+    };
+    video.addEventListener('timeupdate', mark);
+    video.addEventListener('seeked', mark);
+  }
+</script>
+
+<style>
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; font-size: 0.9rem; }
+  .hero-meta .tag { white-space: normal; max-width: 100%; }
+
+  .film { padding-top: clamp(2.5rem, 5vw, 4rem); }
+  .player { margin: 0; display: grid; gap: 0.8rem; }
+  .player video { width: 100%; height: auto; aspect-ratio: 16 / 9; background: #04060b; border: 1px solid var(--line-dark); border-radius: var(--radius); display: block; }
+  .player__cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 1rem; font-size: 0.82rem; color: var(--gray); }
+
+  .chapters-t { margin-top: 1.6rem; font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+  .chapters { margin-top: 0.7rem; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr)); }
+  .chap { width: 100%; height: 100%; text-align: left; display: grid; gap: 0.2rem; align-content: start; padding: 0.8rem 0.9rem 1rem; background: var(--charcoal); color: var(--paper); border: 1px solid var(--line-dark); border-radius: var(--radius); cursor: pointer; position: relative; overflow: hidden; transition: border-color 0.2s var(--ease), background 0.2s var(--ease); }
+  .chap:hover { border-color: var(--brand); }
+  .chap[aria-current] { border-color: var(--brand); background: var(--charcoal-2); }
+  .chap__t { font-family: var(--font-display); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.12em; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .chap__l { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; }
+  .chap__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--line-dark); }
+  .chap__bar::after { content: ''; position: absolute; inset: 0; background: var(--brand); transform-origin: left; transform: scaleX(var(--p, 0)); }
+
+  .embed { aspect-ratio: 16 / 9; border: 1px solid var(--line-dark); border-radius: var(--radius); overflow: hidden; background: #062a1e; }
+  .embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .embed__foot { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.8rem 1.5rem; }
+
+  .cs-card { align-self: center; }
+  .cs-card h3 a { text-decoration: none; } .cs-card h3 a:hover { color: var(--brand); }
+  .cs-card .tag { justify-self: start; }
+</style>

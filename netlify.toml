@@ -25,11 +25,13 @@
 # --- Security headers (all pages) ---
 # Content-Security-Policy: the browser may only load code, images and fonts from the places listed here.
 # IF YOU CONNECT A FORM OR EMAIL SERVICE: add its web address to connect-src below (for example https://formspree.io),
-# otherwise the browser will block the form from sending. Add https://cdn.sanity.io only if you switch the CMS on (already allowed for images).
+# otherwise the browser will block the form from sending.
+# Add https://cdn.sanity.io only if you switch the CMS on (already allowed for images).
+# frame-src lists the only outside sites our pages may embed (the HortiLogistica interactive on /creative-data/hortilogistica-africa-2026).
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' https://plausible.io https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://formspree.io https://buttondown.com https://plausible.io https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' https://plausible.io https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://formspree.io https://buttondown.com https://plausible.io https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://hortilogistica.ubunix.co.tz; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"

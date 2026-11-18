@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Visual from '../../components/Visual.astro';
-import { euTanzaniaRoadshow as latest } from '../../data/motion';
+import { euTanzaniaRoadshow as latest, hortilogistica2026 as horti } from '../../data/motion';
 const formats = [
   { title: 'Audiovisuals', art: 'lens', text: 'Films and audio built around research, interviews and institutions.' },
   { title: 'Motion graphics', art: 'signal', text: 'Animated graphics that make data and ideas move and become easier to follow.' },
@@ -57,7 +57,24 @@ const formats = [
     </div>
   </section>
 
-  <section class="section theme-charcoal" aria-labelledby="snap-t">
+  <section class="section theme-charcoal" aria-labelledby="horti-t">
+    <div class="wrap feature">
+      <a class="feature__media" href={`/creative-data/${horti.slug}`} aria-label="Watch the film and explore the interactive: HortiLogistica Africa 2026">
+        <img src={horti.video.poster} alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <span class="play play--lg" aria-hidden="true"></span>
+        <span class="feature__time" aria-hidden="true">{horti.runtimeLabel}</span>
+      </a>
+      <div class="stack">
+        <p class="eyebrow">Client work · Film and interactive</p>
+        <h2 class="h2" id="horti-t">{horti.title}</h2>
+        <p class="lede">{horti.dek}</p>
+        <p class="muted small">{horti.credit}.</p>
+        <p><a class="btn" href={`/creative-data/${horti.slug}`}>Watch and explore <span aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-dark" aria-labelledby="snap-t">
     <div class="wrap snap">
       <div class="stack">
         <p class="eyebrow">See it in action</p>

@@ -67,3 +67,58 @@ export const euTanzaniaRoadshow: MotionSnapshot = {
 };
 
 export const motionSnapshots = [euTanzaniaRoadshow];
+
+/**
+ * Client creative work: films and interactives Native Media facilitated for a client.
+ * Wording describes only what is on screen. Credit lines follow what the owner has confirmed.
+ */
+export interface ClientWork {
+  slug: string;
+  title: string;
+  dek: string;
+  credit: string;
+  date: string; // when the page was published (ISO)
+  duration: string; // ISO 8601
+  seconds: number;
+  runtimeLabel: string;
+  video: { hd: string; sd: string; poster: string; og: string };
+  /** Scene headings, quoted from the titles shown on screen. */
+  chapters: { t: number; label: string }[];
+  interactive: { url: string; title: string; host: string };
+  caseStudy: string;
+}
+
+export const hortilogistica2026: ClientWork = {
+  slug: 'hortilogistica-africa-2026',
+  title: 'From Tanzania’s farms to the world.',
+  dek: 'An infographic film and a touchscreen guide to Tanzania’s horticulture value chains, made for Tanzania’s presence at HortiLogistica Africa 2026.',
+  credit: 'Produced with Ubunix Company Ltd for the Cereals and Other Produce Regulatory Authority (COPRA), Ministry of Agriculture',
+  date: '2026-11-18',
+  duration: 'PT1M41S',
+  seconds: 100.6,
+  runtimeLabel: '1:41',
+  video: {
+    hd: '/media/motion/hortilogistica-africa-2026-1080.mp4',
+    sd: '/media/motion/hortilogistica-africa-2026-720.mp4',
+    poster: '/media/motion/hortilogistica-africa-2026-poster.jpg',
+    og: '/media/motion/hortilogistica-africa-2026-og.jpg',
+  },
+  chapters: [
+    { t: 0, label: 'From Tanzania’s farms to the world' },
+    { t: 4, label: 'From rich soil to global markets' },
+    { t: 16, label: 'Production, opportunity and global trade' },
+    { t: 20, label: 'Traceability starts at the source' },
+    { t: 26, label: 'Register. Track. Forecast.' },
+    { t: 36, label: 'Protecting quality. Preserving freshness.' },
+    { t: 48, label: 'Streamlined approvals. Global compliance.' },
+    { t: 66, label: 'Connecting Tanzania to global gateways' },
+    { t: 84, label: 'Empowering farmers. Securing supply.' },
+    { t: 92, label: 'One integrated supply chain. Global reach.' },
+  ],
+  interactive: {
+    url: 'https://hortilogistica.ubunix.co.tz/',
+    title: 'Tanzania · From Our Farms to the World · HortiLogistica Africa 2026',
+    host: 'hortilogistica.ubunix.co.tz',
+  },
+  caseStudy: '/case-studies/hortilogistica-africa-2026',
+};

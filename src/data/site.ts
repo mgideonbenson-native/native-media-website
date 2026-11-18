@@ -136,6 +136,7 @@ export const allPaths: { href: string; label: string }[] = [
   { label: 'Reports in focus: an interactive snapshot', href: '/creative-data/reports-snapshot' },
   { label: 'Follow the mineral: Tanzania’s strategic minerals', href: '/creative-data/follow-the-mineral' },
   { label: 'Tanzania’s pitch to Europe: the EU–Tanzania roadshow in motion', href: '/creative-data/eu-tanzania-roadshow' },
+  { label: 'From Tanzania’s farms to the world: HortiLogistica Africa 2026 film and interactive', href: '/creative-data/hortilogistica-africa-2026' },
   { label: 'Tanzania Economic Update 2026: Making Jobs Work, interactive', href: '/research-and-publications/tanzania-economic-update-2026' },
 ].filter((p, i, a) => p.href !== '/' && a.findIndex((q) => q.href === p.href) === i);
 
@@ -169,7 +170,7 @@ export const builtPaths = new Set<string>([
   '/african-intelligence/video-and-audio', '/african-intelligence/transcripts',
   '/african-intelligence/stories', ...allStoryListPaths(),
   // Creative Data
-  '/creative-data', '/creative-data/reports-snapshot', '/creative-data/follow-the-mineral', '/creative-data/eu-tanzania-roadshow', '/research-and-publications/tanzania-economic-update-2026',
+  '/creative-data', '/creative-data/reports-snapshot', '/creative-data/follow-the-mineral', '/creative-data/eu-tanzania-roadshow', '/creative-data/hortilogistica-africa-2026', '/research-and-publications/tanzania-economic-update-2026',
   // Training & Mentorship
   '/training-and-mentorship', '/training-and-mentorship/native-talks', '/training-and-mentorship/thought-leadership',
   // Site pages

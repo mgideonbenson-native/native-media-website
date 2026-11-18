@@ -26,6 +26,7 @@ const others = caseStudies.filter((o) => o.slug !== cs.slug);
       </aside>
       <article class="body">
         <p class="lede">{cs.summary}</p>
+        {cs.related && <aside class="related" aria-labelledby="related-t"><span class="tag tag--brand">{cs.related.label}</span><p class="related__t" id="related-t">{cs.related.title}</p><p>{cs.related.text}</p><a class="arrow-link" href={cs.related.href}>{cs.related.cta} <span aria-hidden="true">→</span></a></aside>}
         {cs.sections.map((s) => (
           <section id={s.id} class="blk" aria-labelledby={`${s.id}-h`}>
             <h2 id={`${s.id}-h`}>{s.title}</h2>
@@ -59,6 +60,7 @@ const others = caseStudies.filter((o) => o.slug !== cs.slug);
   .side { display: grid; gap: 1.2rem; align-content: start; } .side dl { display: grid; gap: 0.2rem; margin: 0; } .side dt { font-family: var(--font-display); font-weight: 800; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand-ink); margin-top: 0.7rem; } .side dd { margin: 0; }
   .side nav ul { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; gap: 0.35rem; font-size: 0.92rem; } .side nav a { color: var(--gray-ink); text-decoration: none; } .side nav a:hover { color: var(--brand-ink); text-decoration: underline; }
   .body { display: grid; gap: 2.6rem; max-width: 48rem; } .blk { display: grid; gap: 1.1rem; scroll-margin-top: calc(var(--header-h) + 1rem); } .blk h2 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.1; border-top: 2px solid var(--black); padding-top: 1rem; }
+  .related { border: 1px solid var(--line-light); border-left: 4px solid var(--brand); background: #fff; padding: 1.1rem 1.2rem; display: grid; gap: 0.6rem; justify-items: start; } .related__t { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); line-height: 1.2; }
   .callout { border-left: 4px solid var(--brand); padding: 0.4rem 0 0.4rem 1.2rem; display: grid; gap: 0.6rem; } .callout__t { font-family: var(--font-display); font-weight: 800; font-size: var(--step-1); line-height: 1.2; }
   .stats { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); } .stats li { display: grid; gap: 0.2rem; padding: 1rem; border: 1px solid var(--line-light); background: #fff; } .stats strong { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1; } .stats span { font-size: 0.85rem; color: var(--gray-ink); }
   .tbl { overflow-x: auto; } table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 34rem; } th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line-light); } thead th { font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-ink); }
