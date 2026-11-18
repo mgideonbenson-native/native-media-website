@@ -69,7 +69,7 @@ export const euTanzaniaRoadshow: MotionSnapshot = {
 export const motionSnapshots = [euTanzaniaRoadshow];
 
 /**
- * Client creative work: films and interactives Native Media facilitated for a client.
+ * Client creative work: films and interactives Native Media co-created for a client.
  * Wording describes only what is on screen. Credit lines follow what the owner has confirmed.
  */
 export interface ClientWork {
@@ -92,7 +92,7 @@ export const hortilogistica2026: ClientWork = {
   slug: 'hortilogistica-africa-2026',
   title: 'From Tanzania’s farms to the world.',
   dek: 'An infographic film and a touchscreen guide to Tanzania’s horticulture value chains, made for Tanzania’s presence at HortiLogistica Africa 2026.',
-  credit: 'Produced with Ubunix Company Ltd for the Cereals and Other Produce Regulatory Authority (COPRA), Ministry of Agriculture',
+  credit: 'Co-created by Native Media and Ubunix Company Ltd for the Cereals and Other Produce Regulatory Authority (COPRA), Ministry of Agriculture',
   date: '2026-11-18',
   duration: 'PT1M41S',
   seconds: 100.6,

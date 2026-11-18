@@ -50,7 +50,7 @@ export const caseStudies: CaseStudy[] = [
     headline: 'From an exhibition pavilion to a national story: “From Farm to the World”',
     summary: 'Contracted by Ubunix Company Ltd, Native Media led the narrative work behind Tanzania’s presence at HortiLogistica Africa 2026, helping turn a trade fair pavilion into a national story that buyers and investors could believe: Tanzania is ready to trade and ready to invest, from the farm to the world.',
     cover: hla1, coverAlt: 'Delegates at the official launch of HortiLogistica Africa 2026 in Arusha',
-    related: { label: 'Creative data', title: 'See the film and the interactive', text: 'The infographic film and the touchscreen value-chain guide made for Tanzania at HortiLogistica Africa 2026, produced with Ubunix Company Ltd for COPRA.', href: '/creative-data/hortilogistica-africa-2026', cta: 'Watch and explore' },
+    related: { label: 'Creative data', title: 'See the film and the interactive', text: 'The infographic film and the touchscreen value-chain guide made for Tanzania at HortiLogistica Africa 2026, co-created with Ubunix Company Ltd for COPRA.', href: '/creative-data/hortilogistica-africa-2026', cta: 'Watch and explore' },
     facts: [['Contracting partner', 'Ubunix Company Ltd'], ['Brand client', 'Cereals and Other Produce Regulatory Authority (COPRA), Ministry of Agriculture'], ['Platform', 'HortiLogistica Africa 2026'], ['Sector', 'Agriculture • horticulture • trade and investment promotion'], ['Role', 'Narrative strategy • message architecture • press materials • media positioning • coverage monitoring and reporting'], ['Project period', '7–13 November 2026 · Arusha and Kilimanjaro, Tanzania']],
     sections: [
       { id: 'context', title: 'Context and framing', items: [
